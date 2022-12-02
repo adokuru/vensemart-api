@@ -241,41 +241,6 @@
               <!--</li>-->
             </ul>
           </li>
-
-
-
-
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              
-              <p>
-                Manage Service Orders
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{ url('admin/serviceorder/in-process/listing')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Pending</p>
-                </a>
-              </li>
-               <li class="nav-item">
-                <a href="{{ url('admin/serviceorder/completed_serviceorders/listing')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Completed</p>
-                </a>
-              </li>
-               <li class="nav-item">
-              <a href="{{ url('admin/serviceorder/cancelled_serviceorders/listing')}}" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Cancelled</p>
-              <!-- <i class="far fa-circle nav-icon"></i>
-                 <p>Cancelled</p> -->
-              </a>
-            </li> 
-            </ul>
-          </li>
           
           
           

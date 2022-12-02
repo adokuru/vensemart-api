@@ -13,9 +13,9 @@ use App\Models\User;
 use App\Traits\SendMessage;
 
 
+use Mail;
+
 use App\Mail\NotifyMail;
-use App\Models\UserVerifiedInfo;
-use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -25,167 +25,6 @@ class AuthController extends Controller
     {
         print_r("test");
     }
-
-    // Send OTP
-
-    public function send_otp(Request $request)
-    {
-        try {
-            $typevalidate = Validator::make($request->all(), [
-                'phone_number' => 'required'
-            ]);
-
-            if ($typevalidate->fails()) {
-                $arr['status'] = 0;
-                $arr['message'] = $typevalidate->errors()->first();
-                $arr['data'] = NULL;
-                return response()->json($arr, 422);
-            }
-
-            $users = User::where(function ($query) use ($request) {
-                $query->orwhere('mobile', $request->phone_number);
-            })->first();
-
-            if (!$users) {
-                $arr['status'] = 0;
-                $arr['message'] = 'Phone number not found';
-                $arr['data'] = NULL;
-                return response()->json($arr, 422);
-            }
-
-            // set otp
-
-            $otp = rand(1000, 9999);
-            $users->otp = $otp;
-            $users->save();
-
-
-
-            $phone_Number = '+234' . substr($request->phone_number, -10);
-            $message = "Your Vensemart authentication code is " . $otp . ". Please do not share this code with anyone. This code expires in 5 mins.";
-
-            $this->sendSMSMessage($phone_Number, $message);
-
-            $arr['status'] = 1;
-            $arr['message'] = 'OTP sent successfully';
-            $arr['data'] = NULL;
-            return response()->json($arr, 200);
-        } catch (\Exception $e) {
-            $arr['status'] = 0;
-            $arr['message'] = $e->getMessage();
-            $arr['data'] = NULL;
-            return response()->json($arr, 500);
-        }
-    }
-
-    public function forgot_password(Request $request)
-    {
-        $typevalidate = Validator::make($request->all(), [
-            'phone_number' => 'required',
-            'code' => 'required',
-            'password' => 'required',
-            'confirm_password' => 'required'
-        ]);
-
-
-        if ($typevalidate->fails()) {
-            $arr['status'] = 0;
-            $arr['message'] = $typevalidate->errors()->first();
-            $arr['data'] = NULL;
-            return response()->json($arr, 422);
-        }
-
-        $users = User::where(function ($query) use ($request) {
-            $query->orwhere('mobile', $request->phone_number);
-        })->first();
-
-        if (!$users) {
-            $arr['status'] = 0;
-            $arr['message'] = 'Phone number not found';
-            $arr['data'] = NULL;
-            return response()->json($arr, 422);
-        }
-
-
-        if ($users->otp != $request->code) {
-            $arr['status'] = 0;
-            $arr['message'] = 'Invalid OTP';
-            $arr['data'] = NULL;
-            return response()->json($arr, 422);
-        }
-
-        if ($users->password == Hash::make($request->password)) {
-            $arr['status'] = 0;
-            $arr['message'] = 'New password cannot be the same as old password';
-            $arr['data'] = NULL;
-            return response()->json($arr, 422);
-        }
-
-        if ($request->password != $request->confirm_password) {
-            $arr['status'] = 0;
-            $arr['message'] = 'Password and confirm password does not match';
-            $arr['data'] = NULL;
-            return response()->json($arr, 422);
-        }
-
-        $users->password = Hash::make($request->password);
-
-        $users->save();
-
-        $arr['status'] = 1;
-        $arr['message'] = 'Password changed successfully';
-        $arr['data'] = NULL;
-        return response()->json($arr, 200);
-    }
-
-
-    public function verify_otp(Request $request)
-    {
-        try {
-            $typevalidate = Validator::make($request->all(), [
-                'phone_number' => 'required',
-                'otp' => 'required'
-            ]);
-
-            if ($typevalidate->fails()) {
-                $arr['status'] = 0;
-                $arr['message'] = $typevalidate->errors()->first();
-                $arr['data'] = NULL;
-                return response()->json($arr, 422);
-            }
-
-            $users = User::where(function ($query) use ($request) {
-                $query->orwhere('mobile', $request->phone_number);
-            })->first();
-
-            if (!$users) {
-                $arr['status'] = 0;
-                $arr['message'] = 'Phone number not found';
-                $arr['data'] = NULL;
-                return response()->json($arr, 422);
-            }
-
-
-            if ($users->otp != $request->otp) {
-                $arr['status'] = 0;
-                $arr['message'] = 'Invalid OTP';
-                $arr['data'] = NULL;
-                return response()->json($arr, 422);
-            }
-
-
-            $arr['status'] = 1;
-            $arr['message'] = "OTP verified successfully";
-            $arr['data'] = NULL;
-            return response()->json($arr, 200);
-        } catch (\Exception $e) {
-            $arr['status'] = 0;
-            $arr['message'] = $e->getMessage();
-            $arr['data'] = NULL;
-            return response()->json($arr, 500);
-        }
-    }
-
     //Registration API
     public function register(Request $request)
     {
@@ -223,10 +62,6 @@ class AuthController extends Controller
                 return response()->json($arr, 200);
             }
             $data = $request->all();
-            $data['location'] = "Wuse 2 Abuja";
-            $data['location_lat'] = "9.0787";
-            $data['location_long'] = "7.47018";
-
             if (isset($data['password'])) {
                 $data['password'] = Hash::make($data['password']);
             }
@@ -267,6 +102,7 @@ class AuthController extends Controller
     public function service_pro_register(Request $request)
     {
         $typevalidate = Validator::make($request->all(), [
+            'service_type' => 'required',
             'device_id' => 'required',
             'device_type' => 'required',
             'device_name' => 'required',
@@ -275,6 +111,18 @@ class AuthController extends Controller
             'email' => 'required',
             'mobile' => 'required',
             'password' => 'required',
+            'year_expreance' => 'required',
+            'location' => 'required',
+            'location_lat' => 'required',
+            'location_long' => 'required',
+            'id_prof' => 'required',
+            'profile' => 'required',
+            'price' => 'required',
+            'guarantor_name' => 'required',
+            'guarantor_email' => 'required',
+            'guarantor_phone_number' => 'required',
+            'guarantor_address' => 'required',
+            'service_discription' => 'required',
 
         ]);
         try {
@@ -308,32 +156,40 @@ class AuthController extends Controller
 
             if (!empty($request->profile)) {
                 $file_name = date('dmy') . rand(1, 4) . $request->file('profile')->getClientOriginalName();
-                $store = $request->file('profile')->storeAs('public/uploads/profile', $file_name);
-
+                $store = $request->file('profile')->move('uploads/profile', $file_name);
                 if ($store) {
                     $data['profile'] = $file_name;
                 }
             }
-
             $data['type'] = 3;
             $data['name'] = $request->name;
             $data['email'] = $request->email;
             $data['mobile'] = $request->mobile;
+            $data['age'] = $request->age;
+            $data['gender'] = $request->gender;
+            $data['gender'] = $request->gender;
             $data['device_id'] = $request->device_id;
             $data['device_type'] = $request->device_type;
             $data['device_name'] = $request->device_name;
             $data['device_token'] = $request->device_token;
+            $data['service_type'] = $request->service_type;
+            $data['year_expreance'] = $request->year_expreance;
+            $data['location'] = $request->location;
+            $data['location_lat'] = $request->location_lat;
+            $data['location_long'] = $request->location_long;
+            $data['service_type_price'] = $request->price;
+            $data['guarantor_name'] = $request->guarantor_name;
+            $data['guarantor_email'] = $request->guarantor_email;
+            $data['guarantor_phone_number'] = $request->guarantor_phone_number;
+            $data['guarantor_address'] = $request->guarantor_address;
+            $data['service_discription'] = $request->service_discription;
             $data['password'] = Hash::make($request->password);
-            $data['location'] = "Wuse 2 Abuja";
-            $data['location_lat'] = "9.0787";
-            $data['location_long'] = "7.47018";
-            $data['status'] = 0;
 
 
             $user = User::create($data);
             $token = $user->createToken('Pontus')->accessToken;
             User::where('id', $user->id)->update(['remember_token' => $token, 'api_token' => $token]);
-            $userArr = User::where('id', $user->id)->first();
+            $userArr = User::select('*', DB::raw('CONCAT("' . url('uploads/id_prof') . '","/",id_prof)  as id_prof'))->where('id', $user->id)->get()->first();
             DB::commit();
             if ($user) {
                 $arr['status'] = 1;
@@ -351,6 +207,11 @@ class AuthController extends Controller
         }
         return response()->json($arr, 200);
     }
+
+
+
+
+
 
 
     //Login API
@@ -440,84 +301,87 @@ class AuthController extends Controller
             'password' => 'required',
 
         ]);
-        try {
-            if ($typevalidate->fails()) {
+        // try
+        // {
+        if ($typevalidate->fails()) {
+            $arr['status'] = 0;
+            $arr['message'] = $typevalidate->errors()->first();
+            $arr['data'] = NULL;
+
+            return response()->json($arr, 200);
+        }
+        $user = User::where(function ($query) use ($request) {
+            $query->where('email', $request->username);
+            $query->orwhere('mobile', $request->username);
+        })
+            ->where('type', 3)
+            ->first();
+
+        if (!empty($user)) {
+            if (!Hash::check($request->password, $user->password)) {
                 $arr['status'] = 0;
-                $arr['message'] = $typevalidate->errors()->first();
+                $arr['message'] = 'Password is not matched';
                 $arr['data'] = NULL;
 
                 return response()->json($arr, 200);
             }
-            $user = User::where(function ($query) use ($request) {
-                $query->where('email', $request->username);
-                $query->orwhere('mobile', $request->username);
-            })
-                ->where('type', 3)
-                ->first();
-
-            if (!empty($user)) {
-                if (!Hash::check($request->password, $user->password)) {
-                    $arr['status'] = 0;
-                    $arr['message'] = 'Password is not matched';
-                    $arr['data'] = NULL;
-
-                    return response()->json($arr, 200);
-                }
-                $data['type'] = $request->type;
-                $data['device_id'] = $request->device_id;
-                $data['device_type'] = $request->device_type;
-                $data['device_name'] = $request->device_name;
-                $data['device_token'] = $request->device_token;
-                $data['location_lat'] = $request->latitude;
-                $data['location_long'] = $request->longitude;
-                $data['type'] = 3;
-                // $data['password'] = Hash::make($request->password);
-                if (strpos($request->username, '@')) {
-                    $data['email'] = $request->username;
+            $data['type'] = $request->type;
+            $data['device_id'] = $request->device_id;
+            $data['device_type'] = $request->device_type;
+            $data['device_name'] = $request->device_name;
+            $data['device_token'] = $request->device_token;
+            $data['location_lat'] = $request->latitude;
+            $data['location_long'] = $request->longitude;
+            $data['type'] = 3;
+            // $data['password'] = Hash::make($request->password);
+            if (strpos($request->username, '@')) {
+                $data['email'] = $request->username;
+            } else {
+                $data['mobile'] = $request->username;
+            }
+            // print_r($user);die;
+            $token = $user->createToken('Pontus')->accessToken;
+            $data['remember_token'] = $token;
+            $data['api_token'] = $token;
+            User::where('id', $user->id)->update($data);
+            $userArr = User::select('*', DB::raw('CONCAT("' . url('uploads/id_prof') . '","/",id_prof)  as id_prof'), DB::raw('CONCAT("' . url('uploads/profile') . '","/",profile)  as profile'))->where('id', $user->id)->get()->first();
+            if ($user) {
+                // plan is exit or not 
+                $get_active_plan = DB::table("service_plan_purchase")->where("status", "1")->where("service_provider_id", $user->id)->first();
+                if ($get_active_plan) {
+                    $userArr->is_plan_active = 1;
                 } else {
-                    $data['mobile'] = $request->username;
-                }
-                // print_r($user);die;
-                $token = $user->createToken('Pontus')->accessToken;
-                $data['remember_token'] = $token;
-                $data['api_token'] = $token;
-                User::where('id', $user->id)->update($data);
-                $userArr = User::select('*', DB::raw('CONCAT("' . url('uploads/id_prof') . '","/",id_prof)  as id_prof'), DB::raw('CONCAT("' . url('storage/uploads/profile') . '","/",profile)  as profile'))->where('id', $user->id)->get()->first();
-                if ($user) {
-                    // plan is exit or not 
-                    $get_active_plan = DB::table("service_plan_purchase")->where("status", "1")->where("service_provider_id", $user->id)->first();
-                    if ($get_active_plan) {
-                        $userArr->is_plan_active = 1;
-                    } else {
-                        $userArr->is_plan_active = 0;
-                    }
-
-                    $arr['status'] = 1;
-                    $arr['message'] = 'Success';
-                    $arr['data'] = $userArr;
-                } else {
-                    $arr['status'] = 0;
-                    $arr['message'] = 'No user found';
-                    $arr['data'] = NULL;
+                    $userArr->is_plan_active = 0;
                 }
 
-                // $arr['status']=0;
-                // $arr['message']="Sorry!! You Cannot Login";
-                // $arr['data']=NULL;
-
-                return response()->json($arr, 200);
+                $arr['status'] = 1;
+                $arr['message'] = 'Success';
+                $arr['data'] = $userArr;
             } else {
                 $arr['status'] = 0;
                 $arr['message'] = 'No user found';
                 $arr['data'] = NULL;
-
-                return response()->json($arr, 200);
             }
-        } catch (\Exception $e) {
+
+            // $arr['status']=0;
+            // $arr['message']="Sorry!! You Cannot Login";
+            // $arr['data']=NULL;
+
+            return response()->json($arr, 200);
+        } else {
             $arr['status'] = 0;
-            $arr['message'] = "Something went wrong";
+            $arr['message'] = 'No user found';
             $arr['data'] = NULL;
+
+            return response()->json($arr, 200);
         }
+        // }
+        // catch(\Exception $e)
+        // {
+        //     $arr['status']=0;
+        //     $arr['message']="Something went wrong";
+        //     $arr['data']=NULL;
+        // }
         return response()->json($arr, 200);
     }
 
@@ -539,13 +403,10 @@ class AuthController extends Controller
             $data['name'] = $getServiceProvider->name;
             $data['msg'] = "New Service Recieved : your have received new  service successfully, Booking id is " . $bookingId;
             $data['subject'] = "Service Recieved";
-            Mail::to($getServiceProvider->email)->send(new \App\Mail\SendOrderMail($data));
+            \Mail::to($getServiceProvider->email)->send(new \App\Mail\SendOrderMail($data));
             if (Mail::failures()) {
-                return response()->json(array(
-                    'status' => 0,
-                    'message' => env('APP_ENV') == 'local' ? Mail::failures() : 'Something went wrong',
-                    'data' => NULL
-                ), 500);
+
+                return new Error(Mail::failures());
             }
         }
 
@@ -554,13 +415,10 @@ class AuthController extends Controller
         die;
         $data['otp'] = "1234";
 
-        Mail::to('duversh@maxtratechnologies.net')->send(new \App\Mail\SendOtpMail($data));
+        \Mail::to('duversh@maxtratechnologies.net')->send(new \App\Mail\SendOtpMail($data));
         if (Mail::failures()) {
-            return response()->json(array(
-                'status' => 0,
-                'message' => env('APP_ENV') == 'local' ? Mail::failures() : 'Something went wrong',
-                'data' => NULL
-            ), 500);
+
+            return new Error(Mail::failures());
         }
         /*
             $otp = rand(1111,9999);
@@ -613,7 +471,7 @@ class AuthController extends Controller
             $msg = "Dear Applicant, your OTP for vensemart app forgot password is " . $otp . ". Please do not share it with other.";
             if (is_numeric($request->username)) {
                 $m_number = "234" . $request->username;
-                // $this->send_otp($m_number, $msg);
+                $this->send_otp($m_number, $msg);
             }
 
             $sent = true;
@@ -623,7 +481,7 @@ class AuthController extends Controller
                 $data['msg'] = "your OTP for vensemart app forgot password is " . $otp . ". Please do not share it with other.";
                 $data['subject'] = "Otp Received";
 
-                Mail::to($request->username)->send(new \App\Mail\SendOtpMail($data));
+                \Mail::to($request->username)->send(new \App\Mail\SendOtpMail($data));
                 //$sent = true;
             }
             if (!$sent) {
@@ -640,7 +498,7 @@ class AuthController extends Controller
             $arr['data'] = $otp;
 
             return response()->json($arr, 200);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'something went wrong.';
             $arr['data'] = NULL;
@@ -672,7 +530,7 @@ class AuthController extends Controller
             $msg = "Dear Applicant, your OTP for vensemart app is " . $otp . ". Please do not share it with other.";
             if (is_numeric($request->username)) {
                 $m_number = "234" . $request->username;
-                // $this->send_otp($m_number, $msg);
+                $this->send_otp($m_number, $msg);
             }
 
             $data = array(
@@ -691,7 +549,7 @@ class AuthController extends Controller
                 $data['msg'] = "your OTP for vensemart app is " . $otp . ". Please do not share it with other.";
                 $data['subject'] = "Otp Received";
 
-                Mail::to($request->username)->send(new \App\Mail\SendOtpMail($data));
+                \Mail::to($request->username)->send(new \App\Mail\SendOtpMail($data));
                 //$sent = true;
             }
             if (!$sent) {
@@ -708,7 +566,7 @@ class AuthController extends Controller
             $arr['data'] = $otp;
 
             return response()->json($arr, 200);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'something went wrong.';
             $arr['data'] = NULL;
@@ -763,7 +621,7 @@ class AuthController extends Controller
                 'message' => 'Success',
                 'data' => $data
             ), 200);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json(array(
                 'status' => 0,
                 'message' => 'something went wrong.',
@@ -814,7 +672,7 @@ class AuthController extends Controller
                 'message' => 'Success',
                 'data' => $data
             ), 200);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json(array(
                 'status' => 0,
                 'message' => 'something went wrong.',
@@ -874,12 +732,12 @@ class AuthController extends Controller
                 'message' => 'unable to change password.',
                 'data' => NULL
             ), 200);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json(array(
                 'status' => 0,
                 'message' => 'something went wrong.',
                 'data' => NULL
-            ), 500);
+            ), 200);
         }
     }
 
@@ -931,7 +789,7 @@ class AuthController extends Controller
                 'message' => 'unable to change password.',
                 'data' => NULL
             ), 200);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json(array(
                 'status' => 0,
                 'message' => 'something went wrong.',
@@ -960,7 +818,7 @@ class AuthController extends Controller
 
             if (!empty($request->profile)) {
                 $file_name = date('dmy') . rand(1, 4) . $request->file('profile')->getClientOriginalName();
-                $store = $request->file('profile')->storeAs('public/uploads/profile', $file_name);
+                $store = $request->file('profile')->move('uploads/profile', $file_name);
                 if ($store) {
                     $insert['profile'] = $file_name;
                 } else {
@@ -995,7 +853,7 @@ class AuthController extends Controller
 
             if ($user) {
                 $userdata = User::where('id', Auth::id())->first();
-                $userdata->profile = !empty($userdata->profile) ? url('storage/uploads/profile') . '/' . $userdata->profile : '';
+                $userdata->profile = !empty($userdata->profile) ? url('uploads/profile') . '/' . $userdata->profile : '';
                 $arr['status'] = 1;
                 $arr['message'] = 'Success';
                 $arr['data']['user'] = $userdata;
@@ -1006,7 +864,7 @@ class AuthController extends Controller
             }
         } catch (\Exception $e) {
             $arr['status'] = 0;
-            $arr['message'] = $e->getMessage();
+            $arr['message'] = "something went wrong";
             $arr['data'] = NULL;
         }
 
@@ -1032,7 +890,7 @@ class AuthController extends Controller
                 }
             }
             if ($profile->type == "1") {
-                $profile->profile = $profile->profile ? url('storage/uploads/profile') . '/' . $profile->profile : '';
+                $profile->profile = $profile->profile ? url('uploads/profile') . '/' . $profile->profile : '';
 
                 if ($profile) {
                     $arr['status'] = 1;
@@ -1063,7 +921,7 @@ class AuthController extends Controller
             $arr['message'] = 'Validation failed';
             $arr['data'] = NULL;
 
-            return response()->json($arr, 422);
+            return response()->json($arr, 200);
         }
 
         try {
@@ -1083,84 +941,18 @@ class AuthController extends Controller
                     $arr['status'] = 0;
                     $arr['message'] = 'Try Again';
                     $arr['data'] = NULL;
-                    return response()->json($arr, 422);
                 }
             } else {
                 $arr['status'] = 0;
                 $arr['message'] = 'Invalid old password';
                 $arr['data'] = NULL;
-                return response()->json($arr, 422);
             }
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'something went wrong';
             $arr['data'] = NULL;
-            return response()->json($arr, 500);
-        }
-        return response()->json($arr, 500);
-    }
-
-    public function get_location()
-    {
-        try {
-            $user = User::where('id', Auth::id())->first(['location_lat', 'location', 'location_long', 'state']);
-            if ($user) {
-                $arr['status'] = 1;
-                $arr['message'] = 'Success';
-                $arr['data'] = $user;
-                return response()->json($arr, 200);
-            } else {
-                $arr['status'] = 0;
-                $arr['message'] = 'User not found';
-                $arr['data'] = NULL;
-                return response()->json($arr, 404);
-            }
-        } catch (\Exception $e) {
-
-            $arr['status'] = 0;
-            $arr['message'] = 'something went wrong';
-            $arr['data'] = NULL;
-
-            return response()->json($arr, 500);
-        }
-    }
-
-    public function update_location(Request $request)
-    {
-        $arr = [];
-
-        $validate = Validator::make($request->all(), [
-            'location' => 'required',
-            'state' => 'required',
-            'location_lat' => 'required',
-            'location_long' => 'required'
-        ]);
-
-        if ($validate->fails()) {
-            $arr['status'] = 0;
-            $arr['message'] = $validate->errors()->first();
-            $arr['data'] = NULL;
-            return response()->json($arr, 422);
         }
 
-        try {
-            $user = User::where('id', Auth::id())->update($request->all());
-            if ($user) {
-                $arr['status'] = 1;
-                $arr['message'] = 'Success';
-                $arr['data'] = NULL;
-                return response()->json($arr, 200);
-            } else {
-                $arr['status'] = 0;
-                $arr['message'] = 'Try Again';
-                $arr['data'] = NULL;
-                return response()->json($arr, 404);
-            }
-        } catch (\Exception $e) {
-            $arr['status'] = 0;
-            $arr['message'] = 'something went wrong';
-            $arr['data'] = NULL;
-            return response()->json($arr, 500);
-        }
+        return response()->json($arr, 200);
     }
 }

@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $booking_date
  * @property string $booking_id
  * @property string $booking_time
- * @property string $cancel_reason
+ * @property string $cancel_resion
  * @property string $description
  * @property string $mobile_number
  * @property string $payment_mode
@@ -48,7 +48,7 @@ class ServicebookUser extends Model
      * @var array
      */
     protected $fillable = [
-        'booking_date', 'booking_id', 'booking_time', 'cancel_reason', 'created_at', 'description', 'mobile_number', 'payment_mode', 'payment_status', 'price', 'service_pro_id', 'service_type', 'status', 'transaction_id', 'updated_at', 'user_address', 'user_id', 'user_lat', 'user_long'
+        'booking_date', 'booking_id', 'booking_time', 'cancel_resion', 'created_at', 'description', 'mobile_number', 'payment_mode', 'payment_status', 'price', 'service_pro_id', 'service_type', 'status', 'transaction_id', 'updated_at', 'user_address', 'user_id', 'user_lat', 'user_long'
     ];
 
     /**
@@ -56,7 +56,9 @@ class ServicebookUser extends Model
      *
      * @var array
      */
-    protected $hidden = [];
+    protected $hidden = [
+        
+    ];
 
     /**
      * The attributes that should be casted to native types.
@@ -64,7 +66,7 @@ class ServicebookUser extends Model
      * @var array
      */
     protected $casts = [
-        'id' => 'int', 'booking_date' => 'string', 'booking_id' => 'string', 'booking_time' => 'string', 'cancel_reason' => 'string', 'created_at' => 'timestamp', 'description' => 'string', 'mobile_number' => 'string', 'payment_mode' => 'string', 'payment_status' => 'string', 'price' => 'string', 'service_pro_id' => 'string', 'service_type' => 'string', 'status' => 'int', 'transaction_id' => 'string', 'updated_at' => 'timestamp', 'user_address' => 'string', 'user_id' => 'string', 'user_lat' => 'string', 'user_long' => 'string'
+        'id' => 'int', 'booking_date' => 'string', 'booking_id' => 'string', 'booking_time' => 'string', 'cancel_resion' => 'string', 'created_at' => 'timestamp', 'description' => 'string', 'mobile_number' => 'string', 'payment_mode' => 'string', 'payment_status' => 'string', 'price' => 'string', 'service_pro_id' => 'string', 'service_type' => 'string', 'status' => 'int', 'transaction_id' => 'string', 'updated_at' => 'timestamp', 'user_address' => 'string', 'user_id' => 'string', 'user_lat' => 'string', 'user_long' => 'string'
     ];
 
     /**

@@ -28,54 +28,11 @@ class AdminController extends Controller
         $data['get_total_weekly_existing_user']        =  $dashboard->get_total_weekly_existing_user();
         $data['get_total_monthly_existing_user']       =  $dashboard->get_total_monthly_existing_user();
         $data['get_total_yearly_existing_user']        =  $dashboard->get_total_yearly_existing_user();
-        
 
-        $data['get_total_yesterday_new_user']              =  $dashboard->get_total_yesterday_new_user();
         $data['get_total_daily_new_user']              =  $dashboard->get_total_daily_new_user();
         $data['get_total_weekly_new_user']             =  $dashboard->get_total_weekly_new_user();
         $data['get_total_monthly_new_user']            =  $dashboard->get_total_monthly_new_user();
         $data['get_total_yearly_new_user']             =  $dashboard->get_total_yearly_new_user();
-
-
-
-
-        $data['get_total_daily_existing_service_user']         =  $dashboard->get_total_daily_existing_service_user();
-        $data['get_total_weekly_existing_service_user']        =  $dashboard->get_total_weekly_existing_user();
-        $data['get_total_monthly_existing_service_user']       =  $dashboard->get_total_monthly_existing_user();
-        $data['get_total_yearly_existing_service_user']        =  $dashboard->get_total_yearly_existing_user();
-        
-
-        $data['get_total_yesterday_new_service_user']              =  $dashboard->get_total_yesterday_new_service_user();
-        $data['get_total_daily_new_service_user']              =  $dashboard->get_total_daily_new_service_user();
-        $data['get_total_weekly_new_service_user']             =  $dashboard->get_total_weekly_new_service_user();
-        $data['get_total_monthly_new_service_user']            =  $dashboard->get_total_monthly_new_service_user();
-        $data['get_total_yearly_new_service_user']             =  $dashboard->get_total_yearly_new_service_user();
-
-
-    
-        $data['get_total_yesterday_pending_services']     =  $dashboard->get_total_yesterday_pending_services();
-        $data['get_total_daily_pending_services']         =  $dashboard->get_total_daily_pending_services();
-        $data['get_total_weekly_pending_services']        =  $dashboard->get_total_weekly_pending_services();
-        $data['get_total_monthly_pending_services']       =  $dashboard->get_total_monthly_pending_services();
-        $data['get_total_yearly_pending_services']        =  $dashboard->get_total_yearly_pending_services();
-
-
-        $data['get_total_yesterday_completed_services']     =  $dashboard->get_total_yesterday_completed_services();
-        $data['get_total_daily_completed_services']         =  $dashboard->get_total_daily_completed_services();
-        $data['get_total_weekly_completed_services']        =  $dashboard->get_total_weekly_completed_services();
-        $data['get_total_monthly_completed_services']       =  $dashboard->get_total_monthly_completed_services();
-        $data['get_total_yearly_completed_services']        =  $dashboard->get_total_yearly_completed_services();
-
-
-        $data['get_total_yesterday_cancelled_services']     =  $dashboard->get_total_yesterday_cancelled_services();
-        $data['get_total_daily_cancelled_services']         =  $dashboard->get_total_daily_cancelled_services();
-        $data['get_total_weekly_cancelled_services']        =  $dashboard->get_total_weekly_cancelled_services();
-        $data['get_total_monthly_cancelled_services']       =  $dashboard->get_total_monthly_cancelled_services();
-        $data['get_total_yearly_cancelled_services']        =  $dashboard->get_total_yearly_cancelled_services();
-
-
-
-
         
         $data['get_total_daily_existing_driver']         =  $dashboard->get_total_daily_existing_driver();
         $data['get_total_weekly_existing_driver']        =  $dashboard->get_total_weekly_existing_driver();
@@ -139,20 +96,6 @@ class AdminController extends Controller
         return view('manage.user.edit',$data);
     }
     public function managenew_user()
-    {
-        $lastSavenDate = date('Y-m-d H:i:s', strtotime("-7 day", strtotime(date('Y-m-d H:i:s'))));
-       
-        $data['listing'] = DB::table('users')
-                // ->where('is_deleted', '=', 0)
-                ->whereBetween('created_at', [$lastSavenDate, date('Y-m-d H:i:s')])
-                ->orderBy('id','desc')
-                ->orderByRaw('created_at DESC')
-                ->get();
-        return view('manage.user.new_user_listing',$data);
-    }
-
-
-    public function managenew_existing_user()
     {
         $lastSavenDate = date('Y-m-d H:i:s', strtotime("-7 day", strtotime(date('Y-m-d H:i:s'))));
        
@@ -252,22 +195,23 @@ class AdminController extends Controller
     }
     public function new_serviceprovider()
     {
-        $data['listing']=DB::table('users')->where('type',3)->latest()->get();
+        $data['listing']=DB::table('users')->where('type',3)->where('documents_approved',1)->get();
         
         return view('manage.service_provider.listing',$data);
     }
     public function change_status_of_serviceprovider(Request $request)
     {
         $serviceprovider_id=$request->s_id;
-        $serviceprovider_is_phone_verified=$request->is_vaify_val;
-        DB::table('users')->where('id',$serviceprovider_id)->update(['is_phone_verified'=>$serviceprovider_is_phone_verified]);
+        $serviceprovider_status=$request->is_vaify_val;
+        
+        DB::table('users')->where('id',$serviceprovider_id)->update(['documents_approved'=>$serviceprovider_status]);
          return response()->json(['status' => 200, 'message'=>'Documents Approved successfully.']);
         
     }
     
     public function exist_serviceprovider()
     {
-        $data['listing']= DB::table('users')->where('type',3)->latest()->get();
+        $data['listing']=DB::table('users')->where('type',3)->where('documents_approved',2)->get();
          return view('manage.service_provider.existing_serviceproviderlisting',$data);
     }
     public function viewserviceprovider($id)
@@ -333,18 +277,6 @@ class AdminController extends Controller
        </script>
        <?php
     }
-
-
-    public function deleteserviceprovider($id)
-    {
-       DB::table('users')->where('id',$id)->delete();
-       ?>
-       <script>
-           alert('Service Provider Deleted Successfully!!');
-           window.location.href="<?php echo url('admin/exist_serviceprovider'); ?>";
-       </script>
-       <?php
-    }
     
     public function newuserdelete($id)
     {
@@ -377,7 +309,6 @@ class AdminController extends Controller
         
        return view('manage.category.listing',$data);
     }
-
     public function category_add(Request $request)
     {
         if($request->method()=="POST")
@@ -392,6 +323,7 @@ class AdminController extends Controller
             {
                 $filename=date('dmy').rand(1,100).$request->file('cetegory_image')->getClientOriginalName();
                 $store=$request->file('cetegory_image')->move('storage/app/category_icons',$filename);
+                
                 $img=$filename;
             }
             
@@ -429,7 +361,6 @@ class AdminController extends Controller
             $categoryname=$request->name;
              $data=array('category_name'=>$categoryname,'category_icon'=>$img,'status'=>1);
              DB::table('category')->where('id',$id)->update($data);
-             
              ?>
              <script>
                  alert('Category Updated Successfully!!');
@@ -498,7 +429,6 @@ class AdminController extends Controller
         
         return view('manage.sub_category.listing',$data);
     }
-
     public function managesubcategory_add(Request $request)
     {
         if($request->method()=="POST")
@@ -569,7 +499,7 @@ class AdminController extends Controller
     }
     public function managerejectedservice_providerlist()
     {
-        $data['listing']=DB::table('users')->where('type',3)->where('is_phone_verified',3)->get();
+        $data['listing']=DB::table('users')->where('type',3)->where('documents_approved',3)->get();
         return view('manage.service_provider.rejected_serviceprovider_list',$data);
     }
     
@@ -578,7 +508,7 @@ class AdminController extends Controller
         $serviceproviderid=$request->d_id;
         $serviceprovider_status=$request->status_val;
         
-        DB::table('users')->where('id',$serviceproviderid)->update(['is_phone_verified'=>$serviceprovider_status]);
+        DB::table('users')->where('id',$serviceproviderid)->update(['documents_approved'=>$serviceprovider_status]);
          return redirect('admin/managerejectedservice_providerlist')->with('success','Service Provider Approved successfully!');
         
     }
@@ -933,83 +863,6 @@ class AdminController extends Controller
            return view('manage.cities.edit',$data);
        }
    }
-
-
-
-
-   //manage pending service order 
-   public function managependingserviceorderslisting()
-    {
-        $data['listing']= DB::table('servicebook_user')->select('servicebook_user.*','users.name as user_name')->leftJoin('users','users.id','=','servicebook_user.user_id')->where('servicebook_user.status',1)->orderBy('servicebook_user.id','desc')->get();
-
-   
-        // $data['listing']= DB::table('serviceprovider_user_orders')->select('*')->get();
-        // dd($data['listing']);
-
-        return view('manage.serviceorder.pending_listing',$data);
-    }
-
-    //manage completed service order
- 
-
-
-    public function managecompletedserviceorderslisting()
-    {
-        $data['listing']= DB::table('servicebook_user')->select('servicebook_user.*','users.name as user_name')->leftJoin('users','users.id','=','servicebook_user.user_id')->where('servicebook_user.status',2)->orderBy('servicebook_user.id','desc')->get();
-
-   
-        // $data['listing']= DB::table('serviceprovider_user_orders')->select('*')->get();
-        // dd($data['listing']);
-
-        return view('manage.serviceorder.completed_listing',$data);
-    }
-
-
-
-    public function managecancelledserviceorderslisting()
-    {
-        $data['listing']= DB::table('servicebook_user')->select('servicebook_user.*','users.name as user_name')->leftJoin('users','users.id','=','servicebook_user.user_id')->where('servicebook_user.status',3)->orderBy('servicebook_user.id','desc')->get();
-
-   
-        // $data['listing']= DB::table('serviceprovider_user_orders')->select('*')->get();
-        // dd($data['listing']);
-
-        return view('manage.serviceorder.cancelled_listing',$data);
-    }
-
-
-    // public function managependingserviceordersview($id)
-    // {
-    //     $orders=DB::table('serviceprovider_user_orders')->where('id',$id)->first();
-        
-        
-    //     $driverDetails=DB::table('users')->where('id',$orders->driver_id)->first();
-        
-    //     $ordersdetails=DB::table('eshop_purchase_detail')->select('eshop_purchase_detail.*','uom.name as uom_name')->leftJoin('uom','uom.id','=','eshop_purchase_detail.uom_id')->where('order_id',$orders->order_id)->get();
-    //     $data['order']=$orders;
-    //     $data['order_detail']=$ordersdetails;
-    //     $data['driver_details']=$driverDetails;
-    //     return view('manage.serviceorder.view_order',$data);
-    // }
-
-    // public function managependingserviceordersedit(Request $request,$id)
-    // {
-    //     if($request->method()=="POST")
-    //     {
-    //         $status=$request->order_status;
-    //         DB::table('serviceprovider_user_orders')->where('serviceprovider_user_orders_id',$id)->update(['status'=>$status]);
-            
-    //         return redirect('admin/serviceorder/in-process/listing')->with('success','Order Updated successfully!');
-    //     }
-    //     else
-    //     {
-    //         $data['serviceprovider_user_orders_id']=$id;
-    //         return view('manage.serviceorder.edit_pendingorder_status',$data);
-    //     }
-    // }
- 
-
-   
    
    
 }

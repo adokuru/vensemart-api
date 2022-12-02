@@ -3,21 +3,16 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\DeliveryRequestStatus;
-use App\Models\MyWallet;
-use App\Models\Orders;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
-use App\Models\VehicleDetails;
 use Carbon\Carbon;
 use App\Traits\SendNotification;
 use App\Traits\SendMessage;
 use Exception;
-use Illuminate\Support\Facades\Mail;
 
 class DeliveryRiderController extends Controller
 {
@@ -29,60 +24,6 @@ class DeliveryRiderController extends Controller
     {
         $data = array('title' => 'test', 'message' => 'this is', 'user_id' => 71);
         $this->send_to_user($data);
-    }
-
-
-    function onBoardRider(Request $request)
-    {
-        $typevalidate = Validator::make($request->all(), [
-            'vehicle_type' => 'required|in:car,bike,truck',
-            'vehicle_number' => 'required',
-            'picture' => 'required',
-        ]);
-
-        try {
-            if ($typevalidate->fails()) {
-                $arr['status'] = 0;
-                $arr['message'] = "Validation Failed";
-                $arr['data'] = NULL;
-
-                return response()->json($arr, 403);
-            }
-
-            $user = Auth::user();
-            $vehicle_details = $request->all();
-            if (!empty($vehicle_details['picture'])) {
-                $file_name = date('dmy') . rand(1, 4) . $request->file('picture')->getClientOriginalName();
-                $store = $request->file('picture')->move('uploads/all_image', $file_name);
-                if ($store) {
-                    $vehicle_details['dl_picture'] = $file_name;
-                } else {
-                    $arr['status'] = 0;
-                    $arr['message'] = 'Vehicle image not uploaded!!';
-                    $arr['data'] = NULL;
-
-                    return response()->json($arr, 200);
-                }
-            }
-
-
-            VehicleDetails::create([
-                'user_id' => $user->id,
-                'vehicle_type' => $request->vehicle_type,
-                'vehicle_number' => $request->vehicle_number,
-                'dl_picture' => $vehicle_details['dl_picture'],
-                'status' => 1,
-                'isVerify' => 0,
-            ]);
-
-            return $this->sendResponse('Vehicle details added successfully');
-        } catch (Exception $e) {
-            $arr['status'] = 0;
-            $arr['message'] = $e->getMessage();
-            $arr['data'] = NULL;
-
-            return response()->json($arr, 500);
-        }
     }
 
 
@@ -223,10 +164,8 @@ class DeliveryRiderController extends Controller
             $total_order = DB::table('orders')->where('driver_id', Auth::id())->count();
             $total_earning = DB::table('my_wallet')->where('user_id', Auth::id())->sum('amount');
             $availibility = DB::table('users')->where('id', Auth::id())->where('status', '1')->first();
-            $pending_order = DB::table('orders')->where('driver_id', Auth::id())->where('status', '2')->count();
-            $completed_order = DB::table('orders')->where('driver_id', Auth::id())->where('status', '4')->count();
             $today_order = DB::table('orders as o')
-                ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/shop_images') . '","/",s.store_image)  as store_image'))
+                ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/app/shop_images') . '","/",s.store_image)  as store_image'))
                 ->join('stores as s', 's.id', 'o.shop_id')
                 ->join('user_address as ua', 'ua.id', 'o.address_id')
                 ->where('o.driver_id', Auth::id())->whereDate('o.order_date', date('Y-m-d'))->get()->toArray();
@@ -234,8 +173,6 @@ class DeliveryRiderController extends Controller
             $data['total_earning'] = $total_earning != 0 ? number_format((float)$total_earning, 2, '.', '') : 0.00;
             $data['today_order'] = $today_order != [] ? $today_order : [];
             $data['availibility'] = $availibility != '' ? "yes" : "no";
-            $data['pending_order'] = $pending_order != 0 ? $pending_order : 0;
-            $data['completed_order'] = $completed_order != 0 ? $completed_order : 0;
 
             $arr['status'] = 1;
             $arr['message'] = 'Success';
@@ -254,7 +191,7 @@ class DeliveryRiderController extends Controller
 
         try {
             $all_order = DB::table('orders as o')
-                ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/shop_images') . '","/",s.store_image)  as store_image'))
+                ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/app/shop_images') . '","/",s.store_image)  as store_image'))
                 ->leftJoin('stores as s', 's.id', 'o.shop_id')
                 ->leftJoin('user_address as ua', 'ua.id', 'o.address_id')
                 ->where('o.driver_id', Auth::id())
@@ -282,7 +219,7 @@ class DeliveryRiderController extends Controller
     {
         try {
             $pending_order = DB::table('orders as o')
-                ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/shop_images') . '","/",s.store_image)  as store_image'))
+                ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/app/shop_images') . '","/",s.store_image)  as store_image'))
                 ->join('stores as s', 's.id', 'o.shop_id')
                 ->join('user_address as ua', 'ua.id', 'o.address_id')
                 ->where('o.driver_id', Auth::id())->where('o.status', '2')->get()->toArray();
@@ -308,10 +245,10 @@ class DeliveryRiderController extends Controller
     {
         try {
             $cancel_order = DB::table('orders as o')
-                ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/shop_images') . '","/",s.store_image)  as store_image'))
+                ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/app/shop_images') . '","/",s.store_image)  as store_image'))
                 ->join('stores as s', 's.id', 'o.shop_id')
                 ->join('user_address as ua', 'ua.id', 'o.address_id')
-                ->where('o.driver_id', Auth::id())->where('o.status', '7')->get()->toArray();
+                ->where('o.driver_id', Auth::id())->where('o.status', '5')->get()->toArray();
             if ($cancel_order == []) {
                 $arr['status'] = 0;
                 $arr['message'] = 'No data.';
@@ -334,7 +271,7 @@ class DeliveryRiderController extends Controller
     {
         try {
             $complete_order = DB::table('orders as o')
-                ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/shop_images') . '","/",s.store_image)  as store_image'))
+                ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/app/shop_images') . '","/",s.store_image)  as store_image'))
                 ->join('stores as s', 's.id', 'o.shop_id')
                 ->join('user_address as ua', 'ua.id', 'o.address_id')
                 ->where('o.driver_id', Auth::id())->where('o.status', '4')->get()->toArray();
@@ -359,73 +296,20 @@ class DeliveryRiderController extends Controller
     public function accept_order(Request $request)
     {
         try {
-            $validator = Validator::make($request->all(), [
-                'order_id' => 'required',
-            ]);
-
-            if ($validator->fails()) {
+            $accept_order = DB::table('orders as o')
+                ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/app/shop_images') . '","/",s.store_image)  as store_image'))
+                ->join('stores as s', 's.id', 'o.shop_id')
+                ->join('user_address as ua', 'ua.id', 'o.address_id')
+                ->where('o.driver_id', Auth::id())->where('o.status', '2')->get()->toArray();
+            if ($accept_order == []) {
                 $arr['status'] = 0;
-                $arr['message'] = $validator->errors()->first();
-                return response()->json($arr, 422);
+                $arr['message'] = 'No data.';
+                $arr['data'] = NULL;
+            } else {
+                $arr['status'] = 1;
+                $arr['message'] = 'Success';
+                $arr['data'] = $accept_order;
             }
-
-            $orderid = $request->order_id;
-            $driverId = Auth::id();
-
-            $order = DB::table('orders')->where('order_id', $orderid)->where('status', '2')->where('driver_id', $driverId)->first();
-
-            if ($order == null) {
-                $arr['status'] = 0;
-                $arr['message'] = 'Order not found or already accepted';
-                return response()->json($arr, 200);
-            }
-
-            DB::table('orders')->where('order_id', $orderid)->update(['status' => "3"]);
-
-            $arr['status'] = 1;
-            $arr['message'] = 'Order Accepted Successfully!!';
-            $arr['data'] = true;
-
-            return response()->json($arr, 200);
-        } catch (\Exception $e) {
-            $arr['status']  = 0;
-            $arr['message'] = 'something went wrong';
-            $arr['data']    = NULL;
-        }
-        return response()->json($arr, 200);
-    }
-
-    public function reject_order(Request $request)
-    {
-        try {
-            $validator = Validator::make($request->all(), [
-                'order_id' => 'required',
-            ]);
-
-            if ($validator->fails()) {
-                $arr['status'] = 0;
-                $arr['message'] = $validator->errors()->first();
-                return response()->json($arr, 422);
-            }
-
-            $orderid = $request->order_id;
-            $driverId = Auth::id();
-
-            $order = DB::table('orders')->where('order_id', $orderid)->where('status', '2')->where('driver_id', $driverId)->first();
-
-            if ($order == null) {
-                $arr['status'] = 0;
-                $arr['message'] = 'Order not found or already accepted';
-                return response()->json($arr, 200);
-            }
-
-            DeliveryRequestStatus::where('order_id', $orderid)->where('driver_id', $driverId)->update(['status' => "2"]);
-
-            $this->contactRiderAndVendor($orderid, $order->user_id);
-
-            $arr['status'] = 1;
-            $arr['message'] = 'Order Rejected Successfully!!';
-            $arr['data'] = true;
             return response()->json($arr, 200);
         } catch (\Exception $e) {
             $arr['status']  = 0;
@@ -440,7 +324,7 @@ class DeliveryRiderController extends Controller
     {
         try {
             $accept_order = DB::table('orders as o')
-                ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/shop_images') . '","/",s.store_image)  as store_image'))
+                ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/app/shop_images') . '","/",s.store_image)  as store_image'))
                 ->join('stores as s', 's.id', 'o.shop_id')
                 ->join('user_address as ua', 'ua.id', 'o.address_id')
                 ->where('o.driver_id', Auth::id())->where('o.status', "1")->get()->toArray();
@@ -590,7 +474,7 @@ class DeliveryRiderController extends Controller
                 return response()->json($arr, 200);
             }
             $orders = DB::table('orders as o')
-                ->select('o.*', 'users.name', 'users.mobile', 'users.location_lat', 'users.location_long', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/shop_images') . '","/",s.store_image)  as store_image'))
+                ->select('o.*', 'users.name', 'users.mobile', 'users.location_lat', 'users.location_long', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/app/shop_images') . '","/",s.store_image)  as store_image'))
                 ->join('stores as s', 's.id', 'o.shop_id')
                 ->join('user_address as ua', 'ua.id', 'o.address_id')
                 ->join('users', 'users.id', '=', 'o.user_id')
@@ -604,7 +488,7 @@ class DeliveryRiderController extends Controller
                 return response()->json($arr, 200);
             }
             $product_details =  DB::table('eshop_purchase_detail as od')
-                ->select('p.*', 'c.category_name', 'sc.name as sub_category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/product_images') . '","/",product_image)  as product_image'))
+                ->select('p.*', 'c.category_name', 'sc.name as sub_category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/app/product_images') . '","/",product_image)  as product_image'))
                 ->join('products as p', 'p.id', 'od.product_id')
                 ->join('category as c', 'c.id', 'p.category_id')
                 ->join('sub_category as sc', 'sc.id', 'p.sub_cat_id')
@@ -650,12 +534,62 @@ class DeliveryRiderController extends Controller
         return response()->json($arr, 200);
     }
 
+    public function update_order_status(Request $request)
+    {
+        $validator = Validator::make($request->all(), ['order_id' => 'required', 'status' => 'required', 'payment_status' => 'required']);
+        try {
+            if ($validator->fails()) {
+                $arr['status']  = 0;
+                $arr['message'] = "Validation Failed";
+                $arr['data']    = NULL;
+                return response()->json($arr, 200);
+            }
+
+            $order_status['status'] = $request->status;
+            $order_status['payment_status'] = $request->payment_status;
+            DB::table('orders')->where('id', $request->order_id)->update($order_status);
+            $order_status['order_id'] = $request->order_id;
+            DB::table('orders_status')->insert(['order_id' => $request->order_id, 'status' => $request->status]);
+            if ($request->status  == 4) {
+                //get order detail
+                $order_de = DB::table("orders")->where('order_id', $request->order_id)->first();
+                $ins_d =  $noti_data = array('title' => 'Order Delivered', 'message' => "Your Order $request->order_id is  Delivered Successfully", 'user_id' => $order_de->user_id);
+                $this->send_to_user($noti_data);
+                $ins_d1 =   $noti_data1 = array('title' => 'Order Delivered', 'message' => "Your Order Delivered Successfully", 'user_id' => $order_de->driver_id);
+                $this->send_to_user($noti_data1);
+                $ins_d['type'] =  1;
+                $ins_d1['type'] =  2;
+                DB::table("notifications")->insert($ins_d);
+                DB::table("notifications")->insert($ins_d1);
+            }
+            $get_user_data =  DB::table('users')->select('id', 'name', 'email')->where('id', $order_de->user_id)->first();
+            if ($get_user_data) {
+                $data['name'] = $get_user_data->name;
+                $data['msg'] = "Order  Delivered: your  Order " . $bookingId . " is  Delivered Successfully";
+                $data['subject'] = "Order  Delivered";
+
+                \Mail::to($get_user_data->email)->send(new \App\Mail\SendOrderMail($data));
+            }
+
+            $arr['status'] = 1;
+            $arr['message'] = 'Status update Successfully';
+            $arr['data'] = NULL;
+            return response()->json($arr, 200);
+        } catch (\Exception $e) {
+            $arr['status']  = 0;
+            $arr['message'] = 'something went wrong';
+            $arr['data']    = NULL;
+        }
+        return response()->json($arr, 200);
+    }
+
+
 
     function d_get_profile(Request $request)
     {
         $id = Auth::id();
         if ($id) {
-            $profile = User::select('*', DB::raw('CONCAT("' . url('storage/uploads/profile') . '","/",profile)  as profile'))->find($id);
+            $profile = User::select('*', DB::raw('CONCAT("' . url('uploads/profile') . '","/",profile)  as profile'))->find($id);
             if (!$profile) {
                 $arr['status'] = 0;
                 $arr['message'] = 'Data not found';
@@ -766,7 +700,7 @@ class DeliveryRiderController extends Controller
 
             $vehicleData = DB::table('vehicle_details')->where('user_id', $id)->first();
             // $userdata->profile = !empty($userdata->imgae)?url('uploads/profile').'/'.$userdata->image:'';
-            $userdata->profile =  !empty($userdata->profile)  ? url('storage/uploads/profile') . '/' . $userdata->profile : '';
+            $userdata->profile =  !empty($userdata->profile)  ? url('uploads/profile') . '/' . $userdata->profile : '';
             $arr['status'] = 1;
             $arr['message'] = 'Success';
             $arr['data']['user'] = $userdata;
@@ -789,24 +723,10 @@ class DeliveryRiderController extends Controller
 
     public function withdrawn_request(Request $request)
     {
-        $request->validate([
-            'amount' => 'required|numeric|min:5000',
-        ]);
-
         $id  = Auth::id();
         $user = User::find($id);
 
         try {
-
-            // Bank Details
-            $bank = DB::table('bank_details')->where('user_id', $id)->first();
-            if (empty($bank)) {
-                $arr['status'] = 0;
-                $arr['message'] = 'Please add your bank details first';
-                $arr['data'] = NULL;
-                return response()->json($arr, 403);
-            }
-
             $amount = $request->amount;
             $count = DB::table('my_wallet')->where('user_id', $id)->count();
             if ($count > 0) {
@@ -817,8 +737,6 @@ class DeliveryRiderController extends Controller
                     $status = 1;
                     $data = array('driver_id' => $id, 'amount' => $amount, 'status' => $status);
                     DB::table('request_withdrawn_amounts')->insert($data);
-                    $newamount = $driveramount - $amount;
-                    DB::table('my_wallet')->where('user_id', $id)->update(['amount' => $newamount]);
                     $arr['status'] = 1;
                     $arr['message'] = 'Request is Sent to the Admin Successfully!!';
                     $arr['data'] = true;
@@ -847,17 +765,12 @@ class DeliveryRiderController extends Controller
             $walletamount = DB::table('my_wallet')->where('user_id', $userId)->first();
             if (!empty($walletamount)) {
                 $data['walletamount'] = $walletamount->amount;
+
                 $data['transactionhistory'] = DB::table('wallet_historys')->where('user_id', $userId)->get();
-
-
                 $arr['status'] = 1;
                 $arr['message'] = 'Success';
                 $arr['data'] = $data;
             } else {
-                MyWallet::create([
-                    'user_id' => $userId,
-                    'amount' => 0
-                ]);
                 $arr['status'] = 0;
                 $arr['message'] = 'No Data Found';
                 $arr['data'] = NULL;
@@ -915,7 +828,7 @@ class DeliveryRiderController extends Controller
         // print_r('adfasd');die;
         try {
             $data = DB::table('orders')
-                ->select('orders.*', 'users.name as user_name', DB::raw('CONCAT("' . url('storage/shop_images') . '","/",stores.store_image)  as store_image'))
+                ->select('orders.*', 'users.name as user_name', DB::raw('CONCAT("' . url('storage/app/shop_images') . '","/",stores.store_image)  as store_image'))
                 ->leftJoin('users', 'users.id', '=', 'orders.user_id')
                 ->leftJoin('stores', 'stores.id', '=', 'orders.shop_id')
                 ->where('orders.status', 1)
@@ -954,6 +867,8 @@ class DeliveryRiderController extends Controller
                 $arr['status'] = 1;
                 $arr['message'] = 'Order Accepted Successfully!!';
                 $arr['data'] = true;
+                //   $noti_data = array('title'=>'Order Accepted','message'=>"Order Accepted Successfully, order id is $orderid",'user_id'=>71);
+                //   $this->send_to_user($data);
             }
             if ($type == "2") {
                 DB::table('orders')->where('order_id', $orderid)->update(['reject_driver_id' => Auth::id(), 'driver_id' => null]);
@@ -961,6 +876,25 @@ class DeliveryRiderController extends Controller
                 $arr['message'] = 'Order Cancelled Successfully!!';
                 $arr['data'] = true;
             }
+            /*
+           $get_book_data =  DB::table('orders')->select('id','user_id','order_id')->where('order_id',$orderid)->first();
+                if($get_book_data){
+                    // get user record
+                      $get_user_data =  DB::table('users')->select('id','name','email')->where('id',$get_book_data->user_id)->first();
+                    if($get_user_data){
+                        if($type=="1"){
+                            $data['name'] = $get_user_data->name;
+                            $data['msg'] = "Order Request Accepted : your service " .$orderid. " is  Accepted ";
+                            $data['subject'] = "Order Accepted";
+                        }else{
+                            $data['name'] = $get_user_data->name;
+                            $data['msg'] = "Order Request Rejected : your service " .$orderid. " is  Rejected ";
+                            $data['subject'] = "Order Rejected";
+                        }
+                        \Mail::to($get_user_data->email)->send(new \App\Mail\SendOrderMail($data));
+                    }
+                }
+           */
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'Sorry!! Something Went Wrong';
@@ -1002,7 +936,7 @@ class DeliveryRiderController extends Controller
                 $data['msg'] = "your OTP for vensemart app order delivery is " . $otp . ". Please do not share it with other.";
                 $data['subject'] = "Otp Received";
 
-                Mail::to($request->username)->send(new \App\Mail\SendOtpMail($data));
+                \Mail::to($request->username)->send(new \App\Mail\SendOtpMail($data));
             }
             if (!$sent) {
                 $arr['status'] = 0;
@@ -1026,87 +960,6 @@ class DeliveryRiderController extends Controller
             return response()->json($arr, 200);
         }
     }
-
-
-    public function update_order_status(Request $request)
-    {
-        $request->validate([
-            'order_id' => 'required',
-            'status' => 'required|numeric|in:1,2,3',
-            'otp' => 'required_if:status,1',
-        ]);
-        $order_id = $request->order_id;
-        $status = $request->status;
-
-
-        $order = Orders::where('order_id', $order_id)->where('status', 3)->first();
-
-        if (!$order) {
-            $arr['status'] = 0;
-            $arr['message'] = 'Invalid Order ID!!';
-            $arr['data'] = NULL;
-            return response()->json($arr, 422);
-        }
-
-        switch ($status) {
-            case 1:
-                if ($order->otp != $request->otp) {
-                    $arr['status'] = 0;
-                    $arr['message'] = 'Invalid OTP!!';
-                    $arr['data'] = NULL;
-                    return response()->json($arr, 422);
-                }
-                
-                $order->status = 4;
-                $order->save();
-
-                // Notify Customer
-                $this->sendNotification(
-                    $order->user_id, 
-                    'Order Delivered Successfully!!', 
-                    "order-". $order->id." has been delivered successfully!!"
-                    );
-
-                $arr['status'] = 1;
-                $arr['message'] = 'Order Delivered Successfully!!';
-                $arr['data'] =    $order;
-                break;
-            case 2:
-                $order->status = 5;
-                $order->save();
-                // TODO: Notify vendor
-                
-                $arr['status'] = 1;
-                $arr['message'] = 'Order Picked Up Successfully!!';
-                $arr['data'] =    $order;
-                break;
-            case 3:
-                $order->status = 6;
-                $order->otp = rand(1111, 9999);
-                $order->save();
-
-                // Notify Customer
-                $this->sendNotification(
-                    $order->user_id, 
-                    'Order Picked Up Successfully!!',
-                    "order-". $order->id." has been picked up successfully!! and on its way to you!!"
-                    );
-
-                $this->sendSMSMessage(
-                  "+234". substr($order->user->mobile, -10),
-                    "order-". $order->id." has been picked up successfully!! use this pin to complete your order: ". $order->otp
-                    );
-    
-                $arr['status'] = 1;
-                $arr['message'] = 'Order Picked Up Successfully!!';
-                $arr['data'] =    $order;
-                break;
-            default:
-                $arr['status'] = 0;
-                $arr['message'] = 'Something went wrong!!';
-                $arr['data'] = false;
-                break;
-        }
 
 
     function get_notification(Request $request)
@@ -1290,79 +1143,6 @@ class DeliveryRiderController extends Controller
             $arr['message'] = "Something went wrong";
             $arr['data'] = NULL;
         }
-        return response()->json($arr, 200);
-    }
-
-
-    public function update_profile(Request $request)
-    {
-        $validate = Validator::make($request->all(), ['name' => 'required', 'address' => 'required', 'profile' => 'required']);
-
-        if ($validate->fails()) {
-            $arr['status'] = 0;
-            $arr['message'] = 'Validation failed';
-            $arr['data'] = NULL;
-
-            return response()->json($arr, 500);
-        }
-
-        try {
-            $insert = $request->all();
-
-            if (!empty($request->profile)) {
-                $file_name = date('dmy') . rand(1, 4) . $request->file('profile')->getClientOriginalName();
-                $store = $request->file('profile')->storeAs('public/uploads/profile', $file_name);
-                if ($store) {
-                    $insert['profile'] = $file_name;
-                } else {
-                    $arr['status'] = 0;
-                    $arr['message'] = 'Profile image not uploaded!!';
-                    $arr['data'] = NULL;
-
-                    return response()->json($arr, 500);
-                }
-            }
-            if (!empty($request->email)) {
-                $email = User::where('id', '!=', Auth::id())->where('email', $request->email)->count();
-                if ($email >= 1) {
-                    $arr['status'] = 0;
-                    $arr['message'] = 'Email already exist.!!';
-                    $arr['data'] = NULL;
-
-                    return response()->json($arr, 500);
-                }
-            }
-            if (!empty($request->mobile)) {
-                $email = User::where('id', '!=', Auth::id())->where('mobile', $request->mobile)->count();
-                if ($email >= 1) {
-                    $arr['status'] = 0;
-                    $arr['message'] = 'Mobile already exist.!!';
-                    $arr['data'] = NULL;
-
-                    return response()->json($arr, 500);
-                }
-            }
-            $user = User::where('id', Auth::id())->update($insert);
-
-            if ($user) {
-                $userdata = User::where('id', Auth::id())->first();
-                $userdata->profile = !empty($userdata->profile) ? url('storage/uploads/profile') . '/' . $userdata->profile : '';
-                $arr['status'] = 1;
-                $arr['message'] = 'Success';
-                $arr['data']['user'] = $userdata;
-            } else {
-                $arr['status'] = 0;
-                $arr['message'] = 'Try Again';
-                $arr['data'] = NULL;
-            }
-
-            return response()->json($arr, 200);
-        } catch (\Exception $e) {
-            $arr['status'] = 0;
-            $arr['message'] = $e->getMessage();
-            $arr['data'] = NULL;
-        }
-
         return response()->json($arr, 200);
     }
 }

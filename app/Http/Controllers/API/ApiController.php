@@ -12,35 +12,10 @@ use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use Carbon\Carbon;
 use App\Mail\SendOrderMail;
-use App\Models\Cart;
-use App\Models\EshopPurchaseDetail;
 
 class ApiController extends Controller
 {
     //Notification List API
-
-    public function test()
-    {
-        $name = "Rahul";
-
-        $parts = explode(' ', $name);
-
-        if (count($parts) > 2) {
-            $first_name = $parts[0];
-            $middle = $parts[1];
-            $last_name = $parts[2];
-        } else {
-            $first_name = $parts[0];
-            $middle = "";
-            $last_name = $parts[1] ?? "";
-        }
-
-        return  response()->json([
-            'first_name' => $first_name,
-            'last_name' => $last_name,
-            'middle' => $middle,
-        ]);
-    }
 
     public function notification_list()
     {
@@ -91,12 +66,12 @@ class ApiController extends Controller
     public function home(Request $request)
     {
         try {
-            $banner_list =  DB::table('banners')->select('*', DB::raw('CONCAT("' . url('storage/banner_images') . '","/",banner_image)  as banner_image'))->where('status', '1')->orderBy('id', 'desc')->get()->toArray();
-            $offer_list =   DB::table('offers')->select('*', DB::raw('CONCAT("' . url('storage/offer_images') . '","/",offer_banner)  as offer_banner'))->where('status', '1')->whereDate('end_date', '>=', Carbon::now())->orderBy('id', 'desc')->get()->toArray();
+            $banner_list =  DB::table('banners')->select('*', DB::raw('CONCAT("' . url('storage/app/banner_images') . '","/",banner_image)  as banner_image'))->where('status', '1')->orderBy('id', 'desc')->get()->toArray();
+            $offer_list =   DB::table('offers')->select('*', DB::raw('CONCAT("' . url('storage/app/offer_images') . '","/",offer_banner)  as offer_banner'))->where('status', '1')->whereDate('end_date', '>=', Carbon::now())->orderBy('id', 'desc')->get()->toArray();
             $shop_list =    DB::table('stores')
                 ->select(
                     "stores.*",
-                    DB::raw('CONCAT("' . url('storage/shop_images') . '","/",store_image)  as store_image'),
+                    DB::raw('CONCAT("' . url('storage/app/shop_images') . '","/",store_image)  as store_image'),
                     DB::raw("6371 * acos(cos(radians(" . $request->lat . "))
                              * cos(radians(stores.lati)) 
                              * cos(radians(stores.longi) - radians(" . $request->lng . ")) 
@@ -117,7 +92,7 @@ class ApiController extends Controller
                 foreach ($tranding_product_list as $key => $val) {
                     $tranding_product_id[] = $val->product_id;
                 }
-                $tranding_list = DB::table('products')->select('*', 'products.product_image as imagename', DB::raw('CONCAT("' . url('storage/product_images') . '","/",product_image)  as product_image'))->whereIn('id', $tranding_product_id)->limit('4')->orderBy('id', 'desc')->get()->toArray();
+                $tranding_list = DB::table('products')->select('*', 'products.product_image as imagename', DB::raw('CONCAT("' . url('storage/app/product_images') . '","/",product_image)  as product_image'))->whereIn('id', $tranding_product_id)->limit('4')->orderBy('id', 'desc')->get()->toArray();
                 // if($tranding_list==[]){
 
                 //     $arr['status']=0;
@@ -167,7 +142,7 @@ class ApiController extends Controller
         try {
             $keyword = $request->keyword;
             // $shop_list =   DB::table('stores')
-            //                 ->select("stores.*",DB::raw('CONCAT("' . url('storage/shop_images') . '","/",store_image)  as store_image'),
+            //                 ->select("stores.*",DB::raw('CONCAT("' . url('storage/app/shop_images') . '","/",store_image)  as store_image'),
             //                 \DB::raw("6371 * acos(cos(radians(" . $request->lat . "))
             //                  * cos(radians(stores.lati)) 
             //                  * cos(radians(stores.longi) - radians(" . $request->lng . ")) 
@@ -177,7 +152,7 @@ class ApiController extends Controller
             //                 ->where('status','1')->orderBy('id','desc')->get()->toArray();
 
 
-            $tranding_list = DB::table('products as p')->select('p.*', 'c.category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/product_images') . '","/",product_image)  as product_image'))
+            $tranding_list = DB::table('products as p')->select('p.*', 'c.category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/app/product_images') . '","/",product_image)  as product_image'))
                 ->join('category as c', 'c.id', 'p.category_id')
                 ->join('stores as s', 's.id', 'p.shop_id')
                 ->join('uom as u', 'u.id', 'p.uom_id')
@@ -216,8 +191,8 @@ class ApiController extends Controller
             $shop_list =   DB::table('stores')
                 ->select(
                     "stores.*",
-                    DB::raw('CONCAT("' . url('storage/shop_images') . '","/",store_image)  as store_image'),
-                    DB::raw("6371 * acos(cos(radians(" . $request->lat . "))
+                    DB::raw('CONCAT("' . url('storage/app/shop_images') . '","/",store_image)  as store_image'),
+                    \DB::raw("6371 * acos(cos(radians(" . $request->lat . "))
                              * cos(radians(stores.lati)) 
                              * cos(radians(stores.longi) - radians(" . $request->lng . ")) 
                              + sin(radians(" . $request->lat . ")) 
@@ -243,48 +218,13 @@ class ApiController extends Controller
 
         return response()->json($arr, 200);
     }
-
-    public function suggest_stores(Request $request)
-    {
-        try {
-            $shop_list = DB::table('stores')
-                ->select(
-                    "stores.*",
-                    DB::raw('CONCAT("' . url('storage/shop_images') . '","/",store_image)  as store_image')
-                )
-                ->where('status', '1')->orderBy('id', 'desc')->limit(10)->get()->toArray();
-            if ($shop_list) {
-                $shop_ids = [];
-                foreach ($shop_list as $key => $val) {
-                    $shop_ids[] = $val->id;
-                }
-                $tranding_shop_list = DB::table('product_views')->select('shop_id', DB::raw('count(*) as total'))->whereIn('shop_id', $shop_ids)->groupBy('shop_id')->orderBy('total', 'desc')->get()->toArray();
-            }
-
-            if ($tranding_shop_list) {
-                $arr['status'] = 1;
-                $arr['message'] = 'Store found successfully.';
-                $arr['data'] = $shop_list;
-            } else {
-                $arr['status'] = 0;
-                $arr['message'] = 'Sorry!! Shop not found!';
-                $arr['data'] = null;
-            }
-        } catch (\Exception $e) {
-            $arr['status'] = 0;
-            $arr['message'] = 'something went wrong';
-            $arr['data'] = NULL;
-        }
-
-        return response()->json($arr, 200);
-    }
     //Search Product for Perticular Category API
 
     public function search_product_for_perticular_category(Request $request)
     {
         try {
             $category_id = $request->category_id;
-            $product_list = DB::table('products as p')->select('p.*', 'c.category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/product_images') . '","/",product_image)  as product_image'))
+            $product_list = DB::table('products as p')->select('p.*', 'c.category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/app/product_images') . '","/",product_image)  as product_image'))
                 ->join('category as c', 'c.id', 'p.category_id')
                 ->join('stores as s', 's.id', 'p.shop_id')
                 ->join('uom as u', 'u.id', 'p.uom_id')
@@ -315,7 +255,7 @@ class ApiController extends Controller
     {
         try {
             $product_id = $request->product_id;
-            $product_details = DB::table('products as p')->select('p.*', 'p.product_image as imagename', 'c.category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/product_images') . '","/",product_image)  as product_image'))
+            $product_details = DB::table('products as p')->select('p.*', 'p.product_image as imagename', 'c.category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/app/product_images') . '","/",product_image)  as product_image'))
                 ->join('category as c', 'c.id', 'p.category_id')
                 ->join('stores as s', 's.id', 'p.shop_id')
                 ->join('uom as u', 'u.id', 'p.uom_id')
@@ -328,7 +268,7 @@ class ApiController extends Controller
                 return response()->json($arr, 200);
             } else {
 
-                $suggestion_product = DB::table('products as p')->select('p.*', 'p.product_image as imagename', 'c.category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/product_images') . '","/",product_image)  as product_image'))
+                $suggestion_product = DB::table('products as p')->select('p.*', 'p.product_image as imagename', 'c.category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/app/product_images') . '","/",product_image)  as product_image'))
                     ->join('category as c', 'c.id', 'p.category_id')
                     ->join('stores as s', 's.id', 'p.shop_id')
                     ->join('uom as u', 'u.id', 'p.uom_id')
@@ -378,7 +318,7 @@ class ApiController extends Controller
                 $arr['data'] = NULL;
             } else {
                 foreach ($category_list as $val) {
-                    $val->category_icon = $val->category_icon ? url('storage/category_icons') . '/' . $val->category_icon : '';
+                    $val->category_icon = $val->category_icon ? url('storage/app/category_icons') . '/' . $val->category_icon : '';
                 }
                 $arr['status'] = 1;
                 $arr['message'] = 'Category list found successfully.';
@@ -412,7 +352,7 @@ class ApiController extends Controller
                 $arr['data'] = NULL;
             } else {
                 foreach ($sub_category_list as $val) {
-                    $val->image = $val->image ? url('storage/subcategory_images') . '/' . $val->image : '';
+                    $val->image = $val->image ? url('storage/app/subcategory_images') . '/' . $val->image : '';
                 }
                 $arr['status'] = 1;
                 $arr['message'] = 'Sub Category list found successfully.';
@@ -448,7 +388,7 @@ class ApiController extends Controller
             } else {
                 foreach ($products_list as $val) {
                     $val->imagename = $val->product_image;
-                    $val->product_image = $val->product_image ? url('storage/product_images') . '/' . $val->product_image : '';
+                    $val->product_image = $val->product_image ? url('storage/app/product_images') . '/' . $val->product_image : '';
                 }
                 $arr['status'] = 1;
                 $arr['message'] = 'Products List found successfully.';
@@ -470,39 +410,25 @@ class ApiController extends Controller
             'product_id' => 'required',
             'cat_id' => 'required',
             'qty' => 'required',
+            'uom_id' => 'required',
+            'net_amount' => 'required',
             'discount' => 'required',
+            'product_name' => 'required',
+            'product_image' => 'required',
         ]);
-
-
         try {
-
             if ($typevalidate->fails()) {
                 $arr['status'] = 0;
-                $arr['message'] = $typevalidate->errors()->first();
+                $arr['message'] = "Validation Failed";
                 $arr['data'] = NULL;
 
-                return response()->json($arr, 422);
+                return response()->json($arr, 200);
             }
-
-
-            $product = DB::table('products')->where('id', $request->product_id)->first();
-
-            $price = ($product->product_price * $request->qty);
-
             $cartData = $request->all();
-
             $cartData['user_id'] = Auth::id();
-
-            $cartData['after_discount_amount'] = (((100 - $request->discount) * $price) / 100);
-
-            $cartData['product_name'] = $product->product_title;
-
-            $cartData['product_image'] = $product->product_image;
-
-            $cartData['net_amount'] = $price;
-
+            $cartData['after_discount_amount'] = (((100 - $request->discount) * $request->net_amount) / 100);
             unset($cartData['discount']);
-
+            // print_r($request->qty);die;
             if ($request->qty == 0) {
                 DB::table('cart')->where('user_id', Auth::id())->where('product_id', $request->product_id)->delete();
                 $arr['status'] = 1;
@@ -510,23 +436,12 @@ class ApiController extends Controller
                 $arr['data'] = NULL;
                 return response()->json($arr, 200);
             }
-
-            $check_cart = Cart::where('user_id', Auth::id())->where('product_id', $request->product_id)->orderBy('id', 'desc')->first();
-
+            $check_cart = DB::table('cart')->where('user_id', Auth::id())->where('product_id', $request->product_id)->orderBy('id', 'desc')->first();
             if ($check_cart) {
-                $qty = $check_cart->qty + $request->qty;
-                $check_cart->qty =  $qty;
-                $check_cart->net_amount = $check_cart->net_amount * $qty;
-                $check_cart->save();
-                $arr['status'] = 1;
-                $arr['message'] = 'add cart successfully.';
-                $arr['data'] = NULL;
-                return response()->json($arr, 200);
+                $cart = DB::table('cart')->where('id', $check_cart->id)->update($cartData);
             } else {
-
                 $cart = DB::table('cart')->insert($cartData);
             }
-
             $arr['status'] = 1;
             $arr['message'] = 'add cart successfully.';
             $arr['data'] = NULL;
@@ -535,112 +450,16 @@ class ApiController extends Controller
             $arr['status'] = 0;
             $arr['message'] = $e->getMessage();
             $arr['data'] = NULL;
-            return response()->json($arr, 500);
         }
-    }
 
-
-    public function reduceQtyProductInCart(Request $request)
-    {
-        $typevalidate = Validator::make($request->all(), [
-            'product_id' => 'required'
-        ]);
-
-
-        try {
-
-            if ($typevalidate->fails()) {
-                $arr['status'] = 0;
-                $arr['message'] = $typevalidate->errors()->first();
-                $arr['data'] = NULL;
-
-                return response()->json($arr, 422);
-            }
-
-            $check_cart = Cart::where('user_id', Auth::id())->where('product_id', $request->product_id)->orderBy('id', 'desc')->first();
-            $product = DB::table('products')->where('id', $request->product_id)->first();
-
-            if (!$check_cart)
-                throw new \Exception('Cart not found.');
-
-            if (!$product)
-                throw new \Exception('Product not found.');
-
-            if ($check_cart->qty == 1) {
-                $check_cart->delete();
-            }
-
-            $qty =  $check_cart->qty - 1;
-            $check_cart->qty = $qty;
-            $check_cart->net_amount = ($product->product_price * $qty);
-            $check_cart->save();
-
-            $check_cart->save();
-
-
-            $arr['status'] = 1;
-            $arr['message'] = 'Product reduced in cart successfully.';
-            $arr['data'] = NULL;
-            return response()->json($arr, 200);
-        } catch (\Exception $e) {
-            $arr['status'] = 0;
-            $arr['message'] = $e->getMessage();
-            $arr['data'] = NULL;
-            return response()->json($arr, 500);
-        }
-    }
-
-    public function addQtyProductInCart(Request $request)
-    {
-        $typevalidate = Validator::make($request->all(), [
-            'product_id' => 'required'
-        ]);
-
-
-        try {
-
-            if ($typevalidate->fails()) {
-                $arr['status'] = 0;
-                $arr['message'] = $typevalidate->errors()->first();
-                $arr['data'] = NULL;
-
-                return response()->json($arr, 422);
-            }
-
-            $check_cart = Cart::where('user_id', Auth::id())->where('product_id', $request->product_id)->orderBy('id', 'desc')->first();
-
-            $product = DB::table('products')->where('id', $request->product_id)->first();
-
-
-            if (!$check_cart)
-                throw new \Exception('Cart not found.');
-
-            if (!$product)
-                throw new \Exception('Product not found.');
-
-            $qty =  $check_cart->qty + 1;
-            $check_cart->qty = $qty;
-            $check_cart->net_amount = ($product->product_price * $qty);
-            $check_cart->save();
-
-
-            $arr['status'] = 1;
-            $arr['message'] = 'Product qty increased in cart successfully.';
-            $arr['data'] = NULL;
-            return response()->json($arr, 200);
-        } catch (\Exception $e) {
-            $arr['status'] = 0;
-            $arr['message'] = $e->getMessage();
-            $arr['data'] = NULL;
-            return response()->json($arr, 500);
-        }
+        return response()->json($arr, 200);
     }
     //Cart List API
     public function cart_list()
     {
         $user_id = Auth::id();
         try {
-            $cart_list = DB::table('cart as c')->select('c.*', 's.id as shop_id', 'p.product_description', 'p.discount', 'cat.category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/product_images') . '","/",c.product_image)  as product_image'), 'c.product_image as image_name')
+            $cart_list = DB::table('cart as c')->select('c.*', 's.id as shop_id', 'p.product_description', 'p.discount', 'cat.category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/app/product_images') . '","/",c.product_image)  as product_image'), 'c.product_image as image_name')
                 ->join('products as p', 'p.id', 'c.product_id')
                 ->join('category as cat', 'cat.id', 'c.cat_id')
                 ->join('stores as s', 's.id', 'p.shop_id')
@@ -656,8 +475,19 @@ class ApiController extends Controller
                 $arr['message'] = 'Cart is Empty';
                 $arr['data'] = NULL;
             } else {
-                $cart_details['subtotal'] = DB::table('cart')->where('user_id', $user_id)->sum('net_amount');
-                $cart_details['delivery_charge'] = "500"; // TODO : Change it to dynamic
+
+                $shopdata =  DB::table('cart as c')->select('s.id')
+                    ->join('products as p', 'p.id', 'c.product_id')
+                    ->join('category as cat', 'cat.id', 'c.cat_id')
+                    ->join('stores as s', 's.id', 'p.shop_id')
+                    ->join('uom as u', 'u.id', 'c.uom_id')
+                    ->where('user_id', $user_id)
+                    ->orderBy('id', 'desc')
+                    ->first();
+                $cart_details['shop_id'] = $shopdata->id;
+
+                $cart_details['subtotal'] = DB::table('cart')->where('user_id', $user_id)->sum('after_discount_amount');
+                $cart_details['delivery_charge'] = "20";
                 $cart_details['grand_total'] = $cart_details['subtotal'] + $cart_details['delivery_charge'];
 
                 $arr['status'] = 1;
@@ -673,427 +503,285 @@ class ApiController extends Controller
         }
         return response()->json($arr, 200);
     }
-
-    public function updateCart(Request $request)
-    {
-        $typevalidate = Validator::make($request->all(), [
-            'product_id' => 'required',
-            'qty' => 'required',
-        ]);
-
-        $user_id = Auth::id();
-
-        $cart = DB::table('cart')->where('user_id', $user_id)->where('product_id', $request->product_id)->first();
-
-
-        if ($cart) {
-            $cart = DB::table('cart')->where('id', $cart->id)->first();
-            $cart->qty = $request->qty;
-            $cart->save();
-            $arr['status'] = 1;
-            $arr['message'] = 'Cart Updated Successfully';
-            $arr['data'] = NULL;
-            return response()->json($arr, 200);
-        } else {
-            $arr['status'] = 0;
-            $arr['message'] = 'Cart Not Found';
-            $arr['data'] = NULL;
-            return response()->json($arr, 200);
-        }
-    }
-
-    public function deleteCart(Request $request)
-    {
-        try {
-            $typevalidate = Validator::make($request->all(), [
-                'product_id' => 'required',
-            ]);
-
-            $user_id = Auth::id();
-
-            $cart = DB::table('cart')->where('user_id', $user_id)->where('product_id', $request->product_id)->first();
-
-            $cart = DB::table('cart')->where('id', $cart->id)->delete();
-
-            $arr['status'] = 1;
-            $arr['message'] = 'Cart Deleted Successfully';
-            $arr['data'] = NULL;
-            return response()->json($arr, 200);
-        } catch (\Exception $e) {
-            $arr['status'] = 0;
-            $arr['message'] = 'Sorry!! Something Went Wrong';
-            $arr['data'] = NULL;
-        }
-    }
-
     //place order api
     public function place_order(Request $request)
     {
         $typevalidate = Validator::make($request->all(), [
-            'payment_type' => 'required',
+            'address_id' => 'required',
+            'shop_id' => 'required',
+            'net_amount' => 'required',
+            'taxes' => 'required',
             'delivery_charge' => 'required',
+            'total_amount' => 'required',
+            'payment_type' => 'required',
         ]);
+        // try{
+        if ($typevalidate->fails()) {
+            $arr['status'] = 0;
+            $arr['message'] = $typevalidate->errors()->first();
+            $arr['data'] = NULL;
 
-        $user_id = Auth::id();
-        $cart_detail = DB::table("cart")->where('user_id', $user_id)->get();
+            return response()->json($arr, 200);
+        }
+        $user_id22 = Auth::id();
 
-        try {
-            if ($typevalidate->fails()) {
-                $arr['status'] = 0;
-                $arr['message'] = $typevalidate->errors()->first();
-                $arr['data'] = NULL;
-                return response()->json($arr, 500);
-            }
+        $userdata = DB::table('users')->where('id', $user_id22)->first();
+        //$user_id22=$userdata->user_id;
+        //return $user_id22;
 
-            $cart_detail = DB::table("cart")->where('user_id', $user_id)->get();
-            if (count($cart_detail) ==  0) {
-                $arr['status'] = 0;
-                $arr['message'] = 'cart is empty';
-                $arr['data'] = null;
-                return response()->json($arr, 200);
-            }
+        $cart_detail = DB::table("cart")->where('user_id', $user_id22)->get();
+        // return $cart_detail;
+        if (count($cart_detail) ==  0) {
+            $arr['status'] = 0;
+            $arr['message'] = 'cart is empty';
+            $arr['data'] = null;
+            return response()->json($arr, 200);
+        }
 
-            $invoice_no  =  rand(1000000000, 999999999999);
+        $invoice_no  =  rand(1000000000, 999999999999);
+
+        $request_data = $request->all();
+
+        $order_data['invoice_no'] = $invoice_no;
+        $order_data['user_id'] = $user_id22;
+        $order_data['shop_id'] = $request->shop_id;
+        $order_data['address_id'] = $request->address_id;
+        $order_data['net_amount'] = $request->net_amount;
+        $order_data['total_amount'] = ($request->net_amount);
+        $order_data['taxes'] = $request->taxes;
+        $order_data['delivery_charge'] = $request->delivery_charge;
+        if ($request->offer_id) {
+            $order_data['offer_id'] = $request->offer_id;
+            $order_data['offer_amount'] = $request->offer_amount;
+        }
+        $order_data['total_amount'] = $request->total_amount;  // final amount 
+        $order_data['payment_type'] = $request->payment_type;
+        $order_data['total_item'] = count($cart_detail);
+        $order_data['payment_status'] = $request->payment_status;
+        $order_data['status'] = 1;  // 
+        // $order_data['status'] = 0;  // payment status
+        $order_data['purchase_date'] = date('Y-m-d');
+        $order_data['order_id'] = "FM" . rand(10000, 99999);
+        $order_data['transaction_id'] = $request->transaction_id;
+        // $order_data['date'] = date('Y-m-d');
+        // $order_data['deliver_date'] = date('Y-m-d', strtotime($day. ' + 4 days'));
+        //   DB::table('amount_detail')->insert($order_data);
+
+        DB::beginTransaction();
+        //try{
+        $result1 = DB::table('orders')->insert($order_data);
 
 
+        if ($result1) {
+            $ins_data = array();
+            foreach ($cart_detail as $k => $value) {
+                $ins_data[$k]['invoice_number'] = $invoice_no;
+                $ins_data[$k]['product_name'] = $value->product_name;
 
-            $total_amount = 0;
-            $net_amount = 0;
+                $ins_data[$k]['p_image'] = $value->product_image;
+                $ins_data[$k]['user_id'] = $value->user_id;
+                $ins_data[$k]['product_id'] = $value->product_id;
 
-            foreach ($cart_detail as $key => $value) {
-                $net_amount += $value->net_amount;
-            }
+                $ins_data[$k]['quantity'] = $value->qty;
+                //   $ins_data[$k]['price'] =  $value->price;  // product price
+                $ins_data[$k]['net_price'] = $value->net_amount;  // 
+                //   extra fiend
+                $ins_data[$k]['gst_percent'] = 0;
+                $ins_data[$k]['tax'] = 0;
+                //   $ins_data[$k]['tbv'] = 0;
 
 
-            $taxes = $net_amount * 7.5 / 100;
+                // end
+                //   $ins_data[$k]['discount'] = $value->discount; 
+                $ins_data[$k]['basic_dp'] = $value->after_discount_amount;
+                $ins_data[$k]['dp'] = $value->after_discount_amount;
+                $ins_data[$k]['uom_id'] = $value->uom_id;
+                $ins_data[$k]['purchase_date'] = date('Y-m-d');
+                $ins_data[$k]['pay_mode']      = "Cash On Franchise";
 
-            $total_amount = $net_amount + $request->delivery_charge + $taxes;
+                $ins_data[$k]['order_id'] = $order_data['order_id'];
 
-            $order_data['invoice_no'] = $invoice_no;
-            $order_data['user_id'] = $user_id;
-            $order_data['net_amount'] = $net_amount;
-            $order_data['total_amount'] = $total_amount;
-            $order_data['taxes'] =  $taxes;
-            $order_data['delivery_charge'] = $request->delivery_charge;
-
-            // if ($request->offer_id) {
-            //     $order_data['offer_id'] = $request->offer_id;
-            //     $order_data['offer_amount'] = $request->offer_amount;
-            // }  // final amount 
-
-            $order_data['payment_type'] = $request->payment_type;
-            $order_data['total_item'] = count($cart_detail);
-            $order_data['payment_status'] = 1;
-            $order_data['status'] = 1;
-            $order_data['purchase_date'] = date('Y-m-d');
-            $order_data['order_id'] = "FM" . rand(10000, 99999);
-            $order_data['transaction_id'] = rand(1000000000, 999999999999);
-
-            DB::beginTransaction();
-
-            $result1 = DB::table('orders')->insert($order_data);
-            $store_id = 0;
-            if ($result1) {
-                $ins_data = array();
-                foreach ($cart_detail as $k => $value) {
-                    $ins_data[$k]['invoice_number'] = $invoice_no;
-                    $ins_data[$k]['product_name'] = $value->product_name;
-
-                    $ins_data[$k]['p_image'] = $value->product_image;
-                    $ins_data[$k]['user_id'] = $value->user_id;
-                    $ins_data[$k]['product_id'] = $value->product_id;
-                    $store_id =  $this->getVendorId($value->product_id);
-                    $ins_data[$k]['quantity'] = $value->qty;
-                    $ins_data[$k]['net_price'] = $value->net_amount;
-                    $ins_data[$k]['gst_percent'] = 0;
-                    $ins_data[$k]['tax'] = 0;
-                    $ins_data[$k]['basic_dp'] = $value->after_discount_amount;
-                    $ins_data[$k]['dp'] = $value->after_discount_amount;
-                    $ins_data[$k]['uom_id'] = $value->uom_id;
-                    $ins_data[$k]['purchase_date'] = date('Y-m-d');
-                    $ins_data[$k]['pay_mode']      = "CARD";
-
-                    $ins_data[$k]['order_id'] = $order_data['order_id'];
-
-                    $product_details = DB::table('products')->where('id', $value->product_id)->first();
-                    if ($product_details) {
-                        if ($product_details->quantity < $value->qty) {
-                            DB::rollback();
-                            $arr['status'] = 0;
-                            $arr['message'] = 'Product ' . $product_details->product_name . ' qty is less then selected qty.';
-                            $arr['data'] = NULL;
-                            return response()->json($arr, 500);
-                        }
+                $product_details = DB::table('products')->where('id', $value->product_id)->first();
+                if ($product_details) {
+                    if ($product_details->quantity < $value->qty) {
+                        DB::rollback();
+                        $arr['status'] = 0;
+                        $arr['message'] = 'Product ' . $product_details->product_name . ' qty is less then selected qty.';
+                        $arr['data'] = NULL;
+                        return response()->json($arr, 200);
                     }
                 }
+            }
 
-                // return $ins_data;
-                $n_result = DB::table('eshop_purchase_detail')->insert($ins_data);
+            // return $ins_data;
+            $n_result = DB::table('eshop_purchase_detail')->insert($ins_data);
+
+            $storedetails = DB::table('stores')->where('id', $request->shop_id)->first();
+
+            $lat = $storedetails->lati;
+            $lng = $storedetails->longi;
+
+            $driver_list =    DB::table('users')
+                ->select('users.*', DB::raw("6371 * acos(cos(radians(" . $lat . "))
+                             * cos(radians(users.location_lat)) 
+                             * cos(radians(users.location_long) - radians(" . $lng . ")) 
+                             + sin(radians(" . $lat . ")) 
+                             * sin(radians(users.location_lat))) AS distance"))
+                ->having('distance', '<', 3)
+                ->leftJoin('vehicle_details', 'vehicle_details.user_id', '=', 'users.id')
+                ->where('vehicle_details.isVerify', '2')
+                ->where('users.type', "2")
+                ->orderBy('users.id', 'desc')
+                ->first();
+
+            $orderIdd = $order_data['order_id'];
+            if ($driver_list) {
+                DB::table('orders')->where('order_id', $order_data['order_id'])->update(['driver_id' => $driver_list->id]);
 
 
-                $orderIdd = $order_data['order_id'];
+                $data_dtiver = array('title' => "new order received", 'message' => "$orderIdd new order received", 'user_id' => $driver_list->id);
 
-                $data_noti = array('title' => "Order Placed", 'message' => "order placed successfully!  order  ID is  $orderIdd", 'user_id' => Auth::id());
-                $this->sendNotification(Auth::id(), "Order Placed", "Order Placed Successfully ");
+                /************************Notification Start************/
 
-                $this->contactRiderAndVendor($orderIdd, $user_id);
+                $firebaseToken =  DB::table('users')->where('id', $driver_list->id)->whereNotNull('device_token')->pluck('device_token')->toArray();
+
+                $SERVER_API_KEY = env('FCM_KEY');
+
+                $data1 = [
+                    "registration_ids" => $firebaseToken,
+                    "notification" => [
+                        "title" => $data_dtiver['title'],
+                        "body" => $data_dtiver['message'],
+                    ]
+                ];
+                $dataString = json_encode($data1);
+
+                $headers = [
+                    'Authorization: key=' . $SERVER_API_KEY,
+                    'Content-Type: application/json',
+                ];
+
+                $url = 'https://fcm.googleapis.com/fcm/send';
+                $ch = curl_init();
+
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+                curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+                // Disabling SSL Certificate support temporarly
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
+                // Execute post
+                $result = curl_exec($ch);
+                curl_close($ch);
+
+                /*********************End Notification*****************/
+
+                DB::table('notifications')->insert(['user_id' => $data_dtiver['user_id'], 'title' => $data_dtiver['title'], 'message' => $data_dtiver['message'], 'type' => 2]);
+            }
+            $data_noti = array('title' => "Order Placed", 'message' => "order placed successfully!  order  ID is  $orderIdd", 'user_id' => Auth::id());
+
+            // DB::commit();
+
+            // // $this->notification_send($data_dtiver);
+            //  $this->notification_send($data_noti);
+            // // add notification 
+
+            /************************Notification Start************/
+
+            $firebaseToken =  DB::table('users')->where('id', Auth::id())->whereNotNull('device_token')->pluck('device_token')->toArray();
+
+            $SERVER_API_KEY = env('FCM_KEY');
+
+            $data1 = [
+                "registration_ids" => $firebaseToken,
+                "notification" => [
+                    "title" => $data_noti['title'],
+                    "body" => $data_noti['message'],
+                ]
+            ];
+            $dataString = json_encode($data1);
+
+            $headers = [
+                'Authorization: key=' . $SERVER_API_KEY,
+                'Content-Type: application/json',
+            ];
+
+            $url = 'https://fcm.googleapis.com/fcm/send';
+            $ch = curl_init();
+
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+            curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+            // Disabling SSL Certificate support temporarly
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
+            // Execute post
+            $result = curl_exec($ch);
+            curl_close($ch);
+
+            /*********************End Notification*****************/
 
 
-                DB::table('notifications')->insert(['user_id' => Auth::id(), 'title' => "Order Placed", 'message' => $data_noti['message'], 'type' => 1]);
 
 
-                if ($n_result) {
-                    DB::table('cart')->where('user_id', $user_id)->delete();
-                    DB::commit();
-                    $arr['status'] = 1;
-                    $arr['message'] = 'order placed successfully';
-                    $arr['data'] = ['order_id' => $invoice_no];
-                    return response()->json($arr, 200);
-                } else {
-                    DB::rollback();
-                    $arr['status'] = 0;
-                    $arr['message'] = 'something went wrong';
-                    return response()->json($arr, 200);
-                }
+            DB::table('notifications')->insert(['user_id' => Auth::id(), 'title' => "Order Placed", 'message' => $data_noti['message'], 'type' => 1]);
+
+
+            $get_user_data =  DB::table('users')->select('id', 'name', 'email')->where('id', Auth::id())->first();
+            if ($get_user_data) {
+                $data['name'] = $get_user_data->name;
+                $data['msg'] = "Order  Placed: order placed successfully!  order  ID is  $orderIdd";
+                $data['subject'] = "Order  Placed";
+                \Mail::to($get_user_data->email)->send(new \App\Mail\SendOrderMail($data));
+            }
+
+
+
+            if ($n_result) {
+                DB::table('cart')->where('user_id', $user_id22)->delete();
+                DB::commit();
+                $arr['status'] = 1;
+                $arr['message'] = 'order placed successfully';
+                $arr['data'] = ['order_id' => $invoice_no];
+                return response()->json($arr, 200);
             } else {
                 DB::rollback();
                 $arr['status'] = 0;
                 $arr['message'] = 'something went wrong';
+                $arr['data'] = $e->getMessage();
                 return response()->json($arr, 200);
             }
-        } catch (\Exception $e) {
+        } else {
             DB::rollback();
             $arr['status'] = 0;
             $arr['message'] = 'something went wrong';
             $arr['data'] = $e->getMessage();
-            return response()->json($arr, 500);
+            return response()->json($arr, 200);
         }
+
+
+
+
+        // }catch(\Exception $e){
+        //     $arr['status']=0;
+        //     $arr['message']=$e->getMessage();
+        //     $arr['data']=NULL;
+        // }
+        return response()->json($arr, 200);
     }
-
-    // public function place_order(Request $request)
-    // {
-    //     $typevalidate = Validator::make($request->all(), [
-    //         'address_id' => 'required',
-    //         'shop_id' => 'required',
-    //         'net_amount' => 'required',
-    //         'taxes' => 'required',
-    //         'delivery_charge' => 'required',
-    //         'total_amount' => 'required',
-    //         'payment_type' => 'required',
-    //     ]);
-
-    //     // try{
-    //     if ($typevalidate->fails()) {
-    //         $arr['status'] = 0;
-    //         $arr['message'] = $typevalidate->errors()->first();
-    //         $arr['data'] = NULL;
-
-    //         return response()->json($arr, 200);
-    //     }
-
-    //     $user_id22 = Auth::id();
-    //     $userdata = DB::table('users')->where('id', $user_id22)->first();
-
-    //     $cart_detail = DB::table("cart")->where('user_id', $user_id22)->get();
-    //     if (count($cart_detail) ==  0) {
-    //         $arr['status'] = 0;
-    //         $arr['message'] = 'cart is empty';
-    //         $arr['data'] = null;
-    //         return response()->json($arr, 200);
-    //     }
-
-    //     $invoice_no  =  rand(1000000000, 999999999999);
-
-    //     $order_data['invoice_no'] = $invoice_no;
-    //     $order_data['user_id'] = $user_id22;
-    //     $order_data['shop_id'] = $request->shop_id;
-    //     $order_data['address_id'] = $request->address_id;
-    //     $order_data['net_amount'] = $request->net_amount;
-    //     $order_data['total_amount'] = ($request->net_amount);
-    //     $order_data['taxes'] = $request->taxes;
-    //     $order_data['delivery_charge'] = $request->delivery_charge;
-
-    //     if ($request->offer_id) {
-    //         $order_data['offer_id'] = $request->offer_id;
-    //         $order_data['offer_amount'] = $request->offer_amount;
-    //     }
-
-    //     $order_data['total_amount'] = $request->total_amount;  // final amount 
-    //     $order_data['payment_type'] = $request->payment_type;
-    //     $order_data['total_item'] = count($cart_detail);
-    //     $order_data['payment_status'] = $request->payment_status;
-    //     $order_data['status'] = 1;
-    //     $order_data['purchase_date'] = date('Y-m-d');
-    //     $order_data['order_id'] = "FM" . rand(10000, 99999);
-    //     $order_data['transaction_id'] = $request->transaction_id;
-
-    //     DB::beginTransaction();
-
-    //     //try{
-    //     $result1 = DB::table('orders')->insert($order_data);
-
-
-    //     if ($result1) {
-    //         $ins_data = array();
-    //         foreach ($cart_detail as $k => $value) {
-    //             $ins_data[$k]['invoice_number'] = $invoice_no;
-    //             $ins_data[$k]['product_name'] = $value->product_name;
-
-    //             $ins_data[$k]['p_image'] = $value->product_image;
-    //             $ins_data[$k]['user_id'] = $value->user_id;
-    //             $ins_data[$k]['product_id'] = $value->product_id;
-
-    //             $ins_data[$k]['quantity'] = $value->qty;
-    //             $ins_data[$k]['net_price'] = $value->net_amount;
-    //             $ins_data[$k]['gst_percent'] = 0;
-    //             $ins_data[$k]['tax'] = 0;
-    //             $ins_data[$k]['basic_dp'] = $value->after_discount_amount;
-    //             $ins_data[$k]['dp'] = $value->after_discount_amount;
-    //             $ins_data[$k]['uom_id'] = $value->uom_id;
-    //             $ins_data[$k]['purchase_date'] = date('Y-m-d');
-    //             $ins_data[$k]['pay_mode']      = "Cash On Franchise";
-
-    //             $ins_data[$k]['order_id'] = $order_data['order_id'];
-
-    //             $product_details = DB::table('products')->where('id', $value->product_id)->first();
-    //             if ($product_details) {
-    //                 if ($product_details->quantity < $value->qty) {
-    //                     DB::rollback();
-    //                     $arr['status'] = 0;
-    //                     $arr['message'] = 'Product ' . $product_details->product_name . ' qty is less then selected qty.';
-    //                     $arr['data'] = NULL;
-    //                     return response()->json($arr, 200);
-    //                 }
-    //             }
-    //         }
-
-    //         // return $ins_data;
-    //         $n_result = DB::table('eshop_purchase_detail')->insert($ins_data);
-
-    //         $storedetails = DB::table('stores')->where('id', $request->shop_id)->first();
-
-    //         $lat = $storedetails->lati;
-    //         $lng = $storedetails->longi;
-
-    //         $driver_list =    DB::table('users')
-    //             ->select('users.*', DB::raw("6371 * acos(cos(radians(" . $lat . "))
-    //                          * cos(radians(users.location_lat)) 
-    //                          * cos(radians(users.location_long) - radians(" . $lng . ")) 
-    //                          + sin(radians(" . $lat . ")) 
-    //                          * sin(radians(users.location_lat))) AS distance"))
-    //             ->having('distance', '<', 3)
-    //             ->leftJoin('vehicle_details', 'vehicle_details.user_id', '=', 'users.id')
-    //             ->where('vehicle_details.isVerify', '2')
-    //             ->where('users.type', "2")
-    //             ->orderBy('users.id', 'desc')
-    //             ->first();
-
-    //         $orderIdd = $order_data['order_id'];
-    //         if ($driver_list) {
-    //             DB::table('orders')->where('order_id', $order_data['order_id'])->update(['driver_id' => $driver_list->id]);
-
-
-    //             $data_dtiver = array('title' => "new order received", 'message' => "$orderIdd new order received", 'user_id' => $driver_list->id);
-
-    //             /************************Notification Start************/
-
-    //             $firebaseToken =  DB::table('users')->where('id', $driver_list->id)->whereNotNull('device_token')->pluck('device_token')->toArray();
-
-    //             $SERVER_API_KEY = env('FCM_KEY');
-
-    //             $data1 = [
-    //                 "registration_ids" => $firebaseToken,
-    //                 "notification" => [
-    //                     "title" => $data_dtiver['title'],
-    //                     "body" => $data_dtiver['message'],
-    //                 ]
-    //             ];
-    //             $dataString = json_encode($data1);
-
-    //             $headers = [
-    //                 'Authorization: key=' . $SERVER_API_KEY,
-    //                 'Content-Type: application/json',
-    //             ];
-
-    //             $url = 'https://fcm.googleapis.com/fcm/send';
-    //             $ch = curl_init();
-
-    //             curl_setopt($ch, CURLOPT_URL, $url);
-    //             curl_setopt($ch, CURLOPT_POST, true);
-    //             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-    //             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    //             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-    //             curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-    //             // Disabling SSL Certificate support temporarly
-    //             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-    //             curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
-    //             // Execute post
-    //             $result = curl_exec($ch);
-    //             curl_close($ch);
-
-    //             /*********************End Notification*****************/
-
-    //             DB::table('notifications')->insert(['user_id' => $data_dtiver['user_id'], 'title' => $data_dtiver['title'], 'message' => $data_dtiver['message'], 'type' => 2]);
-    //         }
-    //         $data_noti = array('title' => "Order Placed", 'message' => "order placed successfully!  order  ID is  $orderIdd", 'user_id' => Auth::id());
-
-    //         // DB::commit();
-
-    //         // // $this->notification_send($data_dtiver);
-    //         //  $this->notification_send($data_noti);
-    //         // // add notification 
-
-    //         /************************Notification Start************/
-
-
-    //         /*********************End Notification*****************/
-
-
-
-    //         DB::table('notifications')->insert(['user_id' => Auth::id(), 'title' => "Order Placed", 'message' => $data_noti['message'], 'type' => 1]);
-
-
-    //         $get_user_data =  DB::table('users')->select('id', 'name', 'email')->where('id', Auth::id())->first();
-    //         if ($get_user_data) {
-    //             $data['name'] = $get_user_data->name;
-    //             $data['msg'] = "Order  Placed: order placed successfully!  order  ID is  $orderIdd";
-    //             $data['subject'] = "Order  Placed";
-    //             \Mail::to($get_user_data->email)->send(new \App\Mail\SendOrderMail($data));
-    //         }
-
-
-
-    //         if ($n_result) {
-    //             DB::table('cart')->where('user_id', $user_id22)->delete();
-    //             DB::commit();
-    //             $arr['status'] = 1;
-    //             $arr['message'] = 'order placed successfully';
-    //             $arr['data'] = ['order_id' => $invoice_no];
-    //             return response()->json($arr, 200);
-    //         } else {
-    //             DB::rollback();
-    //             $arr['status'] = 0;
-    //             $arr['message'] = 'something went wrong';
-    //             $arr['data'] = $e->getMessage();
-    //             return response()->json($arr, 200);
-    //         }
-    //     } else {
-    //         DB::rollback();
-    //         $arr['status'] = 0;
-    //         $arr['message'] = 'something went wrong';
-    //         $arr['data'] = $e->getMessage();
-    //         return response()->json($arr, 200);
-    //     }
-
-    //     return response()->json($arr, 200);
-    // }
     //Search Product for Perticular Sub Category API
 
     public function search_product_for_perticular_sub_category(Request $request)
     {
         try {
             $sub_category_id = $request->sub_category_id;
-            $product_list = DB::table('products as p')->select('p.*', 'c.category_name', 'sc.name as sub_category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/product_images') . '","/",product_image)  as product_image'))
+            $product_list = DB::table('products as p')->select('p.*', 'c.category_name', 'sc.name as sub_category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/app/product_images') . '","/",product_image)  as product_image'))
                 ->join('category as c', 'c.id', 'p.category_id')
                 ->join('sub_category as sc', 'sc.id', 'p.sub_cat_id')
                 ->join('stores as s', 's.id', 'p.shop_id')
@@ -1124,7 +812,7 @@ class ApiController extends Controller
     public function offer_list()
     {
         try {
-            $offer_list = DB::table('offers')->select('*', DB::raw('CONCAT("' . url('storage/offer_images') . '","/",offer_banner)  as offer_banner'))
+            $offer_list = DB::table('offers')->select('*', DB::raw('CONCAT("' . url('storage/app/offer_images') . '","/",offer_banner)  as offer_banner'))
                 ->orderBy('id', 'desc')
                 ->get()->toArray();
             if ($offer_list == []) {
@@ -1364,28 +1052,6 @@ class ApiController extends Controller
         }
         return response()->json($arr, 200);
     }
-
-    public function shop($id)
-    {
-
-        $shop = DB::table('stores')->where('id', $id)->first();
-
-        if (!$shop) {
-            $arr['status'] = 0;
-            $arr['message'] = "shop not found";
-            $arr['data'] = NULL;
-            return response()->json($arr, 200);
-        }
-
-        $shop->store_image = url('storage/shop_images') . '/' . $shop->store_image;
-
-
-        $arr['status'] = 1;
-        $arr['message'] = "shop found successfully";
-        $arr['data'] = $shop;
-        return response()->json($arr, 200);
-    }
-
     //Search popular category and shops API
     public function popular_category_and_shop_list(Request $request)
     {
@@ -1393,8 +1059,8 @@ class ApiController extends Controller
             $shop_list = DB::table('stores')
                 ->select(
                     "stores.*",
-                    DB::raw('CONCAT("' . url('storage/shop_images') . '","/",store_image)  as store_image'),
-                    DB::raw("6371 * acos(cos(radians(" . $request->lat . "))
+                    DB::raw('CONCAT("' . url('storage/app/shop_images') . '","/",store_image)  as store_image'),
+                    \DB::raw("6371 * acos(cos(radians(" . $request->lat . "))
                              * cos(radians(stores.lati)) 
                              * cos(radians(stores.longi) - radians(" . $request->lng . ")) 
                              + sin(radians(" . $request->lat . ")) 
@@ -1421,7 +1087,7 @@ class ApiController extends Controller
                         foreach ($tranding_cat_id as $key => $val) {
                             $tranding_cat_ids[] = $val->category_id;
                         }
-                        $tranding_cat_list = DB::table('category')->select('*', DB::raw('CONCAT("' . url('storage/category_icons') . '","/",category_icon)  as category_icon'))->whereIn('id', $tranding_cat_ids)->orderBy('id', 'desc')->get()->toArray();
+                        $tranding_cat_list = DB::table('category')->select('*', DB::raw('CONCAT("' . url('storage/app/category_icons') . '","/",category_icon)  as category_icon'))->whereIn('id', $tranding_cat_ids)->orderBy('id', 'desc')->get()->toArray();
                         if ($tranding_cat_list == []) {
                             $data['popular_category'] =  [];
                         } else {
@@ -1437,7 +1103,7 @@ class ApiController extends Controller
                     foreach ($tranding_shop_list as $key => $val) {
                         $tranding_shop_id[] = $val->shop_id;
                     }
-                    $popular_shops = DB::table('stores')->select("stores.*", DB::raw('CONCAT("' . url('storage/shop_images') . '","/",store_image)  as store_image'))->whereIn('id', $tranding_shop_id)->orderBy('id', 'desc')->get()->toArray();
+                    $popular_shops = DB::table('stores')->select("stores.*", DB::raw('CONCAT("' . url('storage/app/shop_images') . '","/",store_image)  as store_image'))->whereIn('id', $tranding_shop_id)->orderBy('id', 'desc')->get()->toArray();
                     if ($popular_shops) {
                         $data['popular_shops'] =  $popular_shops;
                     } else {
@@ -1507,7 +1173,7 @@ class ApiController extends Controller
         try {
             $user_id = Auth::id();
             $favourite_product = DB::table('favourite_product')
-                ->select('favourite_product.is_favourite', 'p.*', 'c.category_name', 'sc.name as sub_category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/product_images') . '","/",product_image)  as product_image'))
+                ->select('favourite_product.is_favourite', 'p.*', 'c.category_name', 'sc.name as sub_category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/app/product_images') . '","/",product_image)  as product_image'))
                 ->join('products as p', 'p.id', 'favourite_product.product_id')
                 ->join('category as c', 'c.id', 'p.category_id')
                 ->join('sub_category as sc', 'sc.id', 'p.sub_cat_id')
@@ -1532,51 +1198,18 @@ class ApiController extends Controller
         return response()->json($arr, 200);
     }
     //My orders API
-    public function myOrders()
+    public function my_orders(Request $request)
     {
         try {
             $orders = DB::table('orders as o')
-                ->select('o.*', 'u.name', 'u.mobile', 'u.email', 'u.location', 'u.location_lat', 'u.location_long')
-                ->join('users as u', 'u.id', 'o.user_id')
-                ->where('o.user_id', Auth::id())->orderBy('o.id', 'desc')
-                ->get();
-
-            foreach ($orders as $key => $val) {
-                $product_details =  EshopPurchaseDetail::where('order_id', $val->order_id)->get()->toArray();
-                $val->products = $product_details != [] ? $product_details : [];
-            }
-
-            $order_list = $orders->toArray();
-            if ($order_list == []) {
-                $arr['status'] = 0;
-                $arr['message'] = "no data found";
-                $arr['data'] = NULL;
-            } else {
-                $arr['status'] = 1;
-                $arr['message'] = "order list found successfully";
-                $arr['data'] = $order_list;
-            }
-            return response()->json($arr, 200);
-        } catch (\Exception $e) {
-            $arr['status'] = 0;
-            $arr['message'] = env('APP_DEBUG') ? $e->getMessage() : "something went wrong";
-            $arr['data'] = NULL;
-        }
-        return response()->json($arr, 200);
-    }
-
-    public function Orders()
-    {
-        try {
-            $orders = DB::table('orders as o')
-                ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/shop_images') . '","/",s.store_image)  as store_image'))
+                ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/app/shop_images') . '","/",s.store_image)  as store_image'))
                 ->join('stores as s', 's.id', 'o.shop_id')
                 ->join('user_address as ua', 'ua.id', 'o.address_id')
                 ->where('o.user_id', Auth::id())->orderBy('o.id', 'desc')->get();
 
             foreach ($orders as $key => $val) {
                 $product_details =  DB::table('orders_details as od')
-                    ->select('p.*', 'c.category_name', 'sc.name as sub_category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/product_images') . '","/",product_image)  as product_image'))
+                    ->select('p.*', 'c.category_name', 'sc.name as sub_category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/app/product_images') . '","/",product_image)  as product_image'))
                     ->join('products as p', 'p.id', 'od.product_id')
                     ->join('category as c', 'c.id', 'p.category_id')
                     ->join('sub_category as sc', 'sc.id', 'p.sub_cat_id')
@@ -1604,7 +1237,6 @@ class ApiController extends Controller
         }
         return response()->json($arr, 200);
     }
-
     //Order details API
     public function order_details(Request $request)
     {
@@ -1617,7 +1249,7 @@ class ApiController extends Controller
                 return response()->json($arr, 200);
             }
             $orders = DB::table('orders as o')
-                ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/shop_images') . '","/",s.store_image)  as store_image'))
+                ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/app/shop_images') . '","/",s.store_image)  as store_image'))
                 ->join('stores as s', 's.id', 'o.shop_id')
                 ->join('user_address as ua', 'ua.id', 'o.address_id')
                 ->where('o.user_id', Auth::id())
@@ -1630,7 +1262,7 @@ class ApiController extends Controller
                 return response()->json($arr, 200);
             }
             $product_details =  DB::table('orders_details as od')
-                ->select('p.*', 'c.category_name', 'sc.name as sub_category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/product_images') . '","/",product_image)  as product_image'))
+                ->select('p.*', 'c.category_name', 'sc.name as sub_category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/app/product_images') . '","/",product_image)  as product_image'))
                 ->join('products as p', 'p.id', 'od.product_id')
                 ->join('category as c', 'c.id', 'p.category_id')
                 ->join('sub_category as sc', 'sc.id', 'p.sub_cat_id')
@@ -1821,14 +1453,14 @@ class ApiController extends Controller
                     DB::rollback();
                     $arr['status'] = 0;
                     $arr['message'] = 'something went wrong';
-                    $arr['data'] = null;
+                    $arr['data'] = $e->getMessage();
                     return response()->json($arr, 200);
                 }
             } else {
                 DB::rollback();
                 $arr['status'] = 0;
                 $arr['message'] = 'something went wrong';
-                $arr['data'] = NULL;
+                $arr['data'] = $e->getMessage();
                 return response()->json($arr, 200);
             }
         } catch (\Exception $e) {
@@ -2092,7 +1724,7 @@ class ApiController extends Controller
                 $OrderDetails->products = $data;
 
                 foreach ($data as $val) {
-                    $val->p_image = $val->p_image ? url('storage/product_images') . '/' . $val->p_image : '';
+                    $val->p_image = $val->p_image ? url('storage/app/product_images') . '/' . $val->p_image : '';
                 }
 
 
@@ -2117,7 +1749,7 @@ class ApiController extends Controller
         $userId = Auth::id();
         $categoryId = $request->category_id;
         try {
-            $suggestion_product = DB::table('products as p')->select('p.*', 'p.product_image as imagename', 'c.category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/product_images') . '","/",product_image)  as product_image'))
+            $suggestion_product = DB::table('products as p')->select('p.*', 'p.product_image as imagename', 'c.category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/app/product_images') . '","/",product_image)  as product_image'))
                 ->join('category as c', 'c.id', 'p.category_id')
                 ->join('stores as s', 's.id', 'p.shop_id')
                 ->join('uom as u', 'u.id', 'p.uom_id')
@@ -2169,7 +1801,7 @@ class ApiController extends Controller
                 foreach ($data as $val) {
                     $store = DB::table('stores')->where('id', $val->shop_id)->first();
                     $val->storename = $store->store_name;
-                    $val->storeimage = $store->store_image ? url('storage/shop_images') . '/' . $store->store_image : '';
+                    $val->storeimage = $store->store_image ? url('storage/app/shop_images') . '/' . $store->store_image : '';
                 }
 
                 $arr['status'] = 1;
@@ -2283,41 +1915,6 @@ class ApiController extends Controller
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'Sorry!! Something Went Wrong';
-            $arr['data'] = NULL;
-        }
-        return response()->json($arr, 200);
-    }
-
-    public function rateServiceProvider(Request $request)
-    {
-        $userId = Auth::id();
-
-        try {
-            $request->validate([
-                'booking_id' => 'required',
-                'rating' => 'required',
-            ]);
-
-            $booking_id = $request->booking_id;
-            $rating = $request->rating;
-
-            $booking = DB::table('servicebook_user')->where('id', $booking_id)->first();
-
-            if ($booking) {
-                $data = array('rating' => $rating);
-                DB::table('servicebook_user')->where('id', $booking_id)->update($data);
-
-                $arr['status'] = 1;
-                $arr['message'] = 'Success';
-                $arr['data'] = true;
-            } else {
-                $arr['status'] = 0;
-                $arr['message'] = 'No Data Found';
-                $arr['data'] = NULL;
-            }
-        } catch (\Exception $e) {
-            $arr['status'] = 0;
-            $arr['message'] = $e->getMessage();    //"something went wrong";
             $arr['data'] = NULL;
         }
         return response()->json($arr, 200);

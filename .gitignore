@@ -3,6 +3,8 @@
 /public/storage
 /public/storage/*
 /public/docs
+/storage/*.key
+/storage/*
 /vendor
 .env
 .env.backup
@@ -17,3 +19,4 @@ yarn-error.log
 Archive.zip
 
 vendor.zip
+Archive.zip
