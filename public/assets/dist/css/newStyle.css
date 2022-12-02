@@ -1,0 +1,152 @@
+.panel-title{
+	font-size: 18px;
+	color: #fff;
+}
+.cart-title{
+	font-size: 18px;
+	color: #fff;
+}
+.panel-info > .panel-heading {
+    background-color: #34d3eb;
+}
+.panel-info>.panel-heading {
+    color: #31708f;
+}
+.panel-success > .panel-heading {
+    background-color: #32c861;
+}
+.panel-success>.panel-heading {
+    color: #3c763d;
+}
+.panel-warning > .panel-heading {
+    background-color: #ffa91c;
+}
+.panel-warning>.panel-heading {
+    color: #8a6d3b;
+}
+.panel-danger > .panel-heading {
+    background-color: #f96a74;
+}
+.panel-danger>.panel-heading {
+    color: #a94442;
+}
+.panel-heading {
+    border: none !important;
+    padding: 15px 20px;
+    margin: -1px;
+    border-radius: 4px 4px 0 0;
+}
+.reports h5 {
+    padding: 20px 20px;
+    border-right: 1px solid #ddd;
+    
+}
+h5 {
+    font-size: 15px;
+    color: #666f7b;
+    font-family: 'Nunito Sans', sans-serif;
+    margin: 10px 0;
+    font-weight: 700;
+}
+.reports h5 strong {
+    display: block;
+    padding-top: 5px;
+}
+* {
+    box-sizing: border-box;
+}
+* {
+    outline: none !important;
+}
+ul.breadcrumb {
+  padding: 10px 16px;
+  list-style: none;
+  background-color: #4b545c;
+}
+ul.breadcrumb li {
+  display: inline;
+  font-size: 18px;
+}
+ul.breadcrumb li+li:before {
+  padding: 8px;
+  color: #fff;
+  content: "/\00a0";
+}
+ul.breadcrumb li a {
+  color: #0275d8;
+  text-decoration: none;
+}
+ul.breadcrumb li a:hover {
+  color: #01447e;
+  text-decoration: underline;
+}
+.card-danger:not(.card-outline)>.card-header {
+    background-color: #4b545c;
+}
+td a{
+  color:black;
+  font-size: 13px;
+}
+td a:hover{
+  color:black;
+  font-size: 13px;
+}
+td {
+   overflow-wrap: break-word;
+}
+.note-editor .card-header{
+  margin-top: unset !important;
+}
+.note-editor .note-editing-area{
+  height: 370px;
+}
+.book_status{
+  width: 170px;
+  height: 30px;
+}
+
+.card{
+    margin-top:20px;
+    margin-bottom:20px;
+}
+@media (max-width: 993px){
+    .main-sidebar, .main-sidebar::before {
+        box-shadow: none!important;
+        margin-left: -250px;
+    }
+    .btn_sidebar{
+        display:block!important;
+        margin-left: 10px!important;
+    }
+    .btn_sidebar.active {
+        margin-left: 250px!important;
+    }
+    .main-sidebar.active{
+        margin-left:0;
+    }
+}
+.btn_sidebar{
+    display:none;
+    margin-left: 258px;
+    background: #eae7e7;
+    font-size: 20px;
+    border-radius: 2px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    transition:0.3s ease-in-out;
+}
+
+table{
+    overflow-x:scroll;
+}
+th{
+    white-space:nowrap;
+}
+
+
+
+
+
+
+
+

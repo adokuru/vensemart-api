@@ -1,0 +1,80 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+/**
+ * @property int    $created_at
+ * @property int    $status
+ * @property int    $updated_at
+ * @property string $customerEmail
+ * @property string $merchantID
+ * @property string $orderID
+ * @property string $orderTotalPrice
+ */
+class TempOrders extends Model
+{
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = 'temp_orders';
+
+    /**
+     * The primary key for the model.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'id';
+
+    /**
+     * Attributes that should be mass-assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'created_at', 'customerEmail', 'merchantID', 'orderID', 'orderitems', 'orderTotalPrice', 'shippingFee', 'status', 'tax', 'updated_at'
+    ];
+
+    /**
+     * The attributes excluded from the model's JSON form.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        
+    ];
+
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'created_at' => 'timestamp', 'customerEmail' => 'string', 'merchantID' => 'string', 'orderID' => 'string', 'orderTotalPrice' => 'string', 'status' => 'int', 'updated_at' => 'timestamp'
+    ];
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'created_at', 'updated_at'
+    ];
+
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var boolean
+     */
+    public $timestamps = true;
+
+    // Scopes...
+
+    // Functions ...
+
+    // Relations ...
+}
