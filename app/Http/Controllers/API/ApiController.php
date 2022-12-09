@@ -410,27 +410,30 @@ class ApiController extends Controller
             'product_id' => 'required',
             'cat_id' => 'required',
             'qty' => 'required',
-            'uom_id' => 'required',
             'net_amount' => 'required',
             'discount' => 'required',
-            'product_name' => 'required',
-            'product_image' => 'required',
         ]);
         try {
-        
+
             if ($typevalidate->fails()) {
                 $arr['status'] = 0;
-                $arr['message'] = "Validation Failed";
+                $arr['message'] = $typevalidate->errors()->first();
                 $arr['data'] = NULL;
 
                 return response()->json($arr, 422);
             }
+
+            $product = DB::table('products')->where('id', $request->product_id)->first();
 
             $cartData = $request->all();
 
             $cartData['user_id'] = Auth::id();
 
             $cartData['after_discount_amount'] = (((100 - $request->discount) * $request->net_amount) / 100);
+
+            $cartData['product_name'] = $product->product_title;
+
+            $cartData['product_image'] = $product->product_image;
 
             unset($cartData['discount']);
 
@@ -441,12 +444,14 @@ class ApiController extends Controller
                 $arr['data'] = NULL;
                 return response()->json($arr, 200);
             }
-           
+
             $check_cart = DB::table('cart')->where('user_id', Auth::id())->where('product_id', $request->product_id)->orderBy('id', 'desc')->first();
-            
+
             if ($check_cart) {
+
                 $cart = DB::table('cart')->where('id', $check_cart->id)->update($cartData);
             } else {
+
                 $cart = DB::table('cart')->insert($cartData);
             }
 
@@ -454,14 +459,12 @@ class ApiController extends Controller
             $arr['message'] = 'add cart successfully.';
             $arr['data'] = NULL;
             return response()->json($arr, 200);
-
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = $e->getMessage();
             $arr['data'] = NULL;
             return response()->json($arr, 500);
         }
-
     }
     //Cart List API
     public function cart_list()
