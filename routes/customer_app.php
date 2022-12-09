@@ -43,22 +43,38 @@ Route::post('service_pro_login', [AuthController::class, 'service_pro_login']);
 
 Route::group(['middleware' => 'auth:api'], function () {
     Route::post('update_profile', [AuthController::class, 'update_profile']);
+
+    
     Route::get('user_details', [AuthController::class, 'user_details']);
+    
     Route::get('notification_list', [ApiController::class, 'notification_list']);
+    
     Route::get('delete_user_notification', [ApiController::class, 'delete_user_notification']);
 
     Route::post('home', [ApiController::class, 'home']);
+    
     Route::post('search_product', [ApiController::class, 'search_product']);
+
     Route::post('near_by_store_list', [ApiController::class, 'near_by_store_list']);
+
     Route::post('search_product_for_perticular_category', [ApiController::class, 'search_product_for_perticular_category']);
+
     Route::post('search_product_for_perticular_sub_category', [ApiController::class, 'search_product_for_perticular_sub_category']);
+
     Route::post('get_product_details', [ApiController::class, 'get_product_details']);
+
     Route::get('category_list', [ApiController::class, 'category_list']);
+
     Route::post('sub_category_list', [ApiController::class, 'sub_category_list']);
+
     Route::post('products_list', [ApiController::class, 'products_list']);
+
     Route::post('add_cart', [ApiController::class, 'add_cart']);
+
     Route::get('cart_list', [ApiController::class, 'cart_list']);
+
     Route::post('place_order', [ApiController::class, 'place_order']);
+    
     Route::get('offer_list', [ApiController::class, 'offer_list']);
     Route::get('cancel_reason_question_list', [ApiController::class, 'cancel_reason_question_list']);
     Route::post('add_delivery_address', [ApiController::class, 'add_delivery_address']);
