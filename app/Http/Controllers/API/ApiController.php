@@ -417,18 +417,23 @@ class ApiController extends Controller
             'product_image' => 'required',
         ]);
         try {
+        
             if ($typevalidate->fails()) {
                 $arr['status'] = 0;
                 $arr['message'] = "Validation Failed";
                 $arr['data'] = NULL;
 
-                return response()->json($arr, 200);
+                return response()->json($arr, 422);
             }
+
             $cartData = $request->all();
+
             $cartData['user_id'] = Auth::id();
+
             $cartData['after_discount_amount'] = (((100 - $request->discount) * $request->net_amount) / 100);
+
             unset($cartData['discount']);
-            // print_r($request->qty);die;
+
             if ($request->qty == 0) {
                 DB::table('cart')->where('user_id', Auth::id())->where('product_id', $request->product_id)->delete();
                 $arr['status'] = 1;
@@ -436,23 +441,27 @@ class ApiController extends Controller
                 $arr['data'] = NULL;
                 return response()->json($arr, 200);
             }
+           
             $check_cart = DB::table('cart')->where('user_id', Auth::id())->where('product_id', $request->product_id)->orderBy('id', 'desc')->first();
+            
             if ($check_cart) {
                 $cart = DB::table('cart')->where('id', $check_cart->id)->update($cartData);
             } else {
                 $cart = DB::table('cart')->insert($cartData);
             }
+
             $arr['status'] = 1;
             $arr['message'] = 'add cart successfully.';
             $arr['data'] = NULL;
             return response()->json($arr, 200);
+
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = $e->getMessage();
             $arr['data'] = NULL;
+            return response()->json($arr, 500);
         }
 
-        return response()->json($arr, 200);
     }
     //Cart List API
     public function cart_list()
