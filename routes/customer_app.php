@@ -142,8 +142,5 @@ Route::group(['middleware' => 'auth:api'], function () {
 
 
 
-    // SecondController
-    Route::get('aboutus', [SecondController::class, 'aboutus']);
-    Route::get('contactus', [SecondController::class, 'contactus']);
-    Route::get('faqs', [SecondController::class, 'faqs']);
+
 });
