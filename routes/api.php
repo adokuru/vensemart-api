@@ -19,9 +19,17 @@ use App\Http\Controllers\API\ServiceProviderController;
 */
 
 /*******************************************/
-
-Route::get('terms_condition', [ApiController::class, 'terms_condition']);
 Route::get('service_type', [ServiceProviderController::class, 'service_type']);
+
+Route::get('terms-conditions', [ApiController::class, 'terms_condition']);
+
+Route::get('services', [ServiceProviderController::class, 'service_type']);
+
+Route::get('about-us', [SecondController::class, 'aboutus']);
+
+Route::get('contact-us', [SecondController::class, 'contactus']);
+
+Route::get('faqs', [SecondController::class, 'faqs']);
 
 
 require __DIR__ . '/customer_app.php';
