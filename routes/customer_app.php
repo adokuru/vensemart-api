@@ -37,22 +37,20 @@ Route::post('forget_password', [AuthController::class, 'forget_password']);
 
 
 
-Route::post('service_pro_register', [AuthController::class, 'service_pro_register']);
-Route::post('service_pro_login', [AuthController::class, 'service_pro_login']);
 
 
 Route::group(['middleware' => 'auth:api'], function () {
     Route::post('update_profile', [AuthController::class, 'update_profile']);
 
-    
+
     Route::get('user_details', [AuthController::class, 'user_details']);
-    
+
     Route::get('notification_list', [ApiController::class, 'notification_list']);
-    
+
     Route::get('delete_user_notification', [ApiController::class, 'delete_user_notification']);
 
     Route::post('home', [ApiController::class, 'home']);
-    
+
     Route::post('search_product', [ApiController::class, 'search_product']);
 
     Route::post('near_by_store_list', [ApiController::class, 'near_by_store_list']);
@@ -74,7 +72,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('cart_list', [ApiController::class, 'cart_list']);
 
     Route::post('place_order', [ApiController::class, 'place_order']);
-    
+
     Route::get('offer_list', [ApiController::class, 'offer_list']);
     Route::get('cancel_reason_question_list', [ApiController::class, 'cancel_reason_question_list']);
     Route::post('add_delivery_address', [ApiController::class, 'add_delivery_address']);
@@ -107,56 +105,4 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('addaddress_user', [ApiController::class, 'addaddress_user']);
     Route::get('addresss_user_list', [ApiController::class, 'addresss_user_list']);
     Route::post('address_user_delete', [ApiController::class, 'address_user_delete']);
-
-
-
-    //Service Provider User Side
-    Route::post('homeservice', [ServiceProviderController::class, 'homeservice']);
-    Route::post('serviceprovider_list', [ServiceProviderController::class, 'serviceprovider_list']);
-    Route::post('allserviceslist', [ServiceProviderController::class, 'allserviceslist']);
-    Route::post('bookingservice', [ServiceProviderController::class, 'bookingservice']);
-
-    Route::post('paymentbookingservice', [ServiceProviderController::class, 'paymentbookingservice']);
-
-    Route::post('bookingsservicelist', [ServiceProviderController::class, 'bookingsservicelist']);
-    Route::post('cancelbooking', [ServiceProviderController::class, 'cancelbooking']);
-    Route::get('cancelreasonlist', [ServiceProviderController::class, 'cancelreasonlist']);
-    Route::post('searchserviceprovider', [ServiceProviderController::class, 'searchserviceprovider']);
-
-    Route::get('receved_request_list', [ServiceProviderController::class, 'receved_request_list']);
-    Route::get('upcomming_request_list', [ServiceProviderController::class, 'upcomming_request_list']);
-    Route::get('cancel_request_list', [ServiceProviderController::class, 'cancel_request_list']);
-    Route::get('complete_request_list', [ServiceProviderController::class, 'complete_request_list']);
-    Route::post('complete_request_detail', [ServiceProviderController::class, 'complete_request_detail']);
-    Route::get('confirm_request_list', [ServiceProviderController::class, 'confirm_request_list']);
-    Route::post('receved_request_detail', [ServiceProviderController::class, 'receved_request_detail']);
-    Route::post('upcomming_request_detail', [ServiceProviderController::class, 'upcomming_request_detail']);
-    Route::post('cancel_request_detail', [ServiceProviderController::class, 'cancel_request_detail']);
-    Route::post('confirm_request_detail', [ServiceProviderController::class, 'confirm_request_detail']);
-    Route::get('get_profile', [ServiceProviderController::class, 'get_profile']);
-    Route::post('service_update_profile', [ServiceProviderController::class, 'service_update_profile']);
-    Route::post('add_service_bank_detail', [ServiceProviderController::class, 'add_service_bank_detail']);
-    Route::get('get_bank_details', [ServiceProviderController::class, 'get_bank_details']);
-    Route::post('update_bank_details', [ServiceProviderController::class, 'update_bank_details']);
-    Route::post('service_change_password', [ServiceProviderController::class, 'service_change_password']);
-    Route::post('gps_on', [ServiceProviderController::class, 'gps_on']);
-    Route::post('user_setting', [ServiceProviderController::class, 'user_setting']);
-    Route::post('cancel_booking', [ServiceProviderController::class, 'cancel_booking']);
-    Route::get('service_notification', [ServiceProviderController::class, 'service_notification']);
-    Route::get('delete_service_provider_notification', [ServiceProviderController::class, 'delete_service_provider_notification']);
-
-    Route::post('user_contact_details', [ServiceProviderController::class, 'user_contact_details']);
-    Route::post('service_home', [ServiceProviderController::class, 'service_home']);
-    Route::post('service_booking_accept', [ServiceProviderController::class, 'service_booking_accept']);
-    Route::post('service_booking_complete', [ServiceProviderController::class, 'service_booking_complete']);
-    Route::get('service_subscription_plans', [ServiceProviderController::class, 'service_subscription_plans']);
-    Route::post('upcomming_booking_accept_reject', [ServiceProviderController::class, 'upcomming_booking_accept_reject']);
-    Route::get('payment_history', [ServiceProviderController::class, 'payment_history']);
-    Route::post('service_paymet_request', [ServiceProviderController::class, 'service_paymet_request']);
-    Route::get('service_paymet_widhral_list', [ServiceProviderController::class, 'service_paymet_widhral_list']);
-    Route::post('buy_subscription_plan', [ServiceProviderController::class, 'buy_subscription_plan']);
-
-
-
-
 });
