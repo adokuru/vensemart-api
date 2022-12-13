@@ -91,11 +91,6 @@ class ServiceProviderController extends Controller
                 ->where('status', 1)
                 ->get();
 
-            // foreach($data as $val)
-            // {
-            //     $val->image=$val->image?url('uploads/serviceprovider_stores_images').'/'.$val->image:'';
-            // }
-
             if (!empty($data[0])) {
                 $arr['status'] = 1;
                 $arr['message'] = 'Success';
@@ -152,7 +147,7 @@ class ServiceProviderController extends Controller
 
 
     // 23/09  new created
-    public function allserviceslist(Request $request)
+    public function allserviceslist()
     {
 
         try {
