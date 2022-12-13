@@ -25,6 +25,54 @@ class AuthController extends Controller
     {
         print_r("test");
     }
+
+    // Send OTP
+
+    public function send_otp(Request $request)
+    {
+        try {
+            $typevalidate = Validator::make($request->all(), [
+                'mobile' => 'required'
+            ]);
+
+            if ($typevalidate->fails()) {
+                $arr['status'] = 0;
+                $arr['message'] = $typevalidate->errors()->first();
+                $arr['data'] = NULL;
+                return response()->json($arr, 422);
+            }
+
+            $users = User::where(function ($query) use ($request) {
+                $query->orwhere('mobile', $request->mobile);
+            })->first();
+
+            // set otp
+
+            $otp = rand(1000, 9999);
+
+            if ($users) {
+                $users->otp = $otp;
+                $users->save();
+            }
+
+
+            $phone_Number = '+234' . substr($request->mobile, -10);
+            $message = "Your OTP is " . $otp . " for Vensemart App. Please do not share this OTP with anyone.";
+
+            $this->sendSMSMessage($phone_Number, $message);
+
+            $arr['status'] = 1;
+            $arr['message'] = 'OTP sent successfully';
+            $arr['data'] = NULL;
+            return response()->json($arr, 200);
+        } catch (\Exception $e) {
+            $arr['status'] = 0;
+            $arr['message'] = $e->getMessage();
+            $arr['data'] = NULL;
+            return response()->json($arr, 500);
+        }
+    }
+
     //Registration API
     public function register(Request $request)
     {
