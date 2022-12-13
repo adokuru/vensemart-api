@@ -15,7 +15,8 @@ Route::group(['middleware' => 'auth:api'], function () {
     
     Route::post('homeservice', [ServiceProviderController::class, 'homeservice']);
     Route::post('serviceprovider_list', [ServiceProviderController::class, 'serviceprovider_list']);
-    Route::get('allserviceslist/{cat_id}', [ServiceProviderController::class, 'allserviceslist']);
+    Route::get('allserviceslist', [ServiceProviderController::class, 'allserviceslist']);
+    Route::get('get-all-service-categories', [ServiceProviderController::class, 'allserviceslist']);
     Route::post('bookingservice', [ServiceProviderController::class, 'bookingservice']);
 
     Route::post('paymentbookingservice', [ServiceProviderController::class, 'paymentbookingservice']);

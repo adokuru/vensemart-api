@@ -150,7 +150,6 @@ class AuthController extends Controller
     public function service_pro_register(Request $request)
     {
         $typevalidate = Validator::make($request->all(), [
-            'service_type' => 'required',
             'device_id' => 'required',
             'device_type' => 'required',
             'device_name' => 'required',
@@ -159,18 +158,6 @@ class AuthController extends Controller
             'email' => 'required',
             'mobile' => 'required',
             'password' => 'required',
-            'year_expreance' => 'required',
-            'location' => 'required',
-            'location_lat' => 'required',
-            'location_long' => 'required',
-            'id_prof' => 'required',
-            'profile' => 'required',
-            'price' => 'required',
-            'guarantor_name' => 'required',
-            'guarantor_email' => 'required',
-            'guarantor_phone_number' => 'required',
-            'guarantor_address' => 'required',
-            'service_discription' => 'required',
 
         ]);
         try {
@@ -209,35 +196,22 @@ class AuthController extends Controller
                     $data['profile'] = $file_name;
                 }
             }
+
             $data['type'] = 3;
             $data['name'] = $request->name;
             $data['email'] = $request->email;
             $data['mobile'] = $request->mobile;
-            $data['age'] = $request->age;
-            $data['gender'] = $request->gender;
-            $data['gender'] = $request->gender;
             $data['device_id'] = $request->device_id;
             $data['device_type'] = $request->device_type;
             $data['device_name'] = $request->device_name;
             $data['device_token'] = $request->device_token;
-            $data['service_type'] = $request->service_type;
-            $data['year_expreance'] = $request->year_expreance;
-            $data['location'] = $request->location;
-            $data['location_lat'] = $request->location_lat;
-            $data['location_long'] = $request->location_long;
-            $data['service_type_price'] = $request->price;
-            $data['guarantor_name'] = $request->guarantor_name;
-            $data['guarantor_email'] = $request->guarantor_email;
-            $data['guarantor_phone_number'] = $request->guarantor_phone_number;
-            $data['guarantor_address'] = $request->guarantor_address;
-            $data['service_discription'] = $request->service_discription;
             $data['password'] = Hash::make($request->password);
 
 
             $user = User::create($data);
             $token = $user->createToken('Pontus')->accessToken;
             User::where('id', $user->id)->update(['remember_token' => $token, 'api_token' => $token]);
-            $userArr = User::select('*', DB::raw('CONCAT("' . url('uploads/id_prof') . '","/",id_prof)  as id_prof'))->where('id', $user->id)->get()->first();
+            $userArr = User::where('id', $user->id)->first();
             DB::commit();
             if ($user) {
                 $arr['status'] = 1;
@@ -255,11 +229,6 @@ class AuthController extends Controller
         }
         return response()->json($arr, 200);
     }
-
-
-
-
-
 
 
     //Login API
@@ -349,87 +318,84 @@ class AuthController extends Controller
             'password' => 'required',
 
         ]);
-        // try
-        // {
-        if ($typevalidate->fails()) {
-            $arr['status'] = 0;
-            $arr['message'] = $typevalidate->errors()->first();
-            $arr['data'] = NULL;
-
-            return response()->json($arr, 200);
-        }
-        $user = User::where(function ($query) use ($request) {
-            $query->where('email', $request->username);
-            $query->orwhere('mobile', $request->username);
-        })
-            ->where('type', 3)
-            ->first();
-
-        if (!empty($user)) {
-            if (!Hash::check($request->password, $user->password)) {
+        try {
+            if ($typevalidate->fails()) {
                 $arr['status'] = 0;
-                $arr['message'] = 'Password is not matched';
+                $arr['message'] = $typevalidate->errors()->first();
                 $arr['data'] = NULL;
 
                 return response()->json($arr, 200);
             }
-            $data['type'] = $request->type;
-            $data['device_id'] = $request->device_id;
-            $data['device_type'] = $request->device_type;
-            $data['device_name'] = $request->device_name;
-            $data['device_token'] = $request->device_token;
-            $data['location_lat'] = $request->latitude;
-            $data['location_long'] = $request->longitude;
-            $data['type'] = 3;
-            // $data['password'] = Hash::make($request->password);
-            if (strpos($request->username, '@')) {
-                $data['email'] = $request->username;
-            } else {
-                $data['mobile'] = $request->username;
-            }
-            // print_r($user);die;
-            $token = $user->createToken('Pontus')->accessToken;
-            $data['remember_token'] = $token;
-            $data['api_token'] = $token;
-            User::where('id', $user->id)->update($data);
-            $userArr = User::select('*', DB::raw('CONCAT("' . url('uploads/id_prof') . '","/",id_prof)  as id_prof'), DB::raw('CONCAT("' . url('uploads/profile') . '","/",profile)  as profile'))->where('id', $user->id)->get()->first();
-            if ($user) {
-                // plan is exit or not 
-                $get_active_plan = DB::table("service_plan_purchase")->where("status", "1")->where("service_provider_id", $user->id)->first();
-                if ($get_active_plan) {
-                    $userArr->is_plan_active = 1;
+            $user = User::where(function ($query) use ($request) {
+                $query->where('email', $request->username);
+                $query->orwhere('mobile', $request->username);
+            })
+                ->where('type', 3)
+                ->first();
+
+            if (!empty($user)) {
+                if (!Hash::check($request->password, $user->password)) {
+                    $arr['status'] = 0;
+                    $arr['message'] = 'Password is not matched';
+                    $arr['data'] = NULL;
+
+                    return response()->json($arr, 200);
+                }
+                $data['type'] = $request->type;
+                $data['device_id'] = $request->device_id;
+                $data['device_type'] = $request->device_type;
+                $data['device_name'] = $request->device_name;
+                $data['device_token'] = $request->device_token;
+                $data['location_lat'] = $request->latitude;
+                $data['location_long'] = $request->longitude;
+                $data['type'] = 3;
+                // $data['password'] = Hash::make($request->password);
+                if (strpos($request->username, '@')) {
+                    $data['email'] = $request->username;
                 } else {
-                    $userArr->is_plan_active = 0;
+                    $data['mobile'] = $request->username;
+                }
+                // print_r($user);die;
+                $token = $user->createToken('Pontus')->accessToken;
+                $data['remember_token'] = $token;
+                $data['api_token'] = $token;
+                User::where('id', $user->id)->update($data);
+                $userArr = User::select('*', DB::raw('CONCAT("' . url('uploads/id_prof') . '","/",id_prof)  as id_prof'), DB::raw('CONCAT("' . url('uploads/profile') . '","/",profile)  as profile'))->where('id', $user->id)->get()->first();
+                if ($user) {
+                    // plan is exit or not 
+                    $get_active_plan = DB::table("service_plan_purchase")->where("status", "1")->where("service_provider_id", $user->id)->first();
+                    if ($get_active_plan) {
+                        $userArr->is_plan_active = 1;
+                    } else {
+                        $userArr->is_plan_active = 0;
+                    }
+
+                    $arr['status'] = 1;
+                    $arr['message'] = 'Success';
+                    $arr['data'] = $userArr;
+                } else {
+                    $arr['status'] = 0;
+                    $arr['message'] = 'No user found';
+                    $arr['data'] = NULL;
                 }
 
-                $arr['status'] = 1;
-                $arr['message'] = 'Success';
-                $arr['data'] = $userArr;
+                // $arr['status']=0;
+                // $arr['message']="Sorry!! You Cannot Login";
+                // $arr['data']=NULL;
+
+                return response()->json($arr, 200);
             } else {
                 $arr['status'] = 0;
                 $arr['message'] = 'No user found';
                 $arr['data'] = NULL;
+
+                return response()->json($arr, 200);
             }
-
-            // $arr['status']=0;
-            // $arr['message']="Sorry!! You Cannot Login";
-            // $arr['data']=NULL;
-
-            return response()->json($arr, 200);
-        } else {
+        } catch (\Exception $e) {
             $arr['status'] = 0;
-            $arr['message'] = 'No user found';
+            $arr['message'] = "Something went wrong";
             $arr['data'] = NULL;
-
-            return response()->json($arr, 200);
         }
-        // }
-        // catch(\Exception $e)
-        // {
-        //     $arr['status']=0;
-        //     $arr['message']="Something went wrong";
-        //     $arr['data']=NULL;
-        // }
         return response()->json($arr, 200);
     }
 
