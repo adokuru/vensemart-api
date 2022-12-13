@@ -23,6 +23,9 @@ Route::post('login', [AuthController::class, 'login']);
 
 Route::post('register', [AuthController::class, 'register']);
 
+Route::post('/customer/send-otp', [AuthController::class, 'send_otp']);
+
+
 Route::post('send_recover_password_otp', [AuthController::class, 'send_recover_password_otp']);
 
 Route::post('service_send_otp', [AuthController::class, 'service_send_otp']);
