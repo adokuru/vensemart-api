@@ -34,3 +34,4 @@ Route::get('faqs', [SecondController::class, 'faqs']);
 
 require __DIR__ . '/customer_app.php';
 require __DIR__ . '/delivery_rider.php';
+require __DIR__ . '/service_provider_app.php';
