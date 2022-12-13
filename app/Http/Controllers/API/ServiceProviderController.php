@@ -69,9 +69,9 @@ class ServiceProviderController extends Controller
         }
     }
 
-    public function serviceprovider_list(Request $request)
+    public function serviceprovider_list(Request $request, $cat_id)
     {
-        $categoryId = $request->category_id;
+        $categoryId = $cat_id;
         $userId = Auth::id();
         // $userlatitude=$request->lati;
         // $userlongtitude=$request->longti;
