@@ -15,20 +15,14 @@ class Controller extends BaseController
 
     public function sendSMSMessage($to, $message)
     {
-        $account_sid = getenv("TWILIO_SID");
-        $auth_token = getenv("TWILIO_AUTH_TOKEN");
-        $twilio_number = getenv("TWILIO_NUMBER");
+        try {
+            $client = new SMSController(env('TERMII_API_KEY'));
 
-        $client = new Client($account_sid, $auth_token);
-
-        $client->messages->create(
-            $to,
-            [
-                'messagingServiceSid' => "MG3512c03318494f73440b3462631d1c86",
-                'body' => $message
-            ]
-        );
-
-        return true;
+            $response = $client->sendMessage($to, 'MyCircle', $message);
+            // dd($response);
+            return $response;
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
     }
 }
