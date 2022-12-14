@@ -32,7 +32,7 @@ class AuthController extends Controller
     {
         try {
             $typevalidate = Validator::make($request->all(), [
-                'mobile' => 'required'
+                'phone_number' => 'required'
             ]);
 
             if ($typevalidate->fails()) {
@@ -43,26 +43,81 @@ class AuthController extends Controller
             }
 
             $users = User::where(function ($query) use ($request) {
-                $query->orwhere('mobile', $request->mobile);
+                $query->orwhere('mobile', $request->phone_number);
             })->first();
+
+            if (!$users) {
+                $arr['status'] = 0;
+                $arr['message'] = 'Phone number not found';
+                $arr['data'] = NULL;
+                return response()->json($arr, 422);
+            }
 
             // set otp
 
             $otp = rand(1000, 9999);
+            $users->otp = 1234;
+            $users->save();
 
-            if ($users) {
-                $users->otp = $otp;
-                $users->save();
-            }
 
 
             $phone_Number = '+234' . substr($request->mobile, -10);
-            $message = "Your OTP is " . $otp . " for Vensemart App. Please do not share this OTP with anyone.";
+            $message = "Your Vensemart Secure OTP is " . $otp . ". Please do not share this OTP with anyone.";
 
             $this->sendSMSMessage($phone_Number, $message);
 
             $arr['status'] = 1;
             $arr['message'] = 'OTP sent successfully';
+            $arr['data'] = NULL;
+            return response()->json($arr, 200);
+        } catch (\Exception $e) {
+            $arr['status'] = 0;
+            $arr['message'] = $e->getMessage();
+            $arr['data'] = NULL;
+            return response()->json($arr, 500);
+        }
+    }
+
+    public function verify_otp(Request $request)
+    {
+        try {
+            $typevalidate = Validator::make($request->all(), [
+                'phone_number' => 'required',
+                'otp' => 'required'
+            ]);
+
+            if ($typevalidate->fails()) {
+                $arr['status'] = 0;
+                $arr['message'] = $typevalidate->errors()->first();
+                $arr['data'] = NULL;
+                return response()->json($arr, 422);
+            }
+
+            $users = User::where(function ($query) use ($request) {
+                $query->orwhere('mobile', $request->phone_number);
+            })->first();
+
+            if (!$users) {
+                $arr['status'] = 0;
+                $arr['message'] = 'Phone number not found';
+                $arr['data'] = NULL;
+                return response()->json($arr, 422);
+            }
+
+
+            if ($users->otp != $request->otp) {
+                $arr['status'] = 0;
+                $arr['message'] = 'Invalid OTP';
+                $arr['data'] = NULL;
+                return response()->json($arr, 422);
+            }
+
+            $users->otp = NULL;
+            $users->is_phone_verified = 1;
+            $users->save();
+
+            $arr['status'] = 1;
+            $arr['message'] = 'OTP verified successfully';
             $arr['data'] = NULL;
             return response()->json($arr, 200);
         } catch (\Exception $e) {

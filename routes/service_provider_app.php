@@ -11,8 +11,19 @@ Route::post('service_pro_login', [AuthController::class, 'service_pro_login']);
 
 
 Route::group(['middleware' => 'auth:api'], function () {
+
+    // OTP Verification Routes
+    Route::post('send-otp', [AuthController::class, 'send_otp']);
+    Route::post('verify-otp', [AuthController::class, 'verify_otp']);
+
+
+    // Service Provider Onboarding
+
+    Route::post('service-pro-onboarding-1', [ServiceProviderController::class, 'serviceprovider_onboarding']);
+    Route::post('service-pro-onboarding-2', [ServiceProviderController::class, 'serviceprovider_onboarding_2']);
+
     //Service Provider User Side
-    
+
     Route::post('homeservice', [ServiceProviderController::class, 'homeservice']);
     Route::post('serviceprovider_list', [ServiceProviderController::class, 'serviceprovider_list']);
     Route::get('allserviceslist', [ServiceProviderController::class, 'allserviceslist']);

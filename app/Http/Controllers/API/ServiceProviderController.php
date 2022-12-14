@@ -14,6 +14,85 @@ use Carbon\Carbon;
 
 class ServiceProviderController extends Controller
 {
+
+    public function serviceprovider_onboarding(Request $request)
+    {
+        try {
+            $typevalidate = Validator::make($request->all(), [
+                'service_type_id' => 'required',
+            ]);
+
+            if ($typevalidate->fails()) {
+                return response()->json([
+                    'success' => 0,
+                    'message' => $typevalidate->errors()->first(),
+                    'data' => null
+                ]);
+            }
+
+            $userid = Auth::id();
+
+            $user = User::find($userid);
+
+            $user->service_type = $request->service_type_id;
+
+            $user->save();
+
+            return response()->json([
+                'success' => 1,
+                'message' => 'Service provider onboarding successful',
+                'data' => null
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => 0,
+                'message' => $e->getMessage(),
+                'data' => null
+            ]);
+        }
+    }
+    public function serviceprovider_onboarding_2(Request $request)
+    {
+        try {
+            $typevalidate = Validator::make($request->all(), [
+                'location' => 'required',
+                'location_lat' => 'required',
+                'location_long' => 'required',
+            ]);
+
+            if ($typevalidate->fails()) {
+                return response()->json([
+                    'success' => 0,
+                    'message' => $typevalidate->errors()->first(),
+                    'data' => null
+                ]);
+            }
+
+            $userid = Auth::id();
+
+            $user = User::find($userid);
+
+            $user->location = $request->location;
+            $user->location_lat = $request->location_lat;
+            $user->location_long = $request->location_long;
+
+            $user->save();
+
+            return response()->json([
+                'success' => 1,
+                'message' => 'Service provider location onboarding successful',
+                'data' => null
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => 0,
+                'message' => $e->getMessage(),
+                'data' => null
+            ]);
+        }
+    }
+
+
     public function homeservice(Request $request)
     {
         $userid = Auth::id();
