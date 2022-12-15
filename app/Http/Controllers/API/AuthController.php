@@ -56,7 +56,7 @@ class AuthController extends Controller
             // set otp
 
             $otp = rand(1000, 9999);
-            $users->otp = 1234;
+            $users->otp = $otp;
             $users->save();
 
 
