@@ -19,7 +19,6 @@ class Controller extends BaseController
             $client = new SMSController(env('TERMII_API_KEY'));
 
             $response = $client->sendMessage($to, 'N-Alert', $message, "dnd");
-            // dd($response);
             return $response;
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());

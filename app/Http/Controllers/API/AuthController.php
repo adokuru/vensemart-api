@@ -61,7 +61,7 @@ class AuthController extends Controller
 
 
 
-            $phone_Number = '+234' . substr($request->mobile, -10);
+            $phone_Number = '+234' . substr($request->phone_number, -10);
             $message = "Your Vensemart Secure OTP is " . $otp . ". Please do not share this OTP with anyone.";
 
             $this->sendSMSMessage($phone_Number, $message);
