@@ -402,19 +402,39 @@ class ServiceProviderController extends Controller
     public function bookingservice(Request $request)
     {
         $userId = Auth::id();
+        $user = User::find($userId);
+
+        if (!$user) {
+            $arr['status'] = 0;
+            $arr['message'] = 'User not found';
+            $arr['data'] = NULL;
+            return response()->json($arr, 422);
+        }
+
+        if (!$request->service_provider_id) {
+            $arr['status'] = 0;
+            $arr['message'] = 'Service Provider Id is required';
+            $arr['data'] = NULL;
+            return response()->json($arr, 422);
+        }
+        $serviceProvider = User::find($request->service_provider_id);
+
+        if (!$serviceProvider) {
+            $arr['status'] = 0;
+            $arr['message'] = 'Service Provider not found';
+            $arr['data'] = NULL;
+            return response()->json($arr, 422);
+        }
+
         $serviceproviderId = $request->service_provider_id;
-        $price = $request->price;
-        $bookingId = 'BOOK' . rand(1000, 9999);
+        $price = 100;
+        $bookingId = 'BOOK' . rand(10000, 9999999);
         $time = $request->booking_time;
         $date = $request->booking_date;
-        $servicetype = $request->service_type;
-        $userlat = $request->user_lat;
-        $userlong = $request->user_long;
-        $useraddress = $request->user_address;
-        $description = $request->description;
-        $paymentstatus = $request->payment_status;
-        $transactionId = $request->transaction_id;
-        $payment_mode = $request->payment_mode;
+        $servicetype = $serviceProvider->service_type;
+        $userlat = $user->user_lat;
+        $userlong = $user->user_long;
+        $useraddress = $user->user_address;
 
         try {
             $data = array(
@@ -428,135 +448,16 @@ class ServiceProviderController extends Controller
                 'booking_time' => $time,
                 'service_type' => $servicetype,
                 'user_address' => $useraddress,
-                'description' => $description,
-                'payment_status' => $paymentstatus,
-                'transaction_id' => $transactionId,
-                'payment_mode' => $payment_mode
             );
 
             $d = DB::table('servicebook_user')->insert($data);
 
             $data_dtiver = array('title' => "Booking", 'message' => "Booking Was Successfully Submitted", 'user_id' => Auth::id());
 
-            /************************Notification Start************/
 
-            $firebaseToken =  DB::table('users')->where('id', Auth::id())->whereNotNull('device_token')->pluck('device_token')->toArray();
-
-            $SERVER_API_KEY = 'AAAAz7uAT0o:APA91bEERv13lfoUEgsFx_Bjc8TaqxWe7hYj6QrmT4Di5AoLchYkO-oOHpmBTAo6ZMB1293LJe_LIXeZKilg_UikEeSQWyZchAyqcmlKfGrBa0IBoKjAKX9GnrCHesIo0oEnNME5nIJ8';
-
-            $data1 = [
-                "registration_ids" => $firebaseToken,
-                "notification" => [
-                    "title" => $data_dtiver['title'],
-                    "body" => $data_dtiver['message'],
-                ]
-            ];
-            $dataString = json_encode($data1);
-
-            $headers = [
-                'Authorization: key=' . $SERVER_API_KEY,
-                'Content-Type: application/json',
-            ];
-
-            $url = 'https://fcm.googleapis.com/fcm/send';
-            $ch = curl_init();
-
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-            curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-            // Disabling SSL Certificate support temporarly
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
-            // Execute post
-            $result = curl_exec($ch);
-            curl_close($ch);
-
-            /*********************End Notification*****************/
-            DB::table('notifications')->insert(['user_id' => $data_dtiver['user_id'], 'title' => $data_dtiver['title'], 'message' => $data_dtiver['message'], 'type' => 1]);
-
-
-            $data_serviceprovider = array('title' => "New Booking", 'message' => " $bookingId New Booking Comes From the User", 'user_id' => $serviceproviderId);
-
-
-            /************************Notification Start************/
-
-            $firebaseTokenone =  DB::table('users')->where('id', $serviceproviderId)->whereNotNull('device_token')->pluck('device_token')->toArray();
-
-            $SERVER_API_KEY = 'AAAAz7uAT0o:APA91bEERv13lfoUEgsFx_Bjc8TaqxWe7hYj6QrmT4Di5AoLchYkO-oOHpmBTAo6ZMB1293LJe_LIXeZKilg_UikEeSQWyZchAyqcmlKfGrBa0IBoKjAKX9GnrCHesIo0oEnNME5nIJ8';
-
-            $data2 = [
-                "registration_ids" => $firebaseTokenone,
-                "notification" => [
-                    "title" => $data_serviceprovider['title'],
-                    "body" => $data_serviceprovider['message'],
-                ]
-            ];
-            $dataString2 = json_encode($data2);
-
-            $headers = [
-                'Authorization: key=' . $SERVER_API_KEY,
-                'Content-Type: application/json',
-            ];
-
-            $url = 'https://fcm.googleapis.com/fcm/send';
-            $ch = curl_init();
-
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-            curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-            // Disabling SSL Certificate support temporarly
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString2);
-            // Execute post
-            $result = curl_exec($ch);
-            curl_close($ch);
-
-            /*********************End Notification*****************/
-
-
-
-            DB::table('notifications')->insert(['user_id' => $data_serviceprovider['user_id'], 'title' => $data_serviceprovider['title'], 'message' => $data_serviceprovider['message'], 'type' => 3]);
-
-            /******************  Send notification on mail ***********************************/
-            //user
-
-            $get_user_data =  DB::table('users')->select('id', 'email', 'name')->where('id', Auth::id())->first();
-            if ($get_user_data) {
-                $data['name'] = $get_user_data->name;
-                $data['msg'] = "Service Booked : your new service booked successfully, Booking Id is " . $bookingId;
-                $data['subject'] = "Service Booked";
-
-                \Mail::to($get_user_data->email)->send(new \App\Mail\SendOrderMail($data));
-            }
-
-
-            //service provider
-
-            $getServiceProvider =  DB::table('users')->select('id', 'email', 'name')->where('id', $serviceproviderId)->first();
-            if ($getServiceProvider) {
-                $data['name'] = $getServiceProvider->name;
-                $data['msg'] = "New Service Recieved : your have received new  service successfully, Booking Id is " . $bookingId;
-                $data['subject'] = "Service Recieved";
-                \Mail::to($getServiceProvider->email)->send(new \App\Mail\SendOrderMail($data));
-            }
-
-
-            /***************   End *********************************************************************/
-            if ($d > 0) {
-                $arr['status'] = 1;
-                $arr['message'] = 'Success';
-                $arr['data'] = $d;
-            } else {
-                $arr['status'] = 0;
-                $arr['message'] = 'Failed';
-                $arr['data'] = NULL;
-            }
+            $arr['status'] = 1;
+            $arr['message'] = 'Success';
+            $arr['data'] = $d;
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = $e->getMessage();
@@ -564,9 +465,9 @@ class ServiceProviderController extends Controller
         }
         return response()->json($arr, 200);
     }
-    public function bookingsservicelist(Request $request)
+    public function bookingsservicelist($booking_type)
     {
-        $type = $request->type;
+        $type = $booking_type;
 
         /*
         1=Upcoming Booking
@@ -584,7 +485,7 @@ class ServiceProviderController extends Controller
                     ->leftJoin('users', 'users.id', '=', 'servicebook_user.service_pro_id')
                     ->leftJoin('serviceprovider_category', 'serviceprovider_category.id', '=', 'servicebook_user.service_type')
                     ->where('servicebook_user.status', 1)
-                    //->where('servicebook_user.booking_date','>=',$date_n)
+                    ->where('servicebook_user.user_id', Auth::id())
                     ->orderBy('servicebook_user.id', 'desc')
                     ->get();
                 if (!empty($data[0])) {
@@ -595,9 +496,9 @@ class ServiceProviderController extends Controller
                     $arr['message'] = 'Success';
                     $arr['data'] = $data;
                 } else {
-                    $arr['status'] = 0;
-                    $arr['message'] = 'NO Data Found';
-                    $arr['data'] = NULL;
+                    $arr['status'] = 1;
+                    $arr['message'] = 'No Data found';
+                    $arr['data'] = [];
                 }
             }
             if ($type == "2") {
@@ -606,6 +507,7 @@ class ServiceProviderController extends Controller
                     ->leftJoin('users', 'users.id', '=', 'servicebook_user.service_pro_id')
                     ->leftJoin('serviceprovider_category', 'serviceprovider_category.id', '=', 'servicebook_user.service_type')
                     ->where('servicebook_user.status', 2)
+                    ->where('servicebook_user.user_id', Auth::id())
                     ->orderBy('servicebook_user.id', 'desc')
                     ->get();
                 if (!empty($data[0])) {
@@ -616,9 +518,9 @@ class ServiceProviderController extends Controller
                     $arr['message'] = 'Success';
                     $arr['data'] = $data;
                 } else {
-                    $arr['status'] = 0;
+                    $arr['status'] = 1;
                     $arr['message'] = 'No Data found';
-                    $arr['data'] = NULL;
+                    $arr['data'] = [];
                 }
             }
             if ($type == "3") {
@@ -628,6 +530,7 @@ class ServiceProviderController extends Controller
                     ->leftJoin('users', 'users.id', '=', 'servicebook_user.service_pro_id')
                     ->leftJoin('serviceprovider_category', 'serviceprovider_category.id', '=', 'servicebook_user.service_type')
                     ->where('servicebook_user.status', 3)
+                    ->where('servicebook_user.user_id', Auth::id())
                     ->orderBy('servicebook_user.id', 'desc')
                     ->get();
                 if (!empty($data[0])) {
@@ -638,15 +541,16 @@ class ServiceProviderController extends Controller
                     $arr['message'] = 'Success';
                     $arr['data'] = $data;
                 } else {
-                    $arr['status'] = 0;
+                    $arr['status'] = 1;
                     $arr['message'] = 'No Data found';
-                    $arr['data'] = NULL;
+                    $arr['data'] = [];
                 }
             }
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = $e->getMessage();
             $arr['data'] = NULL;
+            return response()->json($arr, 500);
         }
         return response()->json($arr, 200);
     }
@@ -656,7 +560,7 @@ class ServiceProviderController extends Controller
         $bookingId = $request->booking_id;
         $cancelreason = $request->cancel_reason;
         try {
-            $data = array('cancel_resion' => $cancelreason, 'status' => 5);
+            $data = array('cancel_reason' => $cancelreason, 'status' => 5);
             $d = DB::table('servicebook_user')->where('user_id', $userId)->where('booking_id', $bookingId)->update($data);
             if ($d > 0) {
                 $arr['status'] = 1;
@@ -1588,7 +1492,7 @@ class ServiceProviderController extends Controller
         $user_id = Auth::id();
 
         $data['status'] = 3;
-        $data['cancel_resion'] = $request->cacel_resgion;
+        $data['cancel_reason'] = $request->cacel_resgion;
         $update_status = DB::table('servicebook_user')->where('id', $request->booking_id)->update($data);
         if ($update_status) {
             $arr['status'] = 1;
