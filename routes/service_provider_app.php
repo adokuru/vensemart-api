@@ -25,7 +25,11 @@ Route::group(['middleware' => 'auth:api'], function () {
     //Service Provider User Side
 
     Route::post('homeservice', [ServiceProviderController::class, 'homeservice']);
-    Route::post('serviceprovider_list', [ServiceProviderController::class, 'serviceprovider_list']);
+
+    Route::get('service-provider-home', [ServiceProviderController::class, 'homeServiceProvider']);
+
+    Route::get('serviceprovider_list/{cat_id}', [ServiceProviderController::class, 'serviceprovider_list']);
+
     Route::get('allserviceslist', [ServiceProviderController::class, 'allserviceslist']);
 
     Route::get('get-all-service-categories', [ServiceProviderController::class, 'allserviceslist']);
