@@ -148,6 +148,58 @@ class ServiceProviderController extends Controller
         }
     }
 
+    public function homeServiceProvider()
+    {
+        try {
+            $userid = Auth::id();
+
+
+
+            $pending_requests = DB::table('servicebook_user')
+                ->where('servicebook_user.status', 1)
+                ->where('servicebook_user.service_pro_id', $userid)
+                ->count();
+            $completed_requests = DB::table('servicebook_user')
+                ->where('servicebook_user.status', 2)
+                ->where('servicebook_user.service_pro_id', $userid)
+                ->count();
+            $cancelled_requests = DB::table('servicebook_user')
+                ->where('servicebook_user.status', 4)
+                ->where('servicebook_user.service_pro_id', $userid)
+                ->count();
+            $total_requests = DB::table('servicebook_user')
+                ->where('servicebook_user.service_pro_id', $userid)
+                ->count();
+
+
+            $data['pending_requests'] = $pending_requests;
+            $data['completed_requests'] = $completed_requests;
+            $data['cancelled_requests'] = $cancelled_requests;
+            $data['total_requests'] = $total_requests;
+
+            $requests = DB::table('servicebook_user')
+                ->where('servicebook_user.status', 1)
+                ->where('servicebook_user.service_pro_id', $userid)
+                ->get()
+                ->toArray();
+
+            $data['requests'] = $requests;
+
+
+            return response()->json([
+                'success' => 1,
+                'message' => 'Service provider home page data',
+                'data' => $data
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => 0,
+                'message' => $e->getMessage(),
+                'data' => null
+            ]);
+        }
+    }
+
     public function serviceprovider_list(Request $request, $cat_id)
     {
         $categoryId = $cat_id;
@@ -159,16 +211,22 @@ class ServiceProviderController extends Controller
                 ->select(
                     "users.*",
                     DB::raw('CONCAT("' . url('uploads/profile') . '","/",profile)  as service_provider_image'),
-                    \DB::raw("6371 * acos(cos(radians(" . $request->lat . "))
+                    DB::raw("6371 * acos(cos(radians(" . $request->lat . "))
                              * cos(radians(users.location_lat)) 
                              * cos(radians(users.location_long) - radians(" . $request->lng . ")) 
                              + sin(radians(" . $request->lat . ")) 
                              * sin(radians(users.location_lat))) AS distance")
                 )
-                ->having('distance', '<', '300')
+                ->having('distance', '<', '500')
+                ->join('serviceprovider_category', 'serviceprovider_category.id', '=', 'users.service_type')
                 ->where('users.service_type', $categoryId)
                 ->where('status', 1)
                 ->get();
+
+            foreach ($data as $val) {
+                $val->service_category = DB::table('serviceprovider_category')->where('id', $val->service_type)->first();
+            }
+
 
             if (!empty($data[0])) {
                 $arr['status'] = 1;
@@ -693,8 +751,8 @@ class ServiceProviderController extends Controller
         $get_service_type = DB::table('servicebook_user as su')
             ->select('su.*', 'u.name', 'u.email', 'u.mobile', 'c.category_name')
             ->join('users as u', 'u.id', '=', 'su.user_id')
-            ->join('category as c', 'c.id', '=', 'su.service_type')
-            ->where('su.status', 2)
+            ->join('serviceprovider_category as c', 'c.id', '=', 'su.service_type')
+            ->where('su.status', 1)
             ->where('su.service_pro_id', Auth::id())
             ->get()
             ->toArray();
@@ -708,10 +766,8 @@ class ServiceProviderController extends Controller
             $arr['status'] = 0;
             $arr['message'] = 'No Data found';
             $arr['data'] = NULL;
-            return response()->json($arr, 200);
+            return response()->json($arr, 500);
         }
-
-        return response()->json($arr, 200);
     }
 
 
@@ -847,8 +903,6 @@ class ServiceProviderController extends Controller
             $arr['data'] = NULL;
             return response()->json($arr, 200);
         }
-
-        return response()->json($arr, 200);
     }
 
 
@@ -1515,6 +1569,7 @@ class ServiceProviderController extends Controller
 
 
         $get_notification = DB::table('notifications')->where('user_id', $user_id)->orderBy('id', 'desc')->get()->toArray();
+
         if ($get_notification) {
             $arr['status'] = 1;
             $arr['message'] = 'Success';
@@ -1795,14 +1850,15 @@ class ServiceProviderController extends Controller
                 if ($get_user_data) {
                     if ($request->status == 1) {
                         $data['name'] = $get_user_data->name;
-                        $data['msg'] = "Service Request Accepted : your service " . $bookingId . " is  Accepted ";
-                        $data['subject'] = "Service Accepted";
+                        $data['msg'] = "Service Request Accepted : your service " . $request->booking_id . " is  Accepted ";
+                        $request->data['subject'] = "Service Accepted";
                     } else {
                         $data['name'] = $get_user_data->name;
-                        $data['msg'] = "Service Request Rejected : your service " . $bookingId . " is  Rejected ";
+                        $data['msg'] = "Service Request Rejected : your service " . $request->booking_id . " is  Rejected ";
                         $data['subject'] = "Service Rejected";
                     }
-                    \Mail::to($get_user_data->email)->send(new \App\Mail\SendOrderMail($data));
+
+                    // \Mail::to($get_user_data->email)->send(new \App\Mail\SendOrderMail($data));
                 }
             }
 
@@ -1903,7 +1959,7 @@ class ServiceProviderController extends Controller
     {
         $validate = Validator::make(
             $request->all(),
-            ['subscription_plan_id' => 'required', 'transaction_id' => 'required']
+            ['subscription_plan_id' => 'required']
         );
 
         if ($validate->fails()) {
@@ -1922,18 +1978,23 @@ class ServiceProviderController extends Controller
             $arr['data'] = NULL;
             return response()->json($arr, 200);
         }
-        //  return $sub_d;
+
+
         $data['service_provider_id'] =  $s_p_id;
         $data['subscription_plan_id'] =  $sub_d->id;
         $data['amount'] =  $sub_d->amount;
         $data['purchase_date'] =  Date('Y-m-d');
-        $data['transaction_id'] =  $request->transaction_id;
+        $data['transaction_id'] =  "payment-" . rand(1000, 9999999999) . "-" . $s_p_id . "-" . $sub_d->id . time();
         $data['validity'] =  $sub_d->days;
         $data['status'] =  1;
         $data['plan_name'] =  $sub_d->plan_type;
+
         DB::table("service_plan_purchase")->where('id', $s_p_id)->update(['status' => 0]);
+
         $new_id = DB::table("service_plan_purchase")->insertGetId($data);
+
         $final = DB::table("service_plan_purchase")->where('id', $new_id)->first();
+
         if ($final) {
             $arr['status'] = 1;
             $arr['message'] = 'success';
@@ -1943,7 +2004,7 @@ class ServiceProviderController extends Controller
             $arr['status'] = 0;
             $arr['message'] = 'failed';
             $arr['data'] = NULL;
-            return response()->json($arr, 200);
+            return response()->json($arr, 500);
         }
     }
 }
