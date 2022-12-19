@@ -30,6 +30,8 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::get('serviceprovider_list/{cat_id}', [ServiceProviderController::class, 'serviceprovider_list']);
 
+    Route::get('service-provider/{id}', [ServiceProviderController::class, 'service_provider_by_ID']);
+
     Route::get('allserviceslist', [ServiceProviderController::class, 'allserviceslist']);
 
     Route::get('get-all-service-categories', [ServiceProviderController::class, 'allserviceslist']);
