@@ -528,12 +528,14 @@ class ServiceProviderController extends Controller
     public function trendingServices(Request $request)
     {
         try {
+
             $data = DB::table('servicebook_user')
                 ->select('servicebook_user.*', 'users.profile', 'users.location', 'users.profile', 'users.name', 'users.mobile')
                 ->leftJoin('users', 'users.id', '=', 'servicebook_user.service_pro_id')
                 ->orderBy('servicebook_user.id', 'desc')
-                ->get();
+                ->get(8);
             $service_providers = array();
+
             foreach ($data as $value) {
                 $service_provider = DB::table('users')
                     ->select('users.*')
