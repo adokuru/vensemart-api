@@ -1325,13 +1325,6 @@ class ServiceProviderController extends Controller
             $arr['message'] = 'Try Again';
             $arr['data'] = NULL;
         }
-        // }
-        // catch(\Exception $e)
-        // {
-        //     $arr['status']=0;
-        //     $arr['message']="something went wrong";
-        //     $arr['data']= NULL;
-        // }
 
         return response()->json($arr, 200);
     }
@@ -1343,7 +1336,6 @@ class ServiceProviderController extends Controller
             'bank_name' => 'required',
             'account_number' => 'required',
             'branch_address' => 'required',
-            //'ifsc_code'=>'required',
             'account_holder_name' => 'required',
 
         ]);
