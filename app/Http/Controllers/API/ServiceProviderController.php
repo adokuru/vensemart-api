@@ -523,6 +523,38 @@ class ServiceProviderController extends Controller
         }
         return response()->json($arr, 200);
     }
+
+    public function trendingServices(Request $request)
+    {
+        try {
+            $data = DB::table('servicebook_user')
+                ->select('servicebook_user.*', 'users.profile', 'users.location', 'users.profile', 'users.name', 'users.mobile')
+                ->leftJoin('users', 'users.id', '=', 'servicebook_user.service_pro_id')
+                ->orderBy('servicebook_user.id', 'desc')
+                ->get();
+            $service_providers = array();
+            foreach ($data as $value) {
+                $service_provider = DB::table('users')
+                    ->select('users.*')
+                    ->where('users.id', $value->service_pro_id)
+                    ->first();
+                $service_providers[] = $service_provider;
+            }
+
+            $arr['status'] = 1;
+            $arr['message'] = 'Success';
+            $arr['data'] = $service_providers;
+
+            return response()->json($arr, 200);
+        } catch (\Exception $e) {
+            $arr['status'] = 0;
+            $arr['message'] = $e->getMessage();
+            $arr['data'] = NULL;
+
+            return response()->json($arr, 500);
+        }
+    }
+
     public function bookingsservicelist($booking_type)
     {
         $type = $booking_type;

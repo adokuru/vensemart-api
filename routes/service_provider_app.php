@@ -34,6 +34,8 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::get('get-all-service-categories', [ServiceProviderController::class, 'allserviceslist']);
 
+    Route::get('get-trending-services', [ServiceProviderController::class, 'trendingServices']);
+
     Route::post('book-service', [ServiceProviderController::class, 'bookingservice']);
 
     Route::post('paymentbookingservice', [ServiceProviderController::class, 'paymentbookingservice']);
