@@ -72,6 +72,10 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::post('service_update_profile', [ServiceProviderController::class, 'service_update_profile']);
 
+    Route::get('get-banks', [ServiceProviderController::class, 'getBankList']);
+
+    Route::post('validate-bank-account', [ServiceProviderController::class, 'validate_bank_account']);
+
     Route::post('add_service_bank_detail', [ServiceProviderController::class, 'add_service_bank_detail']);
 
     Route::get('get_bank_details', [ServiceProviderController::class, 'get_bank_details']);

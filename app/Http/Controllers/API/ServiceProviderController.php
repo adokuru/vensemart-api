@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Http;
 
 class ServiceProviderController extends Controller
 {
@@ -1223,14 +1224,55 @@ class ServiceProviderController extends Controller
         return response()->json($arr, 200);
     }
 
+    public function getBankList()
+    {
+        $banks = Http::withHeaders([
+            'Authorization' => 'Bearer ' . env('FLW_SECRET_KEY')
+        ])->get('https://api.flutterwave.com/v3/banks/NG');
+        $data = $banks->json();
+        return response()->json([
+            'status' => 1,
+            'message' => 'Bank List',
+            'data' => $data['data']
+        ]);
+    }
+
+    public function validate_bank_account(Request $request)
+    {
+        try {
+            $request->validate([
+                'account_number' => 'required|string',
+                'bank_code' => 'required|string',
+            ]);
+
+            $bank = Http::withHeaders([
+                'Authorization' => 'Bearer ' . env('PAYSTACK_SECRET')
+            ])->get('https://api.paystack.co/bank/resolve?account_number=' . $request->account_number . '&bank_code=' . $request->bank_code);
+
+            $data = $bank->json();
+
+
+            if ($data['status'] == true) {
+                $result = [
+                    "account_number" => $data['data']['account_number'],
+                    "account_name" => $data['data']['account_name'],
+                ];
+
+                return $this->sendResponse('', $result);
+            } else {
+                return $this->sendError('Invalid Account Number', null, 500);
+            }
+        } catch (\Exception $e) {
+            return $this->sendError($e->getMessage(), null, 500);
+        }
+    }
 
     public function add_service_bank_detail(Request $request)
     {
         $validate = Validator::make($request->all(), [
             'bank_name' => 'required',
             'account_number' => 'required',
-            'branch_address' => 'required',
-            //'ifsc_code'=>'required',
+            'bank_code' => 'required',
             'account_holder_name' => 'required',
 
         ]);
@@ -1243,12 +1285,31 @@ class ServiceProviderController extends Controller
             return response()->json($arr, 200);
         }
 
-        // try
-        // {
+        $bank_detail = DB::table('service_bank_details')->where('user_id', Auth::id())->first();
+
+        if (!empty($bank_detail)) {
+            $bank_detail = DB::table('service_bank_details')->where('user_id', Auth::id())->update([
+                'bank_name' => $request->bank_name,
+                'account_number' => $request->account_number,
+                'ifsc_code' => $request->bank_code,
+                'account_holder_name' => $request->account_holder_name,
+            ]);
+            if ($bank_detail) {
+                $arr['status'] = 1;
+                $arr['message'] = 'Success';
+                $arr['data'] = null;
+                return response()->json($arr, 200);
+            } else {
+                $arr['status'] = 0;
+                $arr['message'] = 'Try Again an error occured';
+                $arr['data'] = NULL;
+                return response()->json($arr, 500);
+            }
+        }
+
         $insert['bank_name'] = $request->bank_name;
         $insert['account_number'] = $request->account_number;
-        $insert['branch_address'] = $request->branch_address;
-        $insert['ifsc_code'] = $request->ifsc_code;
+        $insert['ifsc_code'] = $request->bank_code;
         $insert['account_holder_name'] = $request->account_holder_name;
         $insert['user_id'] = Auth::id();
 
