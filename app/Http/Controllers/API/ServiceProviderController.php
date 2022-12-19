@@ -201,6 +201,36 @@ class ServiceProviderController extends Controller
         }
     }
 
+
+    public function service_provider_by_ID($id)
+    {
+        $data = DB::table('users as u')->where('u.id', $id)
+            ->join('serviceprovider_category', 'serviceprovider_category.id', '=', 'u.service_type')
+            ->first();
+
+        if (!$data) {
+            return response()->json([
+                'success' => 0,
+                'message' => 'No data found',
+                'data' => null
+            ]);
+        }
+
+        $data->service_provider_image = $data->profile ? url('uploads/profile') . '/' . $data->profile : '';
+
+        $data->service_provider_rating = DB::table('servicebook_user')
+            ->where('service_pro_id', $id)
+            ->avg('rating');
+
+        $data->service_provider_rating = $data->service_provider_rating ? $data->service_provider_rating : 0;
+
+        return response()->json([
+            'success' => 1,
+            'message' => 'Service provider details',
+            'data' => $data
+        ]);
+    }
+
     public function serviceprovider_list(Request $request, $cat_id)
     {
         $categoryId = $cat_id;
