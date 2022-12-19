@@ -204,7 +204,21 @@ class ServiceProviderController extends Controller
 
     public function service_provider_by_ID($id)
     {
-        $data = DB::table('users as u')->where('u.id', $id)
+        $data = DB::table('users as u')
+            ->select(
+                "users.name",
+                "users.id",
+                "users.service_type",
+                "users.location_lat",
+                "users.location_long",
+                "users.profile",
+                "users.service_type",
+                "serviceprovider_category.category_name",
+                "serviceprovider_category.category_icon",
+                "users.location",
+                "users.service_type_price",
+            )
+            ->where('u.id', $id)
             ->join('serviceprovider_category', 'serviceprovider_category.id', '=', 'u.service_type')
             ->first();
 
@@ -235,12 +249,20 @@ class ServiceProviderController extends Controller
     {
         $categoryId = $cat_id;
         $userId = Auth::id();
-        // $userlatitude=$request->lati;
-        // $userlongtitude=$request->longti;
         try {
             $data = DB::table('users')
                 ->select(
-                    "users.*",
+                    "users.name",
+                    "users.id",
+                    "users.service_type",
+                    "users.location_lat",
+                    "users.location_long",
+                    "users.profile",
+                    "users.service_type",
+                    "serviceprovider_category.category_name",
+                    "serviceprovider_category.category_icon",
+                    "users.location",
+                    "users.service_type_price",
                     DB::raw('CONCAT("' . url('uploads/profile') . '","/",profile)  as service_provider_image'),
                     DB::raw("6371 * acos(cos(radians(" . $request->lat . "))
                              * cos(radians(users.location_lat)) 
@@ -256,6 +278,9 @@ class ServiceProviderController extends Controller
 
             foreach ($data as $val) {
                 $val->service_category = DB::table('serviceprovider_category')->where('id', $val->service_type)->first();
+                $val->service_provider_rating = DB::table('servicebook_user')
+                    ->where('service_pro_id', $val->id)
+                    ->avg('rating');
             }
 
 
