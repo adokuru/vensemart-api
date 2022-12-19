@@ -222,6 +222,9 @@ class ServiceProviderController extends Controller
             ->join('serviceprovider_category', 'serviceprovider_category.id', '=', 'u.service_type')
             ->first();
 
+        $data->service_category = DB::table('serviceprovider_category')->where('id', $data->service_type)->first();
+
+
         if (!$data) {
             return response()->json([
                 'success' => 0,
