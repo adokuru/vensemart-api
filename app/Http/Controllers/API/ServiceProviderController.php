@@ -206,17 +206,17 @@ class ServiceProviderController extends Controller
     {
         $data = DB::table('users as u')
             ->select(
-                "users.name",
-                "users.id",
-                "users.service_type",
-                "users.location_lat",
-                "users.location_long",
-                "users.profile",
-                "users.service_type",
+                "u.name",
+                "u.id",
+                "u.service_type",
+                "u.location_lat",
+                "u.location_long",
+                "u.profile",
+                "u.service_type",
                 "serviceprovider_category.category_name",
                 "serviceprovider_category.category_icon",
-                "users.location",
-                "users.service_type_price",
+                "u.location",
+                "u.service_type_price",
             )
             ->where('u.id', $id)
             ->join('serviceprovider_category', 'serviceprovider_category.id', '=', 'u.service_type')
