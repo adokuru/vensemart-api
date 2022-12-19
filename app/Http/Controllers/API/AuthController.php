@@ -78,6 +78,67 @@ class AuthController extends Controller
         }
     }
 
+    public function forgot_password(Request $request)
+    {
+        $typevalidate = Validator::make($request->all(), [
+            'phone_number' => 'required',
+            'code' => 'required',
+            'password' => 'required',
+            'confirm_password' => 'required'
+        ]);
+
+
+        if ($typevalidate->fails()) {
+            $arr['status'] = 0;
+            $arr['message'] = $typevalidate->errors()->first();
+            $arr['data'] = NULL;
+            return response()->json($arr, 422);
+        }
+
+        $users = User::where(function ($query) use ($request) {
+            $query->orwhere('mobile', $request->phone_number);
+        })->first();
+
+        if (!$users) {
+            $arr['status'] = 0;
+            $arr['message'] = 'Phone number not found';
+            $arr['data'] = NULL;
+            return response()->json($arr, 422);
+        }
+
+
+        if ($users->otp != $request->code) {
+            $arr['status'] = 0;
+            $arr['message'] = 'Invalid OTP';
+            $arr['data'] = NULL;
+            return response()->json($arr, 422);
+        }
+
+        if ($users->password == Hash::make($request->password)) {
+            $arr['status'] = 0;
+            $arr['message'] = 'New password cannot be the same as old password';
+            $arr['data'] = NULL;
+            return response()->json($arr, 422);
+        }
+
+        if ($request->password != $request->confirm_password) {
+            $arr['status'] = 0;
+            $arr['message'] = 'Password and confirm password does not match';
+            $arr['data'] = NULL;
+            return response()->json($arr, 422);
+        }
+
+        $users->password = Hash::make($request->password);
+
+        $users->save();
+
+        $arr['status'] = 1;
+        $arr['message'] = 'Password changed successfully';
+        $arr['data'] = NULL;
+        return response()->json($arr, 200);
+    }
+
+
     public function verify_otp(Request $request)
     {
         try {

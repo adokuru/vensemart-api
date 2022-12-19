@@ -35,3 +35,6 @@ Route::get('faqs', [SecondController::class, 'faqs']);
 require __DIR__ . '/customer_app.php';
 require __DIR__ . '/delivery_rider.php';
 require __DIR__ . '/service_provider_app.php';
+
+Route::post('forgot-password', [AuthController::class, 'send_otp']);
+Route::post('forgot-password-change', [AuthController::class, 'forgot_password']);
