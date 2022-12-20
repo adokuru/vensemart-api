@@ -1938,20 +1938,24 @@ class ServiceProviderController extends Controller
     public function service_subscription_plans(Request $request)
     {
 
+        try {
+            $user_id = Auth::id();
 
-        $user_id = Auth::id();
-
-        $get_subscriprion_plan = DB::table('service_subscription_plans')->where('status', 1)->get()->toArray();
-        if (!empty($get_subscriprion_plan)) {
-
-            $arr['status'] = 1;
-            $arr['message'] = 'Success';
-            $arr['data'] = $get_subscriprion_plan;
-            return response()->json($arr, 200);
-        } else {
-
+            $get_subscriprion_plan = DB::table('service_subscription_plans')->where('status', 1)->get()->toArray();
+            if (!empty($get_subscriprion_plan)) {
+                $arr['status'] = 1;
+                $arr['message'] = 'Success';
+                $arr['data'] = $get_subscriprion_plan;
+                return response()->json($arr, 200);
+            } else {
+                $arr['status'] = 0;
+                $arr['message'] = 'failed';
+                $arr['data'] = null;
+                return response()->json($arr, 422);
+            }
+        } catch (\Exception $e) {
             $arr['status'] = 0;
-            $arr['message'] = 'Success';
+            $arr['message'] = $e->getMessage();
             $arr['data'] = null;
             return response()->json($arr, 200);
         }
