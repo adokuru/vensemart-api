@@ -1944,12 +1944,13 @@ class ServiceProviderController extends Controller
                 $arr['message'] = 'Success';
                 $arr['data'] = $get_subscriprion_plan;
                 return response()->json($arr, 200);
-            } else {
-                $arr['status'] = 0;
-                $arr['message'] = 'failed';
-                $arr['data'] = null;
-                return response()->json($arr, 422);
             }
+
+            // 
+            $arr['status'] = 0;
+            $arr['message'] = 'failed';
+            $arr['data'] = null;
+            return response()->json($arr, 422);
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = $e->getMessage();
