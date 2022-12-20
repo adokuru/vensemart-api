@@ -2107,7 +2107,10 @@ class ServiceProviderController extends Controller
     {
         $validate = Validator::make(
             $request->all(),
-            ['subscription_plan_id' => 'required']
+            [
+                'subscription_plan_id' => 'required',
+                "transaction_code" => 'required'
+            ]
         );
 
         if ($validate->fails()) {
@@ -2132,7 +2135,7 @@ class ServiceProviderController extends Controller
         $data['subscription_plan_id'] =  $sub_d->id;
         $data['amount'] =  $sub_d->amount;
         $data['purchase_date'] =  Date('Y-m-d');
-        $data['transaction_id'] =  "payment-" . rand(1000, 9999999999) . "-" . $s_p_id . "-" . $sub_d->id . time();
+        $data['transaction_id'] =  $request->transaction_code;
         $data['validity'] =  $sub_d->days;
         $data['status'] =  1;
         $data['plan_name'] =  $sub_d->plan_type;
