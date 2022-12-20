@@ -107,6 +107,9 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('service_subscription_plans', [ServiceProviderController::class, 'service_subscription_plans']);
 
 
+    Route::any('service-subscription-plans', [ServiceProviderController::class, 'service_subscription_plans']);
+
+
     Route::post('upcomming_booking_accept_reject', [ServiceProviderController::class, 'upcomming_booking_accept_reject']);
 
     Route::get('payment_history', [ServiceProviderController::class, 'payment_history']);
