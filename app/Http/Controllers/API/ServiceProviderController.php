@@ -1935,12 +1935,9 @@ class ServiceProviderController extends Controller
     }
 
 
-    public function service_subscription_plans(Request $request)
+    public function service_subscription_plans()
     {
-
         try {
-            $user_id = Auth::id();
-
             $get_subscriprion_plan = DB::table('service_subscription_plans')->where('status', 1)->get()->toArray();
             if (!empty($get_subscriprion_plan)) {
                 $arr['status'] = 1;
