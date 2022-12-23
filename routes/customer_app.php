@@ -66,6 +66,8 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::get('category_list', [ApiController::class, 'category_list']);
 
+    Route::get('products', [ApiController::class, 'category_list']);
+
     Route::post('sub_category_list', [ApiController::class, 'sub_category_list']);
 
     Route::post('products_list', [ApiController::class, 'products_list']);
