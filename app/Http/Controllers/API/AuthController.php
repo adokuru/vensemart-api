@@ -1096,7 +1096,6 @@ class AuthController extends Controller
                 $arr['status'] = 1;
                 $arr['message'] = 'Success';
                 $arr['data'] = $user;
-
                 return response()->json($arr, 200);
             } else {
                 $arr['status'] = 0;
