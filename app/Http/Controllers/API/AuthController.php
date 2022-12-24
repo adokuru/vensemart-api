@@ -1085,4 +1085,69 @@ class AuthController extends Controller
 
         return response()->json($arr, 200);
     }
+
+    public function get_location()
+    {
+        try {
+            $user = User::where('id', Auth::id())->first()->pluck('location', 'id', 'location_lat', 'location_long');
+            if ($user) {
+                $arr['status'] = 1;
+                $arr['message'] = 'Success';
+                $arr['data'] = $user;
+
+                return response()->json($arr, 200);
+            } else {
+                $arr['status'] = 0;
+                $arr['message'] = 'User not found';
+                $arr['data'] = NULL;
+                return response()->json($arr, 404);
+            }
+        } catch (\Exception $e) {
+
+            $arr['status'] = 0;
+            $arr['message'] = 'something went wrong';
+            $arr['data'] = NULL;
+
+            return response()->json($arr, 500);
+        }
+    }
+
+    public function update_location(Request $request)
+    {
+        $arr = [];
+
+        $validate = Validator::make($request->all(), [
+            'location' => 'required',
+            'location_lat' => 'required',
+            'location_long' => 'required'
+        ]);
+
+        if ($validate->fails()) {
+            $arr['status'] = 0;
+            $arr['message'] = 'Validation failed';
+            $arr['data'] = NULL;
+
+            return response()->json($arr, 422);
+        }
+
+        try {
+            $user = User::where('id', Auth::id())->update($request->all());
+            if ($user) {
+                $arr['status'] = 1;
+                $arr['message'] = 'Success';
+                $arr['data'] = NULL;
+                return response()->json($arr, 200);
+            } else {
+                $arr['status'] = 0;
+                $arr['message'] = 'Try Again';
+                $arr['data'] = NULL;
+                return response()->json($arr, 404);
+            }
+        } catch (\Exception $e) {
+            $arr['status'] = 0;
+            $arr['message'] = 'something went wrong';
+            $arr['data'] = NULL;
+            return response()->json($arr, 500);
+        }
+    }
 }
