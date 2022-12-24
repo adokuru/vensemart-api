@@ -588,19 +588,19 @@ class ServiceProviderController extends Controller
         try {
 
             $data = DB::table('servicebook_user')
-                ->select('
-                "users.name",
-                "users.id",
-                "users.service_type",
-                "users.location_lat",
-                "users.location_long",
-                "users.profile",
-                "users.service_type",
-                "serviceprovider_category.category_name",
-                "serviceprovider_category.category_icon",
-                "users.location",
-                "users.service_type_price"
-                ')
+                ->select(
+                    "users.name",
+                    "users.id",
+                    "users.service_type",
+                    "users.location_lat",
+                    "users.location_long",
+                    "users.profile",
+                    "users.service_type",
+                    "serviceprovider_category.category_name",
+                    "serviceprovider_category.category_icon",
+                    "users.location",
+                    "users.service_type_price"
+                )
                 ->leftJoin('users', 'users.id', '=', 'servicebook_user.service_pro_id')
                 ->orderBy('servicebook_user.id', 'desc')
                 ->get(8);
