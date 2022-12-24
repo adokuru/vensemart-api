@@ -46,7 +46,8 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('update_profile', [AuthController::class, 'update_profile']);
 
     Route::get('get-location', [AuthController::class, 'get_location']);
-    Route::post('set-location', [AuthController::class, 'update_profile']);
+
+    Route::post('set-location', [AuthController::class, 'update_location']);
 
     Route::post('change-password', [AuthController::class, 'change_password']);
 
