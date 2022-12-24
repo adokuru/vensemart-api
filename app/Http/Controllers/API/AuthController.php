@@ -1051,7 +1051,7 @@ class AuthController extends Controller
             $arr['message'] = 'Validation failed';
             $arr['data'] = NULL;
 
-            return response()->json($arr, 200);
+            return response()->json($arr, 422);
         }
 
         try {
@@ -1071,19 +1071,21 @@ class AuthController extends Controller
                     $arr['status'] = 0;
                     $arr['message'] = 'Try Again';
                     $arr['data'] = NULL;
+                    return response()->json($arr, 422);
                 }
             } else {
                 $arr['status'] = 0;
                 $arr['message'] = 'Invalid old password';
                 $arr['data'] = NULL;
+                return response()->json($arr, 422);
             }
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'something went wrong';
             $arr['data'] = NULL;
+            return response()->json($arr, 500);
         }
-
-        return response()->json($arr, 200);
+        return response()->json($arr, 500);
     }
 
     public function get_location()
