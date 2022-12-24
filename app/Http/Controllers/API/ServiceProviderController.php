@@ -602,6 +602,7 @@ class ServiceProviderController extends Controller
                     "users.service_type_price"
                 )
                 ->leftJoin('users', 'users.id', '=', 'servicebook_user.service_pro_id')
+                ->leftJoin('serviceprovider_category', 'serviceprovider_category.id', '=', 'users.service_type')
                 ->orderBy('servicebook_user.id', 'desc')
                 ->get(8);
             $service_providers = array();
