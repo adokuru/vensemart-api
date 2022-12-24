@@ -1091,7 +1091,7 @@ class AuthController extends Controller
     public function get_location()
     {
         try {
-            $user = User::where('id', Auth::id())->first()->pluck('location', 'id', 'location_lat', 'location_long');
+            $user = User::where('id', Auth::id())->pluck('location', 'id', 'location_lat', 'location_long')->first();
             if ($user) {
                 $arr['status'] = 1;
                 $arr['message'] = 'Success';
