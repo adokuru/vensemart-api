@@ -313,7 +313,7 @@ class ServiceProviderController extends Controller
                     'serviceprovider_category.id as category_id',
                     'serviceprovider_category.*',
                     DB::raw('CONCAT("' . url('uploads/serviceprovider_services_images') . '","/",category_icon)  as category_icon'),
-                    \DB::raw("6371 * acos(cos(radians(" . $request->latitude . "))
+                    DB::raw("6371 * acos(cos(radians(" . $request->latitude . "))
                              * cos(radians(serviceprovider_serviceslist.latitude)) 
                              * cos(radians(serviceprovider_serviceslist.longtitude) - radians(" . $request->longtitude . ")) 
                              + sin(radians(" . $request->latitude . ")) 
@@ -588,7 +588,19 @@ class ServiceProviderController extends Controller
         try {
 
             $data = DB::table('servicebook_user')
-                ->select('servicebook_user.*', 'users.profile', 'users.location', 'users.profile', 'users.name', 'users.mobile')
+                ->select('
+                "users.name",
+                "users.id",
+                "users.service_type",
+                "users.location_lat",
+                "users.location_long",
+                "users.profile",
+                "users.service_type",
+                "serviceprovider_category.category_name",
+                "serviceprovider_category.category_icon",
+                "users.location",
+                "users.service_type_price"
+                ')
                 ->leftJoin('users', 'users.id', '=', 'servicebook_user.service_pro_id')
                 ->orderBy('servicebook_user.id', 'desc')
                 ->get(8);
