@@ -605,19 +605,13 @@ class ServiceProviderController extends Controller
                 ->leftJoin('serviceprovider_category', 'serviceprovider_category.id', '=', 'users.service_type')
                 ->orderBy('servicebook_user.id', 'desc')
                 ->get(8);
-            $service_providers = array();
-
-            foreach ($data as $value) {
-                $service_provider = DB::table('users')
-                    ->select('users.*')
-                    ->where('users.id', $value->service_pro_id)
-                    ->first();
-                $service_providers[] = $service_provider;
-            }
 
             $arr['status'] = 1;
             $arr['message'] = 'Success';
-            $arr['data'] = $service_providers;
+            $arr['data'] = $data;
+
+
+
 
             return response()->json($arr, 200);
         } catch (\Exception $e) {
