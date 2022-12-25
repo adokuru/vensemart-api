@@ -606,6 +606,12 @@ class ServiceProviderController extends Controller
                 ->orderBy('servicebook_user.id', 'desc')
                 ->get(8);
 
+            foreach ($data as $key => $value) {
+                $data[$key]->profile = url('public/uploads/profile/' . $value->profile);
+            }
+
+
+
             $arr['status'] = 1;
             $arr['message'] = 'Success';
             $arr['data'] = $data;
