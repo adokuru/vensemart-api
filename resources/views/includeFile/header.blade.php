@@ -52,7 +52,7 @@
                <?php if(Auth::check()){ 
                 $image =  Auth::user()->profile_image;
                ?>
-         <img src="{{ url('uploads/profile_image').'/'.$image }}" class="img-circle elevation-2" alt="User Image" style="width: 35px; height: 35px; ">
+         <img src="{{ url('uploads/profile').'/'.$image }}" class="img-circle elevation-2" alt="User Image" style="width: 35px; height: 35px; ">
           <?php }else{ ?>
           <i class="fas fa-user-circle"></i>
          <?php } ?>
