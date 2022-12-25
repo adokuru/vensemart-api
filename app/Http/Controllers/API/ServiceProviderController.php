@@ -607,7 +607,7 @@ class ServiceProviderController extends Controller
                 ->get(8);
 
             foreach ($data as $key => $value) {
-                $data[$key]->profile = $value->profile ? url('uploads/profile_image/' . $value->profile) : "https://www.nicepng.com/png/detail/933-9332131_profile-picture-default-png.png";
+                $data[$key]->profile = $value->profile ? url('uploads/profile/' . $value->profile) : "https://www.nicepng.com/png/detail/933-9332131_profile-picture-default-png.png";
             }
             $arr['status'] = 1;
             $arr['message'] = 'Success';
