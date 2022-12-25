@@ -124,10 +124,10 @@ class AuthController extends Controller
                 $profileImage = $request->old_profile;
                 if(!empty($request->profile_image)){
                     $imageName = time().'.'.$request->profile_image->extension();
-                    // $request->profile_image->move('/uploads/profile_image/', $imageName);
-                    $request->file('profile_image')->move('uploads/profile_image', $imageName);
+                    // $request->profile_image->move('/uploads/profile/', $imageName);
+                    $request->file('profile_image')->move('uploads/profile', $imageName);
                     // if(!empty($request->old_profile)){
-                    //     $image_path = url('/uploads/profile_image/').'/'.$request->old_profile;
+                    //     $image_path = url('/uploads/profile/').'/'.$request->old_profile;
                     //     unlink($image_path);
                     // }
                     $profileImage = $imageName;
