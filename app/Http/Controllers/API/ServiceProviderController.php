@@ -587,6 +587,46 @@ class ServiceProviderController extends Controller
     {
         try {
 
+            if ($request->lat && $request->long) {
+                $lat = $request->lat;
+                $long = $request->long;
+
+
+                $data = DB::table('users')
+                    ->select(
+                        "users.name",
+                        "users.id",
+                        "users.service_type",
+                        "users.location_lat",
+                        "users.location_long",
+                        "users.profile",
+                        "users.service_type",
+                        "serviceprovider_category.category_name",
+                        "serviceprovider_category.category_icon",
+                        "users.location",
+                        "users.service_type_price",
+                        DB::raw("6371 * acos(cos(radians(" . $lat . "))
+                        * cos(radians(users.location_lat)) 
+                        * cos(radians(users.location_long) - radians(" . $long . ")) 
+                        + sin(radians(" . $lat . ")) 
+                        * sin(radians(users.location_lat))) AS distance")
+                    )
+                    ->leftJoin('serviceprovider_category', 'serviceprovider_category.id', '=', 'users.service_type')
+                    ->orderBy('users.id', 'desc')
+                    ->get(8);
+
+                $arr['status'] = 1;
+                $arr['message'] = 'Success';
+                $arr['data'] = $data;
+
+
+
+
+                return response()->json($arr, 200);
+            }
+
+
+
             $data = DB::table('servicebook_user')
                 ->select(
                     "users.name",
