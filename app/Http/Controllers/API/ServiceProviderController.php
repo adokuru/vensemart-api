@@ -613,7 +613,6 @@ class ServiceProviderController extends Controller
                     )
                     ->leftJoin('serviceprovider_category', 'serviceprovider_category.id', '=', 'users.service_type')
                     ->orderBy('users.id', 'desc')
-                    ->where('distance', '<=', 10)
                     ->get(8);
 
 
