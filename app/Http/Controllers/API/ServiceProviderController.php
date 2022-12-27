@@ -613,6 +613,7 @@ class ServiceProviderController extends Controller
                     )
                     ->leftJoin('serviceprovider_category', 'serviceprovider_category.id', '=', 'users.service_type')
                     ->orderBy('users.id', 'desc')
+                    ->where('distance', '<=', 10)
                     ->get(8);
 
 
@@ -621,7 +622,7 @@ class ServiceProviderController extends Controller
                 $result = array();
 
                 foreach ($data as $key => $value) {
-                    if ($value->distance <= 10 && $value->service_type_price != null) {
+                    if ($value->distance <= 10 && $value->distance != null) {
                         $result[$key]['id'] = $value->id;
                         $result[$key]['name'] = $value->name;
                         $result[$key]['service_type'] = $value->service_type;
