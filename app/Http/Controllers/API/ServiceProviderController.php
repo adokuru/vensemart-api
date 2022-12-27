@@ -615,9 +615,7 @@ class ServiceProviderController extends Controller
                     ->orderBy('users.id', 'desc')
                     ->get(8);
 
-                $arr['status'] = 1;
-                $arr['message'] = 'Success';
-                $arr['data'] = $data;
+
 
 
                 $result = array();
@@ -637,8 +635,11 @@ class ServiceProviderController extends Controller
                         $result[$key]['service_type_price'] = $value->service_type_price;
                         $result[$key]['distance'] = $value->distance;
                     }
-                    return;
                 }
+
+                $arr['status'] = 1;
+                $arr['message'] = 'Success';
+                $arr['data'] = $result;
 
 
                 return response()->json($arr, 200);
