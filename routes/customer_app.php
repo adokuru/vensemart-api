@@ -108,8 +108,11 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('coupon_list', [ApiController::class, 'coupon_list']);
     Route::get('product_details/{id}', [ProductsController::class, 'product_details']);
     Route::post('product_details_orderid', [ApiController::class, 'product_details_orderid']);
+
     Route::get('products/{category_id}', [ProductsController::class, 'products']);
+
     Route::post('suggested_products', [ApiController::class, 'suggested_products']);
+
     Route::get('return_order_list', [ApiController::class, 'return_order_list']);
     Route::get('offer_product_list', [ApiController::class, 'offer_product_list']);
 
