@@ -621,7 +621,7 @@ class ServiceProviderController extends Controller
                 $result = array();
 
                 foreach ($data as $key => $value) {
-                    if ($value->distance <= 10) {
+                    if ($value->distance <= 10 && $value->service_type_price != null) {
                         $result[$key]['id'] = $value->id;
                         $result[$key]['name'] = $value->name;
                         $result[$key]['service_type'] = $value->service_type;
