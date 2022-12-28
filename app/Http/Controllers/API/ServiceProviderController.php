@@ -620,6 +620,12 @@ class ServiceProviderController extends Controller
                 }
 
 
+                //  check booking count 
+
+                foreach ($data as $key => $value) {
+                    $data[$key]->booking_count = DB::table('servicebook_user')->where('service_pro_id', $value->id)->where('status', 2)->count();
+                }
+
 
                 $result = array();
 
@@ -637,6 +643,7 @@ class ServiceProviderController extends Controller
                         $result[$key]['location'] = $value->location;
                         $result[$key]['service_type_price'] = $value->service_type_price;
                         $result[$key]['distance'] = $value->distance;
+                        $result[$key]['booking_count'] = $value->booking_count;
                     }
                 }
 
