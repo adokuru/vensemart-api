@@ -1253,6 +1253,8 @@ class ApiController extends Controller
 
     public function Orders()
     {
+
+        return "hello";
         try {
             $orders = DB::table('orders as o')
                 ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/app/shop_images') . '","/",s.store_image)  as store_image'))
