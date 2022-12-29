@@ -218,6 +218,41 @@ class ApiController extends Controller
 
         return response()->json($arr, 200);
     }
+
+    public function suggest_stores(Request $request)
+    {
+        try {
+            $shop_list = DB::table('stores')
+                ->select(
+                    "stores.*",
+                    DB::raw('CONCAT("' . url('storage/app/shop_images') . '","/",store_image)  as store_image')
+                )
+                ->where('status', '1')->orderBy('id', 'desc')->limit(10)->get()->toArray();
+            if ($shop_list) {
+                $shop_ids = [];
+                foreach ($shop_list as $key => $val) {
+                    $shop_ids[] = $val->id;
+                }
+                $tranding_shop_list = DB::table('product_views')->select('shop_id', DB::raw('count(*) as total'))->whereIn('shop_id', $shop_ids)->groupBy('shop_id')->orderBy('total', 'desc')->get()->toArray();
+            }
+
+            if ($tranding_shop_list) {
+                $arr['status'] = 1;
+                $arr['message'] = 'Store found successfully.';
+                $arr['data'] = $shop_list;
+            } else {
+                $arr['status'] = 0;
+                $arr['message'] = 'Sorry!! Shop not found!';
+                $arr['data'] = null;
+            }
+        } catch (\Exception $e) {
+            $arr['status'] = 0;
+            $arr['message'] = 'something went wrong';
+            $arr['data'] = NULL;
+        }
+
+        return response()->json($arr, 200);
+    }
     //Search Product for Perticular Category API
 
     public function search_product_for_perticular_category(Request $request)
