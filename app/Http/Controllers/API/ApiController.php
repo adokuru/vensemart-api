@@ -1250,6 +1250,47 @@ class ApiController extends Controller
         }
         return response()->json($arr, 200);
     }
+
+    public function Orders()
+    {
+        try {
+            $orders = DB::table('orders as o')
+                ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/app/shop_images') . '","/",s.store_image)  as store_image'))
+                ->join('stores as s', 's.id', 'o.shop_id')
+                ->join('user_address as ua', 'ua.id', 'o.address_id')
+                ->where('o.user_id', Auth::id())->orderBy('o.id', 'desc')->get();
+
+            foreach ($orders as $key => $val) {
+                $product_details =  DB::table('orders_details as od')
+                    ->select('p.*', 'c.category_name', 'sc.name as sub_category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/app/product_images') . '","/",product_image)  as product_image'))
+                    ->join('products as p', 'p.id', 'od.product_id')
+                    ->join('category as c', 'c.id', 'p.category_id')
+                    ->join('sub_category as sc', 'sc.id', 'p.sub_cat_id')
+                    ->join('stores as s', 's.id', 'p.shop_id')
+                    ->join('uom as u', 'u.id', 'p.uom_id')
+                    ->where('order_id', $val->id)
+                    ->get()->toArray();
+                $val->products = $product_details != [] ? $product_details : [];
+            }
+            $order_list = $orders->toArray();
+            if ($order_list == []) {
+                $arr['status'] = 0;
+                $arr['message'] = "no data found";
+                $arr['data'] = NULL;
+            } else {
+                $arr['status'] = 1;
+                $arr['message'] = "order list found successfully";
+                $arr['data'] = $order_list;
+            }
+            return response()->json($arr, 200);
+        } catch (\Exception $e) {
+            $arr['status'] = 0;
+            $arr['message'] = "something went wrong";
+            $arr['data'] = NULL;
+        }
+        return response()->json($arr, 200);
+    }
+
     //Order details API
     public function order_details(Request $request)
     {
