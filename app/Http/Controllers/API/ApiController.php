@@ -1099,6 +1099,28 @@ class ApiController extends Controller
         }
         return response()->json($arr, 200);
     }
+
+    public function shop($id)
+    {
+
+        $shop = DB::table('stores')->where('id', $id)->first();
+
+        if (!$shop) {
+            $arr['status'] = 0;
+            $arr['message'] = "shop not found";
+            $arr['data'] = NULL;
+            return response()->json($arr, 200);
+        }
+
+        $shop->store_image = url('storage/app/shop_images') . '/' . $shop->store_image;
+
+
+        $arr['status'] = 1;
+        $arr['message'] = "shop found successfully";
+        $arr['data'] = $shop;
+        return response()->json($arr, 200);
+    }
+
     //Search popular category and shops API
     public function popular_category_and_shop_list(Request $request)
     {
