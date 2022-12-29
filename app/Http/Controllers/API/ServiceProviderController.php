@@ -703,7 +703,7 @@ class ServiceProviderController extends Controller
         /*
         1=Upcoming Booking
         2=Completed Booking
-        3=Cancel Booking
+        5=Cancel Booking
         */
         try {
             if ($type == "1") {
@@ -760,7 +760,7 @@ class ServiceProviderController extends Controller
                     ->select('servicebook_user.*', 'users.profile', 'users.location', 'users.profile', 'users.name', 'users.mobile', 'serviceprovider_category.category_icon as profile')
                     ->leftJoin('users', 'users.id', '=', 'servicebook_user.service_pro_id')
                     ->leftJoin('serviceprovider_category', 'serviceprovider_category.id', '=', 'servicebook_user.service_type')
-                    ->where('servicebook_user.status', 3)
+                    ->where('servicebook_user.status', 5)
                     ->where('servicebook_user.user_id', Auth::id())
                     ->orderBy('servicebook_user.id', 'desc')
                     ->get();
