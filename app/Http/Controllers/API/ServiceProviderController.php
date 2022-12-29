@@ -791,7 +791,7 @@ class ServiceProviderController extends Controller
         $bookingId = $request->booking_id;
         $cancelreason = $request->cancel_reason;
         try {
-            $data = array('cancel_reason' => $cancelreason, 'status' => 5);
+            $data = array('cancel_reasons' => $cancelreason, 'status' => 5);
             $update = DB::table('servicebook_user')->where('id', $bookingId)->update($data);
 
             if ($update) {
