@@ -94,9 +94,9 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('add_favourite', [ApiController::class, 'add_favourite']);
     Route::get('favourite_list', [ApiController::class, 'favourite_list']);
     // Route::post('accept_order',[ApiController::class,'accept_order']);
-    Route::any('my_orders', [ApiController::class, 'my_orders']);
+    Route::any('my_orders', [ApiController::class, 'myOrders']);
 
-    Route::any('my-orders', [ApiController::class, 'my_orders']);
+    Route::any('my-orders', [ApiController::class, 'myOrders']);
     Route::post('order_details', [ApiController::class, 'order_details']);
     Route::post('cancel_order', [ApiController::class, 'cancel_order']);
     Route::post('repeat_order', [ApiController::class, 'repeat_order']);
