@@ -1210,7 +1210,7 @@ class ApiController extends Controller
         return response()->json($arr, 200);
     }
     //My orders API
-    public function my_orders(Request $request)
+    public function myOrders()
     {
         try {
             $orders = DB::table('orders as o')
