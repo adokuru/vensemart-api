@@ -792,14 +792,15 @@ class ServiceProviderController extends Controller
         $cancelreason = $request->cancel_reason;
         try {
             $data = array('cancel_reason' => $cancelreason, 'status' => 5);
-            $d = DB::table('servicebook_user')->where('user_id', $userId)->where('booking_id', $bookingId)->update($data);
-            if ($d > 0) {
+            $update = DB::table('servicebook_user')->where('id', $bookingId)->update($data);
+
+            if ($update) {
                 $arr['status'] = 1;
-                $arr['message'] = 'Success';
-                $arr['data'] = $d;
+                $arr['message'] = 'Booking Cancelled Successfully';
+                $arr['data'] = NULL;
             } else {
                 $arr['status'] = 0;
-                $arr['message'] = 'Failed';
+                $arr['message'] = 'No Booking Found';
                 $arr['data'] = NULL;
             }
         } catch (\Exception $e) {
@@ -809,6 +810,7 @@ class ServiceProviderController extends Controller
         }
         return response()->json($arr, 200);
     }
+
     public function cancelreasonlist()
     {
         try {

@@ -40,6 +40,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::post('book-service', [ServiceProviderController::class, 'bookingservice']);
 
+
     Route::post('paymentbookingservice', [ServiceProviderController::class, 'paymentbookingservice']);
 
     Route::get('bookingsservicelist/{booking_type}', [ServiceProviderController::class, 'bookingsservicelist']);
