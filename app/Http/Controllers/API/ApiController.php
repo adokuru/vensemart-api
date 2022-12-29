@@ -573,11 +573,8 @@ class ApiController extends Controller
         $user_id22 = Auth::id();
 
         $userdata = DB::table('users')->where('id', $user_id22)->first();
-        //$user_id22=$userdata->user_id;
-        //return $user_id22;
 
         $cart_detail = DB::table("cart")->where('user_id', $user_id22)->get();
-        // return $cart_detail;
         if (count($cart_detail) ==  0) {
             $arr['status'] = 0;
             $arr['message'] = 'cart is empty';
@@ -586,8 +583,6 @@ class ApiController extends Controller
         }
 
         $invoice_no  =  rand(1000000000, 999999999999);
-
-        $request_data = $request->all();
 
         $order_data['invoice_no'] = $invoice_no;
         $order_data['user_id'] = $user_id22;
@@ -605,14 +600,10 @@ class ApiController extends Controller
         $order_data['payment_type'] = $request->payment_type;
         $order_data['total_item'] = count($cart_detail);
         $order_data['payment_status'] = $request->payment_status;
-        $order_data['status'] = 1;  // 
-        // $order_data['status'] = 0;  // payment status
+        $order_data['status'] = 1;
         $order_data['purchase_date'] = date('Y-m-d');
         $order_data['order_id'] = "FM" . rand(10000, 99999);
         $order_data['transaction_id'] = $request->transaction_id;
-        // $order_data['date'] = date('Y-m-d');
-        // $order_data['deliver_date'] = date('Y-m-d', strtotime($day. ' + 4 days'));
-        //   DB::table('amount_detail')->insert($order_data);
 
         DB::beginTransaction();
         //try{
