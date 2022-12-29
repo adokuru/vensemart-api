@@ -621,16 +621,9 @@ class ApiController extends Controller
                 $ins_data[$k]['product_id'] = $value->product_id;
 
                 $ins_data[$k]['quantity'] = $value->qty;
-                //   $ins_data[$k]['price'] =  $value->price;  // product price
-                $ins_data[$k]['net_price'] = $value->net_amount;  // 
-                //   extra fiend
+                $ins_data[$k]['net_price'] = $value->net_amount;
                 $ins_data[$k]['gst_percent'] = 0;
                 $ins_data[$k]['tax'] = 0;
-                //   $ins_data[$k]['tbv'] = 0;
-
-
-                // end
-                //   $ins_data[$k]['discount'] = $value->discount; 
                 $ins_data[$k]['basic_dp'] = $value->after_discount_amount;
                 $ins_data[$k]['dp'] = $value->after_discount_amount;
                 $ins_data[$k]['uom_id'] = $value->uom_id;
@@ -803,14 +796,6 @@ class ApiController extends Controller
             return response()->json($arr, 200);
         }
 
-
-
-
-        // }catch(\Exception $e){
-        //     $arr['status']=0;
-        //     $arr['message']=$e->getMessage();
-        //     $arr['data']=NULL;
-        // }
         return response()->json($arr, 200);
     }
     //Search Product for Perticular Sub Category API
