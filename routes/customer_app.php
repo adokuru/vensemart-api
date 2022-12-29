@@ -95,11 +95,16 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::any('products/featured-stores', [ApiController::class, 'suggest_stores']);
 
     Route::post('add_favourite', [ApiController::class, 'add_favourite']);
+
     Route::get('favourite_list', [ApiController::class, 'favourite_list']);
+
     // Route::post('accept_order',[ApiController::class,'accept_order']);
+
     Route::any('my_orders', [ApiController::class, 'myOrders']);
 
     Route::any('products/my-orders', [ApiController::class, 'Orders']);
+
+
 
     Route::post('order_details', [ApiController::class, 'order_details']);
     Route::post('cancel_order', [ApiController::class, 'cancel_order']);
@@ -125,4 +130,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('addaddress_user', [ApiController::class, 'addaddress_user']);
     Route::get('addresss_user_list', [ApiController::class, 'addresss_user_list']);
     Route::post('address_user_delete', [ApiController::class, 'address_user_delete']);
+
+
+    Route::post('rate-service-provider', [ApiController::class, 'rateServiceProvider']);
 });

@@ -2008,4 +2008,39 @@ class ApiController extends Controller
         }
         return response()->json($arr, 200);
     }
+
+    public function rateServiceProvider(Request $request)
+    {
+        $userId = Auth::id();
+
+        try {
+            $request->validate([
+                'booking_id' => 'required',
+                'rating' => 'required',
+            ]);
+
+            $booking_id = $request->booking_id;
+            $rating = $request->rating;
+
+            $booking = DB::table('servicebook_user')->where('id', $booking_id)->first();
+
+            if ($booking) {
+                $data = array('rating' => $rating);
+                DB::table('servicebook_user')->where('id', $booking_id)->update($data);
+
+                $arr['status'] = 1;
+                $arr['message'] = 'Success';
+                $arr['data'] = true;
+            } else {
+                $arr['status'] = 0;
+                $arr['message'] = 'No Data Found';
+                $arr['data'] = NULL;
+            }
+        } catch (\Exception $e) {
+            $arr['status'] = 0;
+            $arr['message'] = $e->getMessage();    //"something went wrong";
+            $arr['data'] = NULL;
+        }
+        return response()->json($arr, 200);
+    }
 }
