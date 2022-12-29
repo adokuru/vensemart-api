@@ -91,6 +91,9 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('delete_delivery_address', [ApiController::class, 'delete_delivery_address']);
     Route::get('delivery_address_list', [ApiController::class, 'delivery_address_list']);
     Route::post('popular_category_and_shop_list', [ApiController::class, 'popular_category_and_shop_list']);
+
+    Route::any('products/featured-stores', [ApiController::class, 'suggest_stores']);
+
     Route::post('add_favourite', [ApiController::class, 'add_favourite']);
     Route::get('favourite_list', [ApiController::class, 'favourite_list']);
     // Route::post('accept_order',[ApiController::class,'accept_order']);
