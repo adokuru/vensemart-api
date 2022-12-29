@@ -90,7 +90,10 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('edit_delivery_address', [ApiController::class, 'edit_delivery_address']);
     Route::post('delete_delivery_address', [ApiController::class, 'delete_delivery_address']);
     Route::get('delivery_address_list', [ApiController::class, 'delivery_address_list']);
+
     Route::post('popular_category_and_shop_list', [ApiController::class, 'popular_category_and_shop_list']);
+
+    Route::any('shop/{id}', [ApiController::class, 'shop']);
 
     Route::any('products/featured-stores', [ApiController::class, 'suggest_stores']);
 
