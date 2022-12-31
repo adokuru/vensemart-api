@@ -994,7 +994,7 @@ class AuthController extends Controller
             }
         } catch (\Exception $e) {
             $arr['status'] = 0;
-            $arr['message'] = "something went wrong";
+            $arr['message'] = $e->getMessage();
             $arr['data'] = NULL;
         }
 
