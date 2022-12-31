@@ -301,6 +301,11 @@ class ServiceProviderController extends Controller
                 ->where('status', 1)
                 ->get();
 
+            foreach ($data as $key => $value) {
+                $data[$key]->profile = $value->profile ? url('uploads/profile/' . $value->profile) : "https://www.nicepng.com/png/detail/933-9332131_profile-picture-default-png.png";
+            }
+
+
             foreach ($data as $val) {
                 $val->service_category = DB::table('serviceprovider_category')->where('id', $val->service_type)->first();
                 $val->service_provider_rating = DB::table('servicebook_user')
