@@ -252,6 +252,28 @@ class ServiceProviderController extends Controller
     {
         $categoryId = $cat_id;
         $userId = Auth::id();
+
+        $user = User::where('id', $userId)->first();
+
+        if (!$user) {
+            return response()->json([
+                'success' => 0,
+                'message' => 'User not found',
+                'data' => null
+            ], 422);
+        }
+
+        if ($user->location_lat == null || $user->location_long == null) {
+            return response()->json([
+                'success' => 0,
+                'message' => 'Please update your location',
+                'data' => null
+            ], 422);
+        }
+
+        $lat = $user->location_lat;
+        $lng = $user->location_long;
+
         try {
             $data = DB::table('users')
                 ->select(
@@ -267,13 +289,13 @@ class ServiceProviderController extends Controller
                     "users.location",
                     "users.service_type_price",
                     DB::raw('CONCAT("' . url('uploads/profile') . '","/",profile)  as service_provider_image'),
-                    DB::raw("6371 * acos(cos(radians(" . $request->lat . "))
+                    DB::raw("6371 * acos(cos(radians(" . $lat . "))
                              * cos(radians(users.location_lat)) 
-                             * cos(radians(users.location_long) - radians(" . $request->lng . ")) 
-                             + sin(radians(" . $request->lat . ")) 
+                             * cos(radians(users.location_long) - radians(" . $lng . ")) 
+                             + sin(radians(" . $lat . ")) 
                              * sin(radians(users.location_lat))) AS distance")
                 )
-                ->having('distance', '<', '500')
+                ->having('distance', '<', '50')
                 ->join('serviceprovider_category', 'serviceprovider_category.id', '=', 'users.service_type')
                 ->where('users.service_type', $categoryId)
                 ->where('status', 1)
