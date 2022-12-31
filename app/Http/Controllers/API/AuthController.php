@@ -226,6 +226,10 @@ class AuthController extends Controller
                 return response()->json($arr, 200);
             }
             $data = $request->all();
+            $data['location'] = "Wuse 2 Abuja";
+            $data['location_lat'] = "9.0765";
+            $data['location_long'] = "7.3986";
+
             if (isset($data['password'])) {
                 $data['password'] = Hash::make($data['password']);
             }
