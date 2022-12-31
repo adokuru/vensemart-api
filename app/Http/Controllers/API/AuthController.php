@@ -227,8 +227,8 @@ class AuthController extends Controller
             }
             $data = $request->all();
             $data['location'] = "Wuse 2 Abuja";
-            $data['location_lat'] = "9.0765";
-            $data['location_long'] = "7.3986";
+            $data['location_lat'] = "9.0787";
+            $data['location_long'] = "7.47018";
 
             if (isset($data['password'])) {
                 $data['password'] = Hash::make($data['password']);
@@ -327,8 +327,8 @@ class AuthController extends Controller
             $data['device_token'] = $request->device_token;
             $data['password'] = Hash::make($request->password);
             $data['location'] = "Wuse 2 Abuja";
-            $data['location_lat'] = "9.0765";
-            $data['location_long'] = "7.3986";
+            $data['location_lat'] = "9.0787";
+            $data['location_long'] = "7.47018";
 
 
             $user = User::create($data);
