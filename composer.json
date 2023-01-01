@@ -9,6 +9,8 @@
         "aloha/twilio": "^5.0",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
+        "kreait/laravel-firebase": "^4.2",
+        "laravel-notification-channels/fcm": "^2.6",
         "laravel/framework": "^8.75",
         "laravel/passport": "^10.3",
         "laravel/sanctum": "^2.11",
