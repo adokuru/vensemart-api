@@ -16,6 +16,7 @@ use App\Traits\SendMessage;
 use Mail;
 
 use App\Mail\NotifyMail;
+use App\Models\UserVerifiedInfo;
 
 class AuthController extends Controller
 {
@@ -182,6 +183,11 @@ class AuthController extends Controller
                 $arr['data'] = NULL;
                 return response()->json($arr, 422);
             }
+
+            UserVerifiedInfo::create([
+                'user_id' => $users->id,
+                'data' => json_encode($data['entity'])
+            ]);
 
             // get user first name from name
             $parts = explode(' ', $users->name);

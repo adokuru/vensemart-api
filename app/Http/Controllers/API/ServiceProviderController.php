@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-
+use App\Models\ServicePlanPurchase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
@@ -2206,6 +2206,25 @@ class ServiceProviderController extends Controller
             $arr['message'] = 'record not found';
             $arr['data'] = null;
             return response()->json($arr, 200);
+        }
+    }
+
+    function get_subscription_plan()
+    {
+        $s_p_id = Auth::id();
+
+        $final = ServicePlanPurchase::where('service_provider_id', $s_p_id)->where('status', 1)->with('service_subscription_plans')->first();
+
+        if ($final) {
+            $arr['status'] = 1;
+            $arr['message'] = "Success";
+            $arr['data'] = $final;
+            return response()->json($arr, 200);
+        } else {
+            $arr['status'] = 0;
+            $arr['message'] = "No record found";
+            $arr['data'] = NULL;
+            return response()->json($arr, 500);
         }
     }
 

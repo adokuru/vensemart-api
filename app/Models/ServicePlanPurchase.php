@@ -47,9 +47,7 @@ class ServicePlanPurchase extends Model
      *
      * @var array
      */
-    protected $hidden = [
-        
-    ];
+    protected $hidden = [];
 
     /**
      * The attributes that should be casted to native types.
@@ -79,6 +77,11 @@ class ServicePlanPurchase extends Model
     // Scopes...
 
     // Functions ...
+
+    public function service_subscription_plans()
+    {
+        return $this->belongsTo('App\Models\ServiceSubscriptionPlan', 'subscription_plan_id');
+    }
 
     // Relations ...
 }

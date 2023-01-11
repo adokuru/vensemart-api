@@ -119,6 +119,8 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('service_paymet_widhral_list', [ServiceProviderController::class, 'service_paymet_widhral_list']);
 
     Route::post('buy_subscription_plan', [ServiceProviderController::class, 'buy_subscription_plan']);
+
+    Route::any('get_subscription_plan', [ServiceProviderController::class, 'get_subscription_plan']);
 });
 
 Route::any('service/provider-subscription-plans', [ServiceProviderController::class, 'service_subscription_plans']);
