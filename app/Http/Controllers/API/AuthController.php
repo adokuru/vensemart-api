@@ -173,6 +173,22 @@ class AuthController extends Controller
                 return response()->json($arr, 422);
             }
 
+
+            $data = $this->DojahVerifyNumber($request->phone_number);
+
+            if (array_key_exists('error', $data)) {
+                $arr['status'] = 0;
+                $arr['message'] = $data['error'];
+                $arr['data'] = NULL;
+                return response()->json($arr, 422);
+            }
+
+            if (array_key_exists('firstname', $data)) {
+                // get user first name from name
+                // $name = explode(" ", $u['firstname']);
+            }
+
+
             $users->otp = NULL;
             $users->is_phone_verified = 1;
             $users->save();

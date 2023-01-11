@@ -17,6 +17,28 @@ class ApiController extends Controller
 {
     //Notification List API
 
+    public function test()
+    {
+        $name = "Rahul Kumar";
+
+        $parts = explode(' ', $name);
+        if (count($parts) > 2) {
+
+            $first_name = $parts[0];
+            $middle = $parts[1];
+            $last_name = $parts[2];
+        } else {
+            $first_name = $parts[0];
+            $middle = "";
+            $last_name = $parts[1];
+        }
+
+        return  response()->json([
+            'first_name' => $first_name,
+            'last_name' => $last_name,
+        ]);
+    }
+
     public function notification_list()
     {
         try {
