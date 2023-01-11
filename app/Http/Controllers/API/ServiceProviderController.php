@@ -1968,17 +1968,17 @@ class ServiceProviderController extends Controller
         if (!empty($get_user_detsils)) {
             /*************  send mail  ******************************/
             $get_book_data =  DB::table('servicebook_user')->select('id', 'user_id', 'booking_id')->where('booking_id', $request->booking_id)->first();
-            if ($get_book_data) {
-                // get user record
-                $get_user_data =  DB::table('users')->select('id', 'name', 'email')->where('id', $get_book_data->user_id)->first();
-                if ($get_user_data) {
-                    $data['name'] = $get_user_data->name;
-                    $data['msg'] = "Service Request Accepted : your  service " . $bookingId . " is  Accepted ";
-                    $data['subject'] = "Service Accepted";
+            // if ($get_book_data) {
+            //     // get user record
+            //     $get_user_data =  DB::table('users')->select('id', 'name', 'email')->where('id', $get_book_data->user_id)->first();
+            //     if ($get_user_data) {
+            //         $data['name'] = $get_user_data->name;
+            //         $data['msg'] = "Service Request Accepted : your  service " . $bookingId . " is  Accepted ";
+            //         $data['subject'] = "Service Accepted";
 
-                    \Mail::to($get_user_data->email)->send(new \App\Mail\SendOrderMail($data));
-                }
-            }
+            //         \Mail::to($get_user_data->email)->send(new \App\Mail\SendOrderMail($data));
+            //     }
+            // }
             /***********  end  **********************************************/
 
             $arr['status'] = 1;
