@@ -36,6 +36,7 @@ class ApiController extends Controller
         return  response()->json([
             'first_name' => $first_name,
             'last_name' => $last_name,
+            'middle' => $middle,
         ]);
     }
 
