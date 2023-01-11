@@ -39,6 +39,8 @@ class Controller extends BaseController
             'Authorization' => getenv("DOJAH_API_KEY")
         ])->get('https://api.dojah.io/api/v1/kyc/phone_number/basic?phone_number=' . $phone_number);
         $response = $request->json();
+
+        return $response;
     }
 
     public function sendResponse($message, $result)
