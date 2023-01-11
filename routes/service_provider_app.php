@@ -110,7 +110,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 
 
 
-    Route::post('upcomming_booking_accept_reject', [ServiceProviderController::class, 'upcomming_booking_accept_reject']);
+    Route::post('accept-reject-bookings', [ServiceProviderController::class, 'upcomming_booking_accept_reject']);
 
     Route::get('payment_history', [ServiceProviderController::class, 'payment_history']);
 

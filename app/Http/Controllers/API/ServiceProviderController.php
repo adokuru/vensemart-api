@@ -1948,9 +1948,7 @@ class ServiceProviderController extends Controller
     {
 
         $validate = Validator::make($request->all(), [
-
             'booking_id' => 'required',
-
         ]);
 
         if ($validate->fails()) {
@@ -2018,17 +2016,17 @@ class ServiceProviderController extends Controller
         if (!empty($get_user_detsils)) {
             /*************  send mail  ******************************/
             $get_book_data =  DB::table('servicebook_user')->select('id', 'user_id', 'booking_id')->where('booking_id', $request->booking_id)->first();
-            if ($get_book_data) {
-                // get user record
-                $get_user_data =  DB::table('users')->select('id', 'name', 'email')->where('id', $get_book_data->user_id)->first();
-                if ($get_user_data) {
-                    $data['name'] = $get_user_data->name;
-                    $data['msg'] = "Service Completed : your  service " . $bookingId . " is  Completed ";
-                    $data['subject'] = "Service Completed";
+            // if ($get_book_data) {
+            //     // get user record
+            //     $get_user_data =  DB::table('users')->select('id', 'name', 'email')->where('id', $get_book_data->user_id)->first();
+            //     if ($get_user_data) {
+            //         $data['name'] = $get_user_data->name;
+            //         $data['msg'] = "Service Completed : your  service " . $bookingId . " is  Completed ";
+            //         $data['subject'] = "Service Completed";
 
-                    \Mail::to($get_user_data->email)->send(new \App\Mail\SendOrderMail($data));
-                }
-            }
+            //         \Mail::to($get_user_data->email)->send(new \App\Mail\SendOrderMail($data));
+            //     }
+            // }
             /***********  end  **********************************************/
             $arr['status'] = 1;
             $arr['message'] = 'Success';
@@ -2101,23 +2099,23 @@ class ServiceProviderController extends Controller
             /*************  send mail  ******************************/
 
             $get_book_data =  DB::table('servicebook_user')->select('id', 'user_id', 'booking_id')->where('booking_id', $request->booking_id)->first();
-            if ($get_book_data) {
-                // get user record
-                $get_user_data =  DB::table('users')->select('id', 'name', 'email')->where('id', $get_book_data->user_id)->first();
-                if ($get_user_data) {
-                    if ($request->status == 1) {
-                        $data['name'] = $get_user_data->name;
-                        $data['msg'] = "Service Request Accepted : your service " . $request->booking_id . " is  Accepted ";
-                        $request->data['subject'] = "Service Accepted";
-                    } else {
-                        $data['name'] = $get_user_data->name;
-                        $data['msg'] = "Service Request Rejected : your service " . $request->booking_id . " is  Rejected ";
-                        $data['subject'] = "Service Rejected";
-                    }
+            // if ($get_book_data) {
+            //     // get user record
+            //     $get_user_data =  DB::table('users')->select('id', 'name', 'email')->where('id', $get_book_data->user_id)->first();
+            //     if ($get_user_data) {
+            //         if ($request->status == 1) {
+            //             $data['name'] = $get_user_data->name;
+            //             $data['msg'] = "Service Request Accepted : your service " . $request->booking_id . " is  Accepted ";
+            //             $request->data['subject'] = "Service Accepted";
+            //         } else {
+            //             $data['name'] = $get_user_data->name;
+            //             $data['msg'] = "Service Request Rejected : your service " . $request->booking_id . " is  Rejected ";
+            //             $data['subject'] = "Service Rejected";
+            //         }
 
-                    // \Mail::to($get_user_data->email)->send(new \App\Mail\SendOrderMail($data));
-                }
-            }
+            //         // \Mail::to($get_user_data->email)->send(new \App\Mail\SendOrderMail($data));
+            //     }
+            // }
 
             /***********  end  **********************************************/
             $arr['status'] = 1;
