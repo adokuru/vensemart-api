@@ -19,7 +19,7 @@ class ApiController extends Controller
 
     public function test()
     {
-        $name = "Rahul Kumar";
+        $name = "Rahul";
 
         $parts = explode(' ', $name);
         if (count($parts) > 2) {
@@ -30,7 +30,7 @@ class ApiController extends Controller
         } else {
             $first_name = $parts[0];
             $middle = "";
-            $last_name = $parts[1];
+            $last_name = $parts[1] ?? "";
         }
 
         return  response()->json([

@@ -183,20 +183,47 @@ class AuthController extends Controller
                 return response()->json($arr, 422);
             }
 
-            if (array_key_exists('firstname', $data)) {
-                // get user first name from name
-                // $name = explode(" ", $u['firstname']);
+            // get user first name from name
+            $parts = explode(' ', $users->name);
+            $first_name =  "";
+            $middle =  "";
+            $last_name = "";
+            if (count($parts) > 2) {
+                $first_name = $parts[0];
+                $middle = $parts[1];
+                $last_name = $parts[2];
+            } else {
+                $first_name = $parts[0];
+                $middle = "";
+                $last_name = $parts[1] ?? "";
             }
-
-
-            $users->otp = NULL;
-            $users->is_phone_verified = 1;
-            $users->save();
-
-            $arr['status'] = 1;
-            $arr['message'] = 'OTP verified successfully';
-            $arr['data'] = NULL;
-            return response()->json($arr, 200);
+            if ($first_name == $data['entity']['firstname'] || $first_name == $data['entity']['lastname']) {
+                $users->otp = NULL;
+                $users->is_phone_verified = 1;
+                $users->save();
+                $arr['status'] = 1;
+                $arr['message'] = 'OTP verified successfully';
+                $arr['data'] = NULL;
+                return response()->json($arr, 200);
+            }
+            if ($middle == $data['entity']['firstname'] || $middle == $data['entity']['lastname']) {
+                $users->otp = NULL;
+                $users->is_phone_verified = 1;
+                $users->save();
+                $arr['status'] = 1;
+                $arr['message'] = 'OTP verified successfully';
+                $arr['data'] = NULL;
+                return response()->json($arr, 200);
+            }
+            if ($middle == $data['entity']['firstname'] || $middle == $data['entity']['lastname']) {
+                $users->otp = NULL;
+                $users->is_phone_verified = 1;
+                $users->save();
+                $arr['status'] = 1;
+                $arr['message'] = 'OTP verified successfully';
+                $arr['data'] = NULL;
+                return response()->json($arr, 200);
+            }
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = $e->getMessage();
