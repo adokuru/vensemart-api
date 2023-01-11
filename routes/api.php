@@ -7,6 +7,8 @@ use App\Http\Controllers\API\ApiController;
 use App\Http\Controllers\API\SecondController;
 use App\Http\Controllers\API\DeliveryBoyController;
 use App\Http\Controllers\API\ServiceProviderController;
+use App\Http\Controllers\Controller;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -38,3 +40,5 @@ require __DIR__ . '/service_provider_app.php';
 
 Route::post('forgot-password', [AuthController::class, 'send_otp']);
 Route::post('forgot-password-change', [AuthController::class, 'forgot_password']);
+
+Route::any('test/{phone_number}', [Controller::class, 'DojahVerifyNumber']);

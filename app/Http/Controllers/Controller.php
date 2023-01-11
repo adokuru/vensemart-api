@@ -8,6 +8,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Twilio\Rest\Client;
 
@@ -26,6 +27,18 @@ class Controller extends BaseController
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
+    }
+
+
+    public function DojahVerifyNumber($phone_number)
+    {
+        $request = Http::withHeaders([
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json',
+            'AppId' => getenv("DOJAH_APP_KEY"),
+            'Authorization' => getenv("DOJAH_API_KEY")
+        ])->get('https://api.dojah.io/api/v1/kyc/phone_number/basic?phone_number=' . $phone_number);
+        $response = $request->json();
     }
 
     public function sendResponse($message, $result)
