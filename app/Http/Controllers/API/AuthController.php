@@ -185,13 +185,10 @@ class AuthController extends Controller
 
             // get user first name from name
             $parts = explode(' ', $users->name);
-            $first_name =  "";
-            $middle =  "";
-            $last_name = "";
             if (count($parts) > 2) {
                 $first_name = $parts[0];
-                $middle = $parts[1];
-                $last_name = $parts[2];
+                $middle = $parts[1] ?? '';
+                $last_name = $parts[2] ?? '';
             } else {
                 $first_name = $parts[0];
                 $middle = "";
@@ -215,7 +212,7 @@ class AuthController extends Controller
                 $arr['data'] = NULL;
                 return response()->json($arr, 200);
             }
-            if ($middle == $data['entity']['firstname'] || $middle == $data['entity']['lastname']) {
+            if ($last_name == $data['entity']['firstname'] || $last_name == $data['entity']['lastname']) {
                 $users->otp = NULL;
                 $users->is_phone_verified = 1;
                 $users->save();
@@ -224,6 +221,10 @@ class AuthController extends Controller
                 $arr['data'] = NULL;
                 return response()->json($arr, 200);
             }
+            $arr['status'] = 0;
+            $arr['message'] = "Name does not match with phone number owner's name";
+            $arr['data'] = NULL;
+            return response()->json($arr, 422);
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = $e->getMessage();
