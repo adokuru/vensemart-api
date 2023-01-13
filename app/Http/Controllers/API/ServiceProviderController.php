@@ -739,7 +739,7 @@ class ServiceProviderController extends Controller
 
                 // return $date_n;
                 $data = DB::table('servicebook_user')
-                    ->select('servicebook_user.*', 'users.profile', 'users.location', 'users.profile', 'users.name', 'users.mobile', 'serviceprovider_category.category_icon as profile')
+                    ->select('servicebook_user.*', 'users.location', 'users.profile as profile', 'users.name', 'users.mobile', 'serviceprovider_category.category_icon as icon')
                     ->leftJoin('users', 'users.id', '=', 'servicebook_user.service_pro_id')
                     ->leftJoin('serviceprovider_category', 'serviceprovider_category.id', '=', 'servicebook_user.service_type')
                     ->where('servicebook_user.status', 1)
