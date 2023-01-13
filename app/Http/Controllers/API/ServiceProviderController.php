@@ -770,8 +770,8 @@ class ServiceProviderController extends Controller
                     ->orderBy('servicebook_user.id', 'desc')
                     ->get();
                 if (!empty($data[0])) {
-                    foreach ($data as $val) {
-                        $val->profile = $val->profile ? url('storage/app/category_icons') . '/' . $val->profile : '';
+                    foreach ($data as $key =>  $val) {
+                        $data[$key]->profile = $val->profile ? url('uploads/profile/' . $val->profile) : "https://www.nicepng.com/png/detail/933-9332131_profile-picture-default-png.png";
                     }
                     $arr['status'] = 1;
                     $arr['message'] = 'Success';
@@ -793,8 +793,8 @@ class ServiceProviderController extends Controller
                     ->orderBy('servicebook_user.id', 'desc')
                     ->get();
                 if (!empty($data[0])) {
-                    foreach ($data as $val) {
-                        $val->profile = $val->profile ? url('storage/app/category_icons') . '/' . $val->profile : '';
+                    foreach ($data as $key =>  $val) {
+                        $data[$key]->profile = $val->profile ? url('uploads/profile/' . $val->profile) : "https://www.nicepng.com/png/detail/933-9332131_profile-picture-default-png.png";
                     }
                     $arr['status'] = 1;
                     $arr['message'] = 'Success';
