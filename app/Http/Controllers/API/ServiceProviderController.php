@@ -1131,8 +1131,6 @@ class ServiceProviderController extends Controller
             $arr['data'] = NULL;
             return response()->json($arr, 200);
         }
-
-        return response()->json($arr, 200);
     }
 
 
