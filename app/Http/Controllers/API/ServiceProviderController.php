@@ -724,6 +724,91 @@ class ServiceProviderController extends Controller
     }
 
 
+        /*
+        1=Upcoming Booking
+        2=Completed Booking
+        5=Cancel Booking
+        */
+        try {
+            if ($type == "1") {
+
+                $date_n =  \Carbon\Carbon::now()->startOfDay()->format('d-n-Y');
+
+                // return $date_n;
+                $data = DB::table('servicebook_user')
+                    ->select('servicebook_user.*', 'users.profile', 'users.location', 'users.profile', 'users.name', 'users.mobile', 'serviceprovider_category.category_icon as profile')
+                    ->leftJoin('users', 'users.id', '=', 'servicebook_user.service_pro_id')
+                    ->leftJoin('serviceprovider_category', 'serviceprovider_category.id', '=', 'servicebook_user.service_type')
+                    ->where('servicebook_user.status', 1)
+                    ->where('servicebook_user.user_id', Auth::id())
+                    ->orderBy('servicebook_user.id', 'desc')
+                    ->get();
+                if (!empty($data[0])) {
+                    foreach ($data as $val) {
+                        $val->profile = $val->profile ? url('storage/app/category_icons') . '/' . $val->profile : '';
+                    }
+                    $arr['status'] = 1;
+                    $arr['message'] = 'Success';
+                    $arr['data'] = $data;
+                } else {
+                    $arr['status'] = 1;
+                    $arr['message'] = 'No Data found';
+                    $arr['data'] = [];
+                }
+            }
+            if ($type == "2") {
+                $data = DB::table('servicebook_user')
+                    ->select('servicebook_user.*', 'users.profile', 'users.location', 'users.profile', 'users.name', 'users.mobile', 'serviceprovider_category.category_icon as profile')
+                    ->leftJoin('users', 'users.id', '=', 'servicebook_user.service_pro_id')
+                    ->leftJoin('serviceprovider_category', 'serviceprovider_category.id', '=', 'servicebook_user.service_type')
+                    ->where('servicebook_user.status', 2)
+                    ->where('servicebook_user.user_id', Auth::id())
+                    ->orderBy('servicebook_user.id', 'desc')
+                    ->get();
+                if (!empty($data[0])) {
+                    foreach ($data as $val) {
+                        $val->profile = $val->profile ? url('storage/app/category_icons') . '/' . $val->profile : '';
+                    }
+                    $arr['status'] = 1;
+                    $arr['message'] = 'Success';
+                    $arr['data'] = $data;
+                } else {
+                    $arr['status'] = 1;
+                    $arr['message'] = 'No Data found';
+                    $arr['data'] = [];
+                }
+            }
+            if ($type == "3") {
+
+                $data = DB::table('servicebook_user')
+                    ->select('servicebook_user.*', 'users.profile', 'users.location', 'users.profile', 'users.name', 'users.mobile', 'serviceprovider_category.category_icon as profile')
+                    ->leftJoin('users', 'users.id', '=', 'servicebook_user.service_pro_id')
+                    ->leftJoin('serviceprovider_category', 'serviceprovider_category.id', '=', 'servicebook_user.service_type')
+                    ->where('servicebook_user.status', 5)
+                    ->where('servicebook_user.user_id', Auth::id())
+                    ->orderBy('servicebook_user.id', 'desc')
+                    ->get();
+                if (!empty($data[0])) {
+                    foreach ($data as $val) {
+                        $val->profile = $val->profile ? url('storage/app/category_icons') . '/' . $val->profile : '';
+                    }
+                    $arr['status'] = 1;
+                    $arr['message'] = 'Success';
+                    $arr['data'] = $data;
+                } else {
+                    $arr['status'] = 1;
+                    $arr['message'] = 'No Data found';
+                    $arr['data'] = [];
+                }
+            }
+        } catch (\Exception $e) {
+            $arr['status'] = 0;
+            $arr['message'] = $e->getMessage();
+            $arr['data'] = NULL;
+            return response()->json($arr, 500);
+        }
+        return response()->json($arr, 200);
+    }
     public function cancelbooking(Request $request)
     {
         $userId = Auth::id();
@@ -908,6 +993,8 @@ class ServiceProviderController extends Controller
             $arr['data'] = NULL;
             return response()->json($arr, 200);
         }
+
+        return response()->json($arr, 200);
     }
 
     public function receved_request_detail(Request $request)
