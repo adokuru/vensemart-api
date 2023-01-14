@@ -57,7 +57,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::get('cancel_request_list', [ServiceProviderController::class, 'cancel_request_list']);
 
-    Route::get('complete_request_list', [ServiceProviderController::class, 'complete_request_list']);
+    Route::get('completed-bookings', [ServiceProviderController::class, 'complete_request_list']);
 
     Route::post('complete_request_detail', [ServiceProviderController::class, 'complete_request_detail']);
 

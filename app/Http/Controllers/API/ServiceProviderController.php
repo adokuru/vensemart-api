@@ -161,11 +161,11 @@ class ServiceProviderController extends Controller
                 ->where('servicebook_user.service_pro_id', $userid)
                 ->count();
             $completed_requests = DB::table('servicebook_user')
-                ->where('servicebook_user.status', 2)
+                ->where('servicebook_user.status', 3)
                 ->where('servicebook_user.service_pro_id', $userid)
                 ->count();
             $cancelled_requests = DB::table('servicebook_user')
-                ->where('servicebook_user.status', 4)
+                ->where('servicebook_user.status', 5)
                 ->where('servicebook_user.service_pro_id', $userid)
                 ->count();
             $total_requests = DB::table('servicebook_user')
@@ -1089,7 +1089,7 @@ class ServiceProviderController extends Controller
             ->select('su.*', 'u.name', 'u.email', 'u.mobile', 'c.category_name')
             ->join('users as u', 'u.id', '=', 'su.user_id')
             ->join('category as c', 'c.id', '=', 'su.service_type')
-            ->where('su.status', 4)
+            ->where('su.status', 5)
             ->where('su.service_pro_id', Auth::id())
             ->get()
             ->toArray();
@@ -1115,7 +1115,7 @@ class ServiceProviderController extends Controller
             ->select('su.*', 'u.name', 'u.email', 'u.mobile', 'c.category_name')
             ->join('users as u', 'u.id', '=', 'su.user_id')
             ->join('category as c', 'c.id', '=', 'su.service_type')
-            ->where('su.status', 4)
+            ->where('su.status', 3)
             ->where('su.service_pro_id', Auth::id())
             ->get()
             ->toArray();
@@ -1199,7 +1199,7 @@ class ServiceProviderController extends Controller
             ->select('su.*', 'u.name', 'u.email', 'u.mobile', 'c.category_name')
             ->join('users as u', 'u.id', '=', 'su.user_id')
             ->join('category as c', 'c.id', '=', 'su.service_type')
-            ->where('su.status', 4)
+            ->where('su.status', 3)
             ->where('su.service_pro_id', Auth::id())
             ->where('su.id', $request->id)
             ->first();
