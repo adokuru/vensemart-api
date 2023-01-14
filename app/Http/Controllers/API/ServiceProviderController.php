@@ -739,7 +739,7 @@ class ServiceProviderController extends Controller
 
                 // return $date_n;
                 $data = DB::table('servicebook_user')
-                    ->select('servicebook_user.*', 'users.location', 'users.profile as profile', 'users.name', 'users.mobile', 'serviceprovider_category.category_icon as icon')
+                    ->select('servicebook_user.*', 'users.location', 'users.profile as profile', 'users.name', 'users.mobile', 'serviceprovider_category.category_icon as icon', 'serviceprovider_category.name as category_name')
                     ->leftJoin('users', 'users.id', '=', 'servicebook_user.service_pro_id')
                     ->leftJoin('serviceprovider_category', 'serviceprovider_category.id', '=', 'servicebook_user.service_type')
                     ->orWhere('servicebook_user.status', 1)
@@ -763,7 +763,7 @@ class ServiceProviderController extends Controller
             }
             if ($type == "2") {
                 $data = DB::table('servicebook_user')
-                    ->select('servicebook_user.*', 'users.location', 'users.profile as profile', 'users.name', 'users.mobile', 'serviceprovider_category.category_icon as icon')
+                    ->select('servicebook_user.*', 'users.location', 'users.profile as profile', 'users.name', 'users.mobile', 'serviceprovider_category.category_icon as icon', 'serviceprovider_category.name as category_name')
                     ->leftJoin('users', 'users.id', '=', 'servicebook_user.service_pro_id')
                     ->leftJoin('serviceprovider_category', 'serviceprovider_category.id', '=', 'servicebook_user.service_type')
                     ->where('servicebook_user.status', 3)
@@ -786,7 +786,7 @@ class ServiceProviderController extends Controller
             if ($type == "3") {
 
                 $data = DB::table('servicebook_user')
-                    ->select('servicebook_user.*', 'users.location', 'users.profile as profile', 'users.name', 'users.mobile', 'serviceprovider_category.category_icon as icon')
+                    ->select('servicebook_user.*', 'users.location', 'users.profile as profile', 'users.name', 'users.mobile', 'serviceprovider_category.category_icon as icon', 'serviceprovider_category.name as category_name')
                     ->leftJoin('users', 'users.id', '=', 'servicebook_user.service_pro_id')
                     ->leftJoin('serviceprovider_category', 'serviceprovider_category.id', '=', 'servicebook_user.service_type')
                     ->where('servicebook_user.status', 5)
