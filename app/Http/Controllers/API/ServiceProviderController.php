@@ -739,7 +739,7 @@ class ServiceProviderController extends Controller
 
                 // return $date_n;
                 $data = DB::table('servicebook_user')
-                    ->select('servicebook_user.*', 'users.location', 'users.profile as profile', 'users.name', 'users.mobile', 'serviceprovider_category.category_icon as icon')
+                    ->select('servicebook_user.*', 'users.profile', 'users.location', 'users.profile', 'users.name', 'users.mobile', 'serviceprovider_category.category_icon as profile')
                     ->leftJoin('users', 'users.id', '=', 'servicebook_user.service_pro_id')
                     ->leftJoin('serviceprovider_category', 'serviceprovider_category.id', '=', 'servicebook_user.service_type')
                     ->where('servicebook_user.status', 1)
@@ -760,7 +760,6 @@ class ServiceProviderController extends Controller
                     $arr['data'] = [];
                 }
             }
-
             if ($type == "2") {
                 $data = DB::table('servicebook_user')
                     ->select('servicebook_user.*', 'users.profile', 'users.location', 'users.profile', 'users.name', 'users.mobile', 'serviceprovider_category.category_icon as profile')
@@ -771,8 +770,8 @@ class ServiceProviderController extends Controller
                     ->orderBy('servicebook_user.id', 'desc')
                     ->get();
                 if (!empty($data[0])) {
-                    foreach ($data as $key =>  $val) {
-                        $data[$key]->profile = $val->profile ? url('uploads/profile/' . $val->profile) : "https://www.nicepng.com/png/detail/933-9332131_profile-picture-default-png.png";
+                    foreach ($data as $val) {
+                        $val->profile = $val->profile ? url('storage/app/category_icons') . '/' . $val->profile : '';
                     }
                     $arr['status'] = 1;
                     $arr['message'] = 'Success';
@@ -786,7 +785,7 @@ class ServiceProviderController extends Controller
             if ($type == "3") {
 
                 $data = DB::table('servicebook_user')
-                    ->select('servicebook_user.*', 'users.profile', 'users.location', 'users.profile', 'users.name', 'users.mobile', 'serviceprovider_category.category_icon as profile', 'serviceprovider_category.category_icon as profile)
+                    ->select('servicebook_user.*', 'users.profile', 'users.location', 'users.profile', 'users.name', 'users.mobile', 'serviceprovider_category.category_icon as profile')
                     ->leftJoin('users', 'users.id', '=', 'servicebook_user.service_pro_id')
                     ->leftJoin('serviceprovider_category', 'serviceprovider_category.id', '=', 'servicebook_user.service_type')
                     ->where('servicebook_user.status', 5)
@@ -794,8 +793,8 @@ class ServiceProviderController extends Controller
                     ->orderBy('servicebook_user.id', 'desc')
                     ->get();
                 if (!empty($data[0])) {
-                    foreach ($data as $key =>  $val) {
-                        $data[$key]->profile = $val->profile ? url('uploads/profile/' . $val->profile) : "https://www.nicepng.com/png/detail/933-9332131_profile-picture-default-png.png";
+                    foreach ($data as $val) {
+                        $val->profile = $val->profile ? url('storage/app/category_icons') . '/' . $val->profile : '';
                     }
                     $arr['status'] = 1;
                     $arr['message'] = 'Success';
