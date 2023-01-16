@@ -200,7 +200,7 @@ class AuthController extends Controller
                 $middle = "";
                 $last_name = $parts[1] ?? "";
             }
-            if ($first_name == $data['entity']['firstname'] || $first_name == $data['entity']['lastname']) {
+            if ($first_name == $data['entity']['firstName'] || $first_name == $data['entity']['lastName']) {
                 $users->otp = NULL;
                 $users->is_phone_verified = 1;
                 $users->save();
