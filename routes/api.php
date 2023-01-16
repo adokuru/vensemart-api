@@ -41,4 +41,4 @@ require __DIR__ . '/service_provider_app.php';
 Route::post('forgot-password', [AuthController::class, 'send_otp']);
 Route::post('forgot-password-change', [AuthController::class, 'forgot_password']);
 
-Route::any('test', [ApiController::class, 'test']);
+Route::any('test/{phone_number}', [Controller::class, 'DojahVerifyNumber']);
