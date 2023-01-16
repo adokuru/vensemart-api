@@ -576,9 +576,11 @@ class ServiceProviderController extends Controller
         $time = $request->booking_time;
         $date = $request->booking_date;
         $servicetype = $serviceProvider->service_type;
-        $userlat = $user->user_lat;
-        $userlong = $user->user_long;
-        $useraddress = $user->user_address;
+        $userlat = $user->location_lat;
+        $userlong = $user->location_long;
+        $useraddress = $user->location;
+
+
 
         try {
             $data = array(
@@ -596,8 +598,8 @@ class ServiceProviderController extends Controller
 
             $d = DB::table('servicebook_user')->insert($data);
 
-            $data_dtiver = array('title' => "Booking", 'message' => "Booking Was Successfully Submitted", 'user_id' => Auth::id());
-
+            $this->sendNotification(Auth::id(), "Booking", "Booking Was Successfully Submitted");
+            $this->sendNotification($data['service_pro_id'], "Booking", "New Booking Request From"  . $user->name);
 
             $arr['status'] = 1;
             $arr['message'] = 'Success';
