@@ -200,7 +200,7 @@ class AuthController extends Controller
                 $middle = "";
                 $last_name = $parts[1] ?? "";
             }
-            if ($first_name == $data['entity']['firstName'] || $first_name == $data['entity']['lastName']) {
+            if (strtoupper($first_name) == $data['entity']['firstName'] || $first_name == $data['entity']['lastName']) {
                 $users->otp = NULL;
                 $users->is_phone_verified = 1;
                 $users->save();
@@ -209,7 +209,7 @@ class AuthController extends Controller
                 $arr['data'] = NULL;
                 return response()->json($arr, 200);
             }
-            if ($middle == $data['entity']['firstName'] || $first_name == $data['entity']['lastName']) {
+            if (strtoupper($middle) == $data['entity']['firstName'] || $first_name == $data['entity']['lastName']) {
                 $users->otp = NULL;
                 $users->is_phone_verified = 1;
                 $users->save();
@@ -218,7 +218,7 @@ class AuthController extends Controller
                 $arr['data'] = NULL;
                 return response()->json($arr, 200);
             }
-            if ($last_name == $data['entity']['firstName'] || $first_name == $data['entity']['lastName']) {
+            if (strtoupper($last_name) == $data['entity']['firstName'] || $first_name == $data['entity']['lastName']) {
                 $users->otp = NULL;
                 $users->is_phone_verified = 1;
                 $users->save();
