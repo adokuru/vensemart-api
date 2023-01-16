@@ -301,10 +301,39 @@ class ServiceProviderController extends Controller
                 ->where('status', 1)
                 ->get();
 
+            $data1 = DB::table('users')
+                ->select(
+                    "users.name",
+                    "users.id",
+                    "users.service_type",
+                    "users.location_lat",
+                    "users.location_long",
+                    "users.profile",
+                    "users.service_type",
+                    "serviceprovider_category.category_name",
+                    "serviceprovider_category.category_icon",
+                    "users.location",
+                    "users.service_type_price",
+                    DB::raw('CONCAT("' . url('uploads/profile') . '","/",profile)  as service_provider_image'),
+                    DB::raw("6371 * acos(cos(radians(" . $lat . "))
+                             * cos(radians(users.location_lat)) 
+                             * cos(radians(users.location_long) - radians(" . $lng . ")) 
+                             + sin(radians(" . $lat . ")) 
+                             * sin(radians(users.location_lat))) AS distance")
+                )
+                ->having('distance', '>', '50')
+                ->join('serviceprovider_category', 'serviceprovider_category.id', '=', 'users.service_type')
+                ->where('users.service_type', $categoryId)
+                ->where('status', 1)
+                ->get();
+
+            // add data1 to data
+
+            $data = $data->merge($data1);
+
             foreach ($data as $key => $value) {
                 $data[$key]->profile = $value->profile ? url('uploads/profile/' . $value->profile) : "https://www.nicepng.com/png/detail/933-9332131_profile-picture-default-png.png";
             }
-
 
             foreach ($data as $val) {
                 $val->service_category = DB::table('serviceprovider_category')->where('id', $val->service_type)->first();
