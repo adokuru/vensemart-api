@@ -984,7 +984,8 @@ class ServiceProviderController extends Controller
             ->select('su.*', 'u.name', 'u.email', 'u.mobile', 'c.category_name')
             ->join('users as u', 'u.id', '=', 'su.user_id')
             ->join('category as c', 'c.id', '=', 'su.service_type')
-            ->where('su.status', 1)
+            ->orWhere('su.status', 1)
+            ->orWhere('su.status', 2)
             ->where('su.service_pro_id', Auth::id())
             ->get()
             ->toArray();
