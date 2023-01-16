@@ -2000,9 +2000,7 @@ class ServiceProviderController extends Controller
     {
 
         $validate = Validator::make($request->all(), [
-
             'booking_id' => 'required',
-
         ]);
 
         if ($validate->fails()) {
@@ -2015,7 +2013,7 @@ class ServiceProviderController extends Controller
 
         $user_id = Auth::id();
 
-        $data['status'] = 4;
+        $data['status'] = 3;
         $get_user_detsils = DB::table('servicebook_user')->where('booking_id', $request->booking_id)->update($data);
         if (!empty($get_user_detsils)) {
             /*************  send mail  ******************************/

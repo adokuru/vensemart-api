@@ -103,7 +103,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::post('service_booking_accept', [ServiceProviderController::class, 'service_booking_accept']);
 
-    Route::post('service_booking_complete', [ServiceProviderController::class, 'service_booking_complete']);
+    Route::post('complete-reject-booking', [ServiceProviderController::class, 'service_booking_complete']);
 
     Route::get('service_subscription_plans', [ServiceProviderController::class, 'service_subscription_plans']);
 
