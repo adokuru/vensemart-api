@@ -93,7 +93,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::post('cancel_booking', [ServiceProviderController::class, 'cancel_booking']);
 
-    Route::get('service_notification', [ServiceProviderController::class, 'service_notification']);
+    Route::get('get-notifications', [ServiceProviderController::class, 'service_notification']);
 
     Route::get('delete_service_provider_notification', [ServiceProviderController::class, 'delete_service_provider_notification']);
 
