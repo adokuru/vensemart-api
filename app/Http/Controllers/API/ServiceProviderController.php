@@ -211,6 +211,7 @@ class ServiceProviderController extends Controller
                 "u.service_type",
                 "u.location_lat",
                 "u.location_long",
+                "u.mobile as phone",
                 "u.profile",
                 "u.service_type",
                 "serviceprovider_category.category_name",

@@ -175,62 +175,10 @@ class AuthController extends Controller
             }
 
 
-            $data = $this->DojahVerifyNumber($request->phone_number);
-
-            if (array_key_exists('error', $data)) {
-                $arr['status'] = 0;
-                $arr['message'] = $data['error'];
-                $arr['data'] = NULL;
-                return response()->json($arr, 422);
-            }
-
-            UserVerifiedInfo::create([
-                'user_id' => $users->id,
-                'data' => json_encode($data['entity'])
-            ]);
-
-            // get user first name from name
-            $parts = explode(' ', $users->name);
-            if (count($parts) > 2) {
-                $first_name = $parts[0];
-                $middle = $parts[1] ?? '';
-                $last_name = $parts[2] ?? '';
-            } else {
-                $first_name = $parts[0];
-                $middle = "";
-                $last_name = $parts[1] ?? "";
-            }
-            if (strtoupper($first_name) == $data['entity']['firstName'] || $first_name == $data['entity']['lastName']) {
-                $users->otp = NULL;
-                $users->is_phone_verified = 1;
-                $users->save();
-                $arr['status'] = 1;
-                $arr['message'] = 'OTP verified successfully';
-                $arr['data'] = NULL;
-                return response()->json($arr, 200);
-            }
-            if (strtoupper($middle) == $data['entity']['firstName'] || $first_name == $data['entity']['lastName']) {
-                $users->otp = NULL;
-                $users->is_phone_verified = 1;
-                $users->save();
-                $arr['status'] = 1;
-                $arr['message'] = 'OTP verified successfully';
-                $arr['data'] = NULL;
-                return response()->json($arr, 200);
-            }
-            if (strtoupper($last_name) == $data['entity']['firstName'] || $first_name == $data['entity']['lastName']) {
-                $users->otp = NULL;
-                $users->is_phone_verified = 1;
-                $users->save();
-                $arr['status'] = 1;
-                $arr['message'] = 'OTP verified successfully';
-                $arr['data'] = NULL;
-                return response()->json($arr, 200);
-            }
-            $arr['status'] = 0;
-            $arr['message'] = "Name does not match with phone number owner's name";
+            $arr['status'] = 1;
+            $arr['message'] = "OTP verified successfully";
             $arr['data'] = NULL;
-            return response()->json($arr, 422);
+            return response()->json($arr, 200);
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = $e->getMessage();
@@ -379,6 +327,7 @@ class AuthController extends Controller
             $data['location'] = "Wuse 2 Abuja";
             $data['location_lat'] = "9.0787";
             $data['location_long'] = "7.47018";
+            $data['status'] = 0;
 
 
             $user = User::create($data);
