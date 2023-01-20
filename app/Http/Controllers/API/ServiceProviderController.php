@@ -1334,12 +1334,16 @@ class ServiceProviderController extends Controller
         }
 
         try {
+            $user = User::find(Auth::id());
+
+
+
             $insert['name'] = $request->name;
-            $insert['email'] = $request->email;
-            $insert['mobile'] = $request->mobile_number;
-            $insert['location'] = $request->address;
-            $insert['location_lat'] = $request->address_lat;
-            $insert['location_long'] = $request->address_long;
+            $insert['email'] = $request->email || $user->email;
+            $insert['mobile'] = $request->mobile_number || $user->mobile;
+            $insert['location'] = $request->address || $user->location;
+            $insert['location_lat'] = $request->address_lat || $user->location_lat;
+            $insert['location_long'] = $request->address_long || $user->location_long;
 
             if (!empty($request->profile)) {
                 $file_name = date('dmy') . rand(1, 4) . $request->file('profile')->getClientOriginalName();
