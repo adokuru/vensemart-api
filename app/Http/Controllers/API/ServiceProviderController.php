@@ -298,7 +298,7 @@ class ServiceProviderController extends Controller
                 )
                 ->join('serviceprovider_category', 'serviceprovider_category.id', '=', 'users.service_type')
                 ->where('users.service_type', $categoryId)
-                ->where('status', 1)
+                // ->where('status', 1)
                 ->orderBy('distance', 'asc')
                 ->get();
 
