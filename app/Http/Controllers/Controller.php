@@ -137,11 +137,12 @@ class Controller extends BaseController
             ];
 
 
-            DB::table('notifications')->insert(['user_id' => $userID, 'title' => $data['title'], 'message' => $data['message'], 'type' => 3]);
+            DB::table('notifications')->insert(['user_id' => $userID, 'title' => $data['title'], 'message' => $data['body'], 'type' => 3]);
 
             $user = User::find($userID);
 
             $token = $user->device_token;
+
             $messaging = app('firebase.messaging');
 
             $notification = Notification::create($title, $message);
