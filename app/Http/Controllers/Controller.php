@@ -141,19 +141,27 @@ class Controller extends BaseController
 
             $user = User::find($userID);
 
+            if (!$user->device_token) return;
+
             $token = $user->device_token;
 
             $messaging = app('firebase.messaging');
 
-            $notification = Notification::create($title, $message);
+            $notification = Notification::fromArray([
+                'title' => $title,
+                'body' => $message,
+            ]);
+
+            dd($notification);
+            // $notification = Notification::create($title, $message);
 
             $message = CloudMessage::withTarget('token', $token)
                 ->withNotification($notification)
                 ->withData($data);
 
             $messaging->send($message);
+            // 
         } catch (\Exception $e) {
-            dd($e->getMessage());
             throw new \Exception($e->getMessage());
         }
     }
