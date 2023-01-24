@@ -11,9 +11,6 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Mail;
-use Twilio\Rest\Client;
-use Kreait\Firebase\Contract\Messaging;
 use Kreait\Firebase\Messaging\CloudMessage;
 use Kreait\Firebase\Messaging\Notification;
 
@@ -21,12 +18,7 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public Messaging $messaging;
 
-    public function __construct(Messaging $messaging)
-    {
-        $this->messaging = $messaging;
-    }
 
     public function sendSMSMessage($to, $message)
     {
@@ -150,17 +142,15 @@ class Controller extends BaseController
             $user = User::find($userID);
 
             $token = $user->device_token;
+            $messaging = app('firebase.messaging');
 
-            // $notification = Notification::fromArray([
-            //     'title' => $title,
-            //     'body' => $message
-            // ]);
+            $notification = Notification::create($title, $message);
 
-            // $message = CloudMessage::withTarget('token', $token)
-            //     ->withNotification($notification)
-            //     ->withData($data);
+            $message = CloudMessage::withTarget('token', $token)
+                ->withNotification($notification)
+                ->withData($data);
 
-            // $this->messaging->send($message);
+            $messaging->send($message);
         } catch (\Exception $e) {
             dd($e->getMessage());
             throw new \Exception($e->getMessage());
