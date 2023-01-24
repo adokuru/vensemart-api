@@ -140,22 +140,26 @@ class Controller extends BaseController
 
     public function sendNotification($userID, $title, $message)
     {
+        try {
 
-        $data = [
-            "title" => $title,
-            "body" => $message,
-        ];
+            $data = [
+                "title" => $title,
+                "body" => $message,
+            ];
 
 
-        DB::table('notifications')->insert(['user_id' => $userID, 'title' => $data['title'], 'message' => $data['message'], 'type' => 3]);
+            DB::table('notifications')->insert(['user_id' => $userID, 'title' => $data['title'], 'message' => $data['message'], 'type' => 3]);
 
-        $user = User::find($userID);
+            $user = User::find($userID);
 
-        $token = $user->device_token;
+            $token = $user->device_token;
 
-        $message = CloudMessage::withTarget('token', $token)
-            ->withNotification($data);
+            $message = CloudMessage::withTarget('token', $token)
+                ->withNotification($data);
 
-        $this->messaging->send($message);
+            $this->messaging->send($message);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
     }
 }
