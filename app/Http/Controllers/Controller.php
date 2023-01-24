@@ -17,9 +17,6 @@ use Kreait\Firebase\Contract\Messaging;
 use Kreait\Firebase\Messaging\CloudMessage;
 use Kreait\Firebase\Messaging\Notification;
 
-
-
-
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
@@ -153,9 +150,14 @@ class Controller extends BaseController
             $user = User::find($userID);
 
             $token = $user->device_token;
+            $notification = Notification::fromArray([
+                'title' => $title,
+                'body' => $message
+            ]);
 
             $message = CloudMessage::withTarget('token', $token)
-                ->withNotification($data);
+                ->withNotification($notification)
+                ->withData($data);
 
             $this->messaging->send($message);
         } catch (\Exception $e) {
