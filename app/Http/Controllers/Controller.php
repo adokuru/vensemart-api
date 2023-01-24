@@ -159,6 +159,7 @@ class Controller extends BaseController
 
             $this->messaging->send($message);
         } catch (\Exception $e) {
+            dd($e->getMessage());
             throw new \Exception($e->getMessage());
         }
     }
