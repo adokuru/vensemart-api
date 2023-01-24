@@ -152,14 +152,18 @@ class Controller extends BaseController
                 'body' => $message,
             ]);
 
-            dd($notification, $token);
+
             // $notification = Notification::create($title, $message);
 
             $message = CloudMessage::withTarget('token', $token)
                 ->withNotification($notification)
                 ->withData($data);
 
+            dd($message, $messaging);
+
             $messaging->send($message);
+
+            dd($notification, $token);
             // 
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
