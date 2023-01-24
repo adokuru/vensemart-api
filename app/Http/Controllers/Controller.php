@@ -152,7 +152,7 @@ class Controller extends BaseController
                 'body' => $message,
             ]);
 
-            dd($notification);
+            dd($notification, $token);
             // $notification = Notification::create($title, $message);
 
             $message = CloudMessage::withTarget('token', $token)
