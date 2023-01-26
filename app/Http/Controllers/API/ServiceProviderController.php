@@ -708,7 +708,7 @@ class ServiceProviderController extends Controller
                 ->where('users.type', 3)
                 ->leftJoin('serviceprovider_category', 'serviceprovider_category.id', '=', 'users.service_type')
                 // ->leftJoin('servicebook_user', 'servicebook_user.service_pro_id', '=', 'users.id')
-                ->orderBy('booking_count', 'desc')
+                // ->orderBy('booking_count', 'desc')
                 ->get(8);
 
 
