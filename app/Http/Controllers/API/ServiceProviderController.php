@@ -702,15 +702,12 @@ class ServiceProviderController extends Controller
                     "serviceprovider_category.category_icon",
                     "users.location",
                     "users.service_type_price",
-                    "servicebook_user"
-                    // DB::raw("COUNT(servicebook_user.id) as booking_count")
 
                 )
                 ->where('users.type', 3)
                 ->leftJoin('serviceprovider_category', 'serviceprovider_category.id', '=', 'users.service_type')
                 ->leftJoin('servicebook_user', 'servicebook_user.service_pro_id', '=', 'users.id')
-                // ->orderBy('booking_count', 'desc')
-                // ->limit(8)
+                ->withCount('servicebook_user')
                 ->get();
 
 
@@ -720,7 +717,11 @@ class ServiceProviderController extends Controller
             }
 
 
+            foreach ($data as $key => $value) {
+                $data[$key]->booking_count = DB::table('servicebook_user')->where('service_pro_id', $value->id)->where('status', 2)->count();
+            }
 
+            // order by booking count
 
             $result = array();
 
@@ -738,6 +739,8 @@ class ServiceProviderController extends Controller
                 $result[$key]['service_type_price'] = $value->service_type_price;
                 // $result[$key]['booking_count'] = $value->booking_count;
             }
+
+
 
             $arr['status'] = 1;
             $arr['message'] = 'Success';
