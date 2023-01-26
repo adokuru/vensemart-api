@@ -649,7 +649,7 @@ class ServiceProviderController extends Controller
                     ->orderBy('distance', 'asc')
                     ->orderBy('booking_count', 'desc')
                     ->get(8);
-
+                dd($data);
                 foreach ($data as $key => $value) {
                     $data[$key]->profile = $value->profile ? url('uploads/profile/' . $value->profile) : "https://www.nicepng.com/png/detail/933-9332131_profile-picture-default-png.png";
                 }
