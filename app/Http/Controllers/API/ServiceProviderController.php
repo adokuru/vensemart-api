@@ -768,9 +768,11 @@ class ServiceProviderController extends Controller
                     ->select('servicebook_user.*', 'users.location', 'users.profile as profile', 'users.name', 'users.mobile', 'serviceprovider_category.category_icon as icon', 'serviceprovider_category.category_name as category_name')
                     ->leftJoin('users', 'users.id', '=', 'servicebook_user.service_pro_id')
                     ->leftJoin('serviceprovider_category', 'serviceprovider_category.id', '=', 'servicebook_user.service_type')
-                    ->orWhere('servicebook_user.status', 1)
-                    ->orWhere('servicebook_user.status', 2)
                     ->where('servicebook_user.user_id', Auth::id())
+                    ->where(function ($query) use ($date_n) {
+                        $query->where('servicebook_user.status', 1)
+                            ->orWhere('servicebook_user.status', 2);
+                    })
                     ->orderBy('servicebook_user.id', 'desc')
                     ->get();
 
