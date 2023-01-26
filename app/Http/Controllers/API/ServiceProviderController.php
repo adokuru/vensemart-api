@@ -743,7 +743,7 @@ class ServiceProviderController extends Controller
             // order by $result['booking_count'] desc
 
             usort($result, function ($a, $b) {
-                return $a['booking_count'] <=> $b['booking_count'];
+                return $b['booking_count'] <=> $a['booking_count'];
             });
 
             // get only the first 10
