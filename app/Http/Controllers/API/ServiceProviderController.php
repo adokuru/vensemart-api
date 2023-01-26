@@ -1315,7 +1315,7 @@ class ServiceProviderController extends Controller
 
         return response()->json($arr, 200);
     }
-    public function calculateLevelForServiceProvider(Request $request)
+    public function get_profile(Request $request)
     {
         $arr = [];
 
