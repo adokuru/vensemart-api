@@ -640,8 +640,7 @@ class ServiceProviderController extends Controller
                         * cos(radians(users.location_long) - radians(" . $long . ")) 
                         + sin(radians(" . $lat . ")) 
                         * sin(radians(users.location_lat))) AS distance"),
-                        DB::raw("COUNT(servicebook_user) as booking_count")
-
+                        DB::raw("COUNT(servicebook_user.id) as booking_count")
                     )
                     ->where('users.type', 3)
                     ->leftJoin('serviceprovider_category', 'serviceprovider_category.id', '=', 'users.service_type')
