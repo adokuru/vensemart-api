@@ -640,7 +640,7 @@ class ServiceProviderController extends Controller
                         * cos(radians(users.location_long) - radians(" . $long . ")) 
                         + sin(radians(" . $lat . ")) 
                         * sin(radians(users.location_lat))) AS distance"),
-                        DB::raw("COUNT(servicebook_user.service_pro_id = users.id) as booking_count")
+                        DB::raw("COUNT(servicebook_user) as booking_count")
 
                     )
                     ->where('users.type', 3)
@@ -703,13 +703,13 @@ class ServiceProviderController extends Controller
                     "serviceprovider_category.category_icon",
                     "users.location",
                     "users.service_type_price",
-                    // DB::raw("COUNT(servicebook_user.service_pro_id = users.id) as booking_count")
+                    DB::raw("COUNT(servicebook_user) as booking_count")
 
                 )
                 ->where('users.type', 3)
                 ->leftJoin('serviceprovider_category', 'serviceprovider_category.id', '=', 'users.service_type')
                 ->leftJoin('servicebook_user', 'servicebook_user.service_pro_id', '=', 'users.id')
-                // ->orderBy('booking_count', 'desc')
+                ->orderBy('booking_count', 'desc')
                 ->limit(8)
                 ->get();
 
