@@ -643,6 +643,7 @@ class ServiceProviderController extends Controller
                     )
                     ->leftJoin('serviceprovider_category', 'serviceprovider_category.id', '=', 'users.service_type')
                     ->orderBy('users.id', 'desc')
+                    ->orderBy('distance', 'asc')
                     ->get(8);
 
                 foreach ($data as $key => $value) {
@@ -659,23 +660,7 @@ class ServiceProviderController extends Controller
 
                 $result = array();
 
-                foreach ($data as $key => $value) {
-                    if ($value->distance <= 10 && $value->distance != null) {
-                        $result[$key]['id'] = $value->id;
-                        $result[$key]['name'] = $value->name;
-                        $result[$key]['service_type'] = $value->service_type;
-                        $result[$key]['location_lat'] = $value->location_lat;
-                        $result[$key]['location_long'] = $value->location_long;
-                        $result[$key]['profile'] = $value->profile;
-                        $result[$key]['service_type'] = $value->service_type;
-                        $result[$key]['category_name'] = $value->category_name;
-                        $result[$key]['category_icon'] = $value->category_icon;
-                        $result[$key]['location'] = $value->location;
-                        $result[$key]['service_type_price'] = $value->service_type_price;
-                        $result[$key]['distance'] = $value->distance;
-                        $result[$key]['booking_count'] = $value->booking_count;
-                    }
-                }
+
 
                 $arr['status'] = 1;
                 $arr['message'] = 'Success';
