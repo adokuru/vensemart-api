@@ -734,7 +734,6 @@ class ServiceProviderController extends Controller
                 $result[$key]['category_icon'] = $value->category_icon;
                 $result[$key]['location'] = $value->location;
                 $result[$key]['service_type_price'] = $value->service_type_price;
-                $result[$key]['distance'] = $value->distance;
                 $result[$key]['booking_count'] = $value->booking_count;
             }
 
@@ -973,8 +972,6 @@ class ServiceProviderController extends Controller
             $arr['data'] = NULL;
             return response()->json($arr, 200);
         }
-
-        return response()->json($arr, 200);
     }
 
 
@@ -1276,8 +1273,6 @@ class ServiceProviderController extends Controller
             $arr['data'] = NULL;
             return response()->json($arr, 200);
         }
-
-        return response()->json($arr, 200);
     }
 
 
