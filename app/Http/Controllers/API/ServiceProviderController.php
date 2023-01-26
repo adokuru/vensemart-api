@@ -736,7 +736,7 @@ class ServiceProviderController extends Controller
                 $result[$key]['category_icon'] = $value->category_icon;
                 $result[$key]['location'] = $value->location;
                 $result[$key]['service_type_price'] = $value->service_type_price;
-                // $result[$key]['booking_count'] = $value->booking_count;
+                $result[$key]['booking_count'] = $value->booking_count;
             }
 
 
