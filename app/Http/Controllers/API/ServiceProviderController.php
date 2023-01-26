@@ -702,14 +702,14 @@ class ServiceProviderController extends Controller
                     "serviceprovider_category.category_icon",
                     "users.location",
                     "users.service_type_price",
-                    DB::raw("COUNT(servicebook_user.id) as booking_count")
+                    // DB::raw("COUNT(servicebook_user.id) as booking_count")
 
                 )
                 ->where('users.type', 3)
                 ->leftJoin('serviceprovider_category', 'serviceprovider_category.id', '=', 'users.service_type')
                 ->leftJoin('servicebook_user', 'servicebook_user.service_pro_id', '=', 'users.id')
-                ->orderBy('booking_count', 'desc')
-                ->limit(8)
+                // ->orderBy('booking_count', 'desc')
+                // ->limit(8)
                 ->get();
 
 
