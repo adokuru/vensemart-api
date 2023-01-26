@@ -159,8 +159,6 @@ class Controller extends BaseController
                 ->withNotification($notification)
                 ->withData($data);
 
-            dd($message, $messaging);
-
             $messaging->send($message);
 
             dd($notification, $token);
