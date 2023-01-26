@@ -702,6 +702,7 @@ class ServiceProviderController extends Controller
                     "serviceprovider_category.category_icon",
                     "users.location",
                     "users.service_type_price",
+                    "servicebook_user"
                     // DB::raw("COUNT(servicebook_user.id) as booking_count")
 
                 )
