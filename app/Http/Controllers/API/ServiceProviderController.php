@@ -1324,7 +1324,7 @@ class ServiceProviderController extends Controller
             $profile = Auth::user();
             $profile->profile = $profile->profile ? url('uploads/profile') . '/' . $profile->profile : '';
             $profile->id_prof = $profile->id_prof ? url('uploads/id_prof') . '/' . $profile->id_prof : '';
-            $profile->level = $this->get_level($profile->id);
+            $profile->level = $this->calculateLevelForServiceProvider($profile->id);
 
 
             if ($profile) {
