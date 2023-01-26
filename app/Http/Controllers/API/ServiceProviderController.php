@@ -639,11 +639,15 @@ class ServiceProviderController extends Controller
                         * cos(radians(users.location_lat)) 
                         * cos(radians(users.location_long) - radians(" . $long . ")) 
                         + sin(radians(" . $lat . ")) 
-                        * sin(radians(users.location_lat))) AS distance")
+                        * sin(radians(users.location_lat))) AS distance"),
+                        // get count of booking from servicebook_user table
+                        DB::raw("COUNT(servicebook_user.id) AS booking_count")
+
                     )
+                    ->where('users.type', 3)
                     ->leftJoin('serviceprovider_category', 'serviceprovider_category.id', '=', 'users.service_type')
-                    ->orderBy('users.id', 'desc')
                     ->orderBy('distance', 'asc')
+                    ->orderBy('booking_count', 'desc')
                     ->get(8);
 
                 foreach ($data as $key => $value) {
@@ -687,8 +691,7 @@ class ServiceProviderController extends Controller
             }
 
 
-
-            $data = DB::table('servicebook_user')
+            $data = DB::table('users')
                 ->select(
                     "users.name",
                     "users.id",
@@ -700,22 +703,46 @@ class ServiceProviderController extends Controller
                     "serviceprovider_category.category_name",
                     "serviceprovider_category.category_icon",
                     "users.location",
-                    "users.service_type_price"
+                    "users.service_type_price",
+                    DB::raw("COUNT(servicebook_user.id) AS booking_count")
+
                 )
-                ->leftJoin('users', 'users.id', '=', 'servicebook_user.service_pro_id')
+                ->where('users.type', 3)
                 ->leftJoin('serviceprovider_category', 'serviceprovider_category.id', '=', 'users.service_type')
-                ->orderBy('servicebook_user.id', 'desc')
+                ->leftJoin('bookings', 'servicebook_user.service_pro_id', '=', 'users.id')
+                ->orderBy('booking_count', 'desc')
                 ->get(8);
 
             foreach ($data as $key => $value) {
                 $data[$key]->profile = $value->profile ? url('uploads/profile/' . $value->profile) : "https://www.nicepng.com/png/detail/933-9332131_profile-picture-default-png.png";
             }
+
+
+
+
+            $result = array();
+
+            foreach ($data as $key => $value) {
+                if ($value->distance <= 10 && $value->distance != null) {
+                    $result[$key]['id'] = $value->id;
+                    $result[$key]['name'] = $value->name;
+                    $result[$key]['service_type'] = $value->service_type;
+                    $result[$key]['location_lat'] = $value->location_lat;
+                    $result[$key]['location_long'] = $value->location_long;
+                    $result[$key]['profile'] = $value->profile;
+                    $result[$key]['service_type'] = $value->service_type;
+                    $result[$key]['category_name'] = $value->category_name;
+                    $result[$key]['category_icon'] = $value->category_icon;
+                    $result[$key]['location'] = $value->location;
+                    $result[$key]['service_type_price'] = $value->service_type_price;
+                    $result[$key]['distance'] = $value->distance;
+                    $result[$key]['booking_count'] = $value->booking_count;
+                }
+            }
+
             $arr['status'] = 1;
             $arr['message'] = 'Success';
-            $arr['data'] = $data;
-
-
-
+            $arr['data'] = $result;
 
             return response()->json($arr, 200);
         } catch (\Exception $e) {
