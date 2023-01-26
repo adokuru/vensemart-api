@@ -171,32 +171,36 @@ class Controller extends BaseController
 
     public function calculateLevelForServiceProvider($serviceProviderID)
     {
+        try {
 
-        $bronze = 5;
-        $silver = 15;
-        $gold = 30;
-        $platinum = 50;
-        $diamond = 75;
+            $bronze = 5;
+            $silver = 15;
+            $gold = 30;
+            $platinum = 50;
+            $diamond = 75;
 
 
-        $serviceProvider = ServicebookUser::where("service_pro_id", $serviceProviderID)->where("rating", "=", 5)->get();
+            $serviceProvider = ServicebookUser::where("service_pro_id", $serviceProviderID)->where("rating", "=", 5)->get();
 
-        $total = count($serviceProvider);
+            $total = count($serviceProvider);
 
-        if ($total >= $bronze && $total < $silver) {
-            $level = "Bronze";
-        } elseif ($total >= $silver && $total < $gold) {
-            $level = "Silver";
-        } elseif ($total >= $gold && $total < $platinum) {
-            $level = "Gold";
-        } elseif ($total >= $platinum && $total < $diamond) {
-            $level = "Platinum";
-        } elseif ($total >= $diamond) {
-            $level = "Diamond";
-        } else {
-            $level = 0;
+            if ($total >= $bronze && $total < $silver) {
+                $level = "Bronze";
+            } elseif ($total >= $silver && $total < $gold) {
+                $level = "Silver";
+            } elseif ($total >= $gold && $total < $platinum) {
+                $level = "Gold";
+            } elseif ($total >= $platinum && $total < $diamond) {
+                $level = "Platinum";
+            } elseif ($total >= $diamond) {
+                $level = "Diamond";
+            } else {
+                $level = 0;
+            }
+
+            return $level;
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
         }
-
-        return $level;
     }
 }
