@@ -1315,7 +1315,7 @@ class ServiceProviderController extends Controller
 
         return response()->json($arr, 200);
     }
-    public function get_profile(Request $request)
+    public function calculateLevelForServiceProvider(Request $request)
     {
         $arr = [];
 
@@ -1324,6 +1324,8 @@ class ServiceProviderController extends Controller
             $profile = Auth::user();
             $profile->profile = $profile->profile ? url('uploads/profile') . '/' . $profile->profile : '';
             $profile->id_prof = $profile->id_prof ? url('uploads/id_prof') . '/' . $profile->id_prof : '';
+            $profile->level = $this->get_level($profile->id);
+
 
             if ($profile) {
                 $arr['status'] = 1;
