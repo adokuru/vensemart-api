@@ -640,7 +640,6 @@ class ServiceProviderController extends Controller
                         * cos(radians(users.location_long) - radians(" . $long . ")) 
                         + sin(radians(" . $lat . ")) 
                         * sin(radians(users.location_lat))) AS distance"),
-                        // get count of booking from servicebook_user table
                         DB::raw("COUNT(servicebook_user.service_pro_id = users.id) as booking_count")
 
                     )
@@ -724,21 +723,19 @@ class ServiceProviderController extends Controller
             $result = array();
 
             foreach ($data as $key => $value) {
-                if ($value->distance <= 10 && $value->distance != null) {
-                    $result[$key]['id'] = $value->id;
-                    $result[$key]['name'] = $value->name;
-                    $result[$key]['service_type'] = $value->service_type;
-                    $result[$key]['location_lat'] = $value->location_lat;
-                    $result[$key]['location_long'] = $value->location_long;
-                    $result[$key]['profile'] = $value->profile;
-                    $result[$key]['service_type'] = $value->service_type;
-                    $result[$key]['category_name'] = $value->category_name;
-                    $result[$key]['category_icon'] = $value->category_icon;
-                    $result[$key]['location'] = $value->location;
-                    $result[$key]['service_type_price'] = $value->service_type_price;
-                    $result[$key]['distance'] = $value->distance;
-                    $result[$key]['booking_count'] = $value->booking_count;
-                }
+                $result[$key]['id'] = $value->id;
+                $result[$key]['name'] = $value->name;
+                $result[$key]['service_type'] = $value->service_type;
+                $result[$key]['location_lat'] = $value->location_lat;
+                $result[$key]['location_long'] = $value->location_long;
+                $result[$key]['profile'] = $value->profile;
+                $result[$key]['service_type'] = $value->service_type;
+                $result[$key]['category_name'] = $value->category_name;
+                $result[$key]['category_icon'] = $value->category_icon;
+                $result[$key]['location'] = $value->location;
+                $result[$key]['service_type_price'] = $value->service_type_price;
+                $result[$key]['distance'] = $value->distance;
+                $result[$key]['booking_count'] = $value->booking_count;
             }
 
             $arr['status'] = 1;
