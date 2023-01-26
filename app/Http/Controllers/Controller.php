@@ -195,7 +195,7 @@ class Controller extends BaseController
             } elseif ($total >= $diamond) {
                 $level = "Diamond";
             } else {
-                $level = 0;
+                $level = "Bronze";
             }
 
             return $level;
