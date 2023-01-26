@@ -649,7 +649,7 @@ class ServiceProviderController extends Controller
                     ->orderBy('distance', 'asc')
                     ->orderBy('booking_count', 'desc')
                     ->get(8);
-                dd($data);
+
                 foreach ($data as $key => $value) {
                     $data[$key]->profile = $value->profile ? url('uploads/profile/' . $value->profile) : "https://www.nicepng.com/png/detail/933-9332131_profile-picture-default-png.png";
                 }
@@ -702,16 +702,16 @@ class ServiceProviderController extends Controller
                     "serviceprovider_category.category_icon",
                     "users.location",
                     "users.service_type_price",
-                    DB::raw("COUNT(servicebook_user.service_pro_id = users.id) as booking_count")
+                    // DB::raw("COUNT(servicebook_user.service_pro_id = users.id) as booking_count")
 
                 )
                 ->where('users.type', 3)
                 ->leftJoin('serviceprovider_category', 'serviceprovider_category.id', '=', 'users.service_type')
-                ->leftJoin('servicebook_user', 'servicebook_user.service_pro_id', '=', 'users.id')
+                // ->leftJoin('servicebook_user', 'servicebook_user.service_pro_id', '=', 'users.id')
                 ->orderBy('booking_count', 'desc')
                 ->get(8);
 
-            dd($data);
+
 
             foreach ($data as $key => $value) {
                 $data[$key]->profile = $value->profile ? url('uploads/profile/' . $value->profile) : "https://www.nicepng.com/png/detail/933-9332131_profile-picture-default-png.png";
