@@ -740,6 +740,17 @@ class ServiceProviderController extends Controller
             }
 
 
+            // order by $result['booking_count'] desc
+
+            usort($result, function ($a, $b) {
+                return $a['booking_count'] <=> $b['booking_count'];
+            });
+
+            // get only the first 10
+
+            $result = array_slice($result, 0, 10);
+
+
 
             $arr['status'] = 1;
             $arr['message'] = 'Success';
