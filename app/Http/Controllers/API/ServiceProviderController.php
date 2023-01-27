@@ -1376,11 +1376,19 @@ class ServiceProviderController extends Controller
         try {
             $user = User::find(Auth::id());
 
+            if (!$user) {
+                $arr['status'] = 0;
+                $arr['message'] = 'User not found';
+                $arr['data'] = NULL;
+
+                return response()->json($arr, 200);
+            }
+
 
 
             $insert['name'] = $request->name;
-            $insert['email'] = $request->email || $user->email;
-            $insert['mobile'] = $request->mobile_number || $user->mobile;
+            $insert['email'] =  $user->email;
+            $insert['mobile'] =  $user->mobile;
             $insert['location'] = $request->address || $user->location;
             $insert['location_lat'] = $request->address_lat || $user->location_lat;
             $insert['location_long'] = $request->address_long || $user->location_long;
