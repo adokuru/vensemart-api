@@ -1387,9 +1387,9 @@ class ServiceProviderController extends Controller
 
 
             $insert['name'] = $request->name;
-            $insert['location'] = $request->address || $user->location;
-            $insert['location_lat'] = $request->address_lat || $user->location_lat;
-            $insert['location_long'] = $request->address_long || $user->location_long;
+            $insert['location'] = $request->address ?? $user->location;
+            $insert['location_lat'] = $request->address_lat ?? $user->location_lat;
+            $insert['location_long'] = $request->address_long ?? $user->location_long;
 
             if (!empty($request->profile)) {
                 $file_name = date('dmy') . rand(1, 4) . $request->file('profile')->getClientOriginalName();
@@ -1405,7 +1405,18 @@ class ServiceProviderController extends Controller
                 }
             }
 
-            $user = User::where('id', Auth::id())->update($insert);
+            $user = User::where('id', Auth::id())->first();
+
+            if (!$user) return $this->sendError('User not found', null, 500);
+
+            $user->update([
+                'name' => $insert['name'],
+                'location' => $insert['location'],
+                'location_lat' => $insert['location_lat'],
+                'location_long' => $insert['location_long'],
+                'profile' => $insert['profile'] ?? $user->profile,
+            ]);
+
 
             if ($user) {
                 $userdata = User::where('id', Auth::id())->first();
