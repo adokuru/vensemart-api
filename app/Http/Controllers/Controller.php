@@ -146,24 +146,41 @@ class Controller extends BaseController
 
             $token = $user->device_token;
 
-            $messaging = app('firebase.messaging');
+            /************************Notification Start************/
 
-            $notification = Notification::fromArray([
-                'title' => $title,
-                'body' => $message,
-            ]);
+            $SERVER_API_KEY = env('FCM_KEY');
 
+            $data1 = [
+                "registration_ids" => $token,
+                "notification" => [
+                    "title" => $data['title'],
+                    "body" => $data['body'],
+                ]
+            ];
+            $dataString = json_encode($data1);
 
-            // $notification = Notification::create($title, $message);
+            $headers = [
+                'Authorization: key=' . $SERVER_API_KEY,
+                'Content-Type: application/json',
+            ];
 
-            $message = CloudMessage::withTarget('token', $token)
-                ->withNotification($notification)
-                ->withData($data);
+            $url = 'https://fcm.googleapis.com/fcm/send';
+            $ch = curl_init();
 
-            $messaging->send($message);
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+            curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+            // Disabling SSL Certificate support temporarly
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
+            // Execute post
+            $result = curl_exec($ch);
+            curl_close($ch);
 
-            dd($notification, $token);
-            // 
+            /*********************End Notification*****************/
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
