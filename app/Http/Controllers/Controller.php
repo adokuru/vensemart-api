@@ -180,6 +180,9 @@ class Controller extends BaseController
             $result = curl_exec($ch);
             curl_close($ch);
 
+
+            dd($result);
+
             /*********************End Notification*****************/
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
