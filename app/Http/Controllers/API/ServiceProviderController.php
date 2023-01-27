@@ -1393,7 +1393,7 @@ class ServiceProviderController extends Controller
 
             if (!empty($request->profile)) {
                 $file_name = date('dmy') . rand(1, 4) . $request->file('profile')->getClientOriginalName();
-                $store = $request->file('profile')->move('/uploads/profile/', $file_name);
+                $store = $request->file('profile')->move(base_path('/uploads/profile', $file_name));
                 if ($store) {
                     $insert['profile'] = $file_name;
                 } else {
