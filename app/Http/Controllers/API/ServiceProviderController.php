@@ -1387,8 +1387,6 @@ class ServiceProviderController extends Controller
 
 
             $insert['name'] = $request->name;
-            $insert['email'] =  $user->email;
-            $insert['mobile'] =  $user->mobile;
             $insert['location'] = $request->address || $user->location;
             $insert['location_lat'] = $request->address_lat || $user->location_lat;
             $insert['location_long'] = $request->address_long || $user->location_long;
