@@ -1404,27 +1404,6 @@ class ServiceProviderController extends Controller
                     return response()->json($arr, 200);
                 }
             }
-            if (!empty($request->email)) {
-                $email = User::where('id', '!=', Auth::id())->where('email', $request->email)->count();
-                if ($email >= 1) {
-                    $arr['status'] = 0;
-                    $arr['message'] = 'Email already exist.!!';
-                    $arr['data'] = NULL;
-
-                    return response()->json($arr, 200);
-                }
-            }
-            if (!empty($request->mobile)) {
-                $email = User::where('id', '!=', Auth::id())->where('mobile', $request->mobile_number)->count();
-                if ($email >= 1) {
-                    $arr['status'] = 0;
-                    $arr['message'] = 'Mobile already exist.!!';
-                    $arr['data'] = NULL;
-
-                    return response()->json($arr, 200);
-                }
-            }
-
 
             $user = User::where('id', Auth::id())->update($insert);
 
