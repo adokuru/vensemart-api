@@ -151,7 +151,7 @@ class Controller extends BaseController
             $SERVER_API_KEY = env('FCM_KEY');
 
             $data1 = [
-                "registration_ids" => $token,
+                "registration_ids" => [$token],
                 "notification" => [
                     "title" => $data['title'],
                     "body" => $data['body'],
