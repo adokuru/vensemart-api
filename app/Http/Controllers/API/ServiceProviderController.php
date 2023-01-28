@@ -234,7 +234,7 @@ class ServiceProviderController extends Controller
             ]);
         }
 
-        $data->service_provider_image = $data->profile ? url('uploads/profile') . '/' . $data->profile : '';
+        $data->service_provider_image = $data->profile ? url('storage/uploads/profile') . '/' . $data->profile : '';
 
         $data->service_provider_rating = DB::table('servicebook_user')
             ->where('service_pro_id', $id)
@@ -289,7 +289,7 @@ class ServiceProviderController extends Controller
                     "serviceprovider_category.category_icon",
                     "users.location",
                     "users.service_type_price",
-                    DB::raw('CONCAT("' . url('uploads/profile') . '","/",profile)  as service_provider_image'),
+                    DB::raw('CONCAT("' . url('storage/uploads/profile') . '","/",profile)  as service_provider_image'),
                     DB::raw("6371 * acos(cos(radians(" . $lat . "))
                              * cos(radians(users.location_lat)) 
                              * cos(radians(users.location_long) - radians(" . $lng . ")) 
@@ -1339,7 +1339,7 @@ class ServiceProviderController extends Controller
         try {
             // print_r(Auth::id());die;
             $profile = Auth::user();
-            $profile->profile = $profile->profile ? url('uploads/profile') . '/' . $profile->profile : '';
+            $profile->profile = $profile->profile ? url('storage/uploads/profile') . '/' . $profile->profile : '';
             $profile->id_prof = $profile->id_prof ? url('uploads/id_prof') . '/' . $profile->id_prof : '';
             $profile->level = $this->calculateLevelForServiceProvider($profile->id);
 
@@ -1924,7 +1924,7 @@ class ServiceProviderController extends Controller
 
 
         $get_user_detsils = DB::table('users')->where('id', $request->user_id)->first();
-        $get_user_detsils->profile = $get_user_detsils->profile ? url('uploads/profile') . '/' . $get_user_detsils->profile : '';
+        $get_user_detsils->profile = $get_user_detsils->profile ? url('storage/uploads/profile') . '/' . $get_user_detsils->profile : '';
         $get_user_detsils->id_prof = $get_user_detsils->id_prof ? url('uploads/id_prof') . '/' . $get_user_detsils->id_prof : '';
         if ($get_user_detsils) {
             $arr['status'] = 1;

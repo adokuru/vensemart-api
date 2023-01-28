@@ -589,7 +589,7 @@ class DeliveryRiderController extends Controller
     {
         $id = Auth::id();
         if ($id) {
-            $profile = User::select('*', DB::raw('CONCAT("' . url('uploads/profile') . '","/",profile)  as profile'))->find($id);
+            $profile = User::select('*', DB::raw('CONCAT("' . url('storage/uploads/profile') . '","/",profile)  as profile'))->find($id);
             if (!$profile) {
                 $arr['status'] = 0;
                 $arr['message'] = 'Data not found';
@@ -700,7 +700,7 @@ class DeliveryRiderController extends Controller
 
             $vehicleData = DB::table('vehicle_details')->where('user_id', $id)->first();
             // $userdata->profile = !empty($userdata->imgae)?url('uploads/profile').'/'.$userdata->image:'';
-            $userdata->profile =  !empty($userdata->profile)  ? url('uploads/profile') . '/' . $userdata->profile : '';
+            $userdata->profile =  !empty($userdata->profile)  ? url('storage/uploads/profile') . '/' . $userdata->profile : '';
             $arr['status'] = 1;
             $arr['message'] = 'Success';
             $arr['data']['user'] = $userdata;

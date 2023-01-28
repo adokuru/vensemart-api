@@ -482,7 +482,7 @@ class AuthController extends Controller
                 $data['remember_token'] = $token;
                 $data['api_token'] = $token;
                 User::where('id', $user->id)->update($data);
-                $userArr = User::select('*', DB::raw('CONCAT("' . url('uploads/id_prof') . '","/",id_prof)  as id_prof'), DB::raw('CONCAT("' . url('uploads/profile') . '","/",profile)  as profile'))->where('id', $user->id)->get()->first();
+                $userArr = User::select('*', DB::raw('CONCAT("' . url('uploads/id_prof') . '","/",id_prof)  as id_prof'), DB::raw('CONCAT("' . url('storage/uploads/profile') . '","/",profile)  as profile'))->where('id', $user->id)->get()->first();
                 if ($user) {
                     // plan is exit or not 
                     $get_active_plan = DB::table("service_plan_purchase")->where("status", "1")->where("service_provider_id", $user->id)->first();
@@ -989,7 +989,7 @@ class AuthController extends Controller
 
             if ($user) {
                 $userdata = User::where('id', Auth::id())->first();
-                $userdata->profile = !empty($userdata->profile) ? url('uploads/profile') . '/' . $userdata->profile : '';
+                $userdata->profile = !empty($userdata->profile) ? url('storage/uploads/profile') . '/' . $userdata->profile : '';
                 $arr['status'] = 1;
                 $arr['message'] = 'Success';
                 $arr['data']['user'] = $userdata;
@@ -1026,7 +1026,7 @@ class AuthController extends Controller
                 }
             }
             if ($profile->type == "1") {
-                $profile->profile = $profile->profile ? url('uploads/profile') . '/' . $profile->profile : '';
+                $profile->profile = $profile->profile ? url('storage/uploads/profile') . '/' . $profile->profile : '';
 
                 if ($profile) {
                     $arr['status'] = 1;

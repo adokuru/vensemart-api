@@ -43,7 +43,7 @@
                 <td>{{ $val->mobile }}</td>
                 
                 <td> <?php if($val->profile){?>
-                    <img src="{{  url('uploads/profile').'/'. $val->profile }}"  width="50" height="50">
+                    <img src="{{  url('storage/uploads/profile').'/'. $val->profile }}"  width="50" height="50">
                     <?php }else
                     {
                         ?>
