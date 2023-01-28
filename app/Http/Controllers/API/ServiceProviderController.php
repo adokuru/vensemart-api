@@ -123,7 +123,7 @@ class ServiceProviderController extends Controller
                 ->get();
 
             foreach ($data['services'] as $val) {
-                $val->category_icon = $val->category_icon ? url('storage/app/category_icons') . '/' . $val->category_icon : '';
+                $val->category_icon = $val->category_icon ? url('storage/category_icons') . '/' . $val->category_icon : '';
             }
 
             if (!empty($data['banners'][0])) {
@@ -378,7 +378,7 @@ class ServiceProviderController extends Controller
             $data  = DB::table('serviceprovider_category')->select('serviceprovider_category.*', 'serviceprovider_category.id as category_id')->get();
 
             foreach ($data as $val) {
-                $val->category_icon = $val->category_icon ? url('storage/app/category_icons') . '/' . $val->category_icon : '';
+                $val->category_icon = $val->category_icon ? url('storage/category_icons') . '/' . $val->category_icon : '';
             }
             if (!empty($data[0])) {
                 $arr['status'] = 1;
@@ -955,7 +955,7 @@ class ServiceProviderController extends Controller
                 })->get();
             if (count($data) > 0) {
                 foreach ($data as $val) {
-                    $val->image = url('storage/app/category_icons') . '/' . $val->category_icon;
+                    $val->image = url('storage/category_icons') . '/' . $val->category_icon;
                 }
                 $arr['status'] = 1;
                 $arr['message'] = 'Success';

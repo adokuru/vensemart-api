@@ -165,7 +165,7 @@ class DeliveryRiderController extends Controller
             $total_earning = DB::table('my_wallet')->where('user_id', Auth::id())->sum('amount');
             $availibility = DB::table('users')->where('id', Auth::id())->where('status', '1')->first();
             $today_order = DB::table('orders as o')
-                ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/app/shop_images') . '","/",s.store_image)  as store_image'))
+                ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/shop_images') . '","/",s.store_image)  as store_image'))
                 ->join('stores as s', 's.id', 'o.shop_id')
                 ->join('user_address as ua', 'ua.id', 'o.address_id')
                 ->where('o.driver_id', Auth::id())->whereDate('o.order_date', date('Y-m-d'))->get()->toArray();
@@ -191,7 +191,7 @@ class DeliveryRiderController extends Controller
 
         try {
             $all_order = DB::table('orders as o')
-                ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/app/shop_images') . '","/",s.store_image)  as store_image'))
+                ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/shop_images') . '","/",s.store_image)  as store_image'))
                 ->leftJoin('stores as s', 's.id', 'o.shop_id')
                 ->leftJoin('user_address as ua', 'ua.id', 'o.address_id')
                 ->where('o.driver_id', Auth::id())
@@ -219,7 +219,7 @@ class DeliveryRiderController extends Controller
     {
         try {
             $pending_order = DB::table('orders as o')
-                ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/app/shop_images') . '","/",s.store_image)  as store_image'))
+                ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/shop_images') . '","/",s.store_image)  as store_image'))
                 ->join('stores as s', 's.id', 'o.shop_id')
                 ->join('user_address as ua', 'ua.id', 'o.address_id')
                 ->where('o.driver_id', Auth::id())->where('o.status', '2')->get()->toArray();
@@ -245,7 +245,7 @@ class DeliveryRiderController extends Controller
     {
         try {
             $cancel_order = DB::table('orders as o')
-                ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/app/shop_images') . '","/",s.store_image)  as store_image'))
+                ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/shop_images') . '","/",s.store_image)  as store_image'))
                 ->join('stores as s', 's.id', 'o.shop_id')
                 ->join('user_address as ua', 'ua.id', 'o.address_id')
                 ->where('o.driver_id', Auth::id())->where('o.status', '5')->get()->toArray();
@@ -271,7 +271,7 @@ class DeliveryRiderController extends Controller
     {
         try {
             $complete_order = DB::table('orders as o')
-                ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/app/shop_images') . '","/",s.store_image)  as store_image'))
+                ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/shop_images') . '","/",s.store_image)  as store_image'))
                 ->join('stores as s', 's.id', 'o.shop_id')
                 ->join('user_address as ua', 'ua.id', 'o.address_id')
                 ->where('o.driver_id', Auth::id())->where('o.status', '4')->get()->toArray();
@@ -297,7 +297,7 @@ class DeliveryRiderController extends Controller
     {
         try {
             $accept_order = DB::table('orders as o')
-                ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/app/shop_images') . '","/",s.store_image)  as store_image'))
+                ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/shop_images') . '","/",s.store_image)  as store_image'))
                 ->join('stores as s', 's.id', 'o.shop_id')
                 ->join('user_address as ua', 'ua.id', 'o.address_id')
                 ->where('o.driver_id', Auth::id())->where('o.status', '2')->get()->toArray();
@@ -324,7 +324,7 @@ class DeliveryRiderController extends Controller
     {
         try {
             $accept_order = DB::table('orders as o')
-                ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/app/shop_images') . '","/",s.store_image)  as store_image'))
+                ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/shop_images') . '","/",s.store_image)  as store_image'))
                 ->join('stores as s', 's.id', 'o.shop_id')
                 ->join('user_address as ua', 'ua.id', 'o.address_id')
                 ->where('o.driver_id', Auth::id())->where('o.status', "1")->get()->toArray();
@@ -474,7 +474,7 @@ class DeliveryRiderController extends Controller
                 return response()->json($arr, 200);
             }
             $orders = DB::table('orders as o')
-                ->select('o.*', 'users.name', 'users.mobile', 'users.location_lat', 'users.location_long', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/app/shop_images') . '","/",s.store_image)  as store_image'))
+                ->select('o.*', 'users.name', 'users.mobile', 'users.location_lat', 'users.location_long', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/shop_images') . '","/",s.store_image)  as store_image'))
                 ->join('stores as s', 's.id', 'o.shop_id')
                 ->join('user_address as ua', 'ua.id', 'o.address_id')
                 ->join('users', 'users.id', '=', 'o.user_id')
@@ -488,7 +488,7 @@ class DeliveryRiderController extends Controller
                 return response()->json($arr, 200);
             }
             $product_details =  DB::table('eshop_purchase_detail as od')
-                ->select('p.*', 'c.category_name', 'sc.name as sub_category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/app/product_images') . '","/",product_image)  as product_image'))
+                ->select('p.*', 'c.category_name', 'sc.name as sub_category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/product_images') . '","/",product_image)  as product_image'))
                 ->join('products as p', 'p.id', 'od.product_id')
                 ->join('category as c', 'c.id', 'p.category_id')
                 ->join('sub_category as sc', 'sc.id', 'p.sub_cat_id')
@@ -828,7 +828,7 @@ class DeliveryRiderController extends Controller
         // print_r('adfasd');die;
         try {
             $data = DB::table('orders')
-                ->select('orders.*', 'users.name as user_name', DB::raw('CONCAT("' . url('storage/app/shop_images') . '","/",stores.store_image)  as store_image'))
+                ->select('orders.*', 'users.name as user_name', DB::raw('CONCAT("' . url('storage/shop_images') . '","/",stores.store_image)  as store_image'))
                 ->leftJoin('users', 'users.id', '=', 'orders.user_id')
                 ->leftJoin('stores', 'stores.id', '=', 'orders.shop_id')
                 ->where('orders.status', 1)

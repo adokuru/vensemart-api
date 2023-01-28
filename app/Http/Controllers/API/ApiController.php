@@ -89,12 +89,12 @@ class ApiController extends Controller
     public function home(Request $request)
     {
         try {
-            $banner_list =  DB::table('banners')->select('*', DB::raw('CONCAT("' . url('storage/app/banner_images') . '","/",banner_image)  as banner_image'))->where('status', '1')->orderBy('id', 'desc')->get()->toArray();
-            $offer_list =   DB::table('offers')->select('*', DB::raw('CONCAT("' . url('storage/app/offer_images') . '","/",offer_banner)  as offer_banner'))->where('status', '1')->whereDate('end_date', '>=', Carbon::now())->orderBy('id', 'desc')->get()->toArray();
+            $banner_list =  DB::table('banners')->select('*', DB::raw('CONCAT("' . url('storage/banner_images') . '","/",banner_image)  as banner_image'))->where('status', '1')->orderBy('id', 'desc')->get()->toArray();
+            $offer_list =   DB::table('offers')->select('*', DB::raw('CONCAT("' . url('storage/offer_images') . '","/",offer_banner)  as offer_banner'))->where('status', '1')->whereDate('end_date', '>=', Carbon::now())->orderBy('id', 'desc')->get()->toArray();
             $shop_list =    DB::table('stores')
                 ->select(
                     "stores.*",
-                    DB::raw('CONCAT("' . url('storage/app/shop_images') . '","/",store_image)  as store_image'),
+                    DB::raw('CONCAT("' . url('storage/shop_images') . '","/",store_image)  as store_image'),
                     DB::raw("6371 * acos(cos(radians(" . $request->lat . "))
                              * cos(radians(stores.lati)) 
                              * cos(radians(stores.longi) - radians(" . $request->lng . ")) 
@@ -115,7 +115,7 @@ class ApiController extends Controller
                 foreach ($tranding_product_list as $key => $val) {
                     $tranding_product_id[] = $val->product_id;
                 }
-                $tranding_list = DB::table('products')->select('*', 'products.product_image as imagename', DB::raw('CONCAT("' . url('storage/app/product_images') . '","/",product_image)  as product_image'))->whereIn('id', $tranding_product_id)->limit('4')->orderBy('id', 'desc')->get()->toArray();
+                $tranding_list = DB::table('products')->select('*', 'products.product_image as imagename', DB::raw('CONCAT("' . url('storage/product_images') . '","/",product_image)  as product_image'))->whereIn('id', $tranding_product_id)->limit('4')->orderBy('id', 'desc')->get()->toArray();
                 // if($tranding_list==[]){
 
                 //     $arr['status']=0;
@@ -165,7 +165,7 @@ class ApiController extends Controller
         try {
             $keyword = $request->keyword;
             // $shop_list =   DB::table('stores')
-            //                 ->select("stores.*",DB::raw('CONCAT("' . url('storage/app/shop_images') . '","/",store_image)  as store_image'),
+            //                 ->select("stores.*",DB::raw('CONCAT("' . url('storage/shop_images') . '","/",store_image)  as store_image'),
             //                 \DB::raw("6371 * acos(cos(radians(" . $request->lat . "))
             //                  * cos(radians(stores.lati)) 
             //                  * cos(radians(stores.longi) - radians(" . $request->lng . ")) 
@@ -175,7 +175,7 @@ class ApiController extends Controller
             //                 ->where('status','1')->orderBy('id','desc')->get()->toArray();
 
 
-            $tranding_list = DB::table('products as p')->select('p.*', 'c.category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/app/product_images') . '","/",product_image)  as product_image'))
+            $tranding_list = DB::table('products as p')->select('p.*', 'c.category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/product_images') . '","/",product_image)  as product_image'))
                 ->join('category as c', 'c.id', 'p.category_id')
                 ->join('stores as s', 's.id', 'p.shop_id')
                 ->join('uom as u', 'u.id', 'p.uom_id')
@@ -214,7 +214,7 @@ class ApiController extends Controller
             $shop_list =   DB::table('stores')
                 ->select(
                     "stores.*",
-                    DB::raw('CONCAT("' . url('storage/app/shop_images') . '","/",store_image)  as store_image'),
+                    DB::raw('CONCAT("' . url('storage/shop_images') . '","/",store_image)  as store_image'),
                     \DB::raw("6371 * acos(cos(radians(" . $request->lat . "))
                              * cos(radians(stores.lati)) 
                              * cos(radians(stores.longi) - radians(" . $request->lng . ")) 
@@ -248,7 +248,7 @@ class ApiController extends Controller
             $shop_list = DB::table('stores')
                 ->select(
                     "stores.*",
-                    DB::raw('CONCAT("' . url('storage/app/shop_images') . '","/",store_image)  as store_image')
+                    DB::raw('CONCAT("' . url('storage/shop_images') . '","/",store_image)  as store_image')
                 )
                 ->where('status', '1')->orderBy('id', 'desc')->limit(10)->get()->toArray();
             if ($shop_list) {
@@ -282,7 +282,7 @@ class ApiController extends Controller
     {
         try {
             $category_id = $request->category_id;
-            $product_list = DB::table('products as p')->select('p.*', 'c.category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/app/product_images') . '","/",product_image)  as product_image'))
+            $product_list = DB::table('products as p')->select('p.*', 'c.category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/product_images') . '","/",product_image)  as product_image'))
                 ->join('category as c', 'c.id', 'p.category_id')
                 ->join('stores as s', 's.id', 'p.shop_id')
                 ->join('uom as u', 'u.id', 'p.uom_id')
@@ -313,7 +313,7 @@ class ApiController extends Controller
     {
         try {
             $product_id = $request->product_id;
-            $product_details = DB::table('products as p')->select('p.*', 'p.product_image as imagename', 'c.category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/app/product_images') . '","/",product_image)  as product_image'))
+            $product_details = DB::table('products as p')->select('p.*', 'p.product_image as imagename', 'c.category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/product_images') . '","/",product_image)  as product_image'))
                 ->join('category as c', 'c.id', 'p.category_id')
                 ->join('stores as s', 's.id', 'p.shop_id')
                 ->join('uom as u', 'u.id', 'p.uom_id')
@@ -326,7 +326,7 @@ class ApiController extends Controller
                 return response()->json($arr, 200);
             } else {
 
-                $suggestion_product = DB::table('products as p')->select('p.*', 'p.product_image as imagename', 'c.category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/app/product_images') . '","/",product_image)  as product_image'))
+                $suggestion_product = DB::table('products as p')->select('p.*', 'p.product_image as imagename', 'c.category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/product_images') . '","/",product_image)  as product_image'))
                     ->join('category as c', 'c.id', 'p.category_id')
                     ->join('stores as s', 's.id', 'p.shop_id')
                     ->join('uom as u', 'u.id', 'p.uom_id')
@@ -376,7 +376,7 @@ class ApiController extends Controller
                 $arr['data'] = NULL;
             } else {
                 foreach ($category_list as $val) {
-                    $val->category_icon = $val->category_icon ? url('storage/app/category_icons') . '/' . $val->category_icon : '';
+                    $val->category_icon = $val->category_icon ? url('storage/category_icons') . '/' . $val->category_icon : '';
                 }
                 $arr['status'] = 1;
                 $arr['message'] = 'Category list found successfully.';
@@ -410,7 +410,7 @@ class ApiController extends Controller
                 $arr['data'] = NULL;
             } else {
                 foreach ($sub_category_list as $val) {
-                    $val->image = $val->image ? url('storage/app/subcategory_images') . '/' . $val->image : '';
+                    $val->image = $val->image ? url('storage/subcategory_images') . '/' . $val->image : '';
                 }
                 $arr['status'] = 1;
                 $arr['message'] = 'Sub Category list found successfully.';
@@ -446,7 +446,7 @@ class ApiController extends Controller
             } else {
                 foreach ($products_list as $val) {
                     $val->imagename = $val->product_image;
-                    $val->product_image = $val->product_image ? url('storage/app/product_images') . '/' . $val->product_image : '';
+                    $val->product_image = $val->product_image ? url('storage/product_images') . '/' . $val->product_image : '';
                 }
                 $arr['status'] = 1;
                 $arr['message'] = 'Products List found successfully.';
@@ -529,7 +529,7 @@ class ApiController extends Controller
     {
         $user_id = Auth::id();
         try {
-            $cart_list = DB::table('cart as c')->select('c.*', 's.id as shop_id', 'p.product_description', 'p.discount', 'cat.category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/app/product_images') . '","/",c.product_image)  as product_image'), 'c.product_image as image_name')
+            $cart_list = DB::table('cart as c')->select('c.*', 's.id as shop_id', 'p.product_description', 'p.discount', 'cat.category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/product_images') . '","/",c.product_image)  as product_image'), 'c.product_image as image_name')
                 ->join('products as p', 'p.id', 'c.product_id')
                 ->join('category as cat', 'cat.id', 'c.cat_id')
                 ->join('stores as s', 's.id', 'p.shop_id')
@@ -827,7 +827,7 @@ class ApiController extends Controller
     {
         try {
             $sub_category_id = $request->sub_category_id;
-            $product_list = DB::table('products as p')->select('p.*', 'c.category_name', 'sc.name as sub_category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/app/product_images') . '","/",product_image)  as product_image'))
+            $product_list = DB::table('products as p')->select('p.*', 'c.category_name', 'sc.name as sub_category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/product_images') . '","/",product_image)  as product_image'))
                 ->join('category as c', 'c.id', 'p.category_id')
                 ->join('sub_category as sc', 'sc.id', 'p.sub_cat_id')
                 ->join('stores as s', 's.id', 'p.shop_id')
@@ -858,7 +858,7 @@ class ApiController extends Controller
     public function offer_list()
     {
         try {
-            $offer_list = DB::table('offers')->select('*', DB::raw('CONCAT("' . url('storage/app/offer_images') . '","/",offer_banner)  as offer_banner'))
+            $offer_list = DB::table('offers')->select('*', DB::raw('CONCAT("' . url('storage/offer_images') . '","/",offer_banner)  as offer_banner'))
                 ->orderBy('id', 'desc')
                 ->get()->toArray();
             if ($offer_list == []) {
@@ -1111,7 +1111,7 @@ class ApiController extends Controller
             return response()->json($arr, 200);
         }
 
-        $shop->store_image = url('storage/app/shop_images') . '/' . $shop->store_image;
+        $shop->store_image = url('storage/shop_images') . '/' . $shop->store_image;
 
 
         $arr['status'] = 1;
@@ -1127,7 +1127,7 @@ class ApiController extends Controller
             $shop_list = DB::table('stores')
                 ->select(
                     "stores.*",
-                    DB::raw('CONCAT("' . url('storage/app/shop_images') . '","/",store_image)  as store_image'),
+                    DB::raw('CONCAT("' . url('storage/shop_images') . '","/",store_image)  as store_image'),
                     \DB::raw("6371 * acos(cos(radians(" . $request->lat . "))
                              * cos(radians(stores.lati)) 
                              * cos(radians(stores.longi) - radians(" . $request->lng . ")) 
@@ -1155,7 +1155,7 @@ class ApiController extends Controller
                         foreach ($tranding_cat_id as $key => $val) {
                             $tranding_cat_ids[] = $val->category_id;
                         }
-                        $tranding_cat_list = DB::table('category')->select('*', DB::raw('CONCAT("' . url('storage/app/category_icons') . '","/",category_icon)  as category_icon'))->whereIn('id', $tranding_cat_ids)->orderBy('id', 'desc')->get()->toArray();
+                        $tranding_cat_list = DB::table('category')->select('*', DB::raw('CONCAT("' . url('storage/category_icons') . '","/",category_icon)  as category_icon'))->whereIn('id', $tranding_cat_ids)->orderBy('id', 'desc')->get()->toArray();
                         if ($tranding_cat_list == []) {
                             $data['popular_category'] =  [];
                         } else {
@@ -1171,7 +1171,7 @@ class ApiController extends Controller
                     foreach ($tranding_shop_list as $key => $val) {
                         $tranding_shop_id[] = $val->shop_id;
                     }
-                    $popular_shops = DB::table('stores')->select("stores.*", DB::raw('CONCAT("' . url('storage/app/shop_images') . '","/",store_image)  as store_image'))->whereIn('id', $tranding_shop_id)->orderBy('id', 'desc')->get()->toArray();
+                    $popular_shops = DB::table('stores')->select("stores.*", DB::raw('CONCAT("' . url('storage/shop_images') . '","/",store_image)  as store_image'))->whereIn('id', $tranding_shop_id)->orderBy('id', 'desc')->get()->toArray();
                     if ($popular_shops) {
                         $data['popular_shops'] =  $popular_shops;
                     } else {
@@ -1241,7 +1241,7 @@ class ApiController extends Controller
         try {
             $user_id = Auth::id();
             $favourite_product = DB::table('favourite_product')
-                ->select('favourite_product.is_favourite', 'p.*', 'c.category_name', 'sc.name as sub_category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/app/product_images') . '","/",product_image)  as product_image'))
+                ->select('favourite_product.is_favourite', 'p.*', 'c.category_name', 'sc.name as sub_category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/product_images') . '","/",product_image)  as product_image'))
                 ->join('products as p', 'p.id', 'favourite_product.product_id')
                 ->join('category as c', 'c.id', 'p.category_id')
                 ->join('sub_category as sc', 'sc.id', 'p.sub_cat_id')
@@ -1270,14 +1270,14 @@ class ApiController extends Controller
     {
         try {
             $orders = DB::table('orders as o')
-                ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/app/shop_images') . '","/",s.store_image)  as store_image'))
+                ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/shop_images') . '","/",s.store_image)  as store_image'))
                 ->join('stores as s', 's.id', 'o.shop_id')
                 ->join('user_address as ua', 'ua.id', 'o.address_id')
                 ->where('o.user_id', Auth::id())->orderBy('o.id', 'desc')->get();
 
             foreach ($orders as $key => $val) {
                 $product_details =  DB::table('orders_details as od')
-                    ->select('p.*', 'c.category_name', 'sc.name as sub_category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/app/product_images') . '","/",product_image)  as product_image'))
+                    ->select('p.*', 'c.category_name', 'sc.name as sub_category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/product_images') . '","/",product_image)  as product_image'))
                     ->join('products as p', 'p.id', 'od.product_id')
                     ->join('category as c', 'c.id', 'p.category_id')
                     ->join('sub_category as sc', 'sc.id', 'p.sub_cat_id')
@@ -1311,14 +1311,14 @@ class ApiController extends Controller
     {
         try {
             $orders = DB::table('orders as o')
-                ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/app/shop_images') . '","/",s.store_image)  as store_image'))
+                ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/shop_images') . '","/",s.store_image)  as store_image'))
                 ->join('stores as s', 's.id', 'o.shop_id')
                 ->join('user_address as ua', 'ua.id', 'o.address_id')
                 ->where('o.user_id', Auth::id())->orderBy('o.id', 'desc')->get();
 
             foreach ($orders as $key => $val) {
                 $product_details =  DB::table('orders_details as od')
-                    ->select('p.*', 'c.category_name', 'sc.name as sub_category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/app/product_images') . '","/",product_image)  as product_image'))
+                    ->select('p.*', 'c.category_name', 'sc.name as sub_category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/product_images') . '","/",product_image)  as product_image'))
                     ->join('products as p', 'p.id', 'od.product_id')
                     ->join('category as c', 'c.id', 'p.category_id')
                     ->join('sub_category as sc', 'sc.id', 'p.sub_cat_id')
@@ -1359,7 +1359,7 @@ class ApiController extends Controller
                 return response()->json($arr, 200);
             }
             $orders = DB::table('orders as o')
-                ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/app/shop_images') . '","/",s.store_image)  as store_image'))
+                ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/shop_images') . '","/",s.store_image)  as store_image'))
                 ->join('stores as s', 's.id', 'o.shop_id')
                 ->join('user_address as ua', 'ua.id', 'o.address_id')
                 ->where('o.user_id', Auth::id())
@@ -1372,7 +1372,7 @@ class ApiController extends Controller
                 return response()->json($arr, 200);
             }
             $product_details =  DB::table('orders_details as od')
-                ->select('p.*', 'c.category_name', 'sc.name as sub_category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/app/product_images') . '","/",product_image)  as product_image'))
+                ->select('p.*', 'c.category_name', 'sc.name as sub_category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/product_images') . '","/",product_image)  as product_image'))
                 ->join('products as p', 'p.id', 'od.product_id')
                 ->join('category as c', 'c.id', 'p.category_id')
                 ->join('sub_category as sc', 'sc.id', 'p.sub_cat_id')
@@ -1834,7 +1834,7 @@ class ApiController extends Controller
                 $OrderDetails->products = $data;
 
                 foreach ($data as $val) {
-                    $val->p_image = $val->p_image ? url('storage/app/product_images') . '/' . $val->p_image : '';
+                    $val->p_image = $val->p_image ? url('storage/product_images') . '/' . $val->p_image : '';
                 }
 
 
@@ -1859,7 +1859,7 @@ class ApiController extends Controller
         $userId = Auth::id();
         $categoryId = $request->category_id;
         try {
-            $suggestion_product = DB::table('products as p')->select('p.*', 'p.product_image as imagename', 'c.category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/app/product_images') . '","/",product_image)  as product_image'))
+            $suggestion_product = DB::table('products as p')->select('p.*', 'p.product_image as imagename', 'c.category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/product_images') . '","/",product_image)  as product_image'))
                 ->join('category as c', 'c.id', 'p.category_id')
                 ->join('stores as s', 's.id', 'p.shop_id')
                 ->join('uom as u', 'u.id', 'p.uom_id')
@@ -1911,7 +1911,7 @@ class ApiController extends Controller
                 foreach ($data as $val) {
                     $store = DB::table('stores')->where('id', $val->shop_id)->first();
                     $val->storename = $store->store_name;
-                    $val->storeimage = $store->store_image ? url('storage/app/shop_images') . '/' . $store->store_image : '';
+                    $val->storeimage = $store->store_image ? url('storage/shop_images') . '/' . $store->store_image : '';
                 }
 
                 $arr['status'] = 1;
