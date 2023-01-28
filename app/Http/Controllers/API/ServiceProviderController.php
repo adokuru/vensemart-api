@@ -1420,7 +1420,7 @@ class ServiceProviderController extends Controller
 
             if ($user) {
                 $userdata = User::where('id', Auth::id())->first();
-                $userdata->profile = !empty($userdata->profile) ? url('uploads/profile') . '/' . $userdata->profile : '';
+                $userdata->profile = !empty($userdata->profile) ? url('storage/uploads/profile') . '/' . $userdata->profile : '';
                 $arr['status'] = 1;
                 $arr['message'] = 'Success';
                 $arr['data']['user'] = $userdata;
