@@ -309,7 +309,8 @@ class AuthController extends Controller
 
             if (!empty($request->profile)) {
                 $file_name = date('dmy') . rand(1, 4) . $request->file('profile')->getClientOriginalName();
-                $store = $request->file('profile')->move('uploads/profile', $file_name);
+                $store = $request->file('profile')->storeAs('public/uploads/profile', $file_name);
+
                 if ($store) {
                     $data['profile'] = $file_name;
                 }
@@ -954,7 +955,7 @@ class AuthController extends Controller
 
             if (!empty($request->profile)) {
                 $file_name = date('dmy') . rand(1, 4) . $request->file('profile')->getClientOriginalName();
-                $store = $request->file('profile')->move('uploads/profile', $file_name);
+                $store = $request->file('profile')->storeAs('public/uploads/profile', $file_name);
                 if ($store) {
                     $insert['profile'] = $file_name;
                 } else {
