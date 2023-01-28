@@ -17,6 +17,7 @@
         "laravel/passport": "^10.3",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
+        "onecentlin/laravel-adminer": "^6.0",
         "twilio/sdk": "^6.43"
     },
     "require-dev": {
