@@ -13,10 +13,9 @@ use App\Models\User;
 use App\Traits\SendMessage;
 
 
-use Mail;
-
 use App\Mail\NotifyMail;
 use App\Models\UserVerifiedInfo;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -540,10 +539,13 @@ class AuthController extends Controller
             $data['name'] = $getServiceProvider->name;
             $data['msg'] = "New Service Recieved : your have received new  service successfully, Booking id is " . $bookingId;
             $data['subject'] = "Service Recieved";
-            \Mail::to($getServiceProvider->email)->send(new \App\Mail\SendOrderMail($data));
+            Mail::to($getServiceProvider->email)->send(new \App\Mail\SendOrderMail($data));
             if (Mail::failures()) {
-
-                return new Error(Mail::failures());
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => env('APP_ENV') == 'local' ? Mail::failures() : 'Something went wrong',
+                    'data' => NULL
+                ), 500);
             }
         }
 
@@ -552,10 +554,13 @@ class AuthController extends Controller
         die;
         $data['otp'] = "1234";
 
-        \Mail::to('duversh@maxtratechnologies.net')->send(new \App\Mail\SendOtpMail($data));
+        Mail::to('duversh@maxtratechnologies.net')->send(new \App\Mail\SendOtpMail($data));
         if (Mail::failures()) {
-
-            return new Error(Mail::failures());
+            return response()->json(array(
+                'status' => 0,
+                'message' => env('APP_ENV') == 'local' ? Mail::failures() : 'Something went wrong',
+                'data' => NULL
+            ), 500);
         }
         /*
             $otp = rand(1111,9999);
@@ -608,7 +613,7 @@ class AuthController extends Controller
             $msg = "Dear Applicant, your OTP for vensemart app forgot password is " . $otp . ". Please do not share it with other.";
             if (is_numeric($request->username)) {
                 $m_number = "234" . $request->username;
-                $this->send_otp($m_number, $msg);
+                // $this->send_otp($m_number, $msg);
             }
 
             $sent = true;
@@ -618,7 +623,7 @@ class AuthController extends Controller
                 $data['msg'] = "your OTP for vensemart app forgot password is " . $otp . ". Please do not share it with other.";
                 $data['subject'] = "Otp Received";
 
-                \Mail::to($request->username)->send(new \App\Mail\SendOtpMail($data));
+                Mail::to($request->username)->send(new \App\Mail\SendOtpMail($data));
                 //$sent = true;
             }
             if (!$sent) {
@@ -635,7 +640,7 @@ class AuthController extends Controller
             $arr['data'] = $otp;
 
             return response()->json($arr, 200);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'something went wrong.';
             $arr['data'] = NULL;
@@ -667,7 +672,7 @@ class AuthController extends Controller
             $msg = "Dear Applicant, your OTP for vensemart app is " . $otp . ". Please do not share it with other.";
             if (is_numeric($request->username)) {
                 $m_number = "234" . $request->username;
-                $this->send_otp($m_number, $msg);
+                // $this->send_otp($m_number, $msg);
             }
 
             $data = array(
@@ -686,7 +691,7 @@ class AuthController extends Controller
                 $data['msg'] = "your OTP for vensemart app is " . $otp . ". Please do not share it with other.";
                 $data['subject'] = "Otp Received";
 
-                \Mail::to($request->username)->send(new \App\Mail\SendOtpMail($data));
+                Mail::to($request->username)->send(new \App\Mail\SendOtpMail($data));
                 //$sent = true;
             }
             if (!$sent) {
@@ -703,7 +708,7 @@ class AuthController extends Controller
             $arr['data'] = $otp;
 
             return response()->json($arr, 200);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'something went wrong.';
             $arr['data'] = NULL;
@@ -758,7 +763,7 @@ class AuthController extends Controller
                 'message' => 'Success',
                 'data' => $data
             ), 200);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(array(
                 'status' => 0,
                 'message' => 'something went wrong.',
@@ -809,7 +814,7 @@ class AuthController extends Controller
                 'message' => 'Success',
                 'data' => $data
             ), 200);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(array(
                 'status' => 0,
                 'message' => 'something went wrong.',
@@ -869,12 +874,12 @@ class AuthController extends Controller
                 'message' => 'unable to change password.',
                 'data' => NULL
             ), 200);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(array(
                 'status' => 0,
                 'message' => 'something went wrong.',
                 'data' => NULL
-            ), 200);
+            ), 500);
         }
     }
 
@@ -926,7 +931,7 @@ class AuthController extends Controller
                 'message' => 'unable to change password.',
                 'data' => NULL
             ), 200);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(array(
                 'status' => 0,
                 'message' => 'something went wrong.',
