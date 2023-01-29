@@ -710,11 +710,10 @@ class ServiceProviderController extends Controller
                     "serviceprovider_category.category_icon",
                     "users.location",
                     "users.service_type_price",
-                    "servicebook_user.status",
+                    "users.status",
                 )
                 ->where('users.type', 3)
                 ->leftJoin('serviceprovider_category', 'serviceprovider_category.id', '=', 'users.service_type')
-                ->leftJoin('servicebook_user', 'servicebook_user.service_pro_id', '=', 'users.id')
                 ->get();
 
 
@@ -726,10 +725,10 @@ class ServiceProviderController extends Controller
 
             foreach ($data as $key => $value) {
                 $data[$key]->booking_count = DB::table('servicebook_user')->where('service_pro_id', $value->id)->where('status', 2)->count();
-                // $data[$key]->service_provider_rating =  number_format((float) DB::table('servicebook_user')
-                //     ->where('service_pro_id', $value->id)
-                //     ->where('rating', '!=', 0)
-                //     ->avg('rating'), 1, '.', '');
+                $data[$key]->service_provider_rating =  number_format((float) DB::table('servicebook_user')
+                    ->where('service_pro_id', $value->id)
+                    ->where('rating', '!=', 0)
+                    ->avg('rating'), 1, '.', '');
             }
 
 
@@ -750,7 +749,7 @@ class ServiceProviderController extends Controller
                 $result[$key]['location'] = $value->location;
                 $result[$key]['service_type_price'] = $value->service_type_price;
                 $result[$key]['booking_count'] = $value->booking_count;
-                // $result[$key]['service_provider_rating'] = $value->service_provider_rating ? $value->service_provider_rating : 0;
+                $result[$key]['service_provider_rating'] = $value->service_provider_rating;
             }
 
 
