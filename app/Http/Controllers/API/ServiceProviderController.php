@@ -316,6 +316,11 @@ class ServiceProviderController extends Controller
                     ->avg('rating'), 1, '.', '');
             }
 
+            // conver service provider rating to return number
+            foreach ($data as $key => $value) {
+                $data[$key]->service_provider_rating = number_format((float) $value->service_provider_rating, 1, '.', '');
+            }
+
 
             if (!empty($data[0])) {
                 $arr['status'] = 1;
