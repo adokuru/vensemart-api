@@ -313,6 +313,7 @@ class ServiceProviderController extends Controller
                 $val->service_category = DB::table('serviceprovider_category')->where('id', $val->service_type)->first();
                 $val->service_provider_rating = number_format((float) DB::table('servicebook_user')
                     ->where('service_pro_id', $val->id)
+                    ->where('rating', '!=', 0)
                     ->avg('rating'), 1, '.', '');
             }
 
@@ -727,6 +728,7 @@ class ServiceProviderController extends Controller
                 $data[$key]->booking_count = DB::table('servicebook_user')->where('service_pro_id', $value->id)->where('status', 2)->count();
                 $data[$key]->service_provider_rating =  number_format((float) DB::table('servicebook_user')
                     ->where('service_pro_id', $value->id)
+                    ->where('rating', '!=', 0)
                     ->avg('rating'), 1, '.', '');
             }
 
