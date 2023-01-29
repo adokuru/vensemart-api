@@ -725,7 +725,12 @@ class ServiceProviderController extends Controller
 
             foreach ($data as $key => $value) {
                 $data[$key]->booking_count = DB::table('servicebook_user')->where('service_pro_id', $value->id)->where('status', 2)->count();
+                $data[$key]->service_provider_rating = DB::table('servicebook_user')
+                    ->where('service_pro_id', $value->id)
+                    ->avg('rating');
+                $data[$key]->service_provider_rating = number_format((float) $data->service_provider_rating, 1, '.', '');
             }
+
 
             // order by booking count
 
