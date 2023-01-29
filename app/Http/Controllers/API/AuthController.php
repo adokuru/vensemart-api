@@ -1098,7 +1098,7 @@ class AuthController extends Controller
     public function get_location()
     {
         try {
-            $user = User::where('id', Auth::id())->first(['location_lat', 'location', 'location_long']);
+            $user = User::where('id', Auth::id())->first(['location_lat', 'location', 'location_long', 'state']);
             if ($user) {
                 $arr['status'] = 1;
                 $arr['message'] = 'Success';
@@ -1126,6 +1126,7 @@ class AuthController extends Controller
 
         $validate = Validator::make($request->all(), [
             'location' => 'required',
+            'state' => 'required',
             'location_lat' => 'required',
             'location_long' => 'required'
         ]);
@@ -1134,7 +1135,6 @@ class AuthController extends Controller
             $arr['status'] = 0;
             $arr['message'] = $validate->errors()->first();
             $arr['data'] = NULL;
-
             return response()->json($arr, 422);
         }
 
