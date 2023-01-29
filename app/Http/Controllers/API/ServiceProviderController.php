@@ -240,7 +240,9 @@ class ServiceProviderController extends Controller
             ->where('service_pro_id', $id)
             ->avg('rating');
 
-        $data->service_provider_rating = $data->service_provider_rating ? $data->service_provider_rating : 0;
+        $data->service_provider_rating = number_format((float) $data->service_provider_rating, 1, '.', '');
+
+        $data->service_provider_level = $this->calculateLevelForServiceProvider($id);
 
         return response()->json([
             'success' => 1,
