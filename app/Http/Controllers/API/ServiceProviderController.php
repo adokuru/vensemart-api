@@ -750,7 +750,7 @@ class ServiceProviderController extends Controller
                 $result[$key]['location'] = $value->location;
                 $result[$key]['service_type_price'] = $value->service_type_price;
                 $result[$key]['booking_count'] = $value->booking_count;
-                $result[$key]['service_provider_rating'] = $value->service_provider_rating ? $value->service_provider_rating : 0;
+                // $result[$key]['service_provider_rating'] = $value->service_provider_rating ? $value->service_provider_rating : 0;
             }
 
 
