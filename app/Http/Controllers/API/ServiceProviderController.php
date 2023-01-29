@@ -309,9 +309,9 @@ class ServiceProviderController extends Controller
 
             foreach ($data as $val) {
                 $val->service_category = DB::table('serviceprovider_category')->where('id', $val->service_type)->first();
-                $val->service_provider_rating = DB::table('servicebook_user')
+                $val->service_provider_rating = floatval(DB::table('servicebook_user')
                     ->where('service_pro_id', $val->id)
-                    ->avg('rating');
+                    ->avg('rating'));
             }
 
 
