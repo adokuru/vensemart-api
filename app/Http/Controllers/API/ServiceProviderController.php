@@ -329,7 +329,7 @@ class ServiceProviderController extends Controller
             }
         } catch (\Exception $e) {
             $arr['status'] = 0;
-            $arr['message'] = 'Sorry!! Something Went Wrong';
+            $arr['message'] = env('APP_DEBUG') ? $e->getMessage() : 'Sorry!! Something Went Wrong';
             $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
