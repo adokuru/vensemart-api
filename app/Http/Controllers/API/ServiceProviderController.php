@@ -313,7 +313,7 @@ class ServiceProviderController extends Controller
                 $val->service_category = DB::table('serviceprovider_category')->where('id', $val->service_type)->first();
                 $val->service_provider_rating = number_format((float) DB::table('servicebook_user')
                     ->where('service_pro_id', $val->id)
-                    ->andWhere('status', 1)
+                    ->where('status', 1)
                     ->avg('rating'), 1, '.', '');
             }
 
