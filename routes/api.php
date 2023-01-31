@@ -6,6 +6,7 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\ApiController;
 use App\Http\Controllers\API\SecondController;
 use App\Http\Controllers\API\DeliveryBoyController;
+use App\Http\Controllers\API\NewRoutesController;
 use App\Http\Controllers\API\ServiceProviderController;
 use App\Http\Controllers\Controller;
 
@@ -42,3 +43,5 @@ Route::post('forgot-password', [AuthController::class, 'send_otp']);
 Route::post('forgot-password-change', [AuthController::class, 'forgot_password']);
 
 Route::any('test/{phone_number}', [Controller::class, 'DojahVerifyNumber']);
+
+Route::post('send-support-message', [NewRoutesController::class, 'send_support_message']);

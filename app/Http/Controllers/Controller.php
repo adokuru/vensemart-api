@@ -34,7 +34,7 @@ class Controller extends BaseController
     }
 
 
-    public function DojahVerifyNumber($phone_number)
+    public function validateNumber($phone_number)
     {
         $request = Http::withHeaders([
             'Accept' => 'application/json',

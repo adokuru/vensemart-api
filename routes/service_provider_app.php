@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\NewRoutesController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\ServiceProviderController;
 
@@ -121,6 +122,13 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('buy_subscription_plan', [ServiceProviderController::class, 'buy_subscription_plan']);
 
     Route::any('get_subscription_plan', [ServiceProviderController::class, 'get_subscription_plan']);
+
+
+    Route::post('service-online-status', [NewRoutesController::class, 'service_online_status']);
+
+    Route::post('service-offline-status', [NewRoutesController::class, 'service_offline_status']);
+
+    Route::post('service-provider-verify-number', [NewRoutesController::class, 'VerifyNumber']);
 });
 
 Route::any('service/provider-subscription-plans', [ServiceProviderController::class, 'service_subscription_plans']);
