@@ -93,7 +93,7 @@ class NewRoutesController extends Controller
                 'message' => $request->message
             ];
 
-            Mail::to('info@vensemart.com')->send(new SendContactEmail($data));
+            Mail::to('info@vensemart.com')->subject($request->subject)->send(new SendContactEmail($data));
 
             return $this->sendResponse('Email sent successfully', $data);
         } catch (\Exception $e) {
