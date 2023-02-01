@@ -52,7 +52,7 @@ class Controller extends BaseController
             return response()->json($arr, 422);
         }
 
-        $users = User::where('phone', $phone_number)->first();
+        $users = User::where('mobile', $phone_number)->first();
 
         UserVerifiedInfo::create([
             'user_id' => $users->id,
