@@ -71,7 +71,8 @@ class Controller extends BaseController
             $last_name = $parts[1] ?? "";
         }
         if (strtoupper($first_name) == $data['entity']['firstName'] || $first_name == $data['entity']['lastName']) {
-            $users->otp = NULL;
+            $users->is_online = 1;
+            $users->status = 1;
             $users->is_phone_verified = 1;
             $users->save();
             $arr['status'] = 1;
@@ -80,7 +81,8 @@ class Controller extends BaseController
             return response()->json($arr, 200);
         }
         if (strtoupper($middle) == $data['entity']['firstName'] || $first_name == $data['entity']['lastName']) {
-            $users->otp = NULL;
+            $users->is_online = 1;
+            $users->status = 1;
             $users->is_phone_verified = 1;
             $users->save();
             $arr['status'] = 1;
@@ -89,16 +91,17 @@ class Controller extends BaseController
             return response()->json($arr, 200);
         }
         if (strtoupper($last_name) == $data['entity']['firstName'] || $first_name == $data['entity']['lastName']) {
-            $users->otp = NULL;
+            $users->is_online = 1;
+            $users->status = 1;
             $users->is_phone_verified = 1;
             $users->save();
             $arr['status'] = 1;
             $arr['message'] = 'OTP verified successfully';
             $arr['data'] = NULL;
-            return $this->sendResponse('OTP verified successfully', []);
+            return $this->sendResponse('verified successfully', []);
         }
 
-        return $this->sendError('OTP verification failed', [], 422);
+        return $this->sendError('verification failed', [], 422);
     }
 
     public function sendResponse($message, $result)
