@@ -9,11 +9,10 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
-use Kreait\Firebase\Messaging\CloudMessage;
-use Kreait\Firebase\Messaging\Notification;
+use Ladumor\OneSignal\OneSignal;
+
 
 class Controller extends BaseController
 {
@@ -149,42 +148,9 @@ class Controller extends BaseController
 
             $token = $user->device_token;
 
-            /************************Notification Start************/
+            $fields['include_player_ids'] = [$token];
 
-            $SERVER_API_KEY = env('FCM_KEY');
-
-            $data1 = [
-                "registration_ids" => [$token],
-                "notification" => [
-                    "title" => $data['title'],
-                    "body" => $data['body'],
-                ]
-            ];
-            $dataString = json_encode($data1);
-
-            $headers = [
-                'Authorization: key=' . $SERVER_API_KEY,
-                'Content-Type: application/json',
-            ];
-
-            $url = 'https://fcm.googleapis.com/fcm/send';
-            $ch = curl_init();
-
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-            curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-            // Disabling SSL Certificate support temporarly
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
-            // Execute post
-            $result = curl_exec($ch);
-            curl_close($ch);
-
-
-            dd($result);
+            OneSignal::sendPush($fields, $data);
 
             /*********************End Notification*****************/
         } catch (\Exception $e) {
