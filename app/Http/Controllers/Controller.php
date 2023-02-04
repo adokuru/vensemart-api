@@ -139,7 +139,6 @@ class Controller extends BaseController
                 "body" => $message,
             ];
 
-
             DB::table('notifications')->insert(['user_id' => $userID, 'title' => $data['title'], 'message' => $data['body'], 'type' => 3]);
 
             $user = User::find($userID);
@@ -150,7 +149,7 @@ class Controller extends BaseController
 
             $fields['include_player_ids'] = [$token];
 
-            \OneSignal::sendPush($fields, $message);
+            OneSignal::sendPush($fields, $message);
 
             /*********************End Notification*****************/
         } catch (\Exception $e) {
