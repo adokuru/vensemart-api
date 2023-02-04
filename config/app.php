@@ -175,7 +175,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Onecentlin\Adminer\ServiceProvider::class,
-        Ladumor\OneSignal\OneSignalServiceProvider::class,
+        Berkayk\OneSignal\OneSignalServiceProvider::class,
 
 
     ],
@@ -232,8 +232,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'OneSignal' => \Ladumor\OneSignal\OneSignal::class,
-
+        'OneSignal' => Berkayk\OneSignal\OneSignalFacade::class,
     ],
 
 ];

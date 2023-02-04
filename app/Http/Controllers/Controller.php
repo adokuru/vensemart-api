@@ -11,7 +11,6 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
-use Ladumor\OneSignal\OneSignal;
 
 
 class Controller extends BaseController
@@ -149,7 +148,7 @@ class Controller extends BaseController
 
             $fields['include_player_ids'] = [$token];
 
-            OneSignal::sendPush($fields, $message);
+            \OneSignal::sendNotificationToUser("Some Message", $userId, $url = null, $data = null);
 
             /*********************End Notification*****************/
         } catch (\Exception $e) {
