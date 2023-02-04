@@ -150,7 +150,7 @@ class Controller extends BaseController
 
             $fields['include_player_ids'] = [$token];
 
-            OneSignal::sendPush($fields, $data);
+            OneSignal::sendPush($fields, $message);
 
             /*********************End Notification*****************/
         } catch (\Exception $e) {
