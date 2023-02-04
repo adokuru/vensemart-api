@@ -146,9 +146,8 @@ class Controller extends BaseController
 
             $token = $user->device_token;
 
-            $fields['include_player_ids'] = [$token];
 
-            \OneSignal::sendNotificationToUser("Some Message", $userId, $url = null, $data = null);
+            \OneSignal::sendNotificationToUser("Some Message", $token, $url = null, $data = null);
 
             /*********************End Notification*****************/
         } catch (\Exception $e) {
