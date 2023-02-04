@@ -22,8 +22,8 @@ class ApiController extends Controller
         $name = "Rahul";
 
         $parts = explode(' ', $name);
-        if (count($parts) > 2) {
 
+        if (count($parts) > 2) {
             $first_name = $parts[0];
             $middle = $parts[1];
             $last_name = $parts[2];
