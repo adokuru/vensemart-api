@@ -147,7 +147,7 @@ class Controller extends BaseController
             $token = $user->device_token;
 
 
-            \OneSignal::sendNotificationToUser("Some Message", $token, $url = null, $data = null);
+            \OneSignal::sendNotificationToUser($message, $token, $url = null, $data = null);
 
             /*********************End Notification*****************/
         } catch (\Exception $e) {
