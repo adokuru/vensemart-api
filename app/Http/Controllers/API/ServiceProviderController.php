@@ -36,7 +36,7 @@ class ServiceProviderController extends Controller
             $user = User::find($userid);
 
             $user->service_type = $request->service_type_id;
-
+            $user->status = 0;
             $user->save();
 
             return response()->json([
