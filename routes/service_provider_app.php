@@ -129,6 +129,11 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('service-offline-status', [NewRoutesController::class, 'service_offline_status']);
 
     Route::post('service-provider-verify-number', [NewRoutesController::class, 'VerifyNumber']);
+
+
+    Route::post('verify-bvn', [NewRoutesController::class, 'bvn_verification']);
+    
+    Route::post('verify-bvn-number', [NewRoutesController::class, 'verifybvnOTP']);
 });
 
 Route::any('service/provider-subscription-plans', [ServiceProviderController::class, 'service_subscription_plans']);
