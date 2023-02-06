@@ -152,7 +152,7 @@ class NewRoutesController extends Controller
                     $user->otp = $otp;
                     $user->save();
 
-                    $phone_Number = '+234' . substr($bvnNumber, -10);
+                    $phone_Number = +234. substr($bvnNumber, -10);
                     $message = "Your Vensemart bvn authentication code is " . $otp . ". Please do not share this code with anyone. This code expires in 5 mins.";
                     $this->sendSMSMessage(intVal($phone_Number), $message);
                     return $this->sendResponse('Verify your number first', intVal($phone_Number));
