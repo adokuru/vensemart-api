@@ -52,11 +52,6 @@ class Controller extends BaseController
 
         $users = User::where('mobile', $phone_number)->first();
 
-        UserVerifiedInfo::create([
-            'user_id' => $users->id,
-            'data' => json_encode($data['entity'])
-        ]);
-
         // get user first name from name
         $parts = explode(' ', $users->name);
         if (count($parts) > 2) {
@@ -76,6 +71,10 @@ class Controller extends BaseController
             $arr['status'] = 1;
             $arr['message'] = 'OTP verified successfully';
             $arr['data'] = NULL;
+            UserVerifiedInfo::create([
+                'user_id' => $users->id,
+                'data' => json_encode($data['entity'])
+            ]);
             return response()->json($arr, 200);
         }
         if (strtoupper($middle) == $data['entity']['firstName'] || $first_name == $data['entity']['lastName']) {
@@ -86,6 +85,10 @@ class Controller extends BaseController
             $arr['status'] = 1;
             $arr['message'] = 'OTP verified successfully';
             $arr['data'] = NULL;
+            UserVerifiedInfo::create([
+                'user_id' => $users->id,
+                'data' => json_encode($data['entity'])
+            ]);
             return response()->json($arr, 200);
         }
         if (strtoupper($last_name) == $data['entity']['firstName'] || $first_name == $data['entity']['lastName']) {
@@ -96,13 +99,17 @@ class Controller extends BaseController
             $arr['status'] = 1;
             $arr['message'] = 'OTP verified successfully';
             $arr['data'] = NULL;
+            UserVerifiedInfo::create([
+                'user_id' => $users->id,
+                'data' => json_encode($data['entity'])
+            ]);
             return $this->sendResponse('verified successfully', []);
         }
 
         return $this->sendError('verification failed', [], 422);
     }
 
-    public function sendResponse($message, $result)
+    public function sendResponse($message, $result = null)
     {
         $response = [
             'success' => true,
