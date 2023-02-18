@@ -196,4 +196,16 @@ class Controller extends BaseController
             throw new \Exception($e->getMessage());
         }
     }
+
+
+    public function deleteUserAccount($userID)
+    {
+        try {
+            $user = User::find($userID);
+            $user->delete();
+            return $this->sendResponse('User deleted successfully', []);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+    }
 }
