@@ -48,4 +48,4 @@ Route::post('send-support-message', [NewRoutesController::class, 'send_support_m
 
 Route::post('test-notification', [NewRoutesController::class, 'test_notification']);
 
-Route::post('/delete-account', [NewRoutesController::class, 'delete_account']);
+Route::post('delete-account', [NewRoutesController::class, 'delete_account']);
