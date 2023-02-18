@@ -47,3 +47,5 @@ Route::any('test/{phone_number}', [Controller::class, 'DojahVerifyNumber']);
 Route::post('send-support-message', [NewRoutesController::class, 'send_support_message']);
 
 Route::post('test-notification', [NewRoutesController::class, 'test_notification']);
+
+Route::post('/delete-account', [NewRoutesController::class, 'delete_account']);
