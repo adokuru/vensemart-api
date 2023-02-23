@@ -102,9 +102,9 @@
         </div>
     </div>
 
-    <script src="<?php echo URL::to('public/assets/plugins/jquery/jquery.min.js'); ?>"></script>
-    <script src="<?php echo url::to('public/assets/plugins/bootstrap/js/bootstrap.bundle.min.js'); ?>"></script>
-    <script src="<?php echo URL::to('public/assets/dist/js/adminlte.min.js'); ?>"></script>
+    <script src="<?php echo URL::to('/assets/plugins/jquery/jquery.min.js'); ?>"></script>
+    <script src="<?php echo url::to('/assets/plugins/bootstrap/js/bootstrap.bundle.min.js'); ?>"></script>
+    <script src="<?php echo URL::to('/assets/dist/js/adminlte.min.js'); ?>"></script>
 </body>
 
 </html>
