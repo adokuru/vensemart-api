@@ -28,6 +28,7 @@
                 <th>Name</th>
                 <th>Email</th>
                 <th>mobile</th>
+                <th>Service Type</th>
                 <th>Image</th>
                 <th>Is Verify</th>
                 <th>Status</th>
@@ -41,6 +42,67 @@
                 <td>{{ $val->name }}</td>
                 <td>{{ $val->email }}</td>
                 <td>{{ $val->mobile }}</td> 
+                <td><?php if($val->service_type == 1)
+                       {?> <span class="">Saloon</span> <?php } 
+                      elseif($val->service_type == 2)
+                       {?> <span class="">Hair and Nails</span> <?php } 
+                       elseif($val->service_type ==3)
+                       {?> <span class="">Men's Therapy</span> <?php } 
+                       elseif($val->service_type == 4)
+                       {?> <span class="">CCTV Installer</span> <?php } 
+                       elseif($val->service_type == 5)
+                       {?> <span class="">Solar Installer</span> <?php } 
+                       elseif($val->service_type == 6)
+                       {?> <span class="">Inverter Installer</span> <?php } 
+                       elseif($val->service_type == 7)
+                       {?> <span class="">AC Repairer</span> <?php } 
+                       elseif($val->service_type == 8)
+                       {?> <span class="">Barber</span> <?php } 
+                       elseif($val->service_type == 9)
+                       {?> <span class="">Generator Repairer</span> <?php } 
+                       elseif($val->service_type == 10)
+                       {?> <span class="">Car Mechanic</span> <?php } 
+                       elseif($val->service_type == 11)
+                       {?> <span class="">Janitors/Cleaners</span> <?php } 
+                       elseif($val->service_type == 12)
+                       {?> <span class="">Masseuse/SPA</span> <?php } 
+                       elseif($val->service_type == 13)
+                       {?> <span class="">Electronic Repairer</span> <?php } 
+                       elseif($val->service_type == 14)
+                       {?> <span class="">Painter</span> <?php } 
+                       elseif($val->service_type == 15)
+                       {?> <span class="">POP Installer</span> <?php } 
+                       elseif($val->service_type == 16)
+                       {?> <span class="">Tiler</span> <?php } 
+                       elseif($val->service_type == 17)
+                       {?> <span class="">Welder</span> <?php } 
+                       elseif($val->service_type == 18)
+                       {?> <span class="">Plumber</span> <?php } 
+                       
+                       elseif($val->service_type == 19)
+                       {?> <span class="">Carpenter</span> <?php } 
+                       
+                       elseif($val->service_type == 20)
+                       {?> <span class="">Laundry</span> <?php } 
+                       
+                       elseif($val->service_type == 21)
+                       {?> <span class="">Panel Beater</span> <?php } 
+                       
+                       elseif($val->service_type == 22)
+                       {?> <span class="">AC Installer</span> <?php } 
+                       
+                       elseif($val->service_type == 23)
+                       {?> <span class="">Pedicure and Manicure (Pedicurist)</span> <?php } 
+                       
+                       elseif($val->service_type == 24)
+                       {?> <span class="">Electrician</span> <?php } 
+                       
+                       elseif($val->service_type == 25)
+                       {?> <span class="">Fridge Repairer</span> <?php } 
+                       
+          
+                       else{?> <span class="">No Service Chosen</span> <?php }
+                    ?></td>
 
                 <td> <?php if(!empty($val->id_prof)){?>
                     <img src="{{  url('uploads/id_prof').'/'. $val->id_prof }}"  width="30" height="30">
@@ -54,17 +116,17 @@
                 </td>
             
                
-               <<td><?php if($val->documents_approved == 2){ ?>
-                      <span class="badge badge-success"><i class="fa fa-check" aria-hidden="true"> Approved</i></span>
+               <<td><?php if($val->is_phone_verified == 1){ ?>
+                      <span class="badge badge-success"><i class="fa fa-check" aria-hidden="true"> Verified</i></span>
                 <?php }else { ?>
-                      <span class="badge badge-danger"><i class="fa fa-close">Disapproved</i></span>
+                      <span class="badge badge-danger"><i class="fa fa-close">Unverified</i></span>
                <?php  } ?></td>
          
                 <td>
                    
                     <select onchange="change_status_exist(<?php echo $val->id;?>,this)">
-                       <option value="1" <?php if($val->status == 1){ echo "Selected";}?> > Active </option>
-                       <option value="0" <?php if($val->status == 0){ echo "Selected";}?> >  InActive</option>
+                       <option value="1" <?php if($val->is_phone_verified == 1){ echo "Selected";}?> > Active </option>
+                       <option value="0" <?php if($val->is_phone_verified == 0){ echo "Selected";}?> >  InActive</option>
                       
                    </select>
                </td>
@@ -113,9 +175,9 @@
 
             dataType: "json",
 
-            url: '{{ url('admin/exist_driver/change_status_exist') }}',
+            url: '{{ url('admin/rejectedservice_provider/change_status_of_rejectedserviceprovider') }}',
 
-            data: {'status_val': status_val, 'd_id': d_id},
+            data: {'is_phone_verified': status_val, 'd_id': d_id},
 
             success: function(data){
               //  console.log(data);

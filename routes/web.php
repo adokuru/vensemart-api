@@ -125,6 +125,30 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['aft
     Route::any('order/completed_orders/editorders/{key}', [AdminController::class, 'managecomplete_editorders']);
     /***************************End Manage Completed Orders**********************/
 
+
+
+    /*********************************Manage Pending Service Orders*****************************/
+    Route::get('serviceorder/in-process/listing', [AdminController::class, 'managependingserviceorderslisting']);
+    Route::get('serviceorder/in_process/view/{key}', [AdminController::class, 'managependingserviceordersview']);
+    Route::any('serviceorder/in_process/edit/{key}', [AdminController::class, 'managependingserviceordersedit']);
+    /*********************************End Manage Service Orders************************/
+
+
+    /***************************Manage Completed Service Orders************************/
+    Route::get('serviceorder/completed_serviceorders/listing', [AdminController::class, 'managecompletedserviceorderslisting']);
+    Route::any('order/completed_orders/view_orders/{key}', [AdminController::class, 'managecompletedvieworders']);
+    Route::any('order/completed_orders/editorders/{key}', [AdminController::class, 'managecomplete_editorders']);
+    /***************************End Manage Completed Service Orders**********************/
+
+
+
+
+    /***************************Manage Cancelled Service Orders************************/
+    Route::get('serviceorder/cancelled_serviceorders/listing', [AdminController::class, 'managecancelledserviceorderslisting']);
+    Route::any('order/completed_orders/view_orders/{key}', [AdminController::class, 'managecompletedvieworders']);
+    Route::any('order/completed_orders/editorders/{key}', [AdminController::class, 'managecomplete_editorders']);
+    /***************************End Manage Cancelled Service Orders**********************/
+
     /****************************Manage Terms & Condition********************/
     Route::any('termscondition/update', [AdminController::class, 'termsconditionupdate']);
     /*****************************End Terms & Condition**********************/
