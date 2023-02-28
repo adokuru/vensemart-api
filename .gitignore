@@ -3,8 +3,6 @@
 /public/storage
 /public/storage/*
 /public/docs
-/storage/*.key
-/storage/*
 /vendor
 .env
 .env.backup
