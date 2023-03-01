@@ -95,9 +95,9 @@
           
                        else{?> <span class="badge badge-danger">No Service Chosen</span> <?php } ?>
                 </li>
-                <li class="list-group-item d-flex justify-content-between">
+                <!-- <li class="list-group-item d-flex justify-content-between">
                     <span>Status </span> <?php if($listing->status == 1){?> <span class="badge badge-success">Active</span> <?php }else{?> <span class="badge badge-danger">InActive</span> <?php } ?>
-                </li>
+                </li> -->
                 <li class="list-group-item d-flex justify-content-between">
                      <span>Is Verified</span> <?php if($listing->is_phone_verified == 1){?> <span class="badge badge-info"> Verified</span> 
                       <?php }else{?> <span class="badge badge-danger">Unverified</span> <?php }?>

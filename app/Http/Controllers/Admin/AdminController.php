@@ -216,9 +216,9 @@ class AdminController extends Controller
     public function change_status_of_serviceprovider(Request $request)
     {
         $serviceprovider_id=$request->s_id;
-        $serviceprovider_status=$request->is_vaify_val;
+        $serviceprovider_is_phone_verified=$request->is_vaify_val;
         
-        DB::table('users')->where('id',$serviceprovider_id)->update(['documents_approved'=>$serviceprovider_status]);
+        DB::table('users')->where('id',$serviceprovider_id)->update(['is_phone_verified'=>$serviceprovider_is_phone_verified]);
          return response()->json(['status' => 200, 'message'=>'Documents Approved successfully.']);
         
     }

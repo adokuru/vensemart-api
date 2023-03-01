@@ -14,12 +14,12 @@
 
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">Existing Service Provider Listing</h3>
+            <h3 class="card-title">New Service Provider Listing</h3>
              <div class=" ml-auto w-75 text-right ">
-               
+                <a href="{{url('admin/new-driver/add')}}" class="btn btn-primary btn-sm px-4"> Add </a>
              </div>
           </div>
-          <!-- /.card-header -->
+          <!-- card-header -->
           <div class="card-body">
             <table id="example1" class="table table-bordered table-striped">
               <thead>
@@ -28,11 +28,13 @@
                 <th>Name</th>
                 <th>Email</th>
                 <th>mobile</th>
-                <th>Service Type</th>
-                <th>Image</th>
-                <th>Is Verify</th>
-                <th>Status</th>
+                <th>Service</th>
+                <th>ID Proof</th>  
+                <th>Verify</th>
+                <th>Is Verified</th>
                 <th>Registered</th>
+             
+                <!-- <th>Status</th> -->
                 <th>Action</th>
               </tr>
               </thead>
@@ -43,6 +45,8 @@
                 <td>{{ $val->name }}</td>
                 <td>{{ $val->email }}</td>
                 <td>{{ $val->mobile }}</td> 
+                
+
                 <td><?php if($val->service_type == 1)
                        {?> <span class="">Saloon</span> <?php } 
                       elseif($val->service_type == 2)
@@ -115,25 +119,24 @@
                     }
                     ?>
                 </td>
-            
-               
-               <<td><?php if($val->is_phone_verified == 1){ ?>
-                      <span class="badge badge-success"><i class="fa fa-check" aria-hidden="true"> Verified</i></span>
-                <?php }else { ?>
-                      <span class="badge badge-danger"><i class="fa fa-close">Unverified</i></span>
-               <?php  } ?></td>
-         
                 <td>
-                   
-                    <select onchange="change_status_exist(<?php echo $val->id;?>,this)">
-                       <option value="1" <?php if($val->is_phone_verified == 1){ echo "Selected";}?> > Active </option>
-                       <option value="0" <?php if($val->is_phone_verified == 0){ echo "Selected";}?> >  InActive</option>
-                      
-                   </select>
+               
+               <select onchange="change_status(<?php echo $val->id;?>,this)">
+                   <option value="0" <?php if($val->is_phone_verified == 0){ echo "Selected";}?> > <a href="#heading1">Unverify </a></option>
+                   <option value="1" <?php if($val->is_phone_verified == 1){ echo "Selected";}?> >  <a href="#heading1">Verify </a></option>
+          
+               </select>
+               </td>
+                <td>
+                    <?php if($val->is_phone_verified == 1){ ?>
+                      <span class="badge badge-success">Verified</span>
+                <?php }else { ?>
+                      <span class="badge badge-danger">Not Verified</span>
+               <?php  } ?>
                </td>
 
                <td>  {{ \Carbon\Carbon::parse($val->created_at)->diffForHumans() }}</td>
-                <td>
+               <td>
                     <a href="{{url('admin/exist_serviceprovider/viewserviceprovider').'/'.$val->id }}"><i class="fa fa-eye" aria-hidden="true"></i></a> |
                     <!--<a href="{{url('admin/new-driver/edit').'/'.$val->id }}"><i class="fas fa-edit"></i></a> |-->
                     <a href="{{url('admin/exist_serviceprovider/existingserviceprovider_delete').'/'.$val->id }}"><i class="fas fa-trash"></i></a>
@@ -169,8 +172,8 @@
   
   
 
-    function change_status_exist(d_id,a){
-        var status_val  =a.value;
+    function change_status(d_id,a){
+        var is_phone_verified  =a.value;
      
           $.ajax({
 
@@ -178,12 +181,12 @@
 
             dataType: "json",
 
-            url: '{{ url('admin/rejectedservice_provider/change_status_of_rejectedserviceprovider') }}',
+            url: '{{ url('admin/new_serviceprovider/change_status_of_serviceprovider') }}',
 
-            data: {'is_phone_verified': status_val, 'd_id': d_id},
+            data: {'is_vaify_val': is_phone_verified, 's_id': d_id},
 
             success: function(data){
-              //  console.log(data);
+                //console.log(data);
             location.reload();
             }
 

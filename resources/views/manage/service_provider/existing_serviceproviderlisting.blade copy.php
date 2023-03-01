@@ -46,163 +46,76 @@
                 
                 <td><?php if($val->service_type == 1)
                        {?> <span class="">Saloon</span> <?php } 
-                       elseif($val->service_type == 2)
+                      elseif($val->service_type == 2)
                        {?> <span class="">Hair and Nails</span> <?php } 
-                       elseif($val->service_type == 3)
+                       elseif($val->service_type ==3)
                        {?> <span class="">Men's Therapy</span> <?php } 
-                       elseif($val->service_type == 6)
+                       elseif($val->service_type == 4)
                        {?> <span class="">CCTV Installer</span> <?php } 
-                       elseif($val->service_type == 7)
+                       elseif($val->service_type == 5)
                        {?> <span class="">Solar Installer</span> <?php } 
-                       elseif($val->service_type == 8)
+                       elseif($val->service_type == 6)
                        {?> <span class="">Inverter Installer</span> <?php } 
-                       elseif($val->service_type == 10)
+                       elseif($val->service_type == 7)
                        {?> <span class="">AC Repairer</span> <?php } 
-                       elseif($val->service_type == 11)
+                       elseif($val->service_type == 8)
                        {?> <span class="">Barber</span> <?php } 
-                       elseif($val->service_type == 12)
+                       elseif($val->service_type == 9)
                        {?> <span class="">Generator Repairer</span> <?php } 
-                       elseif($val->service_type == 13)
+                       elseif($val->service_type == 10)
                        {?> <span class="">Car Mechanic</span> <?php } 
-                       elseif($val->service_type == 14)
+                       elseif($val->service_type == 11)
                        {?> <span class="">Janitors/Cleaners</span> <?php } 
-                       elseif($val->service_type == 15)
+                       elseif($val->service_type == 12)
                        {?> <span class="">Masseuse/SPA</span> <?php } 
-                       elseif($val->service_type == 16)
+                       elseif($val->service_type == 13)
                        {?> <span class="">Electronic Repairer</span> <?php } 
-                       elseif($val->service_type == 17)
+                       elseif($val->service_type == 14)
                        {?> <span class="">Painter</span> <?php } 
-                       elseif($val->service_type == 18)
+                       elseif($val->service_type == 15)
                        {?> <span class="">POP Installer</span> <?php } 
-                       elseif($val->service_type == 20)
+                       elseif($val->service_type == 16)
                        {?> <span class="">Tiler</span> <?php } 
-                       elseif($val->service_type == 21)
+                       elseif($val->service_type == 17)
                        {?> <span class="">Welder</span> <?php } 
-                       elseif($val->service_type == 22)
+                       elseif($val->service_type == 18)
                        {?> <span class="">Plumber</span> <?php } 
                        
-                       elseif($val->service_type == 23)
+                       elseif($val->service_type == 19)
                        {?> <span class="">Carpenter</span> <?php } 
                        
-                       elseif($val->service_type == 24)
+                       elseif($val->service_type == 20)
                        {?> <span class="">Laundry</span> <?php } 
                        
-                       elseif($val->service_type == 25)
+                       elseif($val->service_type == 21)
                        {?> <span class="">Panel Beater</span> <?php } 
                        
-                       elseif($val->service_type == 26)
+                       elseif($val->service_type == 22)
                        {?> <span class="">AC Installer</span> <?php } 
                        
-                       elseif($val->service_type == 27)
+                       elseif($val->service_type == 23)
                        {?> <span class="">Pedicure and Manicure (Pedicurist)</span> <?php } 
                        
-                       elseif($val->service_type == 28)
+                       elseif($val->service_type == 24)
                        {?> <span class="">Electrician</span> <?php } 
                        
-                       elseif($val->service_type == 29)
+                       elseif($val->service_type == 25)
                        {?> <span class="">Fridge Repairer</span> <?php } 
-
-
-                       elseif($val->service_type == 30)
-                       {?> <span class="">Aliminum door/window Installer</span> <?php } 
                        
-                       elseif($val->service_type == 31)
-                       {?> <span class="">Safety and Fire Alarm System Installer</span> <?php }
-                       
-                       elseif($val->service_type == 32)
-                       {?> <span class="">Bricklayer</span> <?php }
-                       elseif($val->service_type == 33)
-                       {?> <span class="">Dish Installer</span> <?php }
-                       elseif($val->service_type == 34)
-                       {?> <span class="">Tailor</span> <?php }   
-
-                       elseif($val->service_type == 37)
-                       {?> <span class="">CCTV, SOLAR and INVERTER</span> <?php }  
-                       
-                       elseif($val->service_type == 38)
-                       {?> <span class="">Make-up Artist</span> <?php }  
-
-
-                       elseif($val->service_type == 39)
-                       {?> <span class="">Gele Tie</span> <?php }  
-
-
-                       elseif($val->service_type == 40)
-                       {?> <span class="">Television Repairer</span> <?php }  
-                       
-
-                       elseif($val->service_type == 41)
-                       {?> <span class="">Photographer and Videographer</span> <?php }  
-                       
-
-                       elseif($val->service_type == 42)
-                       {?> <span class="">Welder</span> <?php }  
-
-
-                       elseif($val->service_type == 43)
-                       {?> <span class=""> Honda Car Mechanic</span> <?php }  
-
-
-
-                       elseif($val->service_type == 44)
-                       {?> <span class="">  Toyota Mechanic</span> <?php }  
-
-
-
-
-                       elseif($val->service_type == 45)
-                       {?> <span class="">  Ford Mechanic</span> <?php } 
-
-
-
-                       elseif($val->service_type == 46)
-                       {?> <span class="">   Kia Mechanic</span> <?php } 
-                       
-
-
-                       elseif($val->service_type == 47)
-                       {?> <span class="">   Nissan Car Mechanic</span> <?php } 
-
-
-                       elseif($val->service_type == 49)
-                       {?> <span class="">   Cake & Pastries Maker</span> <?php } 
-
-
-
-                       elseif($val->service_type == 50)
-                       {?> <span class="">   Panel Beater</span> <?php } 
-
-
-
-        
-                       elseif($val->service_type == 51)
-                       {?> <span class="">    Auto Electrician</span> <?php } 
-
-
-                       elseif($val->service_type == 52)
-                       {?> <span class="">    Japanese Car Mechanic</span> <?php } 
-
-
-                       elseif($val->service_type ==53)
-                       {?> <span class="">     Shoe Cobbler</span> <?php } 
-
-                       
-                     
           
                        else{?> <span class="">No Service Chosen</span> <?php }
                     ?></td>
 
-                      <td> <?php if(!empty($val->profile)){?>
-                                                <img src="{{ url('storage/uploads/profile') . '/' . $val->profile }}" width="50" height="50">
-                                                <?php } 
-                    else
+                <td> <?php if(!empty($val->id_prof)){?>
+                    <img src="{{  url('uploads/id_prof').'/'. $val->id_prof }}"  width="30" height="30">
+                    <?php }else
                     {
                         ?>
-                                                <img src="{{ url('uploads/profile') }}/noimageavailable.jpg" width="50" height="50">
-                                                <?php
+                        <img src="{{url('uploads/profile')}}/noimageavailable.jpg" width="50" height="50">
+                        <?php
                     }
                     ?>
-                                            </td>
+                </td>
             
                
                <<td><?php if($val->is_phone_verified == 1){ ?>
