@@ -29,10 +29,9 @@
                                             <th>Name</th>
                                             <th>Email</th>
                                             <th>mobile</th>
-
-
                                             <th>Image</th>
                                             <th>Status</th>
+                                            <th>Registered</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -61,6 +60,7 @@
                                                 <span class="badge badge-danger">InActive</span>
                                                 <?php  } ?>
                                             </td>
+                                            <td>  {{ \Carbon\Carbon::parse($val->created_at)->diffForHumans() }}</td>
                                             <td>
                                                 <a href="{{ url('admin/new-user/edit') . '/' . $val->id }}"><i class="fas fa-edit"></i></a> |
                                                 <a href="{{ url('admin/new-user/delete') . '/' . $val->id }}"><i class="fas fa-trash"></i></a>

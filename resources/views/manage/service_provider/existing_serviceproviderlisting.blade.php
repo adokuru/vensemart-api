@@ -32,6 +32,7 @@
                 <th>Image</th>
                 <th>Is Verify</th>
                 <th>Status</th>
+                <th>Registered</th>
                 <th>Action</th>
               </tr>
               </thead>
@@ -130,6 +131,8 @@
                       
                    </select>
                </td>
+
+               <td>  {{ \Carbon\Carbon::parse($val->created_at)->diffForHumans() }}</td>
                 <td>
                     <a href="{{url('admin/exist_serviceprovider/viewserviceprovider').'/'.$val->id }}"><i class="fa fa-eye" aria-hidden="true"></i></a> |
                     <!--<a href="{{url('admin/new-driver/edit').'/'.$val->id }}"><i class="fas fa-edit"></i></a> |-->

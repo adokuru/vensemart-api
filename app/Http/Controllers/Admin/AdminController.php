@@ -225,7 +225,7 @@ class AdminController extends Controller
     
     public function exist_serviceprovider()
     {
-        $data['listing']= DB::table('users')->where('type',3)->get();
+        $data['listing']= DB::table('users')->where('type',3)->latest()->get();
          return view('manage.service_provider.existing_serviceproviderlisting',$data);
     }
     public function viewserviceprovider($id)
