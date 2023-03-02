@@ -239,21 +239,21 @@ class Dashboard extends Model
     public function get_total_weekly_existing_service_user(){
        
         // DB::enableQueryLog();
-        $result  = DB::table('users')->where('type', "3")->where('created_at', '>=', Carbon::now()->startOfWeek()->toDateString())->count('id');
+        $result  = DB::table('users')->where('type', "3")->where('created_at', '>=', Carbon::now()->startOfWeek()->toDateString())->count();
         // dd(DB::getQueryLog());die;
         return $result;
     }
     public function get_total_monthly_existing_service_user(){
         
         // DB::enableQueryLog();
-        $result  = DB::table('users')->where('type', "3")->where('created_at', '>=', Carbon::now()->startOfMonth()->toDateString())->count('id');
+        $result  = DB::table('users')->where('type', "3")->where('created_at', '>=', Carbon::now()->startOfMonth()->toDateString())->count();
         // dd(DB::getQueryLog());die;
         return $result;
     }
     public function get_total_yearly_existing_service_user(){
        
         // DB::enableQueryLog();
-        $result  = DB::table('users')->where('type', "3")->where('created_at', '>=', Carbon::now()->startOfYear()->toDateString())->count('id');
+        $result  = DB::table('users')->where('type', "3")->where('created_at', '>=', Carbon::now()->startOfYear()->toDateString())->count();
         // dd(DB::getQueryLog());die;
         return $result;
     }
@@ -261,28 +261,28 @@ class Dashboard extends Model
     public function get_total_daily_new_service_user(){
         $array = ['1','2'];
         // DB::enableQueryLog();
-        $result  = DB::table('users')->where('type', "3")->where('created_at', '>=', Carbon::now()->toDateString())->count('id');
+        $result  = DB::table('users')->where('type', "3")->where('created_at', '>=', Carbon::now()->toDateString())->count();
         // dd(DB::getQueryLog());die;
         return $result;
     }
     public function get_total_weekly_new_service_user(){
        
         // DB::enableQueryLog();
-        $result  = DB::table('users')->where('type', "3")->where('created_at', '>=', Carbon::now()->startOfWeek()->toDateString())->count('id');
+        $result  = DB::table('users')->where('type', "3")->where('created_at', '>=', Carbon::now()->startOfWeek()->toDateString())->count();
         // dd(DB::getQueryLog());die;
         return $result;
     }
     public function get_total_monthly_new_service_user(){
         
         // DB::enableQueryLog();
-        $result  = DB::table('users')->where('type', "3")->where('created_at', '>=', Carbon::now()->startOfMonth()->toDateString())->count('id');
+        $result  = DB::table('users')->where('type', "3")->where('created_at', '>=', Carbon::now()->startOfMonth()->toDateString())->count();
         // dd(DB::getQueryLog());die;
         return $result;
     }
     public function get_total_yearly_new_service_user(){
        
         // DB::enableQueryLog();
-        $result  = DB::table('users')->where('type', "3")->where('created_at', '>=', Carbon::now()->startOfYear()->toDateString())->count('id');
+        $result  = DB::table('users')->where('type', "3")->where('created_at', '>=', Carbon::now()->startOfYear()->toDateString())->count();
         // dd(DB::getQueryLog());die;
         return $result;
     }  
