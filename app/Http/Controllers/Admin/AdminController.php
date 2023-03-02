@@ -24,7 +24,6 @@ class AdminController extends Controller
     public function dashboard()
     {
         $dashboard = new Dashboard();
-
         $data['get_total_daily_existing_user']         =  $dashboard->get_total_daily_existing_user();
         $data['get_total_weekly_existing_user']        =  $dashboard->get_total_weekly_existing_user();
         $data['get_total_monthly_existing_user']       =  $dashboard->get_total_monthly_existing_user();
@@ -43,7 +42,7 @@ class AdminController extends Controller
         $data['get_total_monthly_existing_service_user']       =  $dashboard->get_total_monthly_existing_user();
         $data['get_total_yearly_existing_service_user']        =  $dashboard->get_total_yearly_existing_user();
 
-        $data['get_total_daily_new_service_user']               =   $dashboard->get_total_daily_new_service_user();
+        $data['get_total_daily_new_service_user']              =  $dashboard->get_total_daily_new_service_user();
         $data['get_total_weekly_new_service_user']             =  $dashboard->get_total_weekly_new_service_user();
         $data['get_total_monthly_new_service_user']            =  $dashboard->get_total_monthly_new_service_user();
         $data['get_total_yearly_new_service_user']             =  $dashboard->get_total_yearly_new_service_user();
@@ -109,7 +108,6 @@ class AdminController extends Controller
         $data['user']=DB::table('users')->where('id',$id)->first();
         return view('manage.user.edit',$data);
     }
-    
     public function managenew_user()
     {
         $lastSavenDate = date('Y-m-d H:i:s', strtotime("-7 day", strtotime(date('Y-m-d H:i:s'))));

@@ -34,8 +34,8 @@
                         <a href="javascript:void(0);">
                           <div class="panel panel-success pricing-big">
                             <div class="panel-heading">
-                              <h3 class="panel-title">User 
-                              <span class="panel-title" style="display:inline-block;float:right;font-size:18px;"> {{$get_total_yearly_new_user}}</span></h3>
+                              <h3 class="panel-title">User
+                              <span class="panel-title" style="display:inline-block;float:right;font-size:18px;">Total Users This Year: {{$get_total_yearly_new_user}}</span></h3>
                             </div>
                             <div class="">
                               <div class="row">
@@ -55,7 +55,7 @@
                                   </h5>
                                 </div>
                                 <div class="col-md-3 col-6 text-center reports">
-                                  <h5>This Year
+                                  <h5>Yearly
                                     <strong>{{$get_total_yearly_new_user}}</strong>
                                   </h5>
                                 </div>
@@ -68,8 +68,8 @@
                         <a href="javascript:void(0);">
                           <div class="panel panel-success pricing-big">
                             <div class="panel-heading">
-                              <h3 class="panel-title"> Service Providers
-                              <span class="panel-title" style="display:inline-block;float:right;font-size:18px;"> {{$get_total_yearly_new_user}}</span></h3>
+                              <h3 class="panel-title">Service Provider
+                              <span class="panel-title" style="display:inline-block;float:right;font-size:18px;">Total Service Providers This Year : {{$get_total_yearly_new_service_user}}</span></h3>
                             </div>
                             <div class="">
                               <div class="row">
@@ -98,55 +98,14 @@
                           </div>
                         </a>
                       </div>
+                 
                     </div>
                   </div>
 
 
 
 
-                  <!-- <div class="container-fluid mt-3">
-                    <div class="row">
-                     
-                      
-                      <div class="col-md-6">
-                        <a href="javascript:void(0);">
-                          <div class="panel panel-success pricing-big">
-                            <div class="panel-heading">
-                              <h3 class="panel-title">Existing Service Provider
-                              <span class="panel-title" style="display:inline-block;float:right;font-size:18px;"> {{$get_total_yearly_existing_user}}</span></h3>
-                            </div>
-                            <div class="">
-                              <div class="row">
-                                <div class="col-md-3 col-6 text-center reports">
-                                  <h5>Today
-                                    <strong>{{$get_total_daily_existing_service_user}}</strong>
-                                  </h5>
-                                </div>
-                                <div class="col-md-3 col-6 text-center reports">
-                                  <h5>This Week
-                                    <strong>{{$get_total_weekly_existing_service_user}}</strong>
-                                  </h5>
-                                </div>
-                                <div class="col-md-3 col-6 text-center reports">
-                                  <h5>This Month
-                                    <strong>{{ $get_total_monthly_existing_service_user}} </strong>
-                                  </h5>
-                                </div>
-                                <div class="col-md-3 col-6 text-center reports">
-                                  <h5>This Year
-                                    <strong>{{ $get_total_yearly_existing_service_user }}</strong>
-                                  </h5>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </a>
-                      </div>
-          
-                    </div>
-                  </div> -->
-
-
+                  
                   
                   
                   <div class="container-fluid mt-3">
