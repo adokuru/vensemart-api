@@ -55,8 +55,8 @@
                                   </h5>
                                 </div>
                                 <div class="col-md-3 col-6 text-center reports">
-                                  <h5>Yearly
-                                    <strong>{{$get_total_yearly_new_user}}</strong>
+                                  <h5>Yesterday
+                                    <strong>{{$get_total_yesterday_new_user}}</strong>
                                   </h5>
                                 </div>
                               </div>
@@ -89,8 +89,8 @@
                                   </h5>
                                 </div>
                                 <div class="col-md-3 col-6 text-center reports">
-                                  <h5>This Year
-                                    <strong>{{$get_total_yearly_new_service_user}}</strong>
+                                  <h5>Yesterday
+                                    <strong>{{$get_total_yesterday_new_service_user}}</strong>
                                   </h5>
                                 </div>
                               </div>

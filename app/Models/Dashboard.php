@@ -11,6 +11,16 @@ class Dashboard extends Model
 {
     use HasFactory;
     
+
+
+    public function get_total_yesterday_new_user(){
+        $array = ['1','2'];
+        // DB::enableQueryLog();
+        $result  = DB::table('users')->where('type', "1")->where('created_at', '>=', Carbon::yesterday()->toDateString())->count('id');
+        // dd(DB::getQueryLog());die;
+        return $result;
+    }
+
     public function get_total_daily_existing_user(){
 
         // DB::enableQueryLog();
@@ -21,14 +31,14 @@ class Dashboard extends Model
     public function get_total_weekly_existing_user(){
        
         // DB::enableQueryLog();
-        $result  = DB::table('users')->where('type', "1")->where('created_at', '>=', Carbon::now()->startOfWeek()->toDateString())->count('id');
+        $result  = DB::table('users')->where('type', "1")->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->count('id');
         // dd(DB::getQueryLog());die;
         return $result;
     }
     public function get_total_monthly_existing_user(){
         
         // DB::enableQueryLog();
-        $result  = DB::table('users')->where('type', "1")->where('created_at', '>=', Carbon::now()->startOfMonth()->toDateString())->count('id');
+        $result  = DB::table('users')->where('type', "1")->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->count('id');
         // dd(DB::getQueryLog());die;
         return $result;
     }
@@ -50,14 +60,14 @@ class Dashboard extends Model
     public function get_total_weekly_new_user(){
        
         // DB::enableQueryLog();
-        $result  = DB::table('users')->where('type', "1")->where('created_at', '>=', Carbon::now()->startOfWeek()->toDateString())->count('id');
+        $result  = DB::table('users')->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->count('id');
         // dd(DB::getQueryLog());die;
         return $result;
     }
     public function get_total_monthly_new_user(){
         
         // DB::enableQueryLog();
-        $result  = DB::table('users')->where('type', "1")->where('created_at', '>=', Carbon::now()->startOfMonth()->toDateString())->count('id');
+        $result  = DB::table('users')->where('type', "1")->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->count('id');
         // dd(DB::getQueryLog());die;
         return $result;
     }
@@ -228,6 +238,8 @@ class Dashboard extends Model
         return $result; 
     }
 
+    
+
 
     public function get_total_daily_existing_service_user(){
 
@@ -239,14 +251,14 @@ class Dashboard extends Model
     public function get_total_weekly_existing_service_user(){
        
         // DB::enableQueryLog();
-        $result  = DB::table('users')->where('type', "3")->where('created_at', '>=', Carbon::now()->startOfWeek()->toDateString())->count('id');
+        $result  = DB::table('users')->where('type', "3")->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->count('id');
         // dd(DB::getQueryLog());die;
         return $result;
     }
     public function get_total_monthly_existing_service_user(){
         
         // DB::enableQueryLog();
-        $result  = DB::table('users')->where('type', "3")->where('created_at', '>=', Carbon::now()->startOfMonth()->toDateString())->count('id');
+        $result  = DB::table('users')->where('type', "3")->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->count('id');
         // dd(DB::getQueryLog());die;
         return $result;
     }
@@ -258,6 +270,17 @@ class Dashboard extends Model
         return $result;
     }
     
+
+
+    public function get_total_yesterday_new_service_user(){
+        $array = ['1','2'];
+        // DB::enableQueryLog();
+        $result  = DB::table('users')->where('type', "3")->where('created_at', '>=', Carbon::yesterday()->toDateString())->count('id');
+        // dd(DB::getQueryLog());die;
+        return $result;
+    }
+
+
     public function get_total_daily_new_service_user(){
         $array = ['1','2'];
         // DB::enableQueryLog();
@@ -265,6 +288,9 @@ class Dashboard extends Model
         // dd(DB::getQueryLog());die;
         return $result;
     }
+
+
+
     public function get_total_weekly_new_service_user(){
        
         // DB::enableQueryLog();
