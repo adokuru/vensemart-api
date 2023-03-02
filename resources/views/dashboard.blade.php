@@ -34,7 +34,7 @@
                         <a href="javascript:void(0);">
                           <div class="panel panel-success pricing-big">
                             <div class="panel-heading">
-                              <h3 class="panel-title">User Information
+                              <h3 class="panel-title">User 
                               <span class="panel-title" style="display:inline-block;float:right;font-size:18px;"> {{$get_total_yearly_new_user}}</span></h3>
                             </div>
                             <div class="">
@@ -68,7 +68,7 @@
                         <a href="javascript:void(0);">
                           <div class="panel panel-success pricing-big">
                             <div class="panel-heading">
-                              <h3 class="panel-title"> Service Provider Information
+                              <h3 class="panel-title"> Service Providers
                               <span class="panel-title" style="display:inline-block;float:right;font-size:18px;"> {{$get_total_yearly_new_user}}</span></h3>
                             </div>
                             <div class="">
