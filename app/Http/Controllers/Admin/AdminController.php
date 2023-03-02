@@ -37,10 +37,11 @@ class AdminController extends Controller
 
 
 
-        $data['get_total_daily_existing_service_user']         =  $dashboard->get_total_daily_existing_service_user();
-        $data['get_total_weekly_existing_service_user']        =  $dashboard->get_total_weekly_existing_user();
-        $data['get_total_monthly_existing_service_user']       =  $dashboard->get_total_monthly_existing_user();
-        $data['get_total_yearly_existing_service_user']        =  $dashboard->get_total_yearly_existing_user();
+        $data['get_total_daily_existing_service_user']         =   $dashboard->get_total_daily_new_service_user();
+        $data['get_total_weekly_existing_service_user']        =  $dashboard->get_total_weekly_new_service_user();
+        $data['get_total_monthly_existing_service_user']       =  $dashboard->get_total_monthly_new_service_user();
+        $data['get_total_yearly_existing_service_user']        =  $dashboard->get_total_yearly_new_service_user();
+        
 
         $data['get_total_daily_new_service_user']              =  $dashboard->get_total_daily_new_service_user();
         $data['get_total_weekly_new_service_user']             =  $dashboard->get_total_weekly_new_service_user();
