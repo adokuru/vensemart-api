@@ -38,7 +38,7 @@ class Dashboard extends Model
     public function get_total_monthly_existing_user(){
         
         // DB::enableQueryLog();
-        $result  = DB::table('users')->where('type', "1")->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->count('id');
+        $result  = DB::table('users')->where('type', "1")->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->count();
         // dd(DB::getQueryLog());die;
         return $result;
     }
@@ -67,7 +67,7 @@ class Dashboard extends Model
     public function get_total_monthly_new_user(){
         
         // DB::enableQueryLog();
-        $result  = DB::table('users')->where('type', "1")->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->count('id');
+        $result  = DB::table('users')->where('type', "1")->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->count();
         // dd(DB::getQueryLog());die;
         return $result;
     }
