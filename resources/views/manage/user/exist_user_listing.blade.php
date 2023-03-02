@@ -31,6 +31,7 @@
                 
                 <th>Image</th>
                 <th>Status</th>
+                <th>Registered</th>
                 <th>Action</th>
               </tr>
               </thead>
@@ -57,6 +58,8 @@
                 <?php }else { ?>
                       <span class="badge badge-danger">InActive</span>
                <?php  } ?></td>
+
+               <td>  {{ \Carbon\Carbon::parse($val->created_at)->diffForHumans() }}</td>
                 <td>
                     <!--<a href="{{url('admin/existinguser/edit').'/'.$val->id }}"><i class="fas fa-edit"></i></a> |-->
                     <a href="{{url('admin/existinguser/delete').'/'.$val->id }}"><i class="fas fa-trash"></i></a>
