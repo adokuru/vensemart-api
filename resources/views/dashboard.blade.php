@@ -26,6 +26,8 @@
       <div class="container-fluid">
          <div class="card-body">
                 <section class="content">
+
+
                   <div class="container-fluid">
                     <div class="row">
                       <div class="col-md-6">
@@ -38,22 +40,22 @@
                             <div class="">
                               <div class="row">
                                 <div class="col-md-3 col-6 text-center reports">
-                                  <h5>Daily
+                                  <h5>Today
                                     <strong>{{$get_total_daily_new_user}}</strong>
                                   </h5>
                                 </div>
                                 <div class="col-md-3 col-6 text-center reports">
-                                  <h5>Weekly
+                                  <h5>This Week
                                     <strong>{{$get_total_weekly_new_user}}</strong>
                                   </h5>
                                 </div>
                                 <div class="col-md-3 col-6 text-center reports">
-                                  <h5>Monthly
+                                  <h5>This Month
                                     <strong>{{$get_total_monthly_new_user}}</strong>
                                   </h5>
                                 </div>
                                 <div class="col-md-3 col-6 text-center reports">
-                                  <h5>Yearly
+                                  <h5>This Year
                                     <strong>{{$get_total_yearly_new_user}}</strong>
                                   </h5>
                                 </div>
@@ -72,23 +74,23 @@
                             <div class="">
                               <div class="row">
                                 <div class="col-md-3 col-6 text-center reports">
-                                  <h5>Daily
+                                  <h5>Today
                                     <strong>{{$get_total_daily_existing_user}}</strong>
                                   </h5>
                                 </div>
                                 <div class="col-md-3 col-6 text-center reports">
-                                  <h5>Weekly
+                                  <h5>This Week
                                     <strong>{{$get_total_weekly_existing_user}}</strong>
                                   </h5>
                                 </div>
                                 <div class="col-md-3 col-6 text-center reports">
-                                  <h5>Monthly
+                                  <h5>This Month
                                     <strong>{{$get_total_monthly_existing_user}}</strong>
                                   </h5>
                                 </div>
                                 <div class="col-md-3 col-6 text-center reports">
-                                  <h5>Yearly
-                                    <strong>{{$get_total_yearly_existing_user}}</strong>
+                                  <h5>This Year
+                                    <strong>{{$get_total_yearly_existing_user }}</strong>
                                   </h5>
                                 </div>
                               </div>
@@ -96,9 +98,88 @@
                           </div>
                         </a>
                       </div>
-                 
                     </div>
                   </div>
+
+
+
+
+                  <div class="container-fluid mt-3">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <a href="javascript:void(0);">
+                          <div class="panel panel-success pricing-big">
+                            <div class="panel-heading">
+                              <h3 class="panel-title">New Service Provider
+                              <span class="panel-title" style="display:inline-block;float:right;font-size:18px;">Total This year : {{$get_total_yearly_new_user}}</span></h3>
+                            </div>
+                            <div class="">
+                              <div class="row">
+                                <div class="col-md-3 col-6 text-center reports">
+                                  <h5>Today
+                                    <strong>{{$get_total_daily_new_service_user}}</strong>
+                                  </h5>
+                                </div>
+                                <div class="col-md-3 col-6 text-center reports">
+                                  <h5>This Week
+                                    <strong>{{$get_total_weekly_new_service_user}}</strong>
+                                  </h5>
+                                </div>
+                                <div class="col-md-3 col-6 text-center reports">
+                                  <h5>This Month
+                                    <strong>{{$get_total_monthly_new_service_user}}</strong>
+                                  </h5>
+                                </div>
+                                <div class="col-md-3 col-6 text-center reports">
+                                  <h5>This Year
+                                    <strong>{{$get_total_yearly_new_service_user}}</strong>
+                                  </h5>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </a>
+                      </div>
+                      <div class="col-md-6">
+                        <a href="javascript:void(0);">
+                          <div class="panel panel-success pricing-big">
+                            <div class="panel-heading">
+                              <h3 class="panel-title">Existing Service Provider
+                              <span class="panel-title" style="display:inline-block;float:right;font-size:18px;">Total : {{$get_total_yearly_existing_user}}</span></h3>
+                            </div>
+                            <div class="">
+                              <div class="row">
+                                <div class="col-md-3 col-6 text-center reports">
+                                  <h5>Today
+                                    <strong>{{$get_total_daily_existing_service_user}}</strong>
+                                  </h5>
+                                </div>
+                                <div class="col-md-3 col-6 text-center reports">
+                                  <h5>This Week
+                                    <strong>{{$get_total_weekly_existing_service_user}}</strong>
+                                  </h5>
+                                </div>
+                                <div class="col-md-3 col-6 text-center reports">
+                                  <h5>This Month
+                                    <strong>{{ $get_total_monthly_existing_service_user}} </strong>
+                                  </h5>
+                                </div>
+                                <div class="col-md-3 col-6 text-center reports">
+                                  <h5>This Year
+                                    <strong>{{ $get_total_yearly_existing_service_user }}</strong>
+                                  </h5>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </a>
+                      </div>
+          
+                    </div>
+                  </div>
+
+
+                  
                   
                   <div class="container-fluid mt-3">
                     <div class="row">
@@ -112,22 +193,22 @@
                             <div class="">
                               <div class="row">
                                 <div class="col-md-3 col-6 text-center reports">
-                                  <h5>Daily
+                                  <h5>Today
                                     <strong>{{$get_total_daily_new_driver}}</strong>
                                   </h5>
                                 </div>
                                 <div class="col-md-3 col-6 text-center reports">
-                                  <h5>Weekly
+                                  <h5>This Week
                                     <strong>{{$get_total_weekly_new_driver}}</strong>
                                   </h5>
                                 </div>
                                 <div class="col-md-3 col-6 text-center reports">
-                                  <h5>Monthly
+                                  <h5>This Month
                                     <strong>{{$get_total_monthly_new_driver}}</strong>
                                   </h5>
                                 </div>
                                 <div class="col-md-3 col-6 text-center reports">
-                                  <h5>Yearly
+                                  <h5>This Year
                                     <strong>{{$get_total_yearly_new_driver}}</strong>
                                   </h5>
                                 </div>
@@ -146,22 +227,22 @@
                             <div class="">
                               <div class="row">
                                 <div class="col-md-3 col-6 text-center reports">
-                                  <h5>Daily
+                                  <h5>Today
                                     <strong>{{$get_total_daily_existing_driver}}</strong>
                                   </h5>
                                 </div>
                                 <div class="col-md-3 col-6 text-center reports">
-                                  <h5>Weekly
+                                  <h5>This Week
                                     <strong>{{$get_total_weekly_existing_driver}}</strong>
                                   </h5>
                                 </div>
                                 <div class="col-md-3 col-6 text-center reports">
-                                  <h5>Monthly
+                                  <h5>This Month
                                     <strong>{{$get_total_monthly_existing_driver}}</strong>
                                   </h5>
                                 </div>
                                 <div class="col-md-3 col-6 text-center reports">
-                                  <h5>Yearly
+                                  <h5>This Year
                                     <strong>{{$get_total_yearly_existing_driver}}</strong>
                                   </h5>
                                 </div>
@@ -172,6 +253,12 @@
                       </div>
                     </div>
                   </div>
+
+
+
+
+
+
                   <div class="container-fluid mt-3">
                     <div class="row">
                       <div class="col-md-6">
@@ -184,22 +271,22 @@
                             <div class="">
                               <div class="row">
                                 <div class="col-md-3 col-6 text-center reports">
-                                  <h5>Daily
+                                  <h5>Today
                                     <strong>{{$ordered_placed_daily}}</strong>
                                   </h5>
                                 </div>
                                 <div class="col-md-3 col-6 text-center reports">
-                                  <h5>Weekly
+                                  <h5>This Week
                                     <strong>{{$ordered_placed_weekly}}</strong>
                                   </h5>
                                 </div>
                                 <div class="col-md-3 col-6 text-center reports">
-                                  <h5>Monthly
+                                  <h5>This Month
                                     <strong>{{$ordered_placed_monthly}}</strong>
                                   </h5>
                                 </div>
                                 <div class="col-md-3 col-6 text-center reports">
-                                  <h5>Yearly
+                                  <h5>This Year
                                     <strong>{{$ordered_placed_yearly}}</strong>
                                   </h5>
                                 </div>
@@ -218,22 +305,22 @@
                             <div class="">
                               <div class="row">
                                 <div class="col-md-3 col-6 text-center reports">
-                                  <h5>Daily
+                                  <h5>Today
                                     <strong>{{$total_daily_new_product}}</strong>
                                   </h5>
                                 </div>
                                 <div class="col-md-3 col-6 text-center reports">
-                                  <h5>Weekly
+                                  <h5>This Week
                                     <strong>{{$total_weekly_new_product}}</strong>
                                   </h5>
                                 </div>
                                 <div class="col-md-3 col-6 text-center reports">
-                                  <h5>Monthly
+                                  <h5>This Month
                                     <strong>{{$total_monthly_new_product}}</strong>
                                   </h5>
                                 </div>
                                 <div class="col-md-3 col-6 text-center reports">
-                                  <h5>Yearly
+                                  <h5>This Year
                                     <strong>{{$total_yearly_new_product}}</strong>
                                   </h5>
                                 </div>
@@ -257,22 +344,22 @@
                             <div class="">
                               <div class="row">
                                 <div class="col-md-3 col-6 text-center reports">
-                                  <h5>Daily
+                                  <h5>Today
                                     <strong>{{$total_daily_out_of_stack_product}}</strong>
                                   </h5>
                                 </div>
                                 <div class="col-md-3 col-6 text-center reports">
-                                  <h5>Weekly
+                                  <h5>This Week
                                     <strong>{{$total_weekly_out_of_stack_product}}</strong>
                                   </h5>
                                 </div>
                                 <div class="col-md-3 col-6 text-center reports">
-                                  <h5>Monthly
+                                  <h5>This Month
                                     <strong>{{$total_monthly_out_of_stack_product}}</strong>
                                   </h5>
                                 </div>
                                 <div class="col-md-3 col-6 text-center reports">
-                                  <h5>Yearly
+                                  <h5>This Year
                                     <strong>{{$total_yearly_out_of_stack_product}}</strong>
                                   </h5>
                                 </div>

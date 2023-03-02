@@ -33,6 +33,19 @@ class AdminController extends Controller
         $data['get_total_weekly_new_user']             =  $dashboard->get_total_weekly_new_user();
         $data['get_total_monthly_new_user']            =  $dashboard->get_total_monthly_new_user();
         $data['get_total_yearly_new_user']             =  $dashboard->get_total_yearly_new_user();
+
+
+
+
+        $data['get_total_daily_existing_service_user']         =  $dashboard->get_total_daily_existing_service_user();
+        $data['get_total_weekly_existing_service_user']        =  $dashboard->get_total_weekly_existing_user();
+        $data['get_total_monthly_existing_service_user']       =  $dashboard->get_total_monthly_existing_user();
+        $data['get_total_yearly_existing_service_user']        =  $dashboard->get_total_yearly_existing_user();
+
+        $data['get_total_daily_new_service_user']              =  $dashboard->get_total_daily_new_service_user();
+        $data['get_total_weekly_new_service_user']             =  $dashboard->get_total_weekly_new_service_user();
+        $data['get_total_monthly_new_service_user']            =  $dashboard->get_total_monthly_new_service_user();
+        $data['get_total_yearly_new_service_user']             =  $dashboard->get_total_yearly_new_service_user();
         
         $data['get_total_daily_existing_driver']         =  $dashboard->get_total_daily_existing_driver();
         $data['get_total_weekly_existing_driver']        =  $dashboard->get_total_weekly_existing_driver();
@@ -209,7 +222,7 @@ class AdminController extends Controller
     }
     public function new_serviceprovider()
     {
-        $data['listing']=DB::table('users')->where('type',3)->where('documents_approved',1)->get();
+        $data['listing']=DB::table('users')->where('type',3)->latest()->get();
         
         return view('manage.service_provider.listing',$data);
     }
@@ -217,7 +230,6 @@ class AdminController extends Controller
     {
         $serviceprovider_id=$request->s_id;
         $serviceprovider_is_phone_verified=$request->is_vaify_val;
-        
         DB::table('users')->where('id',$serviceprovider_id)->update(['is_phone_verified'=>$serviceprovider_is_phone_verified]);
          return response()->json(['status' => 200, 'message'=>'Documents Approved successfully.']);
         
@@ -323,6 +335,7 @@ class AdminController extends Controller
         
        return view('manage.category.listing',$data);
     }
+
     public function category_add(Request $request)
     {
         if($request->method()=="POST")
@@ -337,7 +350,6 @@ class AdminController extends Controller
             {
                 $filename=date('dmy').rand(1,100).$request->file('cetegory_image')->getClientOriginalName();
                 $store=$request->file('cetegory_image')->move('storage/app/category_icons',$filename);
-                
                 $img=$filename;
             }
             
@@ -443,6 +455,7 @@ class AdminController extends Controller
         
         return view('manage.sub_category.listing',$data);
     }
+
     public function managesubcategory_add(Request $request)
     {
         if($request->method()=="POST")
