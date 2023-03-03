@@ -102,6 +102,11 @@
                      <span>Is Verified</span> <?php if($listing->is_phone_verified == 1){?> <span class="badge badge-info"> Verified</span> 
                       <?php }else{?> <span class="badge badge-danger">Unverified</span> <?php }?>
                 </li>
+
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>Location </span> <span>{{ $listing->location }}</span>
+                </li>
+                
                 <h6>ID Proof</h6>
                 <img src="{{  url('uploads/id_prof').'/'. $listing->id_prof }}" height="200" width="200">
                 </ul>
