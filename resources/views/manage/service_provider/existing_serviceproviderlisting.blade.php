@@ -109,16 +109,17 @@
                        else{?> <span class="">No Service Chosen</span> <?php }
                     ?></td>
 
-                <td> <?php if(!empty($val->id_prof)){?>
-                    <img src="{{  url('uploads/id_prof').'/'. $val->id_prof }}"  width="30" height="30">
-                    <?php }else
+<td> <?php if(!empty($val->profile)){?>
+                                                <img src="{{ url('storage/uploads/profile') . '/' . $val->profile }}" width="50" height="50">
+                                                <?php } 
+                    else
                     {
                         ?>
-                        <img src="{{url('uploads/profile')}}/noimageavailable.jpg" width="50" height="50">
-                        <?php
+                                                <img src="{{ url('uploads/profile') }}/noimageavailable.jpg" width="50" height="50">
+                                                <?php
                     }
                     ?>
-                </td>
+                                            </td>
                 <td>
                
                <select onchange="change_status(<?php echo $val->id;?>,this)">
