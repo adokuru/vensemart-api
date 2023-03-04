@@ -111,17 +111,7 @@
 
 
                 <h6>Profile Image</h6>
-                <?php if(!empty($listing->profile)){?>
-                                                <img src="{{ url('storage/uploads/profile') . '/' . $val->profile }}" width="50" height="50">
-                                                <?php } 
-                    else
-                    {
-                        ?>
-                                                <img src="{{ url('uploads/profile') }}/noimageavailable.jpg" width="50" height="50">
-                                                <?php
-                    }
-                    ?>
-                                   
+                <img src="{{ url('storage/uploads/profile') . '/' . $listing->profile }}" width="200" height="200">
                 </ul>
                 </div>   
                   

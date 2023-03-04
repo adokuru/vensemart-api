@@ -108,20 +108,8 @@
                 </li>
                 
                 <h6>ID Proof</h6>
-
-
-               <?php if(!empty($listing->profile)){?>
-                                                <img src="{{ url('storage/uploads/profile') . '/' . $val->profile }}" width="50" height="50">
-                                                <?php } 
-                    else
-                    {
-                        ?>
-                                                <img src="{{ url('uploads/profile') }}/noimageavailable.jpg" width="50" height="50">
-                                                <?php
-                    }
-                    ?>
-                                          
-                <!-- <img src="{{  url('uploads/id_prof').'/'. $listing->profile }}" height="200" width="200"> -->
+                
+                <img src="{{ url('storage/uploads/profile') . '/' . $listing->profile }}" width="200" height="200">
                 </ul>
                 </div>   
                   
