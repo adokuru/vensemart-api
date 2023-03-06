@@ -307,6 +307,18 @@ class AdminController extends Controller
        </script>
        <?php
     }
+
+
+    public function deleteserviceprovider($id)
+    {
+       DB::table('users')->where('id',$id)->delete();
+       ?>
+       <script>
+           alert('Service Provider Deleted Successfully!!');
+           window.location.href="<?php echo url('admin/exist_serviceprovider'); ?>";
+       </script>
+       <?php
+    }
     
     public function newuserdelete($id)
     {

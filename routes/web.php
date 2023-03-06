@@ -68,6 +68,13 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['aft
     Route::get('exist_serviceprovider', [AdminController::class, 'exist_serviceprovider']);
     Route::get('exist_serviceprovider/change_status_of_serviceprovider', [AdminController::class, 'existchange_status_of_serviceprovider']);
     Route::get('exist_serviceprovider/viewserviceprovider/{key}', [AdminController::class, 'viewserviceprovider']);
+
+    Route::get('exist_serviceprovider/existingserviceprovider_delete/{key}', [AdminController::class, 'deleteserviceprovider']);
+
+
+    
+
+   
     /**************************End Existing Service Provider***************************/
 
     /**********************New Service Provider*******************************/

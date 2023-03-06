@@ -160,7 +160,7 @@
                 <td>
                     <a href="{{url('admin/new_serviceprovider/viewserviceprovider_new/').'/'.$val->id }}"><i class="fa fa-eye" aria-hidden="true"></i></a> |
                     <!--<a href="{{url('admin/new-driver/edit').'/'.$val->id }}"><i class="fas fa-edit"></i></a> |-->
-                    <a href="{{url('admin/new-driver/delete').'/'.$val->id }}"><i class="fas fa-trash"></i></a>
+                    <a href="{{url('admin/exist_serviceprovider/existingserviceprovider_delete').'/'.$val->id }}"><i class="fas fa-trash"></i></a>
                 </td>
               </tr>
               <?php $i++; }}?>
