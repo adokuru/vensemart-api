@@ -52,72 +52,72 @@
                       elseif($val->service_type == 2)
                        {?> <span class="">Hair and Nails</span> <?php } 
                        elseif($val->service_type == 3)
-                       {?> <span class="badge badge-success">Men's Therapy</span> <?php } 
+                       {?> <span class="">Men's Therapy</span> <?php } 
                        elseif($val->service_type == 6)
-                       {?> <span class="badge badge-success">CCTV Installer</span> <?php } 
+                       {?> <span class="">CCTV Installer</span> <?php } 
                        elseif($val->service_type == 7)
-                       {?> <span class="badge badge-success">Solar Installer</span> <?php } 
+                       {?> <span class="">Solar Installer</span> <?php } 
                        elseif($val->service_type == 8)
-                       {?> <span class="badge badge-success">Inverter Installer</span> <?php } 
+                       {?> <span class="">Inverter Installer</span> <?php } 
                        elseif($val->service_type == 10)
-                       {?> <span class="badge badge-success">AC Repairer</span> <?php } 
+                       {?> <span class="">AC Repairer</span> <?php } 
                        elseif($val->service_type == 11)
-                       {?> <span class="badge badge-success">Barber</span> <?php } 
+                       {?> <span class="">Barber</span> <?php } 
                        elseif($val->service_type == 12)
-                       {?> <span class="badge badge-success">Generator Repairer</span> <?php } 
+                       {?> <span class="">Generator Repairer</span> <?php } 
                        elseif($val->service_type == 13)
-                       {?> <span class="badge badge-success">Car Mechanic</span> <?php } 
+                       {?> <span class="">Car Mechanic</span> <?php } 
                        elseif($val->service_type == 14)
-                       {?> <span class="badge badge-success">Janitors/Cleaners</span> <?php } 
+                       {?> <span class="">Janitors/Cleaners</span> <?php } 
                        elseif($val->service_type == 15)
-                       {?> <span class="badge badge-success">Masseuse/SPA</span> <?php } 
+                       {?> <span class="">Masseuse/SPA</span> <?php } 
                        elseif($val->service_type == 16)
-                       {?> <span class="badge badge-success">Electronic Repairer</span> <?php } 
+                       {?> <span class="">Electronic Repairer</span> <?php } 
                        elseif($val->service_type == 17)
-                       {?> <span class="badge badge-success">Painter</span> <?php } 
+                       {?> <span class="">Painter</span> <?php } 
                        elseif($val->service_type == 18)
-                       {?> <span class="badge badge-success">POP Installer</span> <?php } 
+                       {?> <span class="">POP Installer</span> <?php } 
                        elseif($val->service_type == 20)
-                       {?> <span class="badge badge-success">Tiler</span> <?php } 
+                       {?> <span class="">Tiler</span> <?php } 
                        elseif($val->service_type == 21)
-                       {?> <span class="badge badge-success">Welder</span> <?php } 
+                       {?> <span class="">Welder</span> <?php } 
                        elseif($val->service_type == 22)
-                       {?> <span class="badge badge-success">Plumber</span> <?php } 
+                       {?> <span class="">Plumber</span> <?php } 
                        
                        elseif($val->service_type == 23)
-                       {?> <span class="badge badge-success">Carpenter</span> <?php } 
+                       {?> <span class="">Carpenter</span> <?php } 
                        
                        elseif($val->service_type == 24)
-                       {?> <span class="badge badge-success">Laundry</span> <?php } 
+                       {?> <span class="">Laundry</span> <?php } 
                        
                        elseif($val->service_type == 25)
-                       {?> <span class="badge badge-success">Panel Beater</span> <?php } 
+                       {?> <span class="">Panel Beater</span> <?php } 
                        
                        elseif($val->service_type == 26)
-                       {?> <span class="badge badge-success">AC Installer</span> <?php } 
+                       {?> <span class="">AC Installer</span> <?php } 
                        
                        elseif($val->service_type == 27)
-                       {?> <span class="badge badge-success">Pedicure and Manicure (Pedicurist)</span> <?php } 
+                       {?> <span class="">Pedicure and Manicure (Pedicurist)</span> <?php } 
                        
                        elseif($val->service_type == 28)
-                       {?> <span class="badge badge-success">Electrician</span> <?php } 
+                       {?> <span class="">Electrician</span> <?php } 
                        
                        elseif($val->service_type == 29)
-                       {?> <span class="badge badge-success">Fridge Repairer</span> <?php } 
+                       {?> <span class="">Fridge Repairer</span> <?php } 
 
 
                        elseif($val->service_type == 30)
-                       {?> <span class="badge badge-success">Aliminum door/window Installer</span> <?php } 
+                       {?> <span class="">Aliminum door/window Installer</span> <?php } 
                        
                        elseif($val->service_type == 31)
-                       {?> <span class="badge badge-success">Safety and Fire Alarm System Installer</span> <?php }
+                       {?> <span class="">Safety and Fire Alarm System Installer</span> <?php }
                        
                        elseif($val->service_type == 32)
-                       {?> <span class="badge badge-success">Bricklayer</span> <?php }
+                       {?> <span class="">Bricklayer</span> <?php }
                        elseif($val->service_type == 33)
-                       {?> <span class="badge badge-success">Dish Installer</span> <?php }
+                       {?> <span class="">Dish Installer</span> <?php }
                        elseif($val->service_type == 34)
-                       {?> <span class="badge badge-success">Tailor</span> <?php }   
+                       {?> <span class="">Tailor</span> <?php }   
                        
                        
           
