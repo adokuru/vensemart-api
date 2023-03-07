@@ -471,6 +471,7 @@ class ApiController extends Controller
             'net_amount' => 'required',
             'discount' => 'required',
         ]);
+
         try {
 
             if ($typevalidate->fails()) {
@@ -506,8 +507,13 @@ class ApiController extends Controller
             $check_cart = DB::table('cart')->where('user_id', Auth::id())->where('product_id', $request->product_id)->orderBy('id', 'desc')->first();
 
             if ($check_cart) {
-
-                $cart = DB::table('cart')->where('id', $check_cart->id)->update($cartData);
+                $cart = DB::table('cart')->where('id', $check_cart->id);
+                $check_cart->qty = $request->qty;
+                $check_cart->save();
+                $arr['status'] = 1;
+                $arr['message'] = 'add cart successfully.';
+                $arr['data'] = NULL;
+                return response()->json($arr, 200);
             } else {
 
                 $cart = DB::table('cart')->insert($cartData);
@@ -545,7 +551,6 @@ class ApiController extends Controller
                 $arr['message'] = 'Cart is Empty';
                 $arr['data'] = NULL;
             } else {
-
                 $shopdata =  DB::table('cart as c')->select('s.id')
                     ->join('products as p', 'p.id', 'c.product_id')
                     ->join('category as cat', 'cat.id', 'c.cat_id')
@@ -572,6 +577,10 @@ class ApiController extends Controller
             $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
+    }
+
+    public function updateCart()
+    {
     }
     //place order api
     public function place_order(Request $request)
