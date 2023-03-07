@@ -124,7 +124,7 @@
                     ?></td> 
                 
 
-                <td> <?php if(!empty($val->profile)){?>
+                <td><?php if(!empty($val->profile)){?>
                                                 <img src="{{ url('storage/uploads/profile') . '/' . $val->profile }}" width="50" height="50">
                                                 <?php } 
                     else

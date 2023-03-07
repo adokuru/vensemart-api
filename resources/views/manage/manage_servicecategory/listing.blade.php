@@ -42,7 +42,19 @@
                                         <tr>
                                             <td>{{ ++$i }}</td>
                                             <td>{{ $val->category_name }}</td>
-                                            <td><img src="{{ url('storage/category_icons') }}/{{ $val->category_icon }}" width="150px" height="150px" alt="The image is not found"></td>
+
+                                           <td><?php if($val->id > 31){?>
+                                            <img src="{{ url('storage/app/category_icons/') }}/{{ $val->category_icon }}" width="150px" height="150px" alt="The image is not found">
+                                                <?php } 
+                    else
+                    {
+                                 ?>
+                                                <img src="{{ url('storage/category_icons/') }}/{{ $val->category_icon }}" width="150px" height="150px" alt="The image is not found">
+                                                <?php
+                    }
+                    ?>
+                                            </td>
+                                            <!-- <td><img src="{{ url('storage/category_icons/') }}/{{ $val->category_icon }}" width="150px" height="150px" alt="The image is not found"></td> -->
 
                                             <td>
                                                 <a href="{{ url('admin/manageservice_category/edit') . '/' . $val->id }}"><i class="fas fa-edit"></i></a> |

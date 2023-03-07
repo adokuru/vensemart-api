@@ -403,6 +403,7 @@ class AdminController extends Controller
             $categoryname=$request->name;
              $data=array('category_name'=>$categoryname,'category_icon'=>$img,'status'=>1);
              DB::table('category')->where('id',$id)->update($data);
+             
              ?>
              <script>
                  alert('Category Updated Successfully!!');
