@@ -43,11 +43,14 @@
                                             <td>{{ ++$i }}</td>
                                             <td>{{ $val->category_name }}</td>
 
-                                           <td><?php if($val->id > 31){?>
+                                           <td><?php if($val->id > 36){?>
                                             <img src="{{ url('storage/app/category_icons/') }}/{{ $val->category_icon }}" width="150px" height="150px" alt="The image is not found">
                                                 <?php } 
-                    else
-                    {
+                                                
+
+                                                
+                                  else
+                         {
                                  ?>
                                                 <img src="{{ url('storage/category_icons/') }}/{{ $val->category_icon }}" width="150px" height="150px" alt="The image is not found">
                                                 <?php
