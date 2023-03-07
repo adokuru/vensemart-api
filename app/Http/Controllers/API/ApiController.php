@@ -472,6 +472,7 @@ class ApiController extends Controller
             'discount' => 'required',
         ]);
 
+
         try {
 
             if ($typevalidate->fails()) {
@@ -579,9 +580,58 @@ class ApiController extends Controller
         return response()->json($arr, 200);
     }
 
-    public function updateCart()
+    public function updateCart(Request $request)
     {
+        $typevalidate = Validator::make($request->all(), [
+            'product_id' => 'required',
+            'qty' => 'required',
+        ]);
+
+        $user_id = Auth::id();
+
+        $cart = DB::table('cart')->where('user_id', $user_id)->where('product_id', $request->product_id)->first();
+
+
+        if ($cart) {
+            $cart = DB::table('cart')->where('id', $cart->id)->first();
+            $cart->qty = $request->qty;
+            $cart->save();
+            $arr['status'] = 1;
+            $arr['message'] = 'Cart Updated Successfully';
+            $arr['data'] = NULL;
+            return response()->json($arr, 200);
+        } else {
+            $arr['status'] = 0;
+            $arr['message'] = 'Cart Not Found';
+            $arr['data'] = NULL;
+            return response()->json($arr, 200);
+        }
     }
+
+    public function deleteCart(Request $request)
+    {
+        try {
+            $typevalidate = Validator::make($request->all(), [
+                'product_id' => 'required',
+            ]);
+
+            $user_id = Auth::id();
+
+            $cart = DB::table('cart')->where('user_id', $user_id)->where('product_id', $request->product_id)->first();
+
+            $cart = DB::table('cart')->where('id', $cart->id)->delete();
+
+            $arr['status'] = 1;
+            $arr['message'] = 'Cart Deleted Successfully';
+            $arr['data'] = NULL;
+            return response()->json($arr, 200);
+        } catch (\Exception $e) {
+            $arr['status'] = 0;
+            $arr['message'] = 'Sorry!! Something Went Wrong';
+            $arr['data'] = NULL;
+        }
+    }
+
     //place order api
     public function place_order(Request $request)
     {
