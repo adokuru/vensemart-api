@@ -686,6 +686,7 @@ class ApiController extends Controller
             //     $order_data['offer_id'] = $request->offer_id;
             //     $order_data['offer_amount'] = $request->offer_amount;
             // }  // final amount 
+
             $order_data['payment_type'] = $request->payment_type;
             $order_data['total_item'] = count($cart_detail);
             $order_data['payment_status'] = 1;
