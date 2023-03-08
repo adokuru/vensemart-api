@@ -753,7 +753,7 @@ class ApiController extends Controller
                 //     ->orderBy('users.id', 'desc')
                 //     ->first();
 
-                // $orderIdd = $order_data['order_id'];
+                $orderIdd = $order_data['order_id'];
                 // if ($driver_list) {
                 //     DB::table('orders')->where('order_id', $order_data['order_id'])->update(['driver_id' => $driver_list->id]);
 
@@ -819,18 +819,18 @@ class ApiController extends Controller
                 DB::table('notifications')->insert(['user_id' => Auth::id(), 'title' => "Order Placed", 'message' => $data_noti['message'], 'type' => 1]);
 
 
-                $get_user_data =  DB::table('users')->select('id', 'name', 'email')->where('id', Auth::id())->first();
-                if ($get_user_data) {
-                    $data['name'] = $get_user_data->name;
-                    $data['msg'] = "Order  Placed: order placed successfully!  order  ID is  $orderIdd";
-                    $data['subject'] = "Order  Placed";
-                    \Mail::to($get_user_data->email)->send(new \App\Mail\SendOrderMail($data));
-                }
+                // $get_user_data =  DB::table('users')->select('id', 'name', 'email')->where('id', Auth::id())->first();
+                // if ($get_user_data) {
+                //     $data['name'] = $get_user_data->name;
+                //     $data['msg'] = "Order  Placed: order placed successfully!  order  ID is  $orderIdd";
+                //     $data['subject'] = "Order  Placed";
+                //     \Mail::to($get_user_data->email)->send(new \App\Mail\SendOrderMail($data));
+                // }
 
 
 
                 if ($n_result) {
-                    DB::table('cart')->where('user_id', $user_id22)->delete();
+                    DB::table('cart')->where('user_id', $user_id)->delete();
                     DB::commit();
                     $arr['status'] = 1;
                     $arr['message'] = 'order placed successfully';
