@@ -636,233 +636,213 @@ class ApiController extends Controller
     public function place_order(Request $request)
     {
         $typevalidate = Validator::make($request->all(), [
-            'address_id' => 'required',
-            'shop_id' => 'required',
-            'net_amount' => 'required',
-            'taxes' => 'required',
-            'delivery_charge' => 'required',
-            'total_amount' => 'required',
             'payment_type' => 'required',
+            'delivery_charge' => 'required',
         ]);
-        // try{
-        if ($typevalidate->fails()) {
-            $arr['status'] = 0;
-            $arr['message'] = $typevalidate->errors()->first();
-            $arr['data'] = NULL;
 
-            return response()->json($arr, 200);
-        }
-        $user_id22 = Auth::id();
+        $user_id = Auth::id();
+        $cart_detail = DB::table("cart")->where('user_id', $user_id)->get();
 
-        $userdata = DB::table('users')->where('id', $user_id22)->first();
-
-        $cart_detail = DB::table("cart")->where('user_id', $user_id22)->get();
-        if (count($cart_detail) ==  0) {
-            $arr['status'] = 0;
-            $arr['message'] = 'cart is empty';
-            $arr['data'] = null;
-            return response()->json($arr, 200);
-        }
-
-        $invoice_no  =  rand(1000000000, 999999999999);
-
-        $order_data['invoice_no'] = $invoice_no;
-        $order_data['user_id'] = $user_id22;
-        $order_data['shop_id'] = $request->shop_id;
-        $order_data['address_id'] = $request->address_id;
-        $order_data['net_amount'] = $request->net_amount;
-        $order_data['total_amount'] = ($request->net_amount);
-        $order_data['taxes'] = $request->taxes;
-        $order_data['delivery_charge'] = $request->delivery_charge;
-        if ($request->offer_id) {
-            $order_data['offer_id'] = $request->offer_id;
-            $order_data['offer_amount'] = $request->offer_amount;
-        }
-        $order_data['total_amount'] = $request->total_amount;  // final amount 
-        $order_data['payment_type'] = $request->payment_type;
-        $order_data['total_item'] = count($cart_detail);
-        $order_data['payment_status'] = $request->payment_status;
-        $order_data['status'] = 1;
-        $order_data['purchase_date'] = date('Y-m-d');
-        $order_data['order_id'] = "FM" . rand(10000, 99999);
-        $order_data['transaction_id'] = $request->transaction_id;
-
-        DB::beginTransaction();
-        //try{
-        $result1 = DB::table('orders')->insert($order_data);
-
-
-        if ($result1) {
-            $ins_data = array();
-            foreach ($cart_detail as $k => $value) {
-                $ins_data[$k]['invoice_number'] = $invoice_no;
-                $ins_data[$k]['product_name'] = $value->product_name;
-
-                $ins_data[$k]['p_image'] = $value->product_image;
-                $ins_data[$k]['user_id'] = $value->user_id;
-                $ins_data[$k]['product_id'] = $value->product_id;
-
-                $ins_data[$k]['quantity'] = $value->qty;
-                $ins_data[$k]['net_price'] = $value->net_amount;
-                $ins_data[$k]['gst_percent'] = 0;
-                $ins_data[$k]['tax'] = 0;
-                $ins_data[$k]['basic_dp'] = $value->after_discount_amount;
-                $ins_data[$k]['dp'] = $value->after_discount_amount;
-                $ins_data[$k]['uom_id'] = $value->uom_id;
-                $ins_data[$k]['purchase_date'] = date('Y-m-d');
-                $ins_data[$k]['pay_mode']      = "Cash On Franchise";
-
-                $ins_data[$k]['order_id'] = $order_data['order_id'];
-
-                $product_details = DB::table('products')->where('id', $value->product_id)->first();
-                if ($product_details) {
-                    if ($product_details->quantity < $value->qty) {
-                        DB::rollback();
-                        $arr['status'] = 0;
-                        $arr['message'] = 'Product ' . $product_details->product_name . ' qty is less then selected qty.';
-                        $arr['data'] = NULL;
-                        return response()->json($arr, 200);
-                    }
-                }
+        try {
+            if ($typevalidate->fails()) {
+                $arr['status'] = 0;
+                $arr['message'] = $typevalidate->errors()->first();
+                $arr['data'] = NULL;
+                return response()->json($arr, 500);
             }
 
-            // return $ins_data;
-            $n_result = DB::table('eshop_purchase_detail')->insert($ins_data);
+            $cart_detail = DB::table("cart")->where('user_id', $user_id)->get();
+            if (count($cart_detail) ==  0) {
+                $arr['status'] = 0;
+                $arr['message'] = 'cart is empty';
+                $arr['data'] = null;
+                return response()->json($arr, 200);
+            }
 
-            $storedetails = DB::table('stores')->where('id', $request->shop_id)->first();
-
-            $lat = $storedetails->lati;
-            $lng = $storedetails->longi;
-
-            $driver_list =    DB::table('users')
-                ->select('users.*', DB::raw("6371 * acos(cos(radians(" . $lat . "))
-                             * cos(radians(users.location_lat)) 
-                             * cos(radians(users.location_long) - radians(" . $lng . ")) 
-                             + sin(radians(" . $lat . ")) 
-                             * sin(radians(users.location_lat))) AS distance"))
-                ->having('distance', '<', 3)
-                ->leftJoin('vehicle_details', 'vehicle_details.user_id', '=', 'users.id')
-                ->where('vehicle_details.isVerify', '2')
-                ->where('users.type', "2")
-                ->orderBy('users.id', 'desc')
-                ->first();
-
-            $orderIdd = $order_data['order_id'];
-            if ($driver_list) {
-                DB::table('orders')->where('order_id', $order_data['order_id'])->update(['driver_id' => $driver_list->id]);
+            $invoice_no  =  rand(1000000000, 999999999999);
 
 
-                $data_dtiver = array('title' => "new order received", 'message' => "$orderIdd new order received", 'user_id' => $driver_list->id);
+
+            $total_amount = 0;
+            $net_amount = 0;
+
+            foreach ($cart_detail as $key => $value) {
+                $net_amount += $value->net_amount;
+            }
+
+
+            $taxes = $net_amount * 7.5 / 100;
+
+            $total_amount = $net_amount + $request->delivery_charge + $taxes;
+
+            $order_data['invoice_no'] = $invoice_no;
+            $order_data['user_id'] = $user_id;
+            $order_data['net_amount'] = $net_amount;
+            $order_data['total_amount'] = $total_amount;
+            $order_data['taxes'] =  $taxes;
+            $order_data['delivery_charge'] = $request->delivery_charge;
+
+            // if ($request->offer_id) {
+            //     $order_data['offer_id'] = $request->offer_id;
+            //     $order_data['offer_amount'] = $request->offer_amount;
+            // }  // final amount 
+            $order_data['payment_type'] = $request->payment_type;
+            $order_data['total_item'] = count($cart_detail);
+            $order_data['payment_status'] = 1;
+            $order_data['status'] = 1;
+            $order_data['purchase_date'] = date('Y-m-d');
+            $order_data['order_id'] = "FM" . rand(10000, 99999);
+            $order_data['transaction_id'] = rand(1000000000, 999999999999);
+
+            DB::beginTransaction();
+
+            $result1 = DB::table('orders')->insert($order_data);
+
+            if ($result1) {
+                $ins_data = array();
+                foreach ($cart_detail as $k => $value) {
+                    $ins_data[$k]['invoice_number'] = $invoice_no;
+                    $ins_data[$k]['product_name'] = $value->product_name;
+
+                    $ins_data[$k]['p_image'] = $value->product_image;
+                    $ins_data[$k]['user_id'] = $value->user_id;
+                    $ins_data[$k]['product_id'] = $value->product_id;
+
+                    $ins_data[$k]['quantity'] = $value->qty;
+                    $ins_data[$k]['net_price'] = $value->net_amount;
+                    $ins_data[$k]['gst_percent'] = 0;
+                    $ins_data[$k]['tax'] = 0;
+                    $ins_data[$k]['basic_dp'] = $value->after_discount_amount;
+                    $ins_data[$k]['dp'] = $value->after_discount_amount;
+                    $ins_data[$k]['uom_id'] = $value->uom_id;
+                    $ins_data[$k]['purchase_date'] = date('Y-m-d');
+                    $ins_data[$k]['pay_mode']      = "CARD";
+
+                    $ins_data[$k]['order_id'] = $order_data['order_id'];
+
+                    $product_details = DB::table('products')->where('id', $value->product_id)->first();
+                    if ($product_details) {
+                        if ($product_details->quantity < $value->qty) {
+                            DB::rollback();
+                            $arr['status'] = 0;
+                            $arr['message'] = 'Product ' . $product_details->product_name . ' qty is less then selected qty.';
+                            $arr['data'] = NULL;
+                            return response()->json($arr, 500);
+                        }
+                    }
+                }
+
+                // return $ins_data;
+                $n_result = DB::table('eshop_purchase_detail')->insert($ins_data);
+
+                // $storedetails = DB::table('stores')->where('id', $request->shop_id)->first();
+
+                // $lat = $storedetails->lati;
+                // $lng = $storedetails->longi;
+
+                // $driver_list =    DB::table('users')
+                //     ->select('users.*', DB::raw("6371 * acos(cos(radians(" . $lat . "))
+                //              * cos(radians(users.location_lat)) 
+                //              * cos(radians(users.location_long) - radians(" . $lng . ")) 
+                //              + sin(radians(" . $lat . ")) 
+                //              * sin(radians(users.location_lat))) AS distance"))
+                //     ->having('distance', '<', 3)
+                //     ->leftJoin('vehicle_details', 'vehicle_details.user_id', '=', 'users.id')
+                //     ->where('vehicle_details.isVerify', '2')
+                //     ->where('users.type', "2")
+                //     ->orderBy('users.id', 'desc')
+                //     ->first();
+
+                // $orderIdd = $order_data['order_id'];
+                // if ($driver_list) {
+                //     DB::table('orders')->where('order_id', $order_data['order_id'])->update(['driver_id' => $driver_list->id]);
+
+
+                //     $data_dtiver = array('title' => "new order received", 'message' => "$orderIdd new order received", 'user_id' => $driver_list->id);
+
+                //     /************************Notification Start************/
+
+                //     $firebaseToken =  DB::table('users')->where('id', $driver_list->id)->whereNotNull('device_token')->pluck('device_token')->toArray();
+
+                //     $SERVER_API_KEY = env('FCM_KEY');
+
+                //     $data1 = [
+                //         "registration_ids" => $firebaseToken,
+                //         "notification" => [
+                //             "title" => $data_dtiver['title'],
+                //             "body" => $data_dtiver['message'],
+                //         ]
+                //     ];
+                //     $dataString = json_encode($data1);
+
+                //     $headers = [
+                //         'Authorization: key=' . $SERVER_API_KEY,
+                //         'Content-Type: application/json',
+                //     ];
+
+                //     $url = 'https://fcm.googleapis.com/fcm/send';
+                //     $ch = curl_init();
+
+                //     curl_setopt($ch, CURLOPT_URL, $url);
+                //     curl_setopt($ch, CURLOPT_POST, true);
+                //     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                //     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+                //     curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+                //     // Disabling SSL Certificate support temporarly
+                //     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                //     curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
+                //     // Execute post
+                //     $result = curl_exec($ch);
+                //     curl_close($ch);
+
+                //     /*********************End Notification*****************/
+
+                //     DB::table('notifications')->insert(['user_id' => $data_dtiver['user_id'], 'title' => $data_dtiver['title'], 'message' => $data_dtiver['message'], 'type' => 2]);
+                // }
+
+                $data_noti = array('title' => "Order Placed", 'message' => "order placed successfully!  order  ID is  $orderIdd", 'user_id' => Auth::id());
+
+                // DB::commit();
+
+                // // $this->notification_send($data_dtiver);
+                //  $this->notification_send($data_noti);
+                // // add notification 
 
                 /************************Notification Start************/
 
-                $firebaseToken =  DB::table('users')->where('id', $driver_list->id)->whereNotNull('device_token')->pluck('device_token')->toArray();
-
-                $SERVER_API_KEY = env('FCM_KEY');
-
-                $data1 = [
-                    "registration_ids" => $firebaseToken,
-                    "notification" => [
-                        "title" => $data_dtiver['title'],
-                        "body" => $data_dtiver['message'],
-                    ]
-                ];
-                $dataString = json_encode($data1);
-
-                $headers = [
-                    'Authorization: key=' . $SERVER_API_KEY,
-                    'Content-Type: application/json',
-                ];
-
-                $url = 'https://fcm.googleapis.com/fcm/send';
-                $ch = curl_init();
-
-                curl_setopt($ch, CURLOPT_URL, $url);
-                curl_setopt($ch, CURLOPT_POST, true);
-                curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-                curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-                // Disabling SSL Certificate support temporarly
-                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
-                // Execute post
-                $result = curl_exec($ch);
-                curl_close($ch);
 
                 /*********************End Notification*****************/
 
-                DB::table('notifications')->insert(['user_id' => $data_dtiver['user_id'], 'title' => $data_dtiver['title'], 'message' => $data_dtiver['message'], 'type' => 2]);
-            }
-            $data_noti = array('title' => "Order Placed", 'message' => "order placed successfully!  order  ID is  $orderIdd", 'user_id' => Auth::id());
 
-            // DB::commit();
 
-            // // $this->notification_send($data_dtiver);
-            //  $this->notification_send($data_noti);
-            // // add notification 
+                DB::table('notifications')->insert(['user_id' => Auth::id(), 'title' => "Order Placed", 'message' => $data_noti['message'], 'type' => 1]);
 
-            /************************Notification Start************/
 
-            $firebaseToken =  DB::table('users')->where('id', Auth::id())->whereNotNull('device_token')->pluck('device_token')->toArray();
-
-            $SERVER_API_KEY = env('FCM_KEY');
-
-            $data1 = [
-                "registration_ids" => $firebaseToken,
-                "notification" => [
-                    "title" => $data_noti['title'],
-                    "body" => $data_noti['message'],
-                ]
-            ];
-            $dataString = json_encode($data1);
-
-            $headers = [
-                'Authorization: key=' . $SERVER_API_KEY,
-                'Content-Type: application/json',
-            ];
-
-            $url = 'https://fcm.googleapis.com/fcm/send';
-            $ch = curl_init();
-
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-            curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-            // Disabling SSL Certificate support temporarly
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
-            // Execute post
-            $result = curl_exec($ch);
-            curl_close($ch);
-
-            /*********************End Notification*****************/
+                $get_user_data =  DB::table('users')->select('id', 'name', 'email')->where('id', Auth::id())->first();
+                if ($get_user_data) {
+                    $data['name'] = $get_user_data->name;
+                    $data['msg'] = "Order  Placed: order placed successfully!  order  ID is  $orderIdd";
+                    $data['subject'] = "Order  Placed";
+                    \Mail::to($get_user_data->email)->send(new \App\Mail\SendOrderMail($data));
+                }
 
 
 
-
-            DB::table('notifications')->insert(['user_id' => Auth::id(), 'title' => "Order Placed", 'message' => $data_noti['message'], 'type' => 1]);
-
-
-            $get_user_data =  DB::table('users')->select('id', 'name', 'email')->where('id', Auth::id())->first();
-            if ($get_user_data) {
-                $data['name'] = $get_user_data->name;
-                $data['msg'] = "Order  Placed: order placed successfully!  order  ID is  $orderIdd";
-                $data['subject'] = "Order  Placed";
-                \Mail::to($get_user_data->email)->send(new \App\Mail\SendOrderMail($data));
-            }
-
-
-
-            if ($n_result) {
-                DB::table('cart')->where('user_id', $user_id22)->delete();
-                DB::commit();
-                $arr['status'] = 1;
-                $arr['message'] = 'order placed successfully';
-                $arr['data'] = ['order_id' => $invoice_no];
-                return response()->json($arr, 200);
+                if ($n_result) {
+                    DB::table('cart')->where('user_id', $user_id22)->delete();
+                    DB::commit();
+                    $arr['status'] = 1;
+                    $arr['message'] = 'order placed successfully';
+                    $arr['data'] = ['order_id' => $invoice_no];
+                    return response()->json($arr, 200);
+                } else {
+                    DB::rollback();
+                    $arr['status'] = 0;
+                    $arr['message'] = 'something went wrong';
+                    $arr['data'] = $e->getMessage();
+                    return response()->json($arr, 200);
+                }
             } else {
                 DB::rollback();
                 $arr['status'] = 0;
@@ -870,16 +850,234 @@ class ApiController extends Controller
                 $arr['data'] = $e->getMessage();
                 return response()->json($arr, 200);
             }
-        } else {
+
+            return response()->json($arr, 200);
+        } catch (\Exception $e) {
             DB::rollback();
             $arr['status'] = 0;
             $arr['message'] = 'something went wrong';
             $arr['data'] = $e->getMessage();
-            return response()->json($arr, 200);
+            return response()->json($arr, 500);
         }
-
-        return response()->json($arr, 200);
     }
+
+    // public function place_order(Request $request)
+    // {
+    //     $typevalidate = Validator::make($request->all(), [
+    //         'address_id' => 'required',
+    //         'shop_id' => 'required',
+    //         'net_amount' => 'required',
+    //         'taxes' => 'required',
+    //         'delivery_charge' => 'required',
+    //         'total_amount' => 'required',
+    //         'payment_type' => 'required',
+    //     ]);
+
+    //     // try{
+    //     if ($typevalidate->fails()) {
+    //         $arr['status'] = 0;
+    //         $arr['message'] = $typevalidate->errors()->first();
+    //         $arr['data'] = NULL;
+
+    //         return response()->json($arr, 200);
+    //     }
+
+    //     $user_id22 = Auth::id();
+    //     $userdata = DB::table('users')->where('id', $user_id22)->first();
+
+    //     $cart_detail = DB::table("cart")->where('user_id', $user_id22)->get();
+    //     if (count($cart_detail) ==  0) {
+    //         $arr['status'] = 0;
+    //         $arr['message'] = 'cart is empty';
+    //         $arr['data'] = null;
+    //         return response()->json($arr, 200);
+    //     }
+
+    //     $invoice_no  =  rand(1000000000, 999999999999);
+
+    //     $order_data['invoice_no'] = $invoice_no;
+    //     $order_data['user_id'] = $user_id22;
+    //     $order_data['shop_id'] = $request->shop_id;
+    //     $order_data['address_id'] = $request->address_id;
+    //     $order_data['net_amount'] = $request->net_amount;
+    //     $order_data['total_amount'] = ($request->net_amount);
+    //     $order_data['taxes'] = $request->taxes;
+    //     $order_data['delivery_charge'] = $request->delivery_charge;
+
+    //     if ($request->offer_id) {
+    //         $order_data['offer_id'] = $request->offer_id;
+    //         $order_data['offer_amount'] = $request->offer_amount;
+    //     }
+
+    //     $order_data['total_amount'] = $request->total_amount;  // final amount 
+    //     $order_data['payment_type'] = $request->payment_type;
+    //     $order_data['total_item'] = count($cart_detail);
+    //     $order_data['payment_status'] = $request->payment_status;
+    //     $order_data['status'] = 1;
+    //     $order_data['purchase_date'] = date('Y-m-d');
+    //     $order_data['order_id'] = "FM" . rand(10000, 99999);
+    //     $order_data['transaction_id'] = $request->transaction_id;
+
+    //     DB::beginTransaction();
+
+    //     //try{
+    //     $result1 = DB::table('orders')->insert($order_data);
+
+
+    //     if ($result1) {
+    //         $ins_data = array();
+    //         foreach ($cart_detail as $k => $value) {
+    //             $ins_data[$k]['invoice_number'] = $invoice_no;
+    //             $ins_data[$k]['product_name'] = $value->product_name;
+
+    //             $ins_data[$k]['p_image'] = $value->product_image;
+    //             $ins_data[$k]['user_id'] = $value->user_id;
+    //             $ins_data[$k]['product_id'] = $value->product_id;
+
+    //             $ins_data[$k]['quantity'] = $value->qty;
+    //             $ins_data[$k]['net_price'] = $value->net_amount;
+    //             $ins_data[$k]['gst_percent'] = 0;
+    //             $ins_data[$k]['tax'] = 0;
+    //             $ins_data[$k]['basic_dp'] = $value->after_discount_amount;
+    //             $ins_data[$k]['dp'] = $value->after_discount_amount;
+    //             $ins_data[$k]['uom_id'] = $value->uom_id;
+    //             $ins_data[$k]['purchase_date'] = date('Y-m-d');
+    //             $ins_data[$k]['pay_mode']      = "Cash On Franchise";
+
+    //             $ins_data[$k]['order_id'] = $order_data['order_id'];
+
+    //             $product_details = DB::table('products')->where('id', $value->product_id)->first();
+    //             if ($product_details) {
+    //                 if ($product_details->quantity < $value->qty) {
+    //                     DB::rollback();
+    //                     $arr['status'] = 0;
+    //                     $arr['message'] = 'Product ' . $product_details->product_name . ' qty is less then selected qty.';
+    //                     $arr['data'] = NULL;
+    //                     return response()->json($arr, 200);
+    //                 }
+    //             }
+    //         }
+
+    //         // return $ins_data;
+    //         $n_result = DB::table('eshop_purchase_detail')->insert($ins_data);
+
+    //         $storedetails = DB::table('stores')->where('id', $request->shop_id)->first();
+
+    //         $lat = $storedetails->lati;
+    //         $lng = $storedetails->longi;
+
+    //         $driver_list =    DB::table('users')
+    //             ->select('users.*', DB::raw("6371 * acos(cos(radians(" . $lat . "))
+    //                          * cos(radians(users.location_lat)) 
+    //                          * cos(radians(users.location_long) - radians(" . $lng . ")) 
+    //                          + sin(radians(" . $lat . ")) 
+    //                          * sin(radians(users.location_lat))) AS distance"))
+    //             ->having('distance', '<', 3)
+    //             ->leftJoin('vehicle_details', 'vehicle_details.user_id', '=', 'users.id')
+    //             ->where('vehicle_details.isVerify', '2')
+    //             ->where('users.type', "2")
+    //             ->orderBy('users.id', 'desc')
+    //             ->first();
+
+    //         $orderIdd = $order_data['order_id'];
+    //         if ($driver_list) {
+    //             DB::table('orders')->where('order_id', $order_data['order_id'])->update(['driver_id' => $driver_list->id]);
+
+
+    //             $data_dtiver = array('title' => "new order received", 'message' => "$orderIdd new order received", 'user_id' => $driver_list->id);
+
+    //             /************************Notification Start************/
+
+    //             $firebaseToken =  DB::table('users')->where('id', $driver_list->id)->whereNotNull('device_token')->pluck('device_token')->toArray();
+
+    //             $SERVER_API_KEY = env('FCM_KEY');
+
+    //             $data1 = [
+    //                 "registration_ids" => $firebaseToken,
+    //                 "notification" => [
+    //                     "title" => $data_dtiver['title'],
+    //                     "body" => $data_dtiver['message'],
+    //                 ]
+    //             ];
+    //             $dataString = json_encode($data1);
+
+    //             $headers = [
+    //                 'Authorization: key=' . $SERVER_API_KEY,
+    //                 'Content-Type: application/json',
+    //             ];
+
+    //             $url = 'https://fcm.googleapis.com/fcm/send';
+    //             $ch = curl_init();
+
+    //             curl_setopt($ch, CURLOPT_URL, $url);
+    //             curl_setopt($ch, CURLOPT_POST, true);
+    //             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    //             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    //             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+    //             curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+    //             // Disabling SSL Certificate support temporarly
+    //             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    //             curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
+    //             // Execute post
+    //             $result = curl_exec($ch);
+    //             curl_close($ch);
+
+    //             /*********************End Notification*****************/
+
+    //             DB::table('notifications')->insert(['user_id' => $data_dtiver['user_id'], 'title' => $data_dtiver['title'], 'message' => $data_dtiver['message'], 'type' => 2]);
+    //         }
+    //         $data_noti = array('title' => "Order Placed", 'message' => "order placed successfully!  order  ID is  $orderIdd", 'user_id' => Auth::id());
+
+    //         // DB::commit();
+
+    //         // // $this->notification_send($data_dtiver);
+    //         //  $this->notification_send($data_noti);
+    //         // // add notification 
+
+    //         /************************Notification Start************/
+
+
+    //         /*********************End Notification*****************/
+
+
+
+    //         DB::table('notifications')->insert(['user_id' => Auth::id(), 'title' => "Order Placed", 'message' => $data_noti['message'], 'type' => 1]);
+
+
+    //         $get_user_data =  DB::table('users')->select('id', 'name', 'email')->where('id', Auth::id())->first();
+    //         if ($get_user_data) {
+    //             $data['name'] = $get_user_data->name;
+    //             $data['msg'] = "Order  Placed: order placed successfully!  order  ID is  $orderIdd";
+    //             $data['subject'] = "Order  Placed";
+    //             \Mail::to($get_user_data->email)->send(new \App\Mail\SendOrderMail($data));
+    //         }
+
+
+
+    //         if ($n_result) {
+    //             DB::table('cart')->where('user_id', $user_id22)->delete();
+    //             DB::commit();
+    //             $arr['status'] = 1;
+    //             $arr['message'] = 'order placed successfully';
+    //             $arr['data'] = ['order_id' => $invoice_no];
+    //             return response()->json($arr, 200);
+    //         } else {
+    //             DB::rollback();
+    //             $arr['status'] = 0;
+    //             $arr['message'] = 'something went wrong';
+    //             $arr['data'] = $e->getMessage();
+    //             return response()->json($arr, 200);
+    //         }
+    //     } else {
+    //         DB::rollback();
+    //         $arr['status'] = 0;
+    //         $arr['message'] = 'something went wrong';
+    //         $arr['data'] = $e->getMessage();
+    //         return response()->json($arr, 200);
+    //     }
+
+    //     return response()->json($arr, 200);
+    // }
     //Search Product for Perticular Sub Category API
 
     public function search_product_for_perticular_sub_category(Request $request)
