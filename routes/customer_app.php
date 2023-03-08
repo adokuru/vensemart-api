@@ -86,7 +86,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::post('remove-product', [ApiController::class, 'deleteCart']);
 
-    Route::post('place_order', [ApiController::class, 'place_order']);
+    Route::post('place-order', [ApiController::class, 'place_order']);
 
     Route::get('offer_list', [ApiController::class, 'offer_list']);
     Route::get('cancel_reason_question_list', [ApiController::class, 'cancel_reason_question_list']);

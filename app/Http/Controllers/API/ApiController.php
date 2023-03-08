@@ -509,7 +509,7 @@ class ApiController extends Controller
 
             if ($check_cart) {
                 $cart = DB::table('cart')->where('id', $check_cart->id);
-                $check_cart->qty = $request->qty;
+                $check_cart->qty = $check_cart->qty + $request->qty;
                 $check_cart->save();
                 $arr['status'] = 1;
                 $arr['message'] = 'add cart successfully.';
