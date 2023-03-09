@@ -80,6 +80,11 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::post('add_cart', [ApiController::class, 'add_cart']);
 
+    Route::post('add-qty-cart', [ApiController::class, 'addQtyProductInCart']);
+
+    Route::post('sub-qty-cart', [ApiController::class, 'reduceQtyProductInCart']);
+
+
     Route::get('cart_list', [ApiController::class, 'cart_list']);
 
     Route::post('update-cart', [ApiController::class, 'updateCart']);
@@ -87,6 +92,8 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('remove-product', [ApiController::class, 'deleteCart']);
 
     Route::post('place-order', [ApiController::class, 'place_order']);
+
+
 
     Route::get('offer_list', [ApiController::class, 'offer_list']);
     Route::get('cancel_reason_question_list', [ApiController::class, 'cancel_reason_question_list']);

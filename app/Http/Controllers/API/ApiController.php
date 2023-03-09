@@ -611,7 +611,7 @@ class ApiController extends Controller
 
 
             $arr['status'] = 1;
-            $arr['message'] = 'Product reduced in cart successfully.';
+            $arr['message'] = 'Product qty increased in cart successfully.';
             $arr['data'] = NULL;
             return response()->json($arr, 200);
         } catch (\Exception $e) {
