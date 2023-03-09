@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use Carbon\Carbon;
 use App\Mail\SendOrderMail;
+use App\Models\Cart;
 
 class ApiController extends Controller
 {
@@ -468,7 +469,6 @@ class ApiController extends Controller
             'product_id' => 'required',
             'cat_id' => 'required',
             'qty' => 'required',
-            'net_amount' => 'required',
             'discount' => 'required',
         ]);
 
@@ -483,17 +483,22 @@ class ApiController extends Controller
                 return response()->json($arr, 422);
             }
 
+
             $product = DB::table('products')->where('id', $request->product_id)->first();
+
+            $price = ($product->product_price * $request->qty);
 
             $cartData = $request->all();
 
             $cartData['user_id'] = Auth::id();
 
-            $cartData['after_discount_amount'] = (((100 - $request->discount) * $request->net_amount) / 100);
+            $cartData['after_discount_amount'] = (((100 - $request->discount) * $price) / 100);
 
             $cartData['product_name'] = $product->product_title;
 
             $cartData['product_image'] = $product->product_image;
+
+            $cartData['net_amount'] = $price;
 
             unset($cartData['discount']);
 
@@ -505,11 +510,12 @@ class ApiController extends Controller
                 return response()->json($arr, 200);
             }
 
-            $check_cart = DB::table('cart')->where('user_id', Auth::id())->where('product_id', $request->product_id)->orderBy('id', 'desc')->first();
+            $check_cart = Cart::where('user_id', Auth::id())->where('product_id', $request->product_id)->orderBy('id', 'desc')->first();
 
             if ($check_cart) {
-                $cart = DB::table('cart')->where('id', $check_cart->id);
-                $check_cart->qty = $check_cart->qty + $request->qty;
+                $qty = $check_cart->qty + $request->qty;
+                $check_cart->qty =  $qty;
+                $check_cart->net_amount = $check_cart->net_amount * $qty;
                 $check_cart->save();
                 $arr['status'] = 1;
                 $arr['message'] = 'add cart successfully.';
@@ -522,6 +528,90 @@ class ApiController extends Controller
 
             $arr['status'] = 1;
             $arr['message'] = 'add cart successfully.';
+            $arr['data'] = NULL;
+            return response()->json($arr, 200);
+        } catch (\Exception $e) {
+            $arr['status'] = 0;
+            $arr['message'] = $e->getMessage();
+            $arr['data'] = NULL;
+            return response()->json($arr, 500);
+        }
+    }
+
+
+    public function reduceQtyProductInCart(Request $request)
+    {
+        $typevalidate = Validator::make($request->all(), [
+            'product_id' => 'required'
+        ]);
+
+
+        try {
+
+            if ($typevalidate->fails()) {
+                $arr['status'] = 0;
+                $arr['message'] = $typevalidate->errors()->first();
+                $arr['data'] = NULL;
+
+                return response()->json($arr, 422);
+            }
+
+            $check_cart = Cart::where('user_id', Auth::id())->where('product_id', $request->product_id)->orderBy('id', 'desc')->first();
+
+            if (!$check_cart)
+                throw new \Exception('Cart not found.');
+
+            if ($check_cart->qty == 1) {
+                $check_cart->delete();
+            }
+
+            $check_cart->qty = $check_cart->qty - 1;
+
+            $check_cart->save();
+
+
+            $arr['status'] = 1;
+            $arr['message'] = 'Product reduced in cart successfully.';
+            $arr['data'] = NULL;
+            return response()->json($arr, 200);
+        } catch (\Exception $e) {
+            $arr['status'] = 0;
+            $arr['message'] = $e->getMessage();
+            $arr['data'] = NULL;
+            return response()->json($arr, 500);
+        }
+    }
+
+    public function addQtyProductInCart(Request $request)
+    {
+        $typevalidate = Validator::make($request->all(), [
+            'product_id' => 'required'
+        ]);
+
+
+        try {
+
+            if ($typevalidate->fails()) {
+                $arr['status'] = 0;
+                $arr['message'] = $typevalidate->errors()->first();
+                $arr['data'] = NULL;
+
+                return response()->json($arr, 422);
+            }
+
+            $check_cart = Cart::where('user_id', Auth::id())->where('product_id', $request->product_id)->orderBy('id', 'desc')->first();
+
+            if (!$check_cart)
+                throw new \Exception('Cart not found.');
+
+
+            $check_cart->qty = $check_cart->qty + 1;
+
+            $check_cart->save();
+
+
+            $arr['status'] = 1;
+            $arr['message'] = 'Product reduced in cart successfully.';
             $arr['data'] = NULL;
             return response()->json($arr, 200);
         } catch (\Exception $e) {
@@ -552,18 +642,8 @@ class ApiController extends Controller
                 $arr['message'] = 'Cart is Empty';
                 $arr['data'] = NULL;
             } else {
-                $shopdata =  DB::table('cart as c')->select('s.id')
-                    ->join('products as p', 'p.id', 'c.product_id')
-                    ->join('category as cat', 'cat.id', 'c.cat_id')
-                    ->join('stores as s', 's.id', 'p.shop_id')
-                    ->join('uom as u', 'u.id', 'c.uom_id')
-                    ->where('user_id', $user_id)
-                    ->orderBy('id', 'desc')
-                    ->first();
-                $cart_details['shop_id'] = $shopdata->id;
-
-                $cart_details['subtotal'] = DB::table('cart')->where('user_id', $user_id)->sum('after_discount_amount');
-                $cart_details['delivery_charge'] = "20";
+                $cart_details['subtotal'] = DB::table('cart')->where('user_id', $user_id)->sum('net_amount');
+                $cart_details['delivery_charge'] = "500"; // TODO : Change it to dynamic
                 $cart_details['grand_total'] = $cart_details['subtotal'] + $cart_details['delivery_charge'];
 
                 $arr['status'] = 1;
