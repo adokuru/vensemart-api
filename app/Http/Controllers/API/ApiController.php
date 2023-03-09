@@ -571,8 +571,8 @@ class ApiController extends Controller
 
             $qty =  $check_cart->qty - 1;
             $check_cart->qty = $qty;
-            $check_cart->qty = ($product->product_price * $qty);
-            $check_cart->$check_cart->save();
+            $check_cart->net_amount = ($product->product_price * $qty);
+            $check_cart->save();
 
             $check_cart->save();
 
@@ -619,8 +619,8 @@ class ApiController extends Controller
 
             $qty =  $check_cart->qty + 1;
             $check_cart->qty = $qty;
-            $check_cart->qty = ($product->product_price * $qty);
-            $check_cart->$check_cart->save();
+            $check_cart->net_amount = ($product->product_price * $qty);
+            $check_cart->save();
 
 
             $arr['status'] = 1;
