@@ -557,15 +557,22 @@ class ApiController extends Controller
             }
 
             $check_cart = Cart::where('user_id', Auth::id())->where('product_id', $request->product_id)->orderBy('id', 'desc')->first();
+            $product = DB::table('products')->where('id', $request->product_id)->first();
 
             if (!$check_cart)
                 throw new \Exception('Cart not found.');
+
+            if (!$product)
+                throw new \Exception('Product not found.');
 
             if ($check_cart->qty == 1) {
                 $check_cart->delete();
             }
 
-            $check_cart->qty = $check_cart->qty - 1;
+            $qty =  $check_cart->qty - 1;
+            $check_cart->qty = $qty;
+            $check_cart->qty = ($product->product_price * $qty);
+            $check_cart->$check_cart->save();
 
             $check_cart->save();
 
@@ -601,13 +608,19 @@ class ApiController extends Controller
 
             $check_cart = Cart::where('user_id', Auth::id())->where('product_id', $request->product_id)->orderBy('id', 'desc')->first();
 
+            $product = DB::table('products')->where('id', $request->product_id)->first();
+
+
             if (!$check_cart)
                 throw new \Exception('Cart not found.');
 
+            if (!$product)
+                throw new \Exception('Product not found.');
 
-            $check_cart->qty = $check_cart->qty + 1;
-
-            $check_cart->save();
+            $qty =  $check_cart->qty + 1;
+            $check_cart->qty = $qty;
+            $check_cart->qty = ($product->product_price * $qty);
+            $check_cart->$check_cart->save();
 
 
             $arr['status'] = 1;
