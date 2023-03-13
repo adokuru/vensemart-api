@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
+use App\Models\VehicleDetails;
 use Carbon\Carbon;
 use App\Traits\SendNotification;
 use App\Traits\SendMessage;
@@ -30,8 +31,8 @@ class DeliveryRiderController extends Controller
     function onBoardRider(Request $request)
     {
         $typevalidate = Validator::make($request->all(), [
-            'vechile_type' => 'required|in:car,bike,truck',
-            'vechile_number' => 'required',
+            'vehicle_type' => 'required|in:car,bike,truck',
+            'vehicle_number' => 'required',
             'picture' => 'required',
         ]);
 
@@ -66,7 +67,16 @@ class DeliveryRiderController extends Controller
             $vehicle_details['created_at'] = Carbon::now();
             $vehicle_details['updated_at'] = Carbon::now();
 
-            DB::table('vehicle_details')->insert($vehicle_details);
+            VehicleDetails::create([
+                'user_id' => $vehicle_details['user_id'],
+                'vehicle_type' => $vehicle_details['vechile_type'],
+                'dl_number' => $vehicle_details['vechile_number'],
+                'dl_picture' => $vehicle_details['dl_picture'],
+                'status' => $vehicle_details['status'],
+                'isVerify' => $vehicle_details['isVerify'],
+                'created_at' => $vehicle_details['created_at'],
+                'updated_at' => $vehicle_details['updated_at'],
+            ]);
 
             $this->sendResponse('Vehicle details added successfully');
         } catch (Exception $e) {
