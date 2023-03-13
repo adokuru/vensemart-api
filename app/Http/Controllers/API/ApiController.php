@@ -896,7 +896,7 @@ class ApiController extends Controller
                 // }
 
                 $data_noti = array('title' => "Order Placed", 'message' => "order placed successfully!  order  ID is  $orderIdd", 'user_id' => Auth::id());
-
+                $this->sendNotification(Auth::id(), "Order Placed", "Order Placed Successfully ");
                 // DB::commit();
 
                 // // $this->notification_send($data_dtiver);

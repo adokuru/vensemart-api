@@ -65,13 +65,13 @@ class DeliveryRiderController extends Controller
             VehicleDetails::create([
                 'user_id' => $user->id,
                 'vehicle_type' => $request->vehicle_type,
-                'dl_number' => $request->vehicle_number,
+                'vehicle_number' => $request->vehicle_number,
                 'dl_picture' => $vehicle_details['dl_picture'],
                 'status' => 1,
                 'isVerify' => 0,
             ]);
 
-            $this->sendResponse('Vehicle details added successfully');
+            return $this->sendResponse('Vehicle details added successfully');
         } catch (Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = $e->getMessage();
