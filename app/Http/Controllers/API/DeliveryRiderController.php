@@ -61,21 +61,14 @@ class DeliveryRiderController extends Controller
                 }
             }
 
-            $vehicle_details['user_id'] = $user->id;
-            $vehicle_details['status'] = 1;
-            $vechile_details['isVerify'] = 0;
-            $vehicle_details['created_at'] = Carbon::now();
-            $vehicle_details['updated_at'] = Carbon::now();
 
             VehicleDetails::create([
-                'user_id' => $vehicle_details['user_id'],
+                'user_id' => $user->id,
                 'vehicle_type' => $request->vehicle_type,
                 'dl_number' => $request->vehicle_number,
                 'dl_picture' => $vehicle_details['dl_picture'],
-                'status' => $vehicle_details['status'],
-                'isVerify' => $vehicle_details['isVerify'],
-                'created_at' => $vehicle_details['created_at'],
-                'updated_at' => $vehicle_details['updated_at'],
+                'status' => 1,
+                'isVerify' => 0,
             ]);
 
             $this->sendResponse('Vehicle details added successfully');
