@@ -69,8 +69,8 @@ class DeliveryRiderController extends Controller
 
             VehicleDetails::create([
                 'user_id' => $vehicle_details['user_id'],
-                'vehicle_type' => $vehicle_details['vechile_type'],
-                'dl_number' => $vehicle_details['vechile_number'],
+                'vehicle_type' => $request->vehicle_type,
+                'dl_number' => $request->vehicle_number,
                 'dl_picture' => $vehicle_details['dl_picture'],
                 'status' => $vehicle_details['status'],
                 'isVerify' => $vehicle_details['isVerify'],
