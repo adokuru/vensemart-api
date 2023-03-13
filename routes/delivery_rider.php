@@ -17,6 +17,7 @@ Route::group([
     'middleware' => 'auth:api'
 ], function () {
     //Delivery Rider Route
+    Route::post('onBoardRider', [DeliveryRiderController::class, 'onBoardRider']);
     Route::post('dhome', [DeliveryRiderController::class, 'dhome']);
     Route::get('all_orders', [DeliveryRiderController::class, 'all_orders']);
     Route::get('pending_order', [DeliveryRiderController::class, 'pending_order']);

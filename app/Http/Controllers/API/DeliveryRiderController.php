@@ -27,6 +27,58 @@ class DeliveryRiderController extends Controller
     }
 
 
+    function onBoardRider(Request $request)
+    {
+        $typevalidate = Validator::make($request->all(), [
+            'vechile_type' => 'required|in:car,bike,truck',
+            'vechile_number' => 'required',
+            'picture' => 'required',
+        ]);
+
+        try {
+            if ($typevalidate->fails()) {
+                $arr['status'] = 0;
+                $arr['message'] = "Validation Failed";
+                $arr['data'] = NULL;
+
+                return response()->json($arr, 403);
+            }
+
+            $user = Auth::user();
+            $vehicle_details = $request->all();
+            if (!empty($vehicle_details['picture'])) {
+                $file_name = date('dmy') . rand(1, 4) . $request->file('picture')->getClientOriginalName();
+                $store = $request->file('picture')->move('uploads/all_image', $file_name);
+                if ($store) {
+                    $vehicle_details['dl_picture'] = $file_name;
+                } else {
+                    $arr['status'] = 0;
+                    $arr['message'] = 'Vehicle image not uploaded!!';
+                    $arr['data'] = NULL;
+
+                    return response()->json($arr, 200);
+                }
+            }
+
+            $vehicle_details['user_id'] = $user->id;
+            $vehicle_details['status'] = 1;
+            $vechile_details['isVerify'] = 0;
+            $vehicle_details['created_at'] = Carbon::now();
+            $vehicle_details['updated_at'] = Carbon::now();
+
+            DB::table('vehicle_details')->insert($vehicle_details);
+
+            $this->sendResponse('Vehicle details added successfully');
+        } catch (Exception $e) {
+            $arr['status'] = 0;
+            $arr['message'] = $e->getMessage();
+            $arr['data'] = NULL;
+
+            return response()->json($arr, 500);
+        }
+    }
+
+
     public function delivery_rider_register(Request $request)
     {
         $typevalidate = Validator::make($request->all(), [
