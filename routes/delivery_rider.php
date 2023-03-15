@@ -38,6 +38,8 @@ Route::group([
 
     Route::get('get-profile', [DeliveryRiderController::class, 'd_get_profile']);
 
+    Route::post('update-profile', [DeliveryRiderController::class, 'update_profile']);
+
     Route::post('db_update_profile', [DeliveryRiderController::class, 'db_update_profile']);
     Route::post('withdrawn_request', [DeliveryRiderController::class, 'withdrawn_request']);
     Route::get('total_earnings', [DeliveryRiderController::class, 'total_earnings']);
@@ -48,11 +50,14 @@ Route::group([
     Route::post('acceptorders_driver', [DeliveryRiderController::class, 'acceptorders_driver']);
     Route::post('send_otp_to_delivery', [DeliveryRiderController::class, 'send_otp_to_delivery']);
 
-
     Route::get('get_notification', [DeliveryRiderController::class, 'get_notification']);
+
     Route::get('delete_notification', [DeliveryRiderController::class, 'delete_notification']);
+
     Route::get('assigned_order_list', [DeliveryRiderController::class, 'assigned_order_list']);
+
     Route::get('get_bank_detail', [DeliveryRiderController::class, 'get_bank_detail']);
     Route::get('test_noti', [DeliveryRiderController::class, 'test']);
+
     Route::post('add_bank_detail', [DeliveryRiderController::class, 'add_bank_detail']);
 });

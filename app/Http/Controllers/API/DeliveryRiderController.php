@@ -1204,4 +1204,75 @@ class DeliveryRiderController extends Controller
         }
         return response()->json($arr, 200);
     }
+
+
+    public function update_profile(Request $request)
+    {
+        $validate = Validator::make($request->all(), ['name' => 'required']);
+
+        if ($validate->fails()) {
+            $arr['status'] = 0;
+            $arr['message'] = 'Validation failed';
+            $arr['data'] = NULL;
+
+            return response()->json($arr, 200);
+        }
+
+        try {
+            $insert = $request->all();
+
+            if (!empty($request->profile)) {
+                $file_name = date('dmy') . rand(1, 4) . $request->file('profile')->getClientOriginalName();
+                $store = $request->file('profile')->storeAs('public/uploads/profile', $file_name);
+                if ($store) {
+                    $insert['profile'] = $file_name;
+                } else {
+                    $arr['status'] = 0;
+                    $arr['message'] = 'Profile image not uploaded!!';
+                    $arr['data'] = NULL;
+
+                    return response()->json($arr, 200);
+                }
+            }
+            if (!empty($request->email)) {
+                $email = User::where('id', '!=', Auth::id())->where('email', $request->email)->count();
+                if ($email >= 1) {
+                    $arr['status'] = 0;
+                    $arr['message'] = 'Email already exist.!!';
+                    $arr['data'] = NULL;
+
+                    return response()->json($arr, 200);
+                }
+            }
+            if (!empty($request->mobile)) {
+                $email = User::where('id', '!=', Auth::id())->where('mobile', $request->mobile)->count();
+                if ($email >= 1) {
+                    $arr['status'] = 0;
+                    $arr['message'] = 'Mobile already exist.!!';
+                    $arr['data'] = NULL;
+
+                    return response()->json($arr, 200);
+                }
+            }
+            $user = User::where('id', Auth::id())->update($insert);
+
+            if ($user) {
+                $userdata = User::where('id', Auth::id())->first();
+                $userdata->profile = !empty($userdata->profile) ? url('storage/uploads/profile') . '/' . $userdata->profile : '';
+                $arr['status'] = 1;
+                $arr['message'] = 'Success';
+                $arr['data']['user'] = $userdata;
+            } else {
+                $arr['status'] = 0;
+                $arr['message'] = 'Try Again';
+                $arr['data'] = NULL;
+            }
+        } catch (\Exception $e) {
+            $arr['status'] = 0;
+            $arr['message'] = $e->getMessage();
+            $arr['data'] = NULL;
+        }
+
+        return response()->json($arr, 200);
+    }
 }
