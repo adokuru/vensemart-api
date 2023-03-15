@@ -1638,7 +1638,7 @@ class ApiController extends Controller
                     ->get()->toArray();
                 $val->products = $product_details != [] ? $product_details : [];
             }
-            dd($orders);
+
             $order_list = $orders->toArray();
             if ($order_list == []) {
                 $arr['status'] = 0;
