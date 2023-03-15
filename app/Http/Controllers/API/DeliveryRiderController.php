@@ -1215,7 +1215,7 @@ class DeliveryRiderController extends Controller
             $arr['message'] = 'Validation failed';
             $arr['data'] = NULL;
 
-            return response()->json($arr, 200);
+            return response()->json($arr, 500);
         }
 
         try {
@@ -1231,7 +1231,7 @@ class DeliveryRiderController extends Controller
                     $arr['message'] = 'Profile image not uploaded!!';
                     $arr['data'] = NULL;
 
-                    return response()->json($arr, 200);
+                    return response()->json($arr, 500);
                 }
             }
             if (!empty($request->email)) {
@@ -1241,7 +1241,7 @@ class DeliveryRiderController extends Controller
                     $arr['message'] = 'Email already exist.!!';
                     $arr['data'] = NULL;
 
-                    return response()->json($arr, 200);
+                    return response()->json($arr, 500);
                 }
             }
             if (!empty($request->mobile)) {
@@ -1251,7 +1251,7 @@ class DeliveryRiderController extends Controller
                     $arr['message'] = 'Mobile already exist.!!';
                     $arr['data'] = NULL;
 
-                    return response()->json($arr, 200);
+                    return response()->json($arr, 500);
                 }
             }
             $user = User::where('id', Auth::id())->update($insert);
@@ -1267,6 +1267,8 @@ class DeliveryRiderController extends Controller
                 $arr['message'] = 'Try Again';
                 $arr['data'] = NULL;
             }
+
+            return response()->json($arr, 200);
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = $e->getMessage();
