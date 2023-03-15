@@ -19,17 +19,25 @@ Route::group([
     //Delivery Rider Route
     Route::post('onBoardRider', [DeliveryRiderController::class, 'onBoardRider']);
     Route::get('home', [DeliveryRiderController::class, 'dhome']);
-    Route::get('all_orders', [DeliveryRiderController::class, 'all_orders']);
-    Route::get('pending_order', [DeliveryRiderController::class, 'pending_order']);
-    Route::get('cancel_order', [DeliveryRiderController::class, 'cancel_order']);
-    Route::get('complete_order', [DeliveryRiderController::class, 'complete_order']);
+
+    Route::get('all-orders', [DeliveryRiderController::class, 'all_orders']);
+    Route::get('pending-orders', [DeliveryRiderController::class, 'pending_order']);
+    Route::get('cancelled-orders', [DeliveryRiderController::class, 'cancel_order']);
+    Route::get('completed-orders', [DeliveryRiderController::class, 'complete_order']);
+
     Route::get('accept_order', [DeliveryRiderController::class, 'accept_order']);
     Route::get('earning_management', [DeliveryRiderController::class, 'earning_management']);
+
     Route::post('get_single_order_details', [DeliveryRiderController::class, 'get_single_order_details']);
+
     Route::post('send_otp_for_product', [DeliveryRiderController::class, 'send_otp_for_product']);
+
     Route::post('on_off_status', [DeliveryRiderController::class, 'on_off_status']);
+
     Route::post('update_order_status', [DeliveryRiderController::class, 'update_order_status']);
-    Route::get('d_get_profile', [DeliveryRiderController::class, 'd_get_profile']);
+
+    Route::get('get-profile', [DeliveryRiderController::class, 'd_get_profile']);
+
     Route::post('db_update_profile', [DeliveryRiderController::class, 'db_update_profile']);
     Route::post('withdrawn_request', [DeliveryRiderController::class, 'withdrawn_request']);
     Route::get('total_earnings', [DeliveryRiderController::class, 'total_earnings']);
