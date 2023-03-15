@@ -114,7 +114,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     // Route::post('accept_order',[ApiController::class,'accept_order']);
 
-    Route::any('my_orders', [ApiController::class, 'myOrders']);
+    Route::any('my-orders', [ApiController::class, 'myOrders']);
 
     Route::any('products/my-orders', [ApiController::class, 'Orders']);
 
