@@ -1208,7 +1208,7 @@ class DeliveryRiderController extends Controller
 
     public function update_profile(Request $request)
     {
-        $validate = Validator::make($request->all(), ['name' => 'required']);
+        $validate = Validator::make($request->all(), ['name' => 'required', 'address' => 'required', 'profile' => 'required']);
 
         if ($validate->fails()) {
             $arr['status'] = 0;
