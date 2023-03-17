@@ -117,7 +117,78 @@
                        elseif($val->service_type == 33)
                        {?> <span class="">Dish Installer</span> <?php }
                        elseif($val->service_type == 34)
-                       {?> <span class="">Tailor</span> <?php }   
+                       {?> <span class="">Tailor</span> <?php }  
+                       
+                       elseif($val->service_type == 37)
+                       {?> <span class="">CCTV, SOLAR and INVERTER</span> <?php }  
+                       
+                       elseif($val->service_type == 38)
+                       {?> <span class="">Make-up Artist</span> <?php }  
+
+
+                       elseif($val->service_type == 39)
+                       {?> <span class="">Gele Tie</span> <?php }  
+
+
+                       elseif($val->service_type == 40)
+                       {?> <span class="">Television Repairer</span> <?php }  
+                       
+
+                       elseif($val->service_type == 41)
+                       {?> <span class="">Photographer and Videographer</span> <?php }  
+                       
+
+                       elseif($val->service_type == 42)
+                       {?> <span class="">Welder</span> <?php }  
+
+
+                       elseif($val->service_type == 43)
+                       {?> <span class=""> Honda Car Mechanic</span> <?php }  
+
+
+
+                       elseif($val->service_type == 44)
+                       {?> <span class="">  Toyota Mechanic</span> <?php }  
+
+
+
+
+                       elseif($val->service_type == 45)
+                       {?> <span class="">  Ford Mechanic</span> <?php } 
+
+
+
+                       elseif($val->service_type == 46)
+                       {?> <span class="">   Kia Mechanic</span> <?php } 
+                       
+
+
+                       elseif($val->service_type == 47)
+                       {?> <span class="">   Nissan Car Mechanic</span> <?php } 
+
+
+                       elseif($val->service_type == 49)
+                       {?> <span class="">   Cake & Pastries Maker</span> <?php } 
+
+
+
+                       elseif($val->service_type == 50)
+                       {?> <span class="">   Panel Beater</span> <?php } 
+
+
+
+        
+                       elseif($val->service_type == 51)
+                       {?> <span class="">    Auto Electrician</span> <?php } 
+
+
+                       elseif($val->service_type == 52)
+                       {?> <span class="">    Japanese Car Mechanic</span> <?php } 
+
+
+                       elseif($val->service_type ==53)
+                       {?> <span class="">     Shoe Cobbler</span> <?php } 
+
                        
           
                        else{?> <span class="">No Service Chosen</span> <?php }

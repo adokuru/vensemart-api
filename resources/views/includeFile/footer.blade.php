@@ -15,7 +15,7 @@
 <script src="<?php echo URL::to('/assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js'); ?>"></script>
 <script src="<?php echo URL::to('/assets/plugins/datatables-responsive/js/dataTables.responsive.min.js'); ?>"></script>
 <script src="<?php echo URL::to('/assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js'); ?>"></script>
-<script src="<?php echo URL::to('/assets/plugins/datatables-buttons/js/dataTables.buttons.min.js'); ?>"></script>>
+<script src="<?php echo URL::to('/assets/plugins/datatables-buttons/js/dataTables.buttons.min.js'); ?>"></script>
 <script src="<?php echo URL::to('/assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js'); ?>"></script>
 <script src="<?php echo URL::to('/assets/plugins/jszip/jszip.min.js'); ?>"></script>
 <script src="<?php echo URL::to('/assets/plugins/pdfmake/pdfmake.min.js'); ?>"></script>
