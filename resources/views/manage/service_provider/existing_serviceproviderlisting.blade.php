@@ -177,10 +177,7 @@
 
 
 
-              
-
-
-
+        
                        elseif($val->service_type == 51)
                        {?> <span class="">    Auto Electrician</span> <?php } 
 

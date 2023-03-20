@@ -173,7 +173,7 @@
                        {?> <span class="">    Japanese Car Mechanic</span> <?php } 
 
 
-                       elseif($listing->service_type ==53)
+                       elseif($listing->service_type == 53)
                        {?> <span class="">     Shoe Cobbler</span> <?php } 
 
                        
