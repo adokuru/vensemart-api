@@ -113,7 +113,7 @@
                         <a href="javascript:void(0);">
                           <div class="panel panel-success pricing-big">
                             <div class="panel-heading">
-                              <h3 class="panel-title">Completed Services
+                              <h3 class="panel-title">Upcoming Services
                               <span class="panel-title" style="display:inline-block;float:right;font-size:18px;">{{$get_total_yearly_new_driver}}</span></h3>
                             </div>
                             <div class="">
@@ -150,7 +150,7 @@
                         <a href="javascript:void(0);">
                           <div class="panel panel-success pricing-big">
                             <div class="panel-heading">
-                              <h3 class="panel-title">Upcoming Services
+                              <h3 class="panel-title">Completed Services
                               <span class="panel-title" style="display:inline-block;float:right;font-size:18px;">{{$get_total_yearly_existing_driver}}</span></h3>
                             </div>
                             <div class="">
@@ -187,7 +187,7 @@
 
                   <div class="container-fluid mt-3">
                     <div class="row">
-                      <div class="col-md-6">
+                      <!-- <div class="col-md-6">
                         <a href="javascript:void(0);">
                           <div class="panel panel-success pricing-big">
                             <div class="panel-heading">
@@ -220,11 +220,11 @@
                             </div>
                           </div>
                         </a>
-                      </div>
+                      </div> -->
                       
 
 
-                      <!-- <div class="col-md-6">
+                      <div class="col-md-6">
                         <a href="javascript:void(0);">
                           <div class="panel panel-success pricing-big">
                             <div class="panel-heading">
@@ -257,7 +257,7 @@
                             </div>
                           </div>
                         </a>
-                      </div> -->
+                      </div>
                     </div>
                   </div>
 
