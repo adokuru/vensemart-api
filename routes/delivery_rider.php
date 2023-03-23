@@ -60,4 +60,5 @@ Route::group([
     Route::post('add_bank_detail', [DeliveryRiderController::class, 'add_bank_detail']);
 
     Route::post('add-bank-details', [BankDetailsController::class, 'addBankDetails']);
+    Route::post('get-bank-details', [BankDetailsController::class, 'getBankDetails']);
 });
