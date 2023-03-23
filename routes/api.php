@@ -8,6 +8,7 @@ use App\Http\Controllers\API\SecondController;
 use App\Http\Controllers\API\DeliveryBoyController;
 use App\Http\Controllers\API\NewRoutesController;
 use App\Http\Controllers\API\ServiceProviderController;
+use App\Http\Controllers\BankDetailsController;
 use App\Http\Controllers\Controller;
 
 /*
@@ -49,3 +50,9 @@ Route::post('send-support-message', [NewRoutesController::class, 'send_support_m
 Route::post('test-notification', [NewRoutesController::class, 'test_notification']);
 
 Route::post('delete-account', [NewRoutesController::class, 'delete_account']);
+
+
+
+Route::get('get-banks', [BankDetailsController::class, 'get_banks']);
+
+Route::post('get-account-name', [BankDetailsController::class, 'getBankAccountName']);

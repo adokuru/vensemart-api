@@ -60,4 +60,6 @@ Route::group([
     Route::get('test_noti', [DeliveryRiderController::class, 'test']);
 
     Route::post('add_bank_detail', [DeliveryRiderController::class, 'add_bank_detail']);
+
+    Route::post('add-bank-details', [BankDetailsController::class, 'addBankDetails']);
 });
