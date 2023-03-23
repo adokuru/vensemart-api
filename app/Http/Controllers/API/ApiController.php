@@ -1537,10 +1537,8 @@ class ApiController extends Controller
             $orders = DB::table('orders as o')
                 ->select('o.*', 'u.name', 'u.mobile', 'u.email', 'u.address', 'u.city', 'u.state', 'u.pincode', 'u.country', 'u.latitude', 'u.longitude')
                 ->join('users as u', 'u.id', 'o.user_id')
-                ->where('o.user_id', auth()->user()->id)->orderBy('o.id', 'desc')
+                ->where('o.user_id', Auth::id())->orderBy('o.id', 'desc')
                 ->get();
-
-            return $orders;
 
             foreach ($orders as $key => $val) {
                 $product_details =  EshopPurchaseDetail::where('order_id', $val->id)->get()->toArray();
