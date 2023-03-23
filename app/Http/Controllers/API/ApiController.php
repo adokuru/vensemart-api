@@ -1540,6 +1540,8 @@ class ApiController extends Controller
                 ->where('o.user_id', auth()->user()->id)->orderBy('o.id', 'desc')
                 ->get();
 
+            return $orders;
+
             foreach ($orders as $key => $val) {
                 $product_details =  EshopPurchaseDetail::where('order_id', $val->id)->get()->toArray();
                 $val->products = $product_details != [] ? $product_details : [];
