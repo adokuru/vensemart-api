@@ -61,4 +61,5 @@ Route::group([
 
     Route::post('add-bank-details', [BankDetailsController::class, 'addBankDetails']);
     Route::post('get-bank-details', [BankDetailsController::class, 'getBankDetails']);
+    Route::post('delete-bank-details', [BankDetailsController::class, 'deleteBankDetails']);
 });
