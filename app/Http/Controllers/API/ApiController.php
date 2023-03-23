@@ -1558,7 +1558,7 @@ class ApiController extends Controller
             return response()->json($arr, 200);
         } catch (\Exception $e) {
             $arr['status'] = 0;
-            $arr['message'] = "something went wrong";
+            $arr['message'] = env('APP_DEBUG') ? $e->getMessage() : "something went wrong";
             $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
