@@ -1535,7 +1535,7 @@ class ApiController extends Controller
     {
         try {
             $orders = DB::table('orders as o')
-                ->select('o.*', 'u.name', 'u.mobile', 'u.email', 'u.address', 'u.city', 'u.state', 'u.pincode', 'u.country', 'u.latitude', 'u.longitude')
+                ->select('o.*', 'u.name', 'u.mobile', 'u.email', 'u.location', 'u.latitude', 'u.longitude')
                 ->join('users as u', 'u.id', 'o.user_id')
                 ->where('o.user_id', Auth::id())->orderBy('o.id', 'desc')
                 ->get();
