@@ -1541,7 +1541,7 @@ class ApiController extends Controller
                 ->get();
 
             foreach ($orders as $key => $val) {
-                $product_details =  EshopPurchaseDetail::where('order_id', $val->id)->get()->toArray();
+                $product_details =  EshopPurchaseDetail::where('order_id', $val->order_id)->get()->toArray();
                 $val->products = $product_details != [] ? $product_details : [];
             }
 
