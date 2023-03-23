@@ -13,6 +13,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use App\Mail\SendOrderMail;
 use App\Models\Cart;
+use App\Models\EshopPurchaseDetail;
 
 class ApiController extends Controller
 {
@@ -829,98 +830,15 @@ class ApiController extends Controller
                 // return $ins_data;
                 $n_result = DB::table('eshop_purchase_detail')->insert($ins_data);
 
-                // $storedetails = DB::table('stores')->where('id', $request->shop_id)->first();
-
-                // $lat = $storedetails->lati;
-                // $lng = $storedetails->longi;
-
-                // $driver_list =    DB::table('users')
-                //     ->select('users.*', DB::raw("6371 * acos(cos(radians(" . $lat . "))
-                //              * cos(radians(users.location_lat)) 
-                //              * cos(radians(users.location_long) - radians(" . $lng . ")) 
-                //              + sin(radians(" . $lat . ")) 
-                //              * sin(radians(users.location_lat))) AS distance"))
-                //     ->having('distance', '<', 3)
-                //     ->leftJoin('vehicle_details', 'vehicle_details.user_id', '=', 'users.id')
-                //     ->where('vehicle_details.isVerify', '2')
-                //     ->where('users.type', "2")
-                //     ->orderBy('users.id', 'desc')
-                //     ->first();
 
                 $orderIdd = $order_data['order_id'];
-                // if ($driver_list) {
-                //     DB::table('orders')->where('order_id', $order_data['order_id'])->update(['driver_id' => $driver_list->id]);
-
-
-                //     $data_dtiver = array('title' => "new order received", 'message' => "$orderIdd new order received", 'user_id' => $driver_list->id);
-
-                //     /************************Notification Start************/
-
-                //     $firebaseToken =  DB::table('users')->where('id', $driver_list->id)->whereNotNull('device_token')->pluck('device_token')->toArray();
-
-                //     $SERVER_API_KEY = env('FCM_KEY');
-
-                //     $data1 = [
-                //         "registration_ids" => $firebaseToken,
-                //         "notification" => [
-                //             "title" => $data_dtiver['title'],
-                //             "body" => $data_dtiver['message'],
-                //         ]
-                //     ];
-                //     $dataString = json_encode($data1);
-
-                //     $headers = [
-                //         'Authorization: key=' . $SERVER_API_KEY,
-                //         'Content-Type: application/json',
-                //     ];
-
-                //     $url = 'https://fcm.googleapis.com/fcm/send';
-                //     $ch = curl_init();
-
-                //     curl_setopt($ch, CURLOPT_URL, $url);
-                //     curl_setopt($ch, CURLOPT_POST, true);
-                //     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-                //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                //     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-                //     curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-                //     // Disabling SSL Certificate support temporarly
-                //     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-                //     curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
-                //     // Execute post
-                //     $result = curl_exec($ch);
-                //     curl_close($ch);
-
-                //     /*********************End Notification*****************/
-
-                //     DB::table('notifications')->insert(['user_id' => $data_dtiver['user_id'], 'title' => $data_dtiver['title'], 'message' => $data_dtiver['message'], 'type' => 2]);
-                // }
 
                 $data_noti = array('title' => "Order Placed", 'message' => "order placed successfully!  order  ID is  $orderIdd", 'user_id' => Auth::id());
                 $this->sendNotification(Auth::id(), "Order Placed", "Order Placed Successfully ");
-                // DB::commit();
-
-                // // $this->notification_send($data_dtiver);
-                //  $this->notification_send($data_noti);
-                // // add notification 
-
-                /************************Notification Start************/
-
-
-                /*********************End Notification*****************/
 
 
 
                 DB::table('notifications')->insert(['user_id' => Auth::id(), 'title' => "Order Placed", 'message' => $data_noti['message'], 'type' => 1]);
-
-
-                // $get_user_data =  DB::table('users')->select('id', 'name', 'email')->where('id', Auth::id())->first();
-                // if ($get_user_data) {
-                //     $data['name'] = $get_user_data->name;
-                //     $data['msg'] = "Order  Placed: order placed successfully!  order  ID is  $orderIdd";
-                //     $data['subject'] = "Order  Placed";
-                //     \Mail::to($get_user_data->email)->send(new \App\Mail\SendOrderMail($data));
-                // }
-
 
 
                 if ($n_result) {
@@ -934,18 +852,14 @@ class ApiController extends Controller
                     DB::rollback();
                     $arr['status'] = 0;
                     $arr['message'] = 'something went wrong';
-                    $arr['data'] = $e->getMessage();
                     return response()->json($arr, 200);
                 }
             } else {
                 DB::rollback();
                 $arr['status'] = 0;
                 $arr['message'] = 'something went wrong';
-                $arr['data'] = $e->getMessage();
                 return response()->json($arr, 200);
             }
-
-            return response()->json($arr, 200);
         } catch (\Exception $e) {
             DB::rollback();
             $arr['status'] = 0;
@@ -1621,21 +1535,13 @@ class ApiController extends Controller
     {
         try {
             $orders = DB::table('orders as o')
-                ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/shop_images') . '","/",s.store_image)  as store_image'))
-                ->join('stores as s', 's.id', 'o.shop_id')
-                ->join('user_address as ua', 'ua.id', 'o.address_id')
-                ->where('o.user_id', Auth::id())->orderBy('o.id', 'desc')->get();
+                ->select('o.*', DB::raw('CONCAT("' . url('storage/shop_images') . '","/",s.store_image)  as store_image'))
+                ->join('users as u', 'u.id', 'o.user_id')
+                ->where('o.user_id', Auth::id())->orderBy('o.id', 'desc')
+                ->get();
 
             foreach ($orders as $key => $val) {
-                $product_details =  DB::table('orders_details as od')
-                    ->select('p.*', 'c.category_name', 'sc.name as sub_category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/product_images') . '","/",product_image)  as product_image'))
-                    ->join('products as p', 'p.id', 'od.product_id')
-                    ->join('category as c', 'c.id', 'p.category_id')
-                    ->join('sub_category as sc', 'sc.id', 'p.sub_cat_id')
-                    ->join('stores as s', 's.id', 'p.shop_id')
-                    ->join('uom as u', 'u.id', 'p.uom_id')
-                    ->where('order_id', $val->id)
-                    ->get()->toArray();
+                $product_details =  EshopPurchaseDetail::where('order_id', $val->id)->get()->toArray();
                 $val->products = $product_details != [] ? $product_details : [];
             }
 
