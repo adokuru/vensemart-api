@@ -2,9 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\DeliveryRiderController;
-
-
-
+use App\Http\Controllers\API\BankDetailsController;
 
 Route::post('rider/vehicle_registration', [DeliveryRiderController::class, 'vehicle_registration']);
 Route::post('rider/register', [DeliveryRiderController::class, 'delivery_rider_register']);
