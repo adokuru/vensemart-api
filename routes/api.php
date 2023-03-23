@@ -8,7 +8,7 @@ use App\Http\Controllers\API\SecondController;
 use App\Http\Controllers\API\DeliveryBoyController;
 use App\Http\Controllers\API\NewRoutesController;
 use App\Http\Controllers\API\ServiceProviderController;
-use App\Http\Controllers\BankDetailsController;
+use App\Http\Controllers\API\BankDetailsController;
 use App\Http\Controllers\Controller;
 
 /*
