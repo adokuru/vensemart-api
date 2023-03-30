@@ -215,12 +215,9 @@ class Controller extends BaseController
     }
 
 
-    public function contactRiderAndVendor(Request $request)
+    public function contactRiderAndVendor($orderID, $customerID)
     {
 
-
-        $orderID = $request->orderID;
-        $customerID = $request->customerID;
 
         try {
             $orderDetails = \App\Models\EshopPurchaseDetail::where('order_id', $orderID)->first();
