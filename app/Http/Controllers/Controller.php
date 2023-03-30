@@ -220,7 +220,7 @@ class Controller extends BaseController
 
         try {
             $orderDetails = \App\Models\EshopPurchaseDetail::where('order_id', $orderID)->first();
-            $customer = \App\Models\User::where('id', $customerID)->first();
+            $customer = User::where('id', $customerID)->first();
 
             return $customer;
 
