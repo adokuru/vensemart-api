@@ -240,11 +240,10 @@ class Controller extends BaseController
             ];
 
 
-            $vendor = \App\Models\Products::find($orderDetails->product_id)->shop;
+            $product = \App\Models\Products::find($orderDetails->product_id);
 
 
-
-
+            $vendor = $this->getVendor($product->shop_id);
 
             return ($vendor);
         } catch (\Exception $e) {
@@ -254,5 +253,15 @@ class Controller extends BaseController
 
     public function requestRiderForDelivery($lat, $lng, $order)
     {
+    }
+
+    public function getVendor($shopID)
+    {
+        try {
+            $vendor = \App\Models\Stores::where('id', $shopID)->first();
+            return $vendor;
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
     }
 }
