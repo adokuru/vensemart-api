@@ -239,7 +239,7 @@ class Controller extends BaseController
                 "body" => "A Customer " . $customer->name . " wants to contact you for order " . $orderDetails->order_id . ", a rider will contact you soon, please visit your order details for more information.",
             ];
 
-            return $orderDetails->product_id;
+            return $orderDetails;
 
             $product = \App\Models\Products::find($orderDetails->product_id);
 
