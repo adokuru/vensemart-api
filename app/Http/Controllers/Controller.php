@@ -208,4 +208,31 @@ class Controller extends BaseController
             throw new \Exception($e->getMessage());
         }
     }
+
+
+    public function contactRiderAndVendor($orderID, $customerID)
+    {
+        try {
+            $orderDetails = \App\Models\EshopPurchaseDetail::where('order_id', $orderID)->first();
+            $customer = \App\Models\User::find($customerID);
+
+
+            $data = [
+                "title" => "Contact Rider",
+                "body" => "Customer " . $customer->name . " wants to contact you for order " . $orderDetails->order_id,
+            ];
+
+            $vendorNotification = [
+                "title" => "Contact Vendor",
+                "body" => "Customer " . $customer->name . " wants to contact you for order " . $orderDetails->order_id . ", a rider will contact you soon, please visit your order details for more information.",
+            ];
+
+
+            $vendor = \App\Models\Products::find($orderDetails->product_id)->shop;
+
+            return ($vendor);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+    }
 }

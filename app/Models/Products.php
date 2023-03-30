@@ -49,9 +49,7 @@ class Products extends Model
      *
      * @var array
      */
-    protected $hidden = [
-        
-    ];
+    protected $hidden = [];
 
     /**
      * The attributes that should be casted to native types.
@@ -83,4 +81,9 @@ class Products extends Model
     // Functions ...
 
     // Relations ...
+
+    public function shop()
+    {
+        return $this->belongsTo('App\Models\Stores', 'shop_id');
+    }
 }
