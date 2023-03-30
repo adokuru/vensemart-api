@@ -286,8 +286,8 @@ class Controller extends BaseController
         // get distance and duration between two points with google api
         $lat1 = $lati;
         $lon1 = $longi;
-        $lat2 = $lng;
-        $lon2 = $lat;
+        $lat2 = $lat;
+        $lon2 = $lng;
         $url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" . $lat1 . "," . $lon1 . "&destinations=" . $lat2 . "," . $lon2 . "&mode=driving&units=imperial&key=" . env('GOOGLE_MAP_API_KEY');
         $client = new Client();
         $res = $client->get($url);
