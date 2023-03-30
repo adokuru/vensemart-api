@@ -268,6 +268,8 @@ class Controller extends BaseController
 
             // send notification to rider 
             $this->sendNotification($rider->id, $data['title'], $data['body']);
+
+            return $this->sendResponse('Rider requested successfully', []);
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
