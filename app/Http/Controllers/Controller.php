@@ -221,6 +221,10 @@ class Controller extends BaseController
             $orderDetails = \App\Models\EshopPurchaseDetail::where('order_id', $orderID)->first();
             $customer = \App\Models\User::find($customerID);
 
+            if (!$orderDetails) return $this->sendError('Order not found', [], 422);
+
+            if (!$customer) return $this->sendError('Customer not found', [], 422);
+
 
             $data = [
                 "title" => "Contact Rider",
