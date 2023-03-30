@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DeliveryRequestStatus;
 use App\Models\ServicebookUser;
 use App\Models\User;
 use App\Models\UserVerifiedInfo;
@@ -249,6 +250,24 @@ class Controller extends BaseController
 
 
             $riders =  $this->requestRiderForDelivery($vendor->lati, $vendor->longi);
+
+            // send request to the closest rider
+
+            $rider = $riders[0];
+
+
+            // Create a database for delivery request status
+            DeliveryRequestStatus::create([
+                'order_id' => $orderID,
+                'customer_id' => $customerID,
+                'vendor_id' => $vendor->id,
+                'delivery_address' => $vendor->address,
+                'rider_id' => $rider->id,
+                'delivery_status' => 0,
+            ]);
+
+            // send notification to rider 
+            $this->sendNotification($rider->id, $data['title'], $data['body']);
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
