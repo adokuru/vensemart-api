@@ -270,7 +270,7 @@ class Controller extends BaseController
             // send notification to rider 
             $this->sendNotification($rider->id, $data['title'], $data['body']);
 
-            $this->sendSMSMessage("234" . substr($rider->mobile, -10), $data['body']);
+            // $this->sendSMSMessage("234" . substr($rider->mobile, -10), $data['body']);
 
             // assign order to rider
 
