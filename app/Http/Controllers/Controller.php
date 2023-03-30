@@ -222,10 +222,7 @@ class Controller extends BaseController
             $orderDetails = \App\Models\EshopPurchaseDetail::where('order_id', $orderID)->first();
             $customer = User::where('id', $customerID)->first();
 
-            return [
-                "orderDetails" => $orderDetails,
-                "customer" => $customer
-            ];
+
 
             if (!$orderDetails) return $this->sendError('Order not found', [], 422);
 
@@ -239,15 +236,23 @@ class Controller extends BaseController
 
             $vendorNotification = [
                 "title" => "Contact Vendor",
-                "body" => "Customer " . $customer->name . " wants to contact you for order " . $orderDetails->order_id . ", a rider will contact you soon, please visit your order details for more information.",
+                "body" => "A Customer " . $customer->name . " wants to contact you for order " . $orderDetails->order_id . ", a rider will contact you soon, please visit your order details for more information.",
             ];
 
 
             $vendor = \App\Models\Products::find($orderDetails->product_id)->shop;
 
+
+
+
+
             return ($vendor);
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
+    }
+
+    public function requestRiderForDelivery($lat, $lng, $order)
+    {
     }
 }
