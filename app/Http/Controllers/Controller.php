@@ -259,7 +259,7 @@ class Controller extends BaseController
 
             if (!$rider) return $this->sendError('No rider available', [], 422);
             // Create a database for delivery request status
-            $DeliveryRequestStatus = DeliveryRequests::where('order_id', $orderID)->where('vendor_id', $vendor->id)->where('delivery_status', 0)->first();
+            $DeliveryRequestStatus = DeliveryRequestStatus::where('order_id', $orderID)->where('vendor_id', $vendor->id)->where('delivery_status', 0)->first();
 
             if ($DeliveryRequestStatus) {
                 $DeliveryRequestStatus->delete();
