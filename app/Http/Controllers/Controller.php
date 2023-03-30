@@ -242,6 +242,7 @@ class Controller extends BaseController
 
             $product = \App\Models\Products::find($orderDetails->product_id);
 
+            if (!$product) return $this->sendError('Product not found', [], 422);
 
             $vendor = $this->getVendor($product->shop_id);
 
