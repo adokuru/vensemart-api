@@ -248,13 +248,13 @@ class Controller extends BaseController
             $vendor = $this->getVendor($product->shop_id);
 
 
-            return $this->requestRiderForDelivery($vendor->lati, $vendor->longi, $orderDetails);
+            $riders =  $this->requestRiderForDelivery($vendor->lati, $vendor->longi);
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
     }
 
-    public function requestRiderForDelivery($lat, $lng, $order)
+    public function requestRiderForDelivery($lat, $lng)
     {
         // get all rider within 5km
         $rider = User::where('type', 2)->where(
