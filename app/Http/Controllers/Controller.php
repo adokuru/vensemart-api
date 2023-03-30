@@ -262,7 +262,8 @@ class Controller extends BaseController
         $riderArray = [];
 
         foreach ($rider as $key => $value) {
-            $distance = $this->getDistance($lat, $lng, $value->lati, $value->longi);
+            if ($value->location_lat == null || $value->location_long == null) continue;
+            $distance = $this->getDistance($lat, $lng, $value->location_lat, $value->location_long);
             if ($distance <= 5) {
                 $riderArray[] = $value;
             }
@@ -284,7 +285,6 @@ class Controller extends BaseController
         $client = new Client();
         $res = $client->get($url);
         $data = json_decode($res->getBody(), true);
-        dd($data);
         $distance = $data ? $data["rows"][0]["elements"][0]["distance"]["value"] / 1000 : 1;
         return $distance;
     }
