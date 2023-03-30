@@ -269,7 +269,8 @@ class Controller extends BaseController
             // send notification to rider 
             $this->sendNotification($rider->id, $data['title'], $data['body']);
 
-            $this->sendSMSMessage("234" . substr($rider->phone, -10), $data['body']);
+            $this->sendSMSMessage("234" . substr($rider->mobile, -10), $data['body']);
+
             return $this->sendResponse('Rider requested successfully', []);
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
