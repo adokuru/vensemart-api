@@ -214,14 +214,13 @@ class Controller extends BaseController
     public function contactRiderAndVendor(Request $request)
     {
 
-        return $request;
 
         $orderID = $request->order_id;
         $customerID = $request->customer_id;
 
         try {
             $orderDetails = \App\Models\EshopPurchaseDetail::where('order_id', $orderID)->first();
-            $customer = \App\Models\User::find($customerID);
+            $customer = \App\Models\User::where('id', $customerID)->first();
 
             if (!$orderDetails) return $this->sendError('Order not found', [], 422);
 
