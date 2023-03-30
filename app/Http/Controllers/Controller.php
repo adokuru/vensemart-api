@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DeliveryRequests;
 use App\Models\DeliveryRequestStatus;
 use App\Models\Orders;
 use App\Models\ServicebookUser;
@@ -256,8 +257,14 @@ class Controller extends BaseController
 
             $rider = $riders[0];
 
-
+            if (!$rider) return $this->sendError('No rider available', [], 422);
             // Create a database for delivery request status
+            $DeliveryRequestStatus = DeliveryRequests::where('order_id', $orderID)->where('vendor_id', $vendor->id)->first();
+
+            if ($DeliveryRequestStatus) {
+                $DeliveryRequestStatus->delete();
+            }
+
             $result = DeliveryRequestStatus::create([
                 'order_id' => $orderID,
                 'customer_id' => $customerID,
