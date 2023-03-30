@@ -262,7 +262,6 @@ class Controller extends BaseController
             "1"
         )->where('is_online', 1)->where('is_phone_verified', 1)->get();
 
-        return $rider;
         $riderArray = [];
 
         foreach ($rider as $key => $value) {
