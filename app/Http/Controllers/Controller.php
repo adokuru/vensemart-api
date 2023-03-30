@@ -222,7 +222,7 @@ class Controller extends BaseController
             $orderDetails = \App\Models\EshopPurchaseDetail::where('order_id', $orderID)->first();
             $customer = \App\Models\User::where('id', $customerID)->first();
 
-            return ($customer);
+            return $customer;
 
             if (!$orderDetails) return $this->sendError('Order not found', [], 422);
 
