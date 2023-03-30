@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ServicebookUser;
 use App\Models\User;
 use App\Models\UserVerifiedInfo;
+use GuzzleHttp\Client;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -246,7 +247,8 @@ class Controller extends BaseController
 
             $vendor = $this->getVendor($product->shop_id);
 
-            return $vendor;
+
+            return $this->requestRiderForDelivery($vendor->lati, $vendor->longi, $orderDetails);
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
@@ -254,7 +256,38 @@ class Controller extends BaseController
 
     public function requestRiderForDelivery($lat, $lng, $order)
     {
+        // get all rider within 5km
+        $rider = User::where('type', 3)->where('status', 1)->where('is_online', 1)->where('is_phone_verified', 1)->get();
+
+        $riderArray = [];
+
+        foreach ($rider as $key => $value) {
+            $distance = $this->getDistance($lat, $lng, $value->lati, $value->longi);
+            if ($distance <= 5) {
+                $riderArray[] = $value;
+            }
+        }
+
+        return $this->sendResponse('Rider found', $riderArray);
     }
+
+
+    // get distance between two points with google map api
+    public function getDistance($lat, $lng, $lati, $longi)
+    {
+        // get distance and duration between two points with google api
+        $lat1 = $lati;
+        $lon1 = $longi;
+        $lat2 = $lng;
+        $lon2 = $lat;
+        $url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" . $lat1 . "," . $lon1 . "&destinations=" . $lat2 . "," . $lon2 . "&mode=driving&units=imperial&key=" . env('GOOGLE_MAP_API_KEY');
+        $client = new Client();
+        $res = $client->get($url);
+        $data = json_decode($res->getBody(), true);
+        $distance = $data ? $data["rows"][0]["elements"][0]["distance"]["value"] / 1000 : 1;
+        return $distance;
+    }
+
 
     public function getVendor($shopID)
     {
