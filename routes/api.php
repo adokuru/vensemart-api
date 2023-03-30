@@ -43,7 +43,7 @@ require __DIR__ . '/service_provider_app.php';
 Route::post('forgot-password', [AuthController::class, 'send_otp']);
 Route::post('forgot-password-change', [AuthController::class, 'forgot_password']);
 
-Route::any('test/{phone_number}', [Controller::class, 'DojahVerifyNumber']);
+Route::any('test', [Controller::class, 'contactRiderAndVendor']);
 
 Route::post('send-support-message', [NewRoutesController::class, 'send_support_message']);
 
