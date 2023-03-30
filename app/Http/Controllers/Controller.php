@@ -216,11 +216,11 @@ class Controller extends BaseController
 
 
         $orderID = $request->order_id;
-        $customerID = $request->customer_id;
+        $customerID = $request->customerID;
 
         try {
             $orderDetails = \App\Models\EshopPurchaseDetail::where('order_id', $orderID)->first();
-            $customer = User::where('id', $customerID)->first();
+            $customer = User::where('id', intValue($customerID))->first();
 
             return [
                 "orderDetails" => $orderDetails,
