@@ -8,6 +8,7 @@ use App\Models\UserVerifiedInfo;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
@@ -210,8 +211,12 @@ class Controller extends BaseController
     }
 
 
-    public function contactRiderAndVendor($orderID, $customerID)
+    public function contactRiderAndVendor(Request $request)
     {
+
+        $orderID = $request->order_id;
+        $customerID = $request->customer_id;
+
         try {
             $orderDetails = \App\Models\EshopPurchaseDetail::where('order_id', $orderID)->first();
             $customer = \App\Models\User::find($customerID);
