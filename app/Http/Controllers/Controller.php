@@ -259,6 +259,7 @@ class Controller extends BaseController
         // get all rider within 5km
         $rider = User::where('type', 2)->where('status', 1)->where('is_online', 1)->where('is_phone_verified', 1)->get();
 
+        return $rider;
         $riderArray = [];
 
         foreach ($rider as $key => $value) {
