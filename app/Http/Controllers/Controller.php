@@ -264,10 +264,14 @@ class Controller extends BaseController
         foreach ($rider as $key => $value) {
             if ($value->location_lat == null || $value->location_long == null) continue;
             $distance = $this->getDistance($lat, $lng, $value->location_lat, $value->location_long);
-            if ($distance <= 5) {
-                $riderArray[] = $value;
-            }
+            // add distance in array
+            $value->distance = $distance;
+
+            // order by distance
+            $riderArray[] = $value;
         }
+
+        array_multisort(array_column($riderArray, 'distance'), SORT_ASC, $riderArray);
 
         return $this->sendResponse('Rider found', $riderArray);
     }
