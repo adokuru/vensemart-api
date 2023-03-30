@@ -268,7 +268,7 @@ class Controller extends BaseController
             if ($value->location_lat == null || $value->location_long == null) continue;
             $distance = $this->getDistance($lat, $lng, $value->location_lat, $value->location_long);
             // add distance in array
-            $value['distance'] = $distance['distance'];
+            $value['distance'] = $distance;
 
             // order by distance
             $riderArray[] = $value;
