@@ -214,6 +214,8 @@ class Controller extends BaseController
     public function contactRiderAndVendor(Request $request)
     {
 
+        return $request;
+
         $orderID = $request->order_id;
         $customerID = $request->customer_id;
 
