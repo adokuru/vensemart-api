@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DeliveryRequestStatus;
+use App\Models\Orders;
 use App\Models\ServicebookUser;
 use App\Models\User;
 use App\Models\UserVerifiedInfo;
@@ -257,7 +258,7 @@ class Controller extends BaseController
 
 
             // Create a database for delivery request status
-            DeliveryRequestStatus::create([
+            $result = DeliveryRequestStatus::create([
                 'order_id' => $orderID,
                 'customer_id' => $customerID,
                 'vendor_id' => $vendor->id,
@@ -266,15 +267,15 @@ class Controller extends BaseController
                 'delivery_status' => 0,
             ]);
 
-            return $rider;
-
             // send notification to rider 
             $this->sendNotification($rider->id, $data['title'], $data['body']);
 
             $this->sendSMSMessage("234" . substr($rider->mobile, -10), $data['body']);
 
+            // assign order to rider
 
-            return $this->sendResponse('Rider requested successfully', []);
+            Orders::where('id', $orderID)->update(['driver_id' => $rider->id]);
+            return $this->sendResponse('Rider requested successfully', $result);
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
