@@ -246,7 +246,7 @@ class Controller extends BaseController
 
             $vendor = $this->getVendor($product->shop_id);
 
-            return ($vendor);
+            return $vendor;
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
