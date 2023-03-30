@@ -297,7 +297,7 @@ class Controller extends BaseController
 
         array_multisort(array_column($riderArray, 'distance'), SORT_ASC, $riderArray);
 
-        return $this->sendResponse('Rider found', $riderArray);
+        return $riderArray;
     }
 
 
