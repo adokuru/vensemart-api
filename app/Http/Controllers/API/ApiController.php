@@ -792,7 +792,7 @@ class ApiController extends Controller
             DB::beginTransaction();
 
             $result1 = DB::table('orders')->insert($order_data);
-
+            $store_id = 0;
             if ($result1) {
                 $ins_data = array();
                 foreach ($cart_detail as $k => $value) {
@@ -802,7 +802,7 @@ class ApiController extends Controller
                     $ins_data[$k]['p_image'] = $value->product_image;
                     $ins_data[$k]['user_id'] = $value->user_id;
                     $ins_data[$k]['product_id'] = $value->product_id;
-
+                    $store_id =  $this->getVendorId($value->product_id);
                     $ins_data[$k]['quantity'] = $value->qty;
                     $ins_data[$k]['net_price'] = $value->net_amount;
                     $ins_data[$k]['gst_percent'] = 0;

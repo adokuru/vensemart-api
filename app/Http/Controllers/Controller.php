@@ -337,4 +337,15 @@ class Controller extends BaseController
             throw new \Exception($e->getMessage());
         }
     }
+
+    public function getVendorId($productID)
+    {
+        $product = \App\Models\Products::find($productID);
+
+        if (!$product) throw $this->sendError('Product not found', [], 422);
+
+        $vendor = $this->getVendor($product->shop_id);
+
+        return $vendor->id;
+    }
 }

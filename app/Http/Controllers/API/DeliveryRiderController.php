@@ -307,7 +307,7 @@ class DeliveryRiderController extends Controller
                 ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/shop_images') . '","/",s.store_image)  as store_image'))
                 ->join('stores as s', 's.id', 'o.shop_id')
                 ->join('user_address as ua', 'ua.id', 'o.address_id')
-                ->where('o.driver_id', Auth::id())->where('o.status', '5')->get()->toArray();
+                ->where('o.driver_id', Auth::id())->where('o.status', '7')->get()->toArray();
             if ($cancel_order == []) {
                 $arr['status'] = 0;
                 $arr['message'] = 'No data.';
@@ -359,7 +359,7 @@ class DeliveryRiderController extends Controller
                 ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/shop_images') . '","/",s.store_image)  as store_image'))
                 ->join('stores as s', 's.id', 'o.shop_id')
                 ->join('user_address as ua', 'ua.id', 'o.address_id')
-                ->where('o.driver_id', Auth::id())->where('o.status', '2')->get()->toArray();
+                ->where('o.driver_id', Auth::id())->where('o.status', '3')->get()->toArray();
             if ($accept_order == []) {
                 $arr['status'] = 0;
                 $arr['message'] = 'No data.';
