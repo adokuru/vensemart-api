@@ -782,6 +782,10 @@ class DeliveryRiderController extends Controller
 
     public function withdrawn_request(Request $request)
     {
+        $request->validate([
+            'amount' => 'required|numeric|min:5000',
+        ]);
+
         $id  = Auth::id();
         $user = User::find($id);
 
