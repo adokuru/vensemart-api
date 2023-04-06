@@ -22,7 +22,7 @@ class Dashboard extends Model
     }
 
     
-    public function get_total_yesterday_new_pending_services(){
+    public function get_total_yesterday_pending_services(){
         $array = ['1','2'];
         // DB::enableQueryLog();
         $result  = DB::table('servicebook_user')->where('servicebook_user.status', 1)->where('created_at', '>=', Carbon::yesterday()->toDateString())->count('id');
