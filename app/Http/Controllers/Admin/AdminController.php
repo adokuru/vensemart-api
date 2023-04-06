@@ -50,6 +50,33 @@ class AdminController extends Controller
         $data['get_total_weekly_new_service_user']             =  $dashboard->get_total_weekly_new_service_user();
         $data['get_total_monthly_new_service_user']            =  $dashboard->get_total_monthly_new_service_user();
         $data['get_total_yearly_new_service_user']             =  $dashboard->get_total_yearly_new_service_user();
+
+
+        // pending_services
+
+        $data['get_total_yesterday_pending_services']     =  $dashboard->get_total_yesterday_pending_services();
+        $data['get_total_daily_pending_services']         =  $dashboard->get_total_daily_pending_services();
+        $data['get_total_weekly_pending_services']        =  $dashboard->get_total_weekly_pending_services();
+        $data['get_total_monthly_pending_services']       =  $dashboard->get_total_monthly_pending_services();
+        $data['get_total_yearly_pending_services']        =  $dashboard->get_total_yearly_pending_services();
+
+
+        $data['get_total_yesterday_completed_services']     =  $dashboard->get_total_yesterday_completed_services();
+        $data['get_total_daily_completed_services']         =  $dashboard->get_total_daily_completed_services();
+        $data['get_total_weekly_completed_services']        =  $dashboard->get_total_weekly_completed_services();
+        $data['get_total_monthly_completed_services']       =  $dashboard->get_total_monthly_completed_services();
+        $data['get_total_yearly_completed_services']        =  $dashboard->get_total_yearly_completed_services();
+
+
+        $data['get_total_yesterday_cancelled_services']     =  $dashboard->get_total_yesterday_cancelled_services();
+        $data['get_total_daily_cancelled_services']         =  $dashboard->get_total_daily_cancelled_services();
+        $data['get_total_weekly_cancelled_services']        =  $dashboard->get_total_weekly_cancelled_services();
+        $data['get_total_monthly_cancelled_services']       =  $dashboard->get_total_monthly_cancelled_services();
+        $data['get_total_yearly_cancelled_services']        =  $dashboard->get_total_yearly_cancelled_services();
+
+
+
+
         
         $data['get_total_daily_existing_driver']         =  $dashboard->get_total_daily_existing_driver();
         $data['get_total_weekly_existing_driver']        =  $dashboard->get_total_weekly_existing_driver();

@@ -114,28 +114,28 @@
                           <div class="panel panel-success pricing-big">
                             <div class="panel-heading">
                               <h3 class="panel-title">Upcoming Services
-                              <span class="panel-title" style="display:inline-block;float:right;font-size:18px;">{{$get_total_yearly_new_driver}}</span></h3>
+                              <span class="panel-title" style="display:inline-block;float:right;font-size:18px;">{{$get_total_yearly_pending_services }}</span></h3>
                             </div>
                             <div class="">
                               <div class="row">
                                 <div class="col-md-3 col-6 text-center reports">
                                   <h5>Today
-                                    <strong>{{$get_total_daily_new_driver}}</strong>
+                                    <strong>{{$get_total_daily_pending_services }}</strong>
                                   </h5>
                                 </div>
                                 <div class="col-md-3 col-6 text-center reports">
                                   <h5>This Week
-                                    <strong>{{$get_total_weekly_new_driver}}</strong>
+                                    <strong>{{$get_total_weekly_pending_services }}</strong>
                                   </h5>
                                 </div>
                                 <div class="col-md-3 col-6 text-center reports">
                                   <h5>This Month
-                                    <strong>{{$get_total_monthly_new_driver}}</strong>
+                                    <strong>{{$get_total_monthly_pending_services }}</strong>
                                   </h5>
                                 </div>
                                 <div class="col-md-3 col-6 text-center reports">
                                   <h5>This Year
-                                    <strong>{{$get_total_yearly_new_driver}}</strong>
+                                    <strong>{{$get_total_yearly_pending_services }}</strong>
                                   </h5>
                                 </div>
                               </div>
@@ -151,28 +151,28 @@
                           <div class="panel panel-success pricing-big">
                             <div class="panel-heading">
                               <h3 class="panel-title">Completed Services
-                              <span class="panel-title" style="display:inline-block;float:right;font-size:18px;">{{$get_total_yearly_existing_driver}}</span></h3>
+                              <span class="panel-title" style="display:inline-block;float:right;font-size:18px;">{{$get_total_yearly_completed_services }}</span></h3>
                             </div>
                             <div class="">
                               <div class="row">
                                 <div class="col-md-3 col-6 text-center reports">
                                   <h5>Today
-                                    <strong>{{$get_total_daily_existing_driver}}</strong>
+                                    <strong>{{$get_total_daily_completed_services }}</strong>
                                   </h5>
                                 </div>
                                 <div class="col-md-3 col-6 text-center reports">
                                   <h5>This Week
-                                    <strong>{{$get_total_weekly_existing_driver}}</strong>
+                                    <strong>{{$get_total_weekly_completed_services }}</strong>
                                   </h5>
                                 </div>
                                 <div class="col-md-3 col-6 text-center reports">
                                   <h5>This Month
-                                    <strong>{{$get_total_monthly_existing_driver}}</strong>
+                                    <strong>{{$get_total_monthly_completed_services }}</strong>
                                   </h5>
                                 </div>
                                 <div class="col-md-3 col-6 text-center reports">
                                   <h5>This Year
-                                    <strong>{{$get_total_yearly_existing_driver}}</strong>
+                                    <strong>{{$get_total_yearly_completed_services }}</strong>
                                   </h5>
                                 </div>
                               </div>
@@ -229,28 +229,28 @@
                           <div class="panel panel-success pricing-big">
                             <div class="panel-heading">
                               <h3 class="panel-title">Cancelled Services
-                              <span class="panel-title" style="display:inline-block;float:right;font-size:18px;">{{$get_total_yearly_existing_driver}}</span></h3>
+                              <span class="panel-title" style="display:inline-block;float:right;font-size:18px;">{{$get_total_yearly_cancelled_services }}</span></h3>
                             </div>
                             <div class="">
                               <div class="row">
                                 <div class="col-md-3 col-6 text-center reports">
                                   <h5>Today
-                                    <strong>{{$get_total_daily_existing_driver}}</strong>
+                                    <strong>{{$get_total_daily_cancelled_services }}</strong>
                                   </h5>
                                 </div>
                                 <div class="col-md-3 col-6 text-center reports">
                                   <h5>This Week
-                                    <strong>{{$get_total_weekly_existing_driver}}</strong>
+                                    <strong>{{$get_total_weekly_cancelled_services }}</strong>
                                   </h5>
                                 </div>
                                 <div class="col-md-3 col-6 text-center reports">
                                   <h5>This Month
-                                    <strong>{{$get_total_monthly_existing_driver}}</strong>
+                                    <strong>{{$get_total_monthly_cancelled_services }}</strong>
                                   </h5>
                                 </div>
                                 <div class="col-md-3 col-6 text-center reports">
                                   <h5>This Year
-                                    <strong>{{$get_total_yearly_existing_driver}}</strong>
+                                    <strong>{{$get_total_yearly_cancelled_services }}</strong>
                                   </h5>
                                 </div>
                               </div>

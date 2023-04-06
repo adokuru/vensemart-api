@@ -21,6 +21,126 @@ class Dashboard extends Model
         return $result;
     }
 
+    
+    public function get_total_yesterday_new_pending_services(){
+        $array = ['1','2'];
+        // DB::enableQueryLog();
+        $result  = DB::table('servicebook_user')->where('servicebook_user.status', 1)->where('created_at', '>=', Carbon::yesterday()->toDateString())->count('id');
+        // dd(DB::getQueryLog());die;
+        return $result;
+    }
+
+    public function get_total_daily_pending_services(){
+
+        // DB::enableQueryLog();
+        $result  = DB::table('servicebook_user')->where('servicebook_user.status', 1)->where('created_at', '>=', Carbon::now()->toDateString())->count('id');
+        // dd(DB::getQueryLog());die;
+        return $result;
+    }
+    public function get_total_weekly_pending_services(){
+       
+        // DB::enableQueryLog();
+        $result  = DB::table('servicebook_user')->where('servicebook_user.status', 1)->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->count('id');
+        // dd(DB::getQueryLog());die;
+        return $result;
+    }
+    public function get_total_monthly_pending_services(){
+        
+        // DB::enableQueryLog();
+        $result  = DB::table('servicebook_user')->where('servicebook_user.status', 1)->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->count();
+        // dd(DB::getQueryLog());die;
+        return $result;
+    }
+    public function get_total_yearly_pending_services(){
+       
+        // DB::enableQueryLog();
+        $result  = DB::table('servicebook_user')->where('servicebook_user.status', 1)->where('created_at', '>=', Carbon::now()->startOfYear()->toDateString())->count('id');
+        // dd(DB::getQueryLog());die;
+        return $result;
+    }
+
+
+
+
+    public function get_total_yesterday_completed_services(){
+        $array = ['1','2'];
+        // DB::enableQueryLog();
+        $result  = DB::table('servicebook_user')->where('servicebook_user.status', 3)->where('created_at', '>=', Carbon::yesterday()->toDateString())->count('id');
+        // dd(DB::getQueryLog());die;
+        return $result;
+    }
+
+    public function get_total_daily_completed_services(){
+
+        // DB::enableQueryLog();
+        $result  = DB::table('servicebook_user')->where('servicebook_user.status', 3)->where('created_at', '>=', Carbon::now()->toDateString())->count('id');
+        // dd(DB::getQueryLog());die;
+        return $result;
+    }
+    public function get_total_weekly_completed_services(){
+       
+        // DB::enableQueryLog();
+        $result  = DB::table('servicebook_user')->where('servicebook_user.status', 3)->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->count('id');
+        // dd(DB::getQueryLog());die;
+        return $result;
+    }
+    public function get_total_monthly_completed_services(){
+        
+        // DB::enableQueryLog();
+        $result  = DB::table('servicebook_user')->where('servicebook_user.status', 3)->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->count();
+        // dd(DB::getQueryLog());die;
+        return $result;
+    }
+    public function get_total_yearly_completed_services(){
+       
+        // DB::enableQueryLog();
+        $result  = DB::table('servicebook_user')->where('servicebook_user.status', 3)->where('created_at', '>=', Carbon::now()->startOfYear()->toDateString())->count('id');
+        // dd(DB::getQueryLog());die;
+        return $result;
+    }
+
+
+
+    public function get_total_yesterday_cancelled_services(){
+        $array = ['1','2'];
+        // DB::enableQueryLog();
+        $result  = DB::table('servicebook_user')->where('servicebook_user.status', 5)->where('created_at', '>=', Carbon::yesterday()->toDateString())->count('id');
+        // dd(DB::getQueryLog());die;
+        return $result;
+    }
+
+    public function get_total_daily_cancelled_services(){
+
+        // DB::enableQueryLog();
+        $result  = DB::table('servicebook_user')->where('servicebook_user.status', 5)->where('created_at', '>=', Carbon::now()->toDateString())->count('id');
+        // dd(DB::getQueryLog());die;
+        return $result;
+    }
+    public function get_total_weekly_cancelled_services(){
+       
+        // DB::enableQueryLog();
+        $result  = DB::table('servicebook_user')->where('servicebook_user.status', 5)->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->count('id');
+        // dd(DB::getQueryLog());die;
+        return $result;
+    }
+    public function get_total_monthly_cancelled_services(){
+        
+        // DB::enableQueryLog();
+        $result  = DB::table('servicebook_user')->where('servicebook_user.status', 5)->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->count();
+        // dd(DB::getQueryLog());die;
+        return $result;
+    }
+    public function get_total_yearly_cancelled_services(){
+       
+        // DB::enableQueryLog();
+        $result  = DB::table('servicebook_user')->where('servicebook_user.status', 5)->where('created_at', '>=', Carbon::now()->startOfYear()->toDateString())->count('id');
+        // dd(DB::getQueryLog());die;
+        return $result;
+    }
+
+
+
+
     public function get_total_daily_existing_user(){
 
         // DB::enableQueryLog();
