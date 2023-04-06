@@ -114,7 +114,7 @@
                           <div class="panel panel-success pricing-big">
                             <div class="panel-heading">
                               <h3 class="panel-title">Upcoming Services
-                              <span class="panel-title" style="display:inline-block;float:right;font-size:18px;">{{$get_total_yearly_pending_services }}</span></h3>
+                              <span class="panel-title" style="display:inline-block;float:right;font-size:18px;">This Year : {{$get_total_yearly_pending_services }}</span></h3>
                             </div>
                             <div class="">
                               <div class="row">
@@ -134,8 +134,8 @@
                                   </h5>
                                 </div>
                                 <div class="col-md-3 col-6 text-center reports">
-                                  <h5>This Year
-                                    <strong>{{$get_total_yearly_pending_services }}</strong>
+                                  <h5>Yesterday
+                                    <strong>{{$get_total_yesterday_pending_services }}</strong>
                                   </h5>
                                 </div>
                               </div>
@@ -151,7 +151,7 @@
                           <div class="panel panel-success pricing-big">
                             <div class="panel-heading">
                               <h3 class="panel-title">Completed Services
-                              <span class="panel-title" style="display:inline-block;float:right;font-size:18px;">{{$get_total_yearly_completed_services }}</span></h3>
+                              <span class="panel-title" style="display:inline-block;float:right;font-size:18px;">This Year : {{$get_total_yearly_completed_services }}</span></h3>
                             </div>
                             <div class="">
                               <div class="row">
@@ -171,8 +171,8 @@
                                   </h5>
                                 </div>
                                 <div class="col-md-3 col-6 text-center reports">
-                                  <h5>This Year
-                                    <strong>{{$get_total_yearly_completed_services }}</strong>
+                                  <h5>Yesterday
+                                    <strong>{{$get_total_yesterday_completed_services }}</strong>
                                   </h5>
                                 </div>
                               </div>
@@ -229,7 +229,7 @@
                           <div class="panel panel-success pricing-big">
                             <div class="panel-heading">
                               <h3 class="panel-title">Cancelled Services
-                              <span class="panel-title" style="display:inline-block;float:right;font-size:18px;">{{$get_total_yearly_cancelled_services }}</span></h3>
+                              <span class="panel-title" style="display:inline-block;float:right;font-size:18px;">This Year : {{$get_total_yearly_cancelled_services }}</span></h3>
                             </div>
                             <div class="">
                               <div class="row">
@@ -249,8 +249,8 @@
                                   </h5>
                                 </div>
                                 <div class="col-md-3 col-6 text-center reports">
-                                  <h5>This Year
-                                    <strong>{{$get_total_yearly_cancelled_services }}</strong>
+                                  <h5>Yesterday
+                                    <strong>{{$get_total_yesterday_cancelled_services }}</strong>
                                   </h5>
                                 </div>
                               </div>
