@@ -357,20 +357,24 @@ class DeliveryRiderController extends Controller
     public function accept_order(Request $request)
     {
         try {
-            $accept_order = DB::table('orders as o')
-                ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/shop_images') . '","/",s.store_image)  as store_image'))
-                ->join('stores as s', 's.id', 'o.shop_id')
-                ->join('user_address as ua', 'ua.id', 'o.address_id')
-                ->where('o.driver_id', Auth::id())->where('o.status', '3')->get()->toArray();
-            if ($accept_order == []) {
+            $validator = Validator::make($request->all(), [
+                'order_id' => 'required',
+            ]);
+
+            if ($validator->fails()) {
                 $arr['status'] = 0;
-                $arr['message'] = 'No data.';
-                $arr['data'] = NULL;
-            } else {
-                $arr['status'] = 1;
-                $arr['message'] = 'Success';
-                $arr['data'] = $accept_order;
+                $arr['message'] = $validator->errors()->first();
+                return response()->json($arr, 422);
             }
+
+            $orderid = $request->order_id;
+            $driverId = Auth::id();
+
+            DB::table('orders')->where('order_id', $orderid)->update(['status' => "3", 'driver_id' => $driverId]);
+            $arr['status'] = 1;
+            $arr['message'] = 'Order Accepted Successfully!!';
+            $arr['data'] = true;
+
             return response()->json($arr, 200);
         } catch (\Exception $e) {
             $arr['status']  = 0;
@@ -897,8 +901,6 @@ class DeliveryRiderController extends Controller
                 $arr['status'] = 1;
                 $arr['message'] = 'Order Accepted Successfully!!';
                 $arr['data'] = true;
-                //   $noti_data = array('title'=>'Order Accepted','message'=>"Order Accepted Successfully, order id is $orderid",'user_id'=>71);
-                //   $this->send_to_user($data);
             }
             if ($type == "2") {
                 DB::table('orders')->where('order_id', $orderid)->update(['reject_driver_id' => Auth::id(), 'driver_id' => null]);
@@ -906,25 +908,6 @@ class DeliveryRiderController extends Controller
                 $arr['message'] = 'Order Cancelled Successfully!!';
                 $arr['data'] = true;
             }
-            /*
-           $get_book_data =  DB::table('orders')->select('id','user_id','order_id')->where('order_id',$orderid)->first();
-                if($get_book_data){
-                    // get user record
-                      $get_user_data =  DB::table('users')->select('id','name','email')->where('id',$get_book_data->user_id)->first();
-                    if($get_user_data){
-                        if($type=="1"){
-                            $data['name'] = $get_user_data->name;
-                            $data['msg'] = "Order Request Accepted : your service " .$orderid. " is  Accepted ";
-                            $data['subject'] = "Order Accepted";
-                        }else{
-                            $data['name'] = $get_user_data->name;
-                            $data['msg'] = "Order Request Rejected : your service " .$orderid. " is  Rejected ";
-                            $data['subject'] = "Order Rejected";
-                        }
-                        \Mail::to($get_user_data->email)->send(new \App\Mail\SendOrderMail($data));
-                    }
-                }
-           */
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'Sorry!! Something Went Wrong';
