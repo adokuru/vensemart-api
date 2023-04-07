@@ -1041,6 +1041,13 @@ class DeliveryRiderController extends Controller
 
         $order = Orders::where('order_id', $order_id)->where('status', 3)->first();
 
+        if (!$order) {
+            $arr['status'] = 0;
+            $arr['message'] = 'Invalid Order ID!!';
+            $arr['data'] = NULL;
+            return response()->json($arr, 422);
+        }
+
         switch ($status) {
             case 1:
                 if ($order->otp != $request->otp) {
