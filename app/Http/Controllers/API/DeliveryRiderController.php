@@ -816,6 +816,8 @@ class DeliveryRiderController extends Controller
                     $status = 1;
                     $data = array('driver_id' => $id, 'amount' => $amount, 'status' => $status);
                     DB::table('request_withdrawn_amounts')->insert($data);
+                    $newamount = $driveramount - $amount;
+                    DB::table('my_wallet')->where('user_id', $id)->update(['amount' => $newamount]);
                     $arr['status'] = 1;
                     $arr['message'] = 'Request is Sent to the Admin Successfully!!';
                     $arr['data'] = true;
