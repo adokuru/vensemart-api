@@ -252,16 +252,50 @@ class Controller extends BaseController
 
             // send request to the closest rider
 
-            $rider = $riders[0];
 
-            if (!$rider) return $this->sendError('No rider available', [], 422);
+            if (!$riders[0]) return $this->sendError('No rider available', [], 422);
             // Create a database for delivery request status
-            $DeliveryRequestStatus = DeliveryRequestStatus::where('order_id', $orderID)->where('vendor_id', $vendor->id)->where('delivery_status', 0)->first();
+            $DeliveryRequestStatus1 = DeliveryRequestStatus::where('order_id', $orderID)->where('delivery_status', 0)->get();
 
-            if ($DeliveryRequestStatus) {
-                $DeliveryRequestStatus->delete();
+            if ($DeliveryRequestStatus1->count() > 0) return $this->sendError('Rider already assigned', [], 422);
+
+            $DeliveryRequestStatus = DeliveryRequestStatus::where('order_id', $orderID)->where('delivery_status', != 0)->get();
+
+            if ($DeliveryRequestStatus->count() > 0) {
+                // get all riders that have gotten this request
+                $riderIDs = $DeliveryRequestStatus->pluck('rider_id')->toArray();
+
+                // find the rider that is not in the array without using whereNotIn
+                $rider = null;
+                foreach ($riders as $rider) {
+                    if (!in_array($rider->id, $riderIDs)) {
+                        $rider = $rider;
+                        break;
+                    }
+                }
+
+                if (!$rider) return $this->sendError('No rider available', [], 422);
+
+                $result = DeliveryRequestStatus::create([
+                    'order_id' => $orderID,
+                    'customer_id' => $customerID,
+                    'vendor_id' => $vendor->id,
+                    'delivery_address' => $vendor->address,
+                    'rider_id' => $rider->id,
+                    'delivery_status' => 0,
+                ]);
+                // send notification to rider 
+                $this->sendNotification($rider->id, $data['title'], $data['body']);
+
+                // $this->sendSMSMessage("234" . substr($rider->mobile, -10), $data['body']);
+
+                // assign order to rider
+
+                Orders::where('id', $orderID)->update(['driver_id' => $rider->id]);
+                return $this->sendResponse('Rider requested successfully', $result);
             }
 
+            $rider = $riders[0];
             $result = DeliveryRequestStatus::create([
                 'order_id' => $orderID,
                 'customer_id' => $customerID,
@@ -270,7 +304,6 @@ class Controller extends BaseController
                 'rider_id' => $rider->id,
                 'delivery_status' => 0,
             ]);
-
             // send notification to rider 
             $this->sendNotification($rider->id, $data['title'], $data['body']);
 
@@ -285,7 +318,7 @@ class Controller extends BaseController
         }
     }
 
-    public function requestRiderForDelivery($lat, $lng)
+    public function requestRiderForDelivery($lat, $lng): array
     {
         // get all rider within 5km
         $rider = User::where('type', 2)->where(

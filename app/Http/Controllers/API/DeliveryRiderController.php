@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\DeliveryRequestStatus;
 use App\Models\MyWallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -370,11 +371,60 @@ class DeliveryRiderController extends Controller
             $orderid = $request->order_id;
             $driverId = Auth::id();
 
-            DB::table('orders')->where('order_id', $orderid)->update(['status' => "3", 'driver_id' => $driverId]);
+            $order = DB::table('orders')->where('order_id', $orderid)->where('status', '2')->where('driver_id', $driverId)->first();
+
+            if ($order == null) {
+                $arr['status'] = 0;
+                $arr['message'] = 'Order not found or already accepted';
+                return response()->json($arr, 200);
+            }
+
+            DB::table('orders')->where('order_id', $orderid)->update(['status' => "3"]);
+
             $arr['status'] = 1;
             $arr['message'] = 'Order Accepted Successfully!!';
             $arr['data'] = true;
 
+            return response()->json($arr, 200);
+        } catch (\Exception $e) {
+            $arr['status']  = 0;
+            $arr['message'] = 'something went wrong';
+            $arr['data']    = NULL;
+        }
+        return response()->json($arr, 200);
+    }
+
+    public function reject_order(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'order_id' => 'required',
+            ]);
+
+            if ($validator->fails()) {
+                $arr['status'] = 0;
+                $arr['message'] = $validator->errors()->first();
+                return response()->json($arr, 422);
+            }
+
+            $orderid = $request->order_id;
+            $driverId = Auth::id();
+
+            $order = DB::table('orders')->where('order_id', $orderid)->where('status', '2')->where('driver_id', $driverId)->first();
+
+            if ($order == null) {
+                $arr['status'] = 0;
+                $arr['message'] = 'Order not found or already accepted';
+                return response()->json($arr, 200);
+            }
+
+            DeliveryRequestStatus::where('order_id', $orderid)->where('driver_id', $driverId)->update(['status' => "2"]);
+
+            $this->contactRiderAndVendor($orderid, $order->user_id);
+
+            $arr['status'] = 1;
+            $arr['message'] = 'Order Rejected Successfully!!';
+            $arr['data'] = true;
             return response()->json($arr, 200);
         } catch (\Exception $e) {
             $arr['status']  = 0;
