@@ -790,6 +790,16 @@ class DeliveryRiderController extends Controller
         $user = User::find($id);
 
         try {
+
+            // Bank Details
+            $bank = DB::table('bank_details')->where('user_id', $id)->first();
+            if (empty($bank)) {
+                $arr['status'] = 0;
+                $arr['message'] = 'Please add your bank details first';
+                $arr['data'] = NULL;
+                return response()->json($arr, 403);
+            }
+
             $amount = $request->amount;
             $count = DB::table('my_wallet')->where('user_id', $id)->count();
             if ($count > 0) {
@@ -828,8 +838,9 @@ class DeliveryRiderController extends Controller
             $walletamount = DB::table('my_wallet')->where('user_id', $userId)->first();
             if (!empty($walletamount)) {
                 $data['walletamount'] = $walletamount->amount;
-
                 $data['transactionhistory'] = DB::table('wallet_historys')->where('user_id', $userId)->get();
+
+
                 $arr['status'] = 1;
                 $arr['message'] = 'Success';
                 $arr['data'] = $data;

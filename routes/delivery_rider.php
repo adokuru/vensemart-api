@@ -39,8 +39,8 @@ Route::group([
     Route::post('update-profile', [DeliveryRiderController::class, 'update_profile']);
 
     Route::post('db_update_profile', [DeliveryRiderController::class, 'db_update_profile']);
-    Route::post('withdrawn_request', [DeliveryRiderController::class, 'withdrawn_request']);
-    Route::get('total_earnings', [DeliveryRiderController::class, 'total_earnings']);
+    Route::post('withdraw-request', [DeliveryRiderController::class, 'withdrawn_request']);
+    Route::get('wallet-history', [DeliveryRiderController::class, 'total_earnings']);
     Route::get('aboutus_driver', [DeliveryRiderController::class, 'aboutus_driver']);
     Route::get('contactus_driver', [DeliveryRiderController::class, 'contactus_driver']);
     Route::get('allorderslist', [DeliveryRiderController::class, 'allorderslist']);
