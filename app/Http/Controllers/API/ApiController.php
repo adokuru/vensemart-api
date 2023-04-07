@@ -217,7 +217,7 @@ class ApiController extends Controller
                 ->select(
                     "stores.*",
                     DB::raw('CONCAT("' . url('storage/shop_images') . '","/",store_image)  as store_image'),
-                    \DB::raw("6371 * acos(cos(radians(" . $request->lat . "))
+                    DB::raw("6371 * acos(cos(radians(" . $request->lat . "))
                              * cos(radians(stores.lati)) 
                              * cos(radians(stores.longi) - radians(" . $request->lng . ")) 
                              + sin(radians(" . $request->lat . ")) 
@@ -1394,7 +1394,7 @@ class ApiController extends Controller
                 ->select(
                     "stores.*",
                     DB::raw('CONCAT("' . url('storage/shop_images') . '","/",store_image)  as store_image'),
-                    \DB::raw("6371 * acos(cos(radians(" . $request->lat . "))
+                    DB::raw("6371 * acos(cos(radians(" . $request->lat . "))
                              * cos(radians(stores.lati)) 
                              * cos(radians(stores.longi) - radians(" . $request->lng . ")) 
                              + sin(radians(" . $request->lat . ")) 
@@ -1821,14 +1821,14 @@ class ApiController extends Controller
                     DB::rollback();
                     $arr['status'] = 0;
                     $arr['message'] = 'something went wrong';
-                    $arr['data'] = $e->getMessage();
+                    $arr['data'] = null;
                     return response()->json($arr, 200);
                 }
             } else {
                 DB::rollback();
                 $arr['status'] = 0;
                 $arr['message'] = 'something went wrong';
-                $arr['data'] = $e->getMessage();
+                $arr['data'] = NULL;
                 return response()->json($arr, 200);
             }
         } catch (\Exception $e) {

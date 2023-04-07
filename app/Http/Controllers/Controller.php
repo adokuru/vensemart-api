@@ -259,7 +259,7 @@ class Controller extends BaseController
 
             if ($DeliveryRequestStatus1->count() > 0) return $this->sendError('Rider already assigned', [], 422);
 
-            $DeliveryRequestStatus = DeliveryRequestStatus::where('order_id', $orderID)->where('delivery_status', != 0)->get();
+            $DeliveryRequestStatus = DeliveryRequestStatus::where('order_id', $orderID)->where('delivery_status', "!=", 0)->get();
 
             if ($DeliveryRequestStatus->count() > 0) {
                 // get all riders that have gotten this request
