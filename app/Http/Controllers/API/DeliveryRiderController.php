@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\DeliveryRequestStatus;
 use App\Models\MyWallet;
+use App\Models\Orders;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
@@ -1025,6 +1026,80 @@ class DeliveryRiderController extends Controller
             return response()->json($arr, 200);
         }
     }
+
+
+    public function update_order_status(Request $request)
+    {
+        $request->validate([
+            'order_id' => 'required',
+            'status' => 'required|numeric|in:1,2,3',
+            'otp' => 'required_if:status,1',
+        ]);
+        $order_id = $request->order_id;
+        $status = $request->status;
+
+
+        $order = Orders::where('order_id', $order_id)->where('status', 3)->first();
+
+        switch ($status) {
+            case 1:
+                if ($order->otp != $request->otp) {
+                    $arr['status'] = 0;
+                    $arr['message'] = 'Invalid OTP!!';
+                    $arr['data'] = NULL;
+                    return response()->json($arr, 422);
+                }
+                
+                $order->status = 4;
+                $order->save();
+
+                // Notify Customer
+                $this->sendNotification(
+                    $order->user_id, 
+                    'Order Delivered Successfully!!', 
+                    "order-". $order->id." has been delivered successfully!!"
+                    );
+
+                $arr['status'] = 1;
+                $arr['message'] = 'Order Delivered Successfully!!';
+                $arr['data'] =    $order;
+                break;
+            case 2:
+                $order->status = 5;
+                $order->save();
+                // TODO: Notify vendor
+                
+                $arr['status'] = 1;
+                $arr['message'] = 'Order Picked Up Successfully!!';
+                $arr['data'] =    $order;
+                break;
+            case 3:
+                $order->status = 6;
+                $order->otp = rand(1111, 9999);
+                $order->save();
+
+                // Notify Customer
+                $this->sendNotification(
+                    $order->user_id, 
+                    'Order Picked Up Successfully!!',
+                    "order-". $order->id." has been picked up successfully!! and on its way to you!!"
+                    );
+
+                $this->sendSMSMessage(
+                  "+234". substr($order->user->mobile, -10),
+                    "order-". $order->id." has been picked up successfully!! use this pin to complete your order: ". $order->otp
+                    );
+    
+                $arr['status'] = 1;
+                $arr['message'] = 'Order Picked Up Successfully!!';
+                $arr['data'] =    $order;
+                break;
+            default:
+                $arr['status'] = 0;
+                $arr['message'] = 'Something went wrong!!';
+                $arr['data'] = false;
+                break;
+        }
 
 
     function get_notification(Request $request)

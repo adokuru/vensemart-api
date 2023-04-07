@@ -311,7 +311,7 @@ class Controller extends BaseController
 
             // assign order to rider
 
-            Orders::where('id', $orderID)->update(['driver_id' => $rider->id]);
+            Orders::where('id', $orderID)->update(['driver_id' => $rider->id], ['status' => 2]);
             return $this->sendResponse('Rider requested successfully', $result);
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
