@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\MyWallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
@@ -14,6 +15,7 @@ use Carbon\Carbon;
 use App\Traits\SendNotification;
 use App\Traits\SendMessage;
 use Exception;
+use Illuminate\Support\Facades\Mail;
 
 class DeliveryRiderController extends Controller
 {
@@ -593,56 +595,6 @@ class DeliveryRiderController extends Controller
         return response()->json($arr, 200);
     }
 
-    public function update_order_status(Request $request)
-    {
-        $validator = Validator::make($request->all(), ['order_id' => 'required', 'status' => 'required', 'payment_status' => 'required']);
-        try {
-            if ($validator->fails()) {
-                $arr['status']  = 0;
-                $arr['message'] = "Validation Failed";
-                $arr['data']    = NULL;
-                return response()->json($arr, 200);
-            }
-
-            $order_status['status'] = $request->status;
-            $order_status['payment_status'] = $request->payment_status;
-            DB::table('orders')->where('id', $request->order_id)->update($order_status);
-            $order_status['order_id'] = $request->order_id;
-            DB::table('orders_status')->insert(['order_id' => $request->order_id, 'status' => $request->status]);
-            if ($request->status  == 4) {
-                //get order detail
-                $order_de = DB::table("orders")->where('order_id', $request->order_id)->first();
-                $ins_d =  $noti_data = array('title' => 'Order Delivered', 'message' => "Your Order $request->order_id is  Delivered Successfully", 'user_id' => $order_de->user_id);
-                $this->send_to_user($noti_data);
-                $ins_d1 =   $noti_data1 = array('title' => 'Order Delivered', 'message' => "Your Order Delivered Successfully", 'user_id' => $order_de->driver_id);
-                $this->send_to_user($noti_data1);
-                $ins_d['type'] =  1;
-                $ins_d1['type'] =  2;
-                DB::table("notifications")->insert($ins_d);
-                DB::table("notifications")->insert($ins_d1);
-            }
-            $get_user_data =  DB::table('users')->select('id', 'name', 'email')->where('id', $order_de->user_id)->first();
-            if ($get_user_data) {
-                $data['name'] = $get_user_data->name;
-                $data['msg'] = "Order  Delivered: your  Order " . $bookingId . " is  Delivered Successfully";
-                $data['subject'] = "Order  Delivered";
-
-                \Mail::to($get_user_data->email)->send(new \App\Mail\SendOrderMail($data));
-            }
-
-            $arr['status'] = 1;
-            $arr['message'] = 'Status update Successfully';
-            $arr['data'] = NULL;
-            return response()->json($arr, 200);
-        } catch (\Exception $e) {
-            $arr['status']  = 0;
-            $arr['message'] = 'something went wrong';
-            $arr['data']    = NULL;
-        }
-        return response()->json($arr, 200);
-    }
-
-
 
     function d_get_profile(Request $request)
     {
@@ -845,6 +797,10 @@ class DeliveryRiderController extends Controller
                 $arr['message'] = 'Success';
                 $arr['data'] = $data;
             } else {
+                MyWallet::create([
+                    'user_id' => $userId,
+                    'amount' => 0
+                ]);
                 $arr['status'] = 0;
                 $arr['message'] = 'No Data Found';
                 $arr['data'] = NULL;
@@ -1010,7 +966,7 @@ class DeliveryRiderController extends Controller
                 $data['msg'] = "your OTP for vensemart app order delivery is " . $otp . ". Please do not share it with other.";
                 $data['subject'] = "Otp Received";
 
-                \Mail::to($request->username)->send(new \App\Mail\SendOtpMail($data));
+                Mail::to($request->username)->send(new \App\Mail\SendOtpMail($data));
             }
             if (!$sent) {
                 $arr['status'] = 0;
