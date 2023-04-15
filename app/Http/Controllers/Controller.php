@@ -333,7 +333,7 @@ class Controller extends BaseController
         $rider = User::where('type', 2)->where(
             'status',
             "1"
-        )->where('is_online', 1)->where('is_phone_verified', 1)->get();
+        )->where('is_online', 1)->get();
 
         $riderArray = [];
 
