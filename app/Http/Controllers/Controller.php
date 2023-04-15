@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
-
+use Illuminate\Support\Facades\Log;
 
 class Controller extends BaseController
 {
@@ -163,7 +163,8 @@ class Controller extends BaseController
 
             /*********************End Notification*****************/
         } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+            Log::error($e->getMessage());
+            return;
         }
     }
 
