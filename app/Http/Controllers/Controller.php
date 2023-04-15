@@ -279,14 +279,14 @@ class Controller extends BaseController
                     'customer_id' => $customerID,
                     'vendor_id' => $vendor->id,
                     'delivery_address' => $vendor->address,
-                    'rider_id' => $rider->id,
+                    'rider_id' => (int)$rider->id,
                     'delivery_status' => 0,
                 ]);
                 if ($rider->id == 0) throw new \Exception('No Rider Available');
                 if ($rider->id == null) throw new \Exception('No Rider Available');
                 // assign order to rider
                 Log::info("Rider2: " . $rider);
-                Orders::where('order_id', $orderID)->update(['driver_id' => $rider->id]);
+                Orders::where('order_id', $orderID)->update(['driver_id' => (int)$rider->id], ['status' => 2]);
                 // send notification to rider 
                 $this->sendNotification($rider->id, $data['title'], $data['body']);
                 return $this->sendResponse('Rider requested successfully', $result);
@@ -307,7 +307,7 @@ class Controller extends BaseController
                     'customer_id' => $customerID,
                     'vendor_id' => $vendor->id,
                     'delivery_address' => $vendor->address,
-                    'rider_id' => $rider->id,
+                    'rider_id' => (int)$rider->id,
                     'delivery_status' => 0,
                 ]);
                 // $this->sendSMSMessage("234" . substr($rider->mobile, -10), $data['body']);
