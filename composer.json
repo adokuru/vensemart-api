@@ -19,6 +19,7 @@
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "onecentlin/laravel-adminer": "^6.0",
+        "opcodesio/log-viewer": "^2.4",
         "twilio/sdk": "^6.43"
     },
     "require-dev": {
