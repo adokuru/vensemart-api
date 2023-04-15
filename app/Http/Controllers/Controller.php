@@ -251,10 +251,9 @@ class Controller extends BaseController
 
             $riders =  $this->requestRiderForDelivery($vendor->lati, $vendor->longi);
 
-            // send request to the closest rider
+            // if no rider is available
+            if (!$riders) return $this->sendError('No rider available', [], 422);
 
-
-            if (!$riders[0]) return $this->sendError('No rider available', [], 422);
             // Create a database for delivery request status
             $DeliveryRequestStatus1 = DeliveryRequestStatus::where('order_id', $orderID)->where('delivery_status', 0)->get();
 
@@ -316,6 +315,7 @@ class Controller extends BaseController
             Orders::where('id', $orderID)->update(['driver_id' => $rider->id], ['status' => 2]);
             return $this->sendResponse('Rider requested successfully', $result);
         } catch (\Exception $e) {
+            Log::error($e);
             throw new \Exception($e->getMessage());
         }
     }
