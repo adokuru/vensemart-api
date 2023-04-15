@@ -282,14 +282,13 @@ class Controller extends BaseController
                     'rider_id' => $rider->id,
                     'delivery_status' => 0,
                 ]);
-                // send notification to rider 
-                $this->sendNotification($rider->id, $data['title'], $data['body']);
-
-                // $this->sendSMSMessage("234" . substr($rider->mobile, -10), $data['body']);
-
+                if ($rider->id == 0) return $this->sendError('No rider available', [], 422);
+                if ($rider->id == null) return $this->sendError('No rider available', [], 422);
                 // assign order to rider
                 Log::info("Rider2: " . $rider);
                 Orders::where('order_id', $orderID)->update(['driver_id' => $rider['id']]);
+                // send notification to rider 
+                $this->sendNotification($rider->id, $data['title'], $data['body']);
                 return $this->sendResponse('Rider requested successfully', $result);
             }
 
