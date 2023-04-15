@@ -251,7 +251,7 @@ class Controller extends BaseController
 
 
             // if no rider is available
-            if (!$riders) return $this->sendError('No rider available', [], 422);
+            if (!$riders) throw new \Exception('No Rider Available');
 
             // Create a database for delivery request status
             $DeliveryRequestStatus1 = DeliveryRequestStatus::where('order_id', $orderID)->where('delivery_status', 0)->get();
@@ -273,7 +273,7 @@ class Controller extends BaseController
                     }
                 }
 
-                if (!$rider) return $this->sendError('No rider available', [], 422);
+                if (!$rider) throw new \Exception('No Rider Available');
                 $result = DeliveryRequestStatus::create([
                     'order_id' => $orderID,
                     'customer_id' => $customerID,
@@ -282,8 +282,8 @@ class Controller extends BaseController
                     'rider_id' => $rider->id,
                     'delivery_status' => 0,
                 ]);
-                if ($rider->id == 0) return $this->sendError('No rider available', [], 422);
-                if ($rider->id == null) return $this->sendError('No rider available', [], 422);
+                if ($rider->id == 0) throw new \Exception('No Rider Available');
+                if ($rider->id == null) throw new \Exception('No Rider Available');
                 // assign order to rider
                 Log::info("Rider2: " . $rider);
                 Orders::where('order_id', $orderID)->update(['driver_id' => $rider['id']]);
@@ -292,14 +292,14 @@ class Controller extends BaseController
                 return $this->sendResponse('Rider requested successfully', $result);
             }
 
-            if (!$riders) return $this->sendError('No rider available', [], 422);
+            if (!$riders) throw new \Exception('No Rider Available');
 
 
-            if (!$riders[0]) return $this->sendError('No rider available', [], 422);
+            if (!$riders[0]) throw new \Exception('No Rider Available');
 
             $rider = $riders[0];
 
-            if (!$rider) return $this->sendError('No rider available', [], 422);
+            if (!$rider) throw new \Exception('No Rider Available');
 
             if ($rider) {
                 $result = DeliveryRequestStatus::create([
