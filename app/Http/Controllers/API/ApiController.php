@@ -835,8 +835,8 @@ class ApiController extends Controller
 
                 $data_noti = array('title' => "Order Placed", 'message' => "order placed successfully!  order  ID is  $orderIdd", 'user_id' => Auth::id());
                 $this->sendNotification(Auth::id(), "Order Placed", "Order Placed Successfully ");
-                DB::commit();
-                return $this->contactRiderAndVendor($orderIdd, $user_id);
+                
+                $this->contactRiderAndVendor($orderIdd, $user_id);
 
 
                 DB::table('notifications')->insert(['user_id' => Auth::id(), 'title' => "Order Placed", 'message' => $data_noti['message'], 'type' => 1]);
