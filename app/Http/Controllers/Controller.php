@@ -295,7 +295,7 @@ class Controller extends BaseController
                 return $this->sendResponse('Rider requested successfully', $result);
             }
 
-            if (!$rider) return $this->sendError('No rider available', [], 422);
+            if (!$riders) return $this->sendError('No rider available', [], 422);
 
 
             if (!$riders[0]) return $this->sendError('No rider available', [], 422);
