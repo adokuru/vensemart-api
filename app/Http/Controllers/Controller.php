@@ -310,13 +310,13 @@ class Controller extends BaseController
                     'rider_id' => $rider->id,
                     'delivery_status' => 0,
                 ]);
-                // send notification to rider 
-                $this->sendNotification($rider->id, $data['title'], $data['body']);
                 // $this->sendSMSMessage("234" . substr($rider->mobile, -10), $data['body']);
 
                 // assign order to rider
                 Log::info("Rider1: " . $rider);
                 Orders::where('order_id', $orderID)->update(['driver_id' => (int)$rider->id], ['status' => 2]);
+                // send notification to rider 
+                $this->sendNotification($rider->id, $data['title'], $data['body']);
                 return $this->sendResponse('Rider requested successfully', $result);
             }
             throw new \Exception("No rider available");
