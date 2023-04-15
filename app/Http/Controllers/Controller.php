@@ -289,7 +289,7 @@ class Controller extends BaseController
                 // $this->sendSMSMessage("234" . substr($rider->mobile, -10), $data['body']);
 
                 // assign order to rider
-
+                Log::info("Rider: " . $rider);
                 Orders::where('id', $orderID)->update(['driver_id' => $rider->id]);
                 return $this->sendResponse('Rider requested successfully', $result);
             }
@@ -317,7 +317,7 @@ class Controller extends BaseController
                 // $this->sendSMSMessage("234" . substr($rider->mobile, -10), $data['body']);
 
                 // assign order to rider
-
+                Log::info("Rider: " . $rider);
                 Orders::where('id', $orderID)->update(['driver_id' => $rider->id], ['status' => 2]);
                 return $this->sendResponse('Rider requested successfully', $result);
             }
