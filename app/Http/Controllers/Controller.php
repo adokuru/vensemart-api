@@ -314,13 +314,14 @@ class Controller extends BaseController
                 ]);
                 // send notification to rider 
                 $this->sendNotification($rider->id, $data['title'], $data['body']);
+                // $this->sendSMSMessage("234" . substr($rider->mobile, -10), $data['body']);
+
+                // assign order to rider
+
+                Orders::where('id', $orderID)->update(['driver_id' => $rider->id], ['status' => 2]);
+                return $this->sendResponse('Rider requested successfully', $result);
             }
-            // $this->sendSMSMessage("234" . substr($rider->mobile, -10), $data['body']);
-
-            // assign order to rider
-
-            Orders::where('id', $orderID)->update(['driver_id' => $rider->id], ['status' => 2]);
-            return $this->sendResponse('Rider requested successfully', $result);
+            throw new \Exception("No rider available");
         } catch (\Exception $e) {
             Log::error($e);
             throw new \Exception($e->getMessage());
