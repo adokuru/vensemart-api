@@ -47,6 +47,7 @@ class NewRoutesController extends Controller
 
             if ($users) {
                 $users->is_online = 1;
+                $users->status = 1;
                 $users->save();
                 return $this->sendResponse('User online status updated successfully', 200);
             } else {
