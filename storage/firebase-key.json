@@ -1,0 +1,12 @@
+{
+    "type": "service_account",
+    "project_id": "vensemartserviceprovider",
+    "private_key_id": "761f4e0490444e4e41a30ef0b0ca3282db72b21b",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCrq+rYHSl4d42X\nMzZDce7G8dVZFpam2SF6q2Cvr9OGLGuj7uEuukpLD5evbFUWmNYu2jYVXMI6gr8M\nPP3f5tbskFzLAPIrobGa1zs5qSoz36yxV0xecvHSgNIkEROHpGmMnDO6vagDfoBz\nqg93Pl0UVjSKb4rbOgS3pM0Q2fc6huKon1g9KAhWG5OUq3SNdIwQtan6cOEaKawh\niNBods5f/VrVQmGN3Pnu2hCTpMCG1TkfqB+xcO0rZTsK9IaRKGTSEdUa6hMCZkdW\nTcCTiv4vR2mQydlQUw6nu4LbNHccRAd4f+TOAxD/3AsVmK0vAEbru+pCPZ4RmDGF\n/IHYS0KnAgMBAAECggEALhg6NY8W/Ia1WPziPBfSck6q54HeL6yrhaGQk3vVgvhY\naqsQgZh5rE/ifbLL4gZltCzZSsEeUdGbdLDHxh/YY6qbj9KQM9D1vErAV0opz8Xm\nO7PiCJY6gjgetJp1MP2fbabfaOvVuiJ0YRovjugK3BQNhYJPuW+Jprm0airsbCUr\n3G4MCc1OHj/0ospRfTsu4tnTvyziLEnYvm9k2QQPWb0jPX3/vIQoZMhrPbvNKjY/\nFvqZidMn6QvW53TPuKnEyumUEqZcAhq8xnqzVXf7lqKEkgnQBXl9C6UyYGgUks9t\nfp9lY2QDgK92Uqjilwm+SBdQcAWJRPr2hZGvMMohcQKBgQDyn7zldmECf9HMX3/7\nc43OvJctKcrcjzh//XfNA/nm0aGS9GJqp3mYZQoYL9SXJhc7tRX1Moq5wi4NJBR1\nWJUbSDfsXGbWgrmLhOG0tQWPELeGyJXDB3qukbx8YEsv6RbGmW4+QCoODzNduhfo\nqGSJK6531+4p/vJim0BgqTY3KQKBgQC1Isu3uKkzYOoVYKAKpTAh1vtf7Dyc5pgB\n9lrXA+9Cr/FOBAijHGRFDekM8aPsP04VMupCwWb7pVTMs+sBNhwPcEy1BeDmoUx4\nw3L5UXH/R8oTGik0TqvoxsAElIJLKJX6w55bqhgMmrIW7hW/22dG1noN2uWviYtp\nOBkJRlb1TwKBgAJxgWF+M7PmvaIlRBCwNTljxNH7ncNi3drMHqy94YJlkg78zxDr\n5tmWCuf7c1SiWZGMXVA+1g7Q2c3gEySrY7UGoSmMNKzsXBn/mJZNTGUIchC1bGyu\nYpnnddJ61ccBvez6FpYh50qE9Kt4+EyrhXesLPGgBxH9M0uy7I8MpTMhAoGAc3gV\nCa9sHVagorQQEfkv78KOSJ3eHd9Z85ZKXlshwQ9L8oHbx68ntGWjtR6tcsMAUb89\nWwTTU4QXxM7E9ua5iJX8MEHpFtyoVSuzNYBX/XaUOQ0qSzADosZgTgsl7CeZRFxD\nrQeHgTF0ae2oa7+/3IaJFCAA35/9ATxDqYfvkz0CgYAN+8HieiocCo4Vnem5Kddb\ncrYD1fdkMu36gu6+XpZTEUjHBcDkwSdwdte92ARy/2lZm5gfM/MpOt9dCEaEgqvL\nTDPMdG95OJasXhNV2FkgoIrN87OSOHA3/mTBcoaWeEsuk/96clsj6f2Yz/IntfBd\nikjDm1yZVeX/o6nVVO3itg==\n-----END PRIVATE KEY-----\n",
+    "client_email": "firebase-adminsdk-v1wg2@vensemartserviceprovider.iam.gserviceaccount.com",
+    "client_id": "103510270474171710087",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-v1wg2%40vensemartserviceprovider.iam.gserviceaccount.com"
+}
