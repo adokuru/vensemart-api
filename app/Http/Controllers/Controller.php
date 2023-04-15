@@ -249,7 +249,7 @@ class Controller extends BaseController
             $vendor = $this->getVendor($product->shop_id);
             $riders =  $this->requestRiderForDelivery($vendor->lati, $vendor->longi);
 
-            Log::info($riders);
+
             // if no rider is available
             if (!$riders) return $this->sendError('No rider available', [], 422);
 
@@ -289,13 +289,13 @@ class Controller extends BaseController
                 // $this->sendSMSMessage("234" . substr($rider->mobile, -10), $data['body']);
 
                 // assign order to rider
-                Log::info("Rider: " . $rider);
+                Log::info("Rider2: " . $rider);
                 Orders::where('id', $orderID)->update(['driver_id' => $rider['id']]);
                 return $this->sendResponse('Rider requested successfully', $result);
             }
 
             if (!$riders) return $this->sendError('No rider available', [], 422);
-            Log::info($riders);
+
 
             if (!$riders[0]) return $this->sendError('No rider available', [], 422);
 
@@ -317,8 +317,8 @@ class Controller extends BaseController
                 // $this->sendSMSMessage("234" . substr($rider->mobile, -10), $data['body']);
 
                 // assign order to rider
-                Log::info("Rider: " . $rider);
-                Orders::where('id', $orderID)->update(['driver_id' => $rider['id']], ['status' => 2]);
+                Log::info("Rider1: " . $rider);
+                Orders::where('id', $orderID)->update(['driver_id' => (int)$rider['id']], ['status' => 2]);
                 return $this->sendResponse('Rider requested successfully', $result);
             }
             throw new \Exception("No rider available");
