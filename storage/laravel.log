@@ -1,0 +1,9 @@
+[2023-04-15 09:20:05] production.ERROR: Client error: `POST https://onesignal.com/api/v1/notifications` resulted in a `400 Bad Request` response:
+{"errors":["Incorrect player_id format in include_player_ids (not a valid UUID): fWmhg-bbSfGEqOoHZkKCmj:APA91bGpk7jbGRVP (truncated...)
+  
+[2023-04-15 09:22:42] production.ERROR: Client error: `POST https://onesignal.com/api/v1/notifications` resulted in a `400 Bad Request` response:
+{"errors":["Incorrect player_id format in include_player_ids (not a valid UUID): fWmhg-bbSfGEqOoHZkKCmj:APA91bGpk7jbGRVP (truncated...)
+  
+[2023-04-15 09:29:20] production.ERROR: Client error: `POST https://onesignal.com/api/v1/notifications` resulted in a `400 Bad Request` response:
+{"errors":["Incorrect player_id format in include_player_ids (not a valid UUID): fWmhg-bbSfGEqOoHZkKCmj:APA91bGpk7jbGRVP (truncated...)
+  

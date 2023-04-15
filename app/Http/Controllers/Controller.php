@@ -250,7 +250,7 @@ class Controller extends BaseController
 
 
             $riders =  $this->requestRiderForDelivery($vendor->lati, $vendor->longi);
-
+            Log::info($riders);
             // if no rider is available
             if (!$riders) return $this->sendError('No rider available', [], 422);
 
@@ -296,13 +296,14 @@ class Controller extends BaseController
             }
 
             if (!$riders) return $this->sendError('No rider available', [], 422);
-
+            Log::info($riders);
 
             if (!$riders[0]) return $this->sendError('No rider available', [], 422);
 
             $rider = $riders[0];
 
             if (!$rider) return $this->sendError('No rider available', [], 422);
+
             if ($rider) {
                 $result = DeliveryRequestStatus::create([
                     'order_id' => $orderID,
