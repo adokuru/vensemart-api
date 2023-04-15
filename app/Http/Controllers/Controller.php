@@ -274,9 +274,9 @@ class Controller extends BaseController
                 }
 
                 if (!$rider) return $this->sendError('No rider available', [], 422);
-
+                $order = Orders::find($orderID);
                 $result = DeliveryRequestStatus::create([
-                    'order_id' => $orderID,
+                    'order_id' => $order->id,
                     'customer_id' => $customerID,
                     'vendor_id' => $vendor->id,
                     'delivery_address' => $vendor->address,
@@ -290,7 +290,7 @@ class Controller extends BaseController
 
                 // assign order to rider
                 Log::info("Rider: " . $rider);
-                Orders::where('id', $orderID)->update(['driver_id' => $rider->id]);
+                Orders::where('id', $orderID)->update(['driver_id' => $rider['id']]);
                 return $this->sendResponse('Rider requested successfully', $result);
             }
 
@@ -318,7 +318,7 @@ class Controller extends BaseController
 
                 // assign order to rider
                 Log::info("Rider: " . $rider);
-                Orders::where('id', $orderID)->update(['driver_id' => $rider->id], ['status' => 2]);
+                Orders::where('id', $orderID)->update(['driver_id' => $rider['id']], ['status' => 2]);
                 return $this->sendResponse('Rider requested successfully', $result);
             }
             throw new \Exception("No rider available");
