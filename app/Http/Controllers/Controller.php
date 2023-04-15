@@ -295,19 +295,26 @@ class Controller extends BaseController
                 return $this->sendResponse('Rider requested successfully', $result);
             }
 
-            if (!$riders[0]) return $this->sendError('No rider available', [], 422);
-            $rider = $riders[0];
-            $result = DeliveryRequestStatus::create([
-                'order_id' => $orderID,
-                'customer_id' => $customerID,
-                'vendor_id' => $vendor->id,
-                'delivery_address' => $vendor->address,
-                'rider_id' => $rider->id,
-                'delivery_status' => 0,
-            ]);
-            // send notification to rider 
-            $this->sendNotification($rider->id, $data['title'], $data['body']);
+            if (!$rider) return $this->sendError('No rider available', [], 422);
 
+
+            if (!$riders[0]) return $this->sendError('No rider available', [], 422);
+
+            $rider = $riders[0];
+
+            if (!$rider) return $this->sendError('No rider available', [], 422);
+            if ($rider) {
+                $result = DeliveryRequestStatus::create([
+                    'order_id' => $orderID,
+                    'customer_id' => $customerID,
+                    'vendor_id' => $vendor->id,
+                    'delivery_address' => $vendor->address,
+                    'rider_id' => $rider->id,
+                    'delivery_status' => 0,
+                ]);
+                // send notification to rider 
+                $this->sendNotification($rider->id, $data['title'], $data['body']);
+            }
             // $this->sendSMSMessage("234" . substr($rider->mobile, -10), $data['body']);
 
             // assign order to rider
