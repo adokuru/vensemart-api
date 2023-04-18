@@ -224,11 +224,13 @@ class Controller extends BaseController
             $orderDetails = \App\Models\EshopPurchaseDetail::where('order_id', $orderID)->first();
             $customer = User::where('id', $customerID)->first();
 
+            $order = Orders::where('order_id', $orderID)->first();
 
+            if (!$order) throw new \Exception('Order not found');
 
-            if (!$orderDetails) return $this->sendError('Order not found', [], 422);
+            if (!$orderDetails) throw new \Exception('Order Details not found');
 
-            if (!$customer) return $this->sendError('Customer not found', [], 422);
+            if (!$customer) throw new \Exception('Customer not found');
 
 
             $data = [
@@ -275,7 +277,7 @@ class Controller extends BaseController
 
                 if (!$rider) throw new \Exception('No Rider Available');
                 $result = DeliveryRequestStatus::create([
-                    'order_id' => $orderID,
+                    'order_id' => $order->id,
                     'customer_id' => $customerID,
                     'vendor_id' => $vendor->id,
                     'delivery_address' => $vendor->address,
@@ -303,7 +305,7 @@ class Controller extends BaseController
 
             if ($rider) {
                 $result = DeliveryRequestStatus::create([
-                    'order_id' => $orderID,
+                    'order_id' => $order->id,
                     'customer_id' => $customerID,
                     'vendor_id' => $vendor->id,
                     'delivery_address' => $vendor->address,
