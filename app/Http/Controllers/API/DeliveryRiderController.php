@@ -1056,16 +1056,16 @@ class DeliveryRiderController extends Controller
                     $arr['data'] = NULL;
                     return response()->json($arr, 422);
                 }
-                
+
                 $order->status = 4;
                 $order->save();
 
                 // Notify Customer
                 $this->sendNotification(
-                    $order->user_id, 
-                    'Order Delivered Successfully!!', 
-                    "order-". $order->id." has been delivered successfully!!"
-                    );
+                    $order->user_id,
+                    'Order Delivered Successfully!!',
+                    "order-" . $order->id . " has been delivered successfully!!"
+                );
 
                 $arr['status'] = 1;
                 $arr['message'] = 'Order Delivered Successfully!!';
@@ -1075,7 +1075,7 @@ class DeliveryRiderController extends Controller
                 $order->status = 5;
                 $order->save();
                 // TODO: Notify vendor
-                
+
                 $arr['status'] = 1;
                 $arr['message'] = 'Order Picked Up Successfully!!';
                 $arr['data'] =    $order;
@@ -1087,16 +1087,16 @@ class DeliveryRiderController extends Controller
 
                 // Notify Customer
                 $this->sendNotification(
-                    $order->user_id, 
+                    $order->user_id,
                     'Order Picked Up Successfully!!',
-                    "order-". $order->id." has been picked up successfully!! and on its way to you!!"
-                    );
+                    "order-" . $order->id . " has been picked up successfully!! and on its way to you!!"
+                );
 
                 $this->sendSMSMessage(
-                  "+234". substr($order->user->mobile, -10),
-                    "order-". $order->id." has been picked up successfully!! use this pin to complete your order: ". $order->otp
-                    );
-    
+                    "+234" . substr($order->user->mobile, -10),
+                    "order-" . $order->id . " has been picked up successfully!! use this pin to complete your order: " . $order->otp
+                );
+
                 $arr['status'] = 1;
                 $arr['message'] = 'Order Picked Up Successfully!!';
                 $arr['data'] =    $order;
@@ -1107,6 +1107,7 @@ class DeliveryRiderController extends Controller
                 $arr['data'] = false;
                 break;
         }
+    }
 
 
     function get_notification(Request $request)
@@ -1217,6 +1218,7 @@ class DeliveryRiderController extends Controller
             return response()->json($arr, 200);
         }
     }
+
 
     public function login(Request $request)
     {
