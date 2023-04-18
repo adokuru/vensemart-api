@@ -378,7 +378,6 @@ class DeliveryRiderController extends Controller
                 return response()->json($arr, 200);
             }
 
-            // DB::table('orders')->where('order_id', $orderid)->update(['status' => "3"]);
 
             Orders::where('id', $orderid)->update(['status' => "3"]);
 
