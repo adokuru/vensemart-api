@@ -253,7 +253,7 @@ class Controller extends BaseController
 
 
             // if no rider is available
-            if (!$riders) throw new \Exception('No Rider Available');
+            if (!$riders) throw new \Exception('No Rider Available for this order');
 
             // Create a database for delivery request status
             $DeliveryRequestStatus1 = DeliveryRequestStatus::where('order_id', $orderID)->where('delivery_status', 0)->get();
@@ -285,8 +285,8 @@ class Controller extends BaseController
                     'driver_id' => (int)$rider->id,
                     'delivery_status' => 0,
                 ]);
-                if ($rider->id == 0) throw new \Exception('No Rider Available');
-                if ($rider->id == null) throw new \Exception('No Rider Available');
+                if ($rider->id == 0) throw new \Exception('No Rider Available for this order at the moment');
+                if ($rider->id == null) throw new \Exception('No Rider Available for this order at the moment 2');
                 // assign order to rider
                 Log::info("Rider2: " . $rider);
                 Orders::where('order_id', $orderID)->update(['driver_id' => (int)$rider->id, 'status' => 2, 'shop_id' => $vendor->id]);
