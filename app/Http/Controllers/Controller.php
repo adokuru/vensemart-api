@@ -251,6 +251,7 @@ class Controller extends BaseController
             $vendor = $this->getVendor($product->shop_id);
             $riders =  $this->requestRiderForDelivery($vendor->lati, $vendor->longi);
 
+            Log::info('riders are ' . json_encode($riders));
 
             // if no rider is available
             if (!$riders) throw new \Exception('No Rider Available for this order');
