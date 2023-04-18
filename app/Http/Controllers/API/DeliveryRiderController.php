@@ -364,7 +364,7 @@ class DeliveryRiderController extends Controller
             $orderid = $request->order_id;
             $driverId = Auth::id();
 
-            $order = DB::table('orders')->where('order_id', $orderid)->where('status', '2')->where('driver_id', $driverId)->first();
+            $order = DB::table('orders')->where('id', $orderid)->where('status', '2')->where('driver_id', $driverId)->first();
 
             if ($order == null) {
                 $arr['status'] = 0;

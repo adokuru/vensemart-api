@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Orders;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
@@ -268,12 +269,13 @@ class DeliveryBoyController extends Controller
     //Accept order API
     public function accept_order(Request $request)
     {
+        $request->validate([
+            'order_id' => 'required',
+        ]);
+
         try {
-            $accept_order = DB::table('orders as o')
-                ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/shop_images') . '","/",s.store_image)  as store_image'))
-                ->join('stores as s', 's.id', 'o.shop_id')
-                ->join('user_address as ua', 'ua.id', 'o.address_id')
-                ->where('o.driver_id', Auth::id())->where('o.status', '2')->get()->toArray();
+            $accept_order = Orders::where('id', $request->order_id)->update(['status' => '3']);
+
             if ($accept_order == []) {
                 $arr['status'] = 0;
                 $arr['message'] = 'No data.';
