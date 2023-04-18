@@ -16,5 +16,7 @@ class DeliveryRequestStatus extends Model
         'vendor_id',
         'delivery_address',
         'delivery_status',
+        'rating',
+        'comment',
     ];
 }
