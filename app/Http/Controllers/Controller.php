@@ -258,7 +258,7 @@ class Controller extends BaseController
             // Create a database for delivery request status
             $DeliveryRequestStatus1 = DeliveryRequestStatus::where('order_id', $orderID)->where('delivery_status', 0)->get();
 
-            if ($DeliveryRequestStatus1->count() > 0) return $this->sendError('Rider already assigned', [], 422);
+            if ($DeliveryRequestStatus1->count() > 0) throw new \Exception('Rider already assigned');
 
             $DeliveryRequestStatus = DeliveryRequestStatus::where('order_id', $orderID)->where('delivery_status', "!=", 0)->get();
 
@@ -276,12 +276,13 @@ class Controller extends BaseController
                 }
 
                 if (!$rider) throw new \Exception('No Rider Available');
+
                 $result = DeliveryRequestStatus::create([
                     'order_id' => $order->id,
                     'customer_id' => $customerID,
                     'vendor_id' => $vendor->id,
                     'delivery_address' => $vendor->address,
-                    'rider_id' => (int)$rider->id,
+                    'driver_id' => (int)$rider->id,
                     'delivery_status' => 0,
                 ]);
                 if ($rider->id == 0) throw new \Exception('No Rider Available');
@@ -309,7 +310,7 @@ class Controller extends BaseController
                     'customer_id' => $customerID,
                     'vendor_id' => $vendor->id,
                     'delivery_address' => $vendor->address,
-                    'rider_id' => (int)$rider->id,
+                    'driver_id' => (int)$rider->id,
                     'delivery_status' => 0,
                 ]);
                 // $this->sendSMSMessage("234" . substr($rider->mobile, -10), $data['body']);
