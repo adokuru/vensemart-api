@@ -254,9 +254,7 @@ class DeliveryRiderController extends Controller
 
         try {
             $all_order = DB::table('orders as o')
-                ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/shop_images') . '","/",s.store_image)  as store_image'))
-                ->leftJoin('stores as s', 's.id', 'o.shop_id')
-                ->leftJoin('user_address as ua', 'ua.id', 'o.address_id')
+                ->select('o.*')
                 ->where('o.driver_id', Auth::id())
                 ->whereNotIn('o.status', [1])->get()->toArray();
             // return $all_order;                
