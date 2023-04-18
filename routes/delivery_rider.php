@@ -23,8 +23,8 @@ Route::group([
     Route::get('cancelled-orders', [DeliveryRiderController::class, 'cancel_order']);
     Route::get('completed-orders', [DeliveryRiderController::class, 'complete_order']);
 
-    Route::get('accept_order', [DeliveryRiderController::class, 'accept_order']);
-    Route::get('reject_order', [DeliveryRiderController::class, 'reject_order']);
+    Route::post('accept_order', [DeliveryRiderController::class, 'accept_order']);
+    Route::post('reject_order', [DeliveryRiderController::class, 'reject_order']);
     Route::get('earning_management', [DeliveryRiderController::class, 'earning_management']);
 
     Route::post('get_single_order_details', [DeliveryRiderController::class, 'get_single_order_details']);
