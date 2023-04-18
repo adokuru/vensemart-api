@@ -281,7 +281,10 @@ class DeliveryRiderController extends Controller
         try {
             $pending_order = DB::table('orders as o')
                 ->select('o.*')
+                ->leftjoin('stores as s', 's.id', 'o.shop_id')
+                ->leftjoin('users as u', 'u.id', 'o.user_id')
                 ->where('o.driver_id', Auth::id())->where('o.status', '2')->get()->toArray();
+
             if ($pending_order == []) {
                 $arr['status'] = 0;
                 $arr['message'] = 'No data.';
@@ -329,7 +332,10 @@ class DeliveryRiderController extends Controller
         try {
             $complete_order = DB::table('orders as o')
                 ->select('o.*')
-                ->where('o.driver_id', Auth::id())->where('o.status', '4')->get()->toArray();
+                ->leftjoin('stores as s', 's.id', 'o.shop_id')
+                ->leftjoin('users as u', 'u.id', 'o.user_id')
+                ->where('o.driver_id', Auth::id())->where('o.status', '2')->get()->toArray();
+
             if ($complete_order == []) {
                 $arr['status'] = 0;
                 $arr['message'] = 'No data.';
