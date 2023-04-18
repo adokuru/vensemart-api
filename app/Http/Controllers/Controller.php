@@ -289,7 +289,7 @@ class Controller extends BaseController
                 if ($rider->id == null) throw new \Exception('No Rider Available');
                 // assign order to rider
                 Log::info("Rider2: " . $rider);
-                Orders::where('order_id', $orderID)->update(['driver_id' => (int)$rider->id, 'status' => 2]);
+                Orders::where('order_id', $orderID)->update(['driver_id' => (int)$rider->id, 'status' => 2, 'shop_id' => $vendor->id]);
                 // send notification to rider 
                 $this->sendNotification($rider->id, $data['title'], $data['body']);
                 return $this->sendResponse('Rider requested successfully', $result);
@@ -317,7 +317,7 @@ class Controller extends BaseController
 
                 // assign order to rider
                 Log::info("Rider1: " . $rider);
-                Orders::where('order_id', $orderID)->update(['driver_id' => (int)$rider->id, 'status' => 2]);
+                Orders::where('order_id', $orderID)->update(['driver_id' => (int)$rider->id, 'status' => 2, 'shop_id' => $vendor->id]);
                 // send notification to rider 
                 $this->sendNotification($rider->id, $data['title'], $data['body']);
                 return $this->sendResponse('Rider requested successfully', $result);
