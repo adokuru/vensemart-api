@@ -17,6 +17,7 @@ use Carbon\Carbon;
 use App\Traits\SendNotification;
 use App\Traits\SendMessage;
 use Exception;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class DeliveryRiderController extends Controller
@@ -427,6 +428,8 @@ class DeliveryRiderController extends Controller
             $arr['data'] = true;
             return response()->json($arr, 200);
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            Log::error($e->getTraceAsString());
             $arr['status']  = 0;
             $arr['message'] = 'something went wrong';
             $arr['data']    = NULL;
