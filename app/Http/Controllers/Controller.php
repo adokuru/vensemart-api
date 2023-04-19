@@ -257,11 +257,11 @@ class Controller extends BaseController
             if (!$riders) throw new \Exception('No Rider Available for this order');
 
             // Create a database for delivery request status
-            $DeliveryRequestStatus1 = DeliveryRequestStatus::where('order_id', $orderID)->where('delivery_status', 0)->get();
+            $DeliveryRequestStatus1 = DeliveryRequestStatus::where('order_id', $order->id)->where('delivery_status', 0)->get();
 
             if ($DeliveryRequestStatus1->count() > 0) throw new \Exception('Rider already assigned');
 
-            $DeliveryRequestStatus = DeliveryRequestStatus::where('order_id', $orderID)->where('delivery_status', "!=", 0)->get();
+            $DeliveryRequestStatus = DeliveryRequestStatus::where('order_id', $order->id)->where('delivery_status', "!=", 0)->get();
 
             if ($DeliveryRequestStatus->count() > 0) {
                 // get all riders that have gotten this request
