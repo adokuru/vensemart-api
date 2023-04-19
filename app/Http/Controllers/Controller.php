@@ -277,7 +277,7 @@ class Controller extends BaseController
                         break;
                     }
                 }
-
+                Log::info("280 - Rider1: " . $rider);
                 if (!$rider) return $this->sendError('No Rider Available for this order at the moment', [], 422);
 
                 $result = DeliveryRequestStatus::create([
