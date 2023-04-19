@@ -266,6 +266,7 @@ class Controller extends BaseController
             if ($DeliveryRequestStatus->count() > 0) {
                 // get all riders that have gotten this request
                 $riderIDs = $DeliveryRequestStatus->pluck('driver_id')->toArray();
+                Log::info('rider ids are ' . json_encode($riderIDs));
 
                 // find the rider that is not in the array without using whereNotIn
                 $rider = null;
@@ -276,6 +277,7 @@ class Controller extends BaseController
                         break;
                     }
                 }
+
                 if (!$rider) return $this->sendError('No Rider Available for this order at the moment', [], 422);
 
                 $result = DeliveryRequestStatus::create([
