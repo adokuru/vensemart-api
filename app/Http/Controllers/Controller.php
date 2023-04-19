@@ -270,7 +270,7 @@ class Controller extends BaseController
                 // find the rider that is not in the array without using whereNotIn
                 $rider = null;
                 foreach ($riders as $rider) {
-                    Log::info("Rider1: " . $rider['id']);
+                    Log::info("273 - Rider1: " . $rider['id']);
                     if (!in_array($rider['id'], $riderIDs)) {
                         $rider = $rider;
                         break;
