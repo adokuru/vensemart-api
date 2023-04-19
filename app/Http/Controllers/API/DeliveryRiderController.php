@@ -255,7 +255,9 @@ class DeliveryRiderController extends Controller
 
         try {
             $all_order = DB::table('orders as o')
-                ->select('o.*')
+                ->select('o.*', 's.store_name', 's.address as store_address', 'ua.location as delivery_address')
+                ->leftjoin('stores as s', 's.id', 'o.shop_id')
+                ->leftjoin('users as ua', 'ua.id', 'o.user_id')
                 ->where('o.driver_id', Auth::id())
                 ->whereNotIn('o.status', [1])->get()->toArray();
             // return $all_order;                
@@ -281,9 +283,9 @@ class DeliveryRiderController extends Controller
     {
         try {
             $pending_order = DB::table('orders as o')
-                ->select('o.*')
+                ->select('o.*', 's.store_name', 's.address as store_address', 'ua.location as delivery_address')
                 ->leftjoin('stores as s', 's.id', 'o.shop_id')
-                ->leftjoin('users as u', 'u.id', 'o.user_id')
+                ->leftjoin('users as ua', 'ua.id', 'o.user_id')
                 ->where('o.driver_id', Auth::id())->where('o.status', '2')->get()->toArray();
 
             if ($pending_order == []) {
