@@ -251,8 +251,6 @@ class Controller extends BaseController
             $vendor = $this->getVendor($product->shop_id);
             $riders =  $this->requestRiderForDelivery($vendor->lati, $vendor->longi);
 
-            Log::info('riders are ' . json_encode($riders));
-
             // if no rider is available
             if (!$riders) throw new \Exception('No Rider Available for this order');
 
@@ -261,7 +259,7 @@ class Controller extends BaseController
 
             if ($DeliveryRequestStatus1->count() > 0) throw new \Exception('Rider already assigned');
 
-            $DeliveryRequestStatus = DeliveryRequestStatus::where('order_id', $order->id)->where('delivery_status', "==", 2)->get();
+            $DeliveryRequestStatus = DeliveryRequestStatus::where('order_id', $order->id)->where('delivery_status', "===", 2)->get();
 
             // Delivery Status for Delivery Request Status =  0 Pending, 1, Accepted, 2 Rejected
 
@@ -298,10 +296,12 @@ class Controller extends BaseController
                 if ($rider->id == 0) throw new \Exception('No Rider Available for this order at the moment');
                 if ($rider->id == null) throw new \Exception('No Rider Available for this order at the moment 2');
                 // assign order to rider
-                Log::info("Rider2: " . $rider);
+                Log::info("301 - Rider2: " . $rider);
                 Orders::where('order_id', $orderID)->update(['driver_id' => (int)$rider->id, 'status' => 2, 'shop_id' => $vendor->id]);
+
                 // send notification to rider 
                 $this->sendNotification($rider->id, $data['title'], $data['body']);
+
                 return $this->sendResponse('Rider requested successfully', $result);
             }
 
