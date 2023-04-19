@@ -270,12 +270,12 @@ class Controller extends BaseController
                 // find the rider that is not in the array without using whereNotIn
                 $rider = null;
                 foreach ($riders as $rider) {
-                    if (!in_array($rider->id, $riderIDs)) {
+                    if (!in_array($rider['id'], $riderIDs)) {
                         $rider = $rider;
                         break;
                     }
                 }
-
+                Log::info("Rider1: " . $rider);
                 if (!$rider) return $this->sendError('No Rider Available for this order at the moment', [], 422);
 
                 $result = DeliveryRequestStatus::create([
