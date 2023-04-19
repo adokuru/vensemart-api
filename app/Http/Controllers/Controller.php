@@ -265,7 +265,7 @@ class Controller extends BaseController
 
             if ($DeliveryRequestStatus->count() > 0) {
                 // get all riders that have gotten this request
-                $riderIDs = $DeliveryRequestStatus->pluck('rider_id')->toArray();
+                $riderIDs = $DeliveryRequestStatus->pluck('driver_id')->toArray();
 
                 // find the rider that is not in the array without using whereNotIn
                 $rider = null;
