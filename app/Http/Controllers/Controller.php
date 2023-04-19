@@ -276,7 +276,7 @@ class Controller extends BaseController
                     }
                 }
 
-                if (!$rider) throw new \Exception('No Rider Available');
+                if (!$rider) return $this->sendError('No Rider Available for this order at the moment', [], 422);
 
                 $result = DeliveryRequestStatus::create([
                     'order_id' => $order->id,
@@ -286,6 +286,7 @@ class Controller extends BaseController
                     'driver_id' => (int)$rider->id,
                     'delivery_status' => 0,
                 ]);
+
                 if ($rider->id == 0) throw new \Exception('No Rider Available for this order at the moment');
                 if ($rider->id == null) throw new \Exception('No Rider Available for this order at the moment 2');
                 // assign order to rider
