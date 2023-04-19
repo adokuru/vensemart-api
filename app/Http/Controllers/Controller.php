@@ -261,7 +261,9 @@ class Controller extends BaseController
 
             if ($DeliveryRequestStatus1->count() > 0) throw new \Exception('Rider already assigned');
 
-            $DeliveryRequestStatus = DeliveryRequestStatus::where('order_id', $order->id)->where('delivery_status', "!=", 0)->get();
+            $DeliveryRequestStatus = DeliveryRequestStatus::where('order_id', $order->id)->where('delivery_status', "==", 2)->get();
+
+            // Delivery Status for Delivery Request Status =  0 Pending, 1, Accepted, 2 Rejected
 
             if ($DeliveryRequestStatus->count() > 0) {
                 // get all riders that have gotten this request
@@ -270,13 +272,17 @@ class Controller extends BaseController
 
                 // find the rider that is not in the array without using whereNotIn
                 $rider = null;
+
                 foreach ($riders as $rider) {
-                    Log::info("273 - Rider1: " . $rider['id']);
-                    if (!in_array($rider['id'], $riderIDs)) {
-                        $rider = $rider;
-                        break;
+                    if (in_array($rider['id'], $riderIDs)) {
+                        Log::info("276 - Bad Rider1: " . $rider['id']);
+                        continue;
                     }
+                    Log::info("279 - Rider1: " . $rider);
+                    $rider = $rider;
+                    break;
                 }
+
                 Log::info("280 - Rider1: " . $rider);
                 if (!$rider) return $this->sendError('No Rider Available for this order at the moment', [], 422);
 
