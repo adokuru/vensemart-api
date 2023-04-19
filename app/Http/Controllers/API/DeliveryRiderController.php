@@ -419,7 +419,7 @@ class DeliveryRiderController extends Controller
                 return response()->json($arr, 200);
             }
 
-            DeliveryRequestStatus::where('order_id', $orderid)->where('driver_id', $driverId)->update(['status' => "2"]);
+            DeliveryRequestStatus::where('order_id', $orderid)->where('driver_id', $driverId)->update(['delivery_status' => "2"]);
 
             $this->contactRiderAndVendor($orderid, $order->user_id);
 
