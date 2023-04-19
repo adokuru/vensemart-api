@@ -421,7 +421,7 @@ class DeliveryRiderController extends Controller
 
             DeliveryRequestStatus::where('order_id', $orderid)->where('driver_id', $driverId)->update(['delivery_status' => "2"]);
 
-            $this->contactRiderAndVendor($orderid, $order->user_id);
+            $this->contactRiderAndVendor($order->order_id, $order->user_id);
 
             $arr['status'] = 1;
             $arr['message'] = 'Order Rejected Successfully!!';
