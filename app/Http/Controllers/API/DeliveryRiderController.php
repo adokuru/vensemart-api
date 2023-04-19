@@ -421,6 +421,8 @@ class DeliveryRiderController extends Controller
 
             DeliveryRequestStatus::where('order_id', $orderid)->where('driver_id', $driverId)->update(['delivery_status' => "2"]);
 
+            Orders::where('id', $orderid)->update(['status' => "1", 'driver_id' => null]);
+
             $this->contactRiderAndVendor($order->order_id, $order->user_id);
 
             $arr['status'] = 1;
