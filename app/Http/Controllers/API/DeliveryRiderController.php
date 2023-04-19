@@ -255,7 +255,7 @@ class DeliveryRiderController extends Controller
 
         try {
             $all_order = DB::table('orders as o')
-                ->select('o.*', 's.store_name', 's.address as store_address', 'ua.location as delivery_address')
+                ->select('o.*', 's.store_name', 's.address as store_address', "s.lati as store_latitude", "s.longi as store_longitude", 'ua.location as delivery_address', 'ua.location_lat as delivery_latitude', 'ua.location_long as delivery_longitude')
                 ->leftjoin('stores as s', 's.id', 'o.shop_id')
                 ->leftjoin('users as ua', 'ua.id', 'o.user_id')
                 ->where('o.driver_id', Auth::id())
@@ -283,7 +283,7 @@ class DeliveryRiderController extends Controller
     {
         try {
             $pending_order = DB::table('orders as o')
-                ->select('o.*', 's.store_name', 's.address as store_address', 'ua.location as delivery_address')
+                ->select('o.*', 's.store_name', 's.address as store_address', "s.lati as store_latitude", "s.longi as store_longitude", 'ua.location as delivery_address', 'ua.location_lat as delivery_latitude', 'ua.location_long as delivery_longitude')
                 ->leftjoin('stores as s', 's.id', 'o.shop_id')
                 ->leftjoin('users as ua', 'ua.id', 'o.user_id')
                 ->where('o.driver_id', Auth::id())->where('o.status', '2')->get()->toArray();
