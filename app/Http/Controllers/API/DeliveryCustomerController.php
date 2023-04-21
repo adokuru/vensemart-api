@@ -207,7 +207,7 @@ class DeliveryCustomerController extends Controller
 
         $total_amount = $deliveryfee + $taxes;
 
-        $this->sendResponse(
+        return $this->sendResponse(
             'Delivery Fee',
             $total_amount
         );
@@ -254,9 +254,41 @@ class DeliveryCustomerController extends Controller
             DB::table('notifications')->insert(['user_id' => Auth::id(), 'title' => "Order Placed", 'message' => $data_noti['message'], 'type' => 1]);
             $this->contactRiderAndVendor($orderIdd, $user_id);
             DB::commit();
+
+            return $this->sendResponse('Order Booked');
         } catch (\Exception $e) {
             DB::rollback();
-            $this->sendError($e, $e->getMessage(), 500);
+            return  $this->sendError($e, $e->getMessage(), 500);
         }
+    }
+
+    public function deliveryRequest()
+    {
+        $orders = Orders::where('user_id', Auth::id())->where('status', "!=", "7")->latest()->get();
+
+        $this->sendResponse('Delivery Requests', $orders);
+    }
+
+    public function cancelDeliveryRequest(Request $request)
+    {
+        $request->validate([
+            'order_id' => 'required',
+            'reason' => 'string'
+        ]);
+
+        $order = Orders::where('id', $request->order_id)->firstOrFail();
+
+        $driverDelivery = DeliveryRequestStatus::where('order_id', $order->id)->get();
+
+        foreach ($driverDelivery as $item) {
+            $item->delivery_status = 2;
+            $item->comment = $request->reason;
+            $item->save();
+        }
+
+        return $this->sendResponse(
+            'Order Cancelled',
+            $order
+        );
     }
 }

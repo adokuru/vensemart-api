@@ -15,10 +15,10 @@ Route::group([
 ], function () {
     Route::post('update-profile', [DeliveryCustomerController::class, 'updateProfile']);
     Route::post('update-password', [DeliveryCustomerController::class, 'updatePassword']);
+    Route::post('request-delivery-rider', [DeliveryCustomerController::class, 'requestDeliveryPrice']);
     Route::post('request-delivery', [DeliveryCustomerController::class, 'requestDelivery']);
 
-    // Route::post('get-delivery-requests', [DeliveryCustomerController::class, 'getDeliveryRequests']);
-    // Route::post('cancel-delivery', [DeliveryCustomerController::class, 'cancelDelivery']);
+    Route::get('get-delivery-requests', [DeliveryCustomerController::class, 'deliveryRequest']);
 
     Route::post('rateDriver', [DeliveryCustomerController::class, 'rateDriver']);
 });
