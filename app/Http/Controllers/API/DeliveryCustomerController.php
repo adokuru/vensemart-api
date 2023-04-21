@@ -239,7 +239,7 @@ class DeliveryCustomerController extends Controller
             $order_data['total_amount'] = $total_amount;
             $order_data['taxes'] =  $taxes;
             $order_data['delivery_charge'] = $request->deliveryPrice;
-            $order_data['total_item'] = 1;
+            $order_data['total_item'] = $request->size;
             $order_data['payment_status'] = 0;
             $order_data['status'] = 1;
             $order_data['order_id'] = "FM" . rand(10000, 99999);
