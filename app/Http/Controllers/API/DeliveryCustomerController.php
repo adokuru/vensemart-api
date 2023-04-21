@@ -183,4 +183,28 @@ class DeliveryCustomerController extends Controller
 
         return $this->sendResponse(null, 'Password updated successfully.');
     }
+
+    public function requestDelivery(Request $request)
+    {
+        $request->validate([
+            'from_lat',
+            'to_lat',
+            'from_lng',
+            'to_lng'
+        ]);
+
+        // Find the distance from from cords to to cords
+
+        $distance = $this->getDistance($request->from_lat, $request->from_lng, $request->to_lat, $request->to_lng);
+
+        $deliveryChargePerKm = 300;
+
+
+        $deliveryfee = $distance * $deliveryChargePerKm;
+
+        $this->sendResponse(
+            'Delivery Fee',
+            $deliveryfee
+        );
+    }
 }
