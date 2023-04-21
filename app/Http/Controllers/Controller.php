@@ -216,7 +216,7 @@ class Controller extends BaseController
     }
 
 
-    public function contactRiderAndVendor($orderID, $customerID)
+    public function contactRiderAndVendor($orderID, $customerID, $isCustomerDelivery = 0, $Corddata = [])
     {
 
 
@@ -238,19 +238,21 @@ class Controller extends BaseController
                 "body" => "Customer " . $customer->name . " wants to contact you for order " . $orderDetails->order_id,
             ];
 
-            $vendorNotification = [
-                "title" => "Contact Vendor",
-                "body" => "A Customer " . $customer->name . " wants to contact you for order " . $orderDetails->order_id . ", a rider will contact you soon, please visit your order details for more information.",
-            ];
+            if ($isCustomerDelivery == 0) {
+                $vendorNotification = [
+                    "title" => "Contact Vendor",
+                    "body" => "A Customer " . $customer->name . " wants to contact you for order " . $orderDetails->order_id . ", a rider will contact you soon, please visit your order details for more information.",
+                ];
 
+                $product = \App\Models\Products::find($orderDetails->product_id);
 
-            $product = \App\Models\Products::find($orderDetails->product_id);
+                if (!$product) return $this->sendError('Product not found', [], 422);
 
-            if (!$product) return $this->sendError('Product not found', [], 422);
-
-            $vendor = $this->getVendor($product->shop_id);
-            $riders =  $this->requestRiderForDelivery($vendor->lati, $vendor->longi);
-
+                $vendor = $this->getVendor($product->shop_id);
+                $riders =  $this->requestRiderForDelivery($vendor->lati, $vendor->longi);
+            } else {
+                $riders =  $this->requestRiderForDelivery($Corddata->['lati'], $Corddata['longi']);
+            }
             // if no rider is available
             if (!$riders) throw new \Exception('No Rider Available for this order');
 

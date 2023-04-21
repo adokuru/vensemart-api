@@ -252,7 +252,11 @@ class DeliveryCustomerController extends Controller
             $data_noti = array('title' => "Order Placed", 'message' => "order placed successfully!  order  ID is  $orderIdd", 'user_id' => Auth::id());
             $this->sendNotification(Auth::id(), "Order Placed", "Order Placed Successfully ");
             DB::table('notifications')->insert(['user_id' => Auth::id(), 'title' => "Order Placed", 'message' => $data_noti['message'], 'type' => 1]);
-            $this->contactRiderAndVendor($orderIdd, $user_id);
+            $Corddata = [
+                'lati' => $request->from_lat,
+                'longi' => $request->from_lng,
+            ];
+            $this->contactRiderAndVendor($orderIdd, $user_id, 1, $Corddata);
             DB::commit();
 
             return $this->sendResponse('Order Booked');
