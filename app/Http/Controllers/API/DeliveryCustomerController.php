@@ -278,6 +278,10 @@ class DeliveryCustomerController extends Controller
 
         $order = Orders::where('id', $request->order_id)->firstOrFail();
 
+        $order->status = 7;
+        $order->cancel_reason = $request->reason;
+        $order->save();
+
         $driverDelivery = DeliveryRequestStatus::where('order_id', $order->id)->get();
 
         foreach ($driverDelivery as $item) {
