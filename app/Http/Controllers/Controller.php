@@ -251,7 +251,7 @@ class Controller extends BaseController
                 $vendor = $this->getVendor($product->shop_id);
                 $riders =  $this->requestRiderForDelivery($vendor->lati, $vendor->longi);
             } else {
-                $riders =  $this->requestRiderForDelivery($Corddata->['lati'], $Corddata['longi']);
+                $riders =  $this->requestRiderForDelivery($Corddata['lati'], $Corddata['longi']);
             }
             // if no rider is available
             if (!$riders) throw new \Exception('No Rider Available for this order');

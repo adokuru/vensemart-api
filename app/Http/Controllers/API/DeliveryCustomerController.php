@@ -226,6 +226,7 @@ class DeliveryCustomerController extends Controller
                 'to_address',
                 'size'
             ]);
+
             DB::beginTransaction();
             $user_id = Auth::id();
             $net_amount  = $request->deliveryPrice;
