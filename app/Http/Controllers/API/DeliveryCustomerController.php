@@ -8,6 +8,8 @@ use App\Models\DeliveryRequests;
 use App\Models\DeliveryRequestStatus;
 use App\Models\Orders;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class DeliveryCustomerController extends Controller
@@ -184,7 +186,7 @@ class DeliveryCustomerController extends Controller
         return $this->sendResponse(null, 'Password updated successfully.');
     }
 
-    public function requestDelivery(Request $request)
+    public function requestDeliveryPrice(Request $request)
     {
         $request->validate([
             'from_lat',
@@ -199,12 +201,62 @@ class DeliveryCustomerController extends Controller
 
         $deliveryChargePerKm = 300;
 
-
         $deliveryfee = $distance * $deliveryChargePerKm;
+
+        $taxes = $deliveryfee * 7.5 / 100;
+
+        $total_amount = $deliveryfee + $taxes;
 
         $this->sendResponse(
             'Delivery Fee',
-            $deliveryfee
+            $total_amount
         );
+    }
+
+    public function requestDelivery(Request $request)
+    {
+        try {
+            $request->validate([
+                'deliveryPrice',
+                'from_address',
+                'from_lat',
+                'to_lat',
+                'from_lng',
+                'to_lng',
+                'to_address',
+                'size'
+            ]);
+            DB::beginTransaction();
+            $user_id = Auth::id();
+            $net_amount  = $request->deliveryPrice;
+            $invoice_no  =  rand(1000000000, 999999999999);
+            $taxes = $net_amount * 7.5 / 100;
+            $total_amount = $net_amount + $taxes;
+            $order_data['invoice_no'] = $invoice_no;
+            $order_data['user_id'] = $user_id;
+            $order_data['net_amount'] = $net_amount;
+            $order_data['total_amount'] = $total_amount;
+            $order_data['taxes'] =  $taxes;
+            $order_data['delivery_charge'] = $request->deliveryPrice;
+            $order_data['total_item'] = 1;
+            $order_data['payment_status'] = 0;
+            $order_data['status'] = 1;
+            $order_data['order_id'] = "FM" . rand(10000, 99999);
+            $order_data['transaction_id'] = rand(1000000000, 999999999999);
+
+
+            DB::table('orders')->insert($order_data);
+
+            $orderIdd = $order_data['order_id'];
+
+            $data_noti = array('title' => "Order Placed", 'message' => "order placed successfully!  order  ID is  $orderIdd", 'user_id' => Auth::id());
+            $this->sendNotification(Auth::id(), "Order Placed", "Order Placed Successfully ");
+            DB::table('notifications')->insert(['user_id' => Auth::id(), 'title' => "Order Placed", 'message' => $data_noti['message'], 'type' => 1]);
+            $this->contactRiderAndVendor($orderIdd, $user_id);
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            $this->sendError($e, $e->getMessage(), 500);
+        }
     }
 }
