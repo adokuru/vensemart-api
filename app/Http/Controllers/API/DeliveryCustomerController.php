@@ -217,14 +217,14 @@ class DeliveryCustomerController extends Controller
     {
         try {
             $request->validate([
-                'deliveryPrice',
-                'from_address',
-                'from_lat',
-                'to_lat',
-                'from_lng',
-                'to_lng',
-                'to_address',
-                'size'
+                'deliveryPrice' => 'required',
+                'from_address' => 'required',
+                'from_lat' => 'required',
+                'to_lat' => 'required',
+                'from_lng' => 'required',
+                'to_lng' => 'required',
+                'to_address' => 'required',
+                'size' => 'required',
             ]);
 
             DB::beginTransaction();
@@ -244,19 +244,18 @@ class DeliveryCustomerController extends Controller
             $order_data['status'] = 1;
             $order_data['order_id'] = "FM" . rand(10000, 99999);
             $order_data['transaction_id'] = rand(1000000000, 999999999999);
-
-
             DB::table('orders')->insert($order_data);
-
             $orderIdd = $order_data['order_id'];
 
             $data_noti = array('title' => "Order Placed", 'message' => "order placed successfully!  order  ID is  $orderIdd", 'user_id' => Auth::id());
             $this->sendNotification(Auth::id(), "Order Placed", "Order Placed Successfully ");
             DB::table('notifications')->insert(['user_id' => Auth::id(), 'title' => "Order Placed", 'message' => $data_noti['message'], 'type' => 1]);
+
             $Corddata = [
                 'lati' => $request->from_lat,
                 'longi' => $request->from_lng,
             ];
+
             $this->contactRiderAndVendor($orderIdd, $user_id, 1, $Corddata);
             DB::commit();
 
