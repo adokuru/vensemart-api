@@ -52,6 +52,13 @@ class AdminController extends Controller
         $data['get_total_yearly_new_service_user']             =  $dashboard->get_total_yearly_new_service_user();
 
 
+        // $data['get_total_yesterday_new_service_user']              =  $dashboard->get_total_yesterday_new_service_user();
+        // $data['get_total_daily_new_service_user']              =  $dashboard->get_total_daily_new_service_user();
+        // $data['get_total_weekly_new_service_user']             =  $dashboard->get_total_weekly_new_service_user();
+        // $data['get_total_monthly_new_service_user']            =  $dashboard->get_total_monthly_new_service_user();
+        // $data['get_total_yearly_new_service_user']             =  $dashboard->get_total_yearly_new_service_user();
+
+
     
         $data['get_total_yesterday_pending_services']     =  $dashboard->get_total_yesterday_pending_services();
         $data['get_total_daily_pending_services']         =  $dashboard->get_total_daily_pending_services();
