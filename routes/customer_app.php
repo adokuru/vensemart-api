@@ -132,6 +132,8 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('send_feedback', [ApiController::class, 'send_feedback']);
     Route::get('coupon_list', [ApiController::class, 'coupon_list']);
     Route::get('product_details/{id}', [ProductsController::class, 'product_details']);
+    Route::get('featured_items', [ProductsController::class, 'featured_items']);
+
     Route::post('product_details_orderid', [ApiController::class, 'product_details_orderid']);
 
     Route::get('products/{category_id}', [ProductsController::class, 'products']);
