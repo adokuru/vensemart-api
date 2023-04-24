@@ -85,7 +85,7 @@ class AuthController extends Controller
 
 
            $phone_Number = '+234' . substr($request->phone_number, -10);
-            $message = "Your Vensemart authentication code is " . $otp . ". Please do not share this code with anyone. This code expires in 5 mins.";
+            $message = "Your Vensemart authentication code is ". ". Please do not share this code with anyone. This code expires in 5 mins.";
 
             $this->sendSMSMessage($phone_Number, $message);
 
