@@ -44,6 +44,10 @@ require __DIR__ . '/delivery_customer.php';
 Route::post('forgot-password', [AuthController::class, 'send_otp']);
 Route::post('forgot-password-change', [AuthController::class, 'forgot_password']);
 
+
+Route::post('send-test', [AuthController::class, 'sendMeMessage']);
+
+
 Route::any('test', [Controller::class, 'contactRiderAndVendor']);
 
 Route::post('send-support-message', [NewRoutesController::class, 'send_support_message']);
