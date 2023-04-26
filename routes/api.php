@@ -57,7 +57,6 @@ Route::post('test-notification', [NewRoutesController::class, 'test_notification
 Route::post('delete-account', [NewRoutesController::class, 'delete_account']);
 
 
-
 Route::get('get-banks', [BankDetailsController::class, 'get_banks']);
 
 Route::post('get-account-name', [BankDetailsController::class, 'getBankAccountName']);
