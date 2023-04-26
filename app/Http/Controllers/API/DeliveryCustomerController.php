@@ -96,8 +96,8 @@ class DeliveryCustomerController extends Controller
     {
         $request->validate([
             'name' => 'string|max:255',
-            'gender' => 'string',
-            'address' => 'string',
+            // 'gender' => 'string',
+            // 'address' => 'string',
         ]);
 
         $user = auth()->user();
@@ -110,8 +110,8 @@ class DeliveryCustomerController extends Controller
 
         // update when data is not empty
         $user->name = $request->input('name') ?? $user->name;
-        $user->gender = $request->input('gender') ?? $user->gender;
-        $user->address = $request->input('address') ?? $user->address;
+        // $user->gender = $request->input('gender') ?? $user->gender;
+        // $user->address = $request->input('address') ?? $user->address;
 
         $user->save();
 
