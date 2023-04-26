@@ -196,7 +196,7 @@ class DeliveryBoyController extends Controller
         try {
             $pending_order = DB::table('orders as o')
                 ->select('o.*')
-                ->where('o.driver_id', Auth::id())->where('o.status', '1')->get()->toArray();
+                ->where('o.driver_id', Auth::id())->where('o.status', '1')->orwhere('o.status', '3')->get()->toArray();
             if ($pending_order == []) {
                 $arr['status'] = 0;
                 $arr['message'] = 'No data.';

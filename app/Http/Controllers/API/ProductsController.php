@@ -66,7 +66,7 @@ class ProductsController extends Controller
                 $arr['data'] = $suggestion_product;
             } else {
                 $arr['status'] = 0;
-                $arr['message'] = 'No Suggested Products Found';
+                $arr['message'] = 'No featured items Found';
                 $arr['data'] = NULL;
             }
         } catch (\Exception $e) {
