@@ -344,10 +344,13 @@ class Controller extends BaseController
     public function requestRiderForDelivery($lat, $lng): array
     {
         // get all rider within 5km
-        $rider = User::where('type', 2)->where(
-            'status',
-            "1"
-        )->where('is_online', 1)->get();
+        // $rider = User::where('type', 2)->where(
+        //     'status',
+        //     "1"
+        // )->where('is_online', 1)->get();
+
+
+        $rider = User::where('type', 2)->get();
 
         $riderArray = [];
 
