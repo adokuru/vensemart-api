@@ -413,6 +413,48 @@ class DeliveryRiderController extends Controller
         return response()->json($arr, 200);
     }
 
+
+     //complete without otp
+     public function complete_order_noOtp(Request $request)
+     {
+         try {
+             $validator = Validator::make($request->all(), [
+                 'order_id' => 'required',
+             ]);
+ 
+             if ($validator->fails()) {
+                 $arr['status'] = 0;
+                 $arr['message'] = $validator->errors()->first();
+                 return response()->json($arr, 422);
+             }
+ 
+             $orderid = $request->order_id;
+             $driverId = Auth::id();
+ 
+             $order = DB::table('orders')->where('id', $orderid)->where('status', '3')->where('driver_id', $driverId)->first();
+ 
+             if ($order == null) {
+                 $arr['status'] = 0;
+                 $arr['message'] = 'Order not found or already accepted';
+                 return response()->json($arr, 200);
+             }
+ 
+ 
+             Orders::where('id', $orderid)->update(['status' => "4"]);
+ 
+             $arr['status'] = 1;
+             $arr['message'] = 'Order Completed Successfully!!';
+             $arr['data'] = true;
+ 
+             return response()->json($arr, 200);
+         } catch (\Exception $e) {
+             $arr['status']  = 0;
+             $arr['message'] = 'something went wrong';
+             $arr['data']    = NULL;
+         }
+         return response()->json($arr, 200);
+     }
+
     public function reject_order(Request $request)
     {
         try {

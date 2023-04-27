@@ -25,6 +25,10 @@ Route::group([
 
     Route::post('accept_order', [DeliveryRiderController::class, 'accept_order']);
     Route::post('reject_order', [DeliveryRiderController::class, 'reject_order']);
+    
+    Route::post('complete_order_no_otp', [DeliveryRiderController::class, 'complete_order_noOtp']);
+
+    
     Route::get('earning_management', [DeliveryRiderController::class, 'earning_management']);
 
     Route::post('get_single_order_details', [DeliveryRiderController::class, 'get_single_order_details']);
