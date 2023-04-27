@@ -439,7 +439,7 @@ class DeliveryRiderController extends Controller
 
             DeliveryRequestStatus::where('order_id', $orderid)->where('driver_id', $driverId)->update(['delivery_status' => "2"]);
 
-            Orders::where('id', $orderid)->update(['status' => "1", 'driver_id' => null]);
+            Orders::where('id', $orderid)->update(['status' => "7", 'driver_id' => null]);
 
             $this->contactRiderAndVendor($order->order_id, $order->user_id);
 
@@ -1054,7 +1054,7 @@ class DeliveryRiderController extends Controller
     {
         $request->validate([
             'order_id' => 'required',
-            'status' => 'required|numeric|in:1,2,3',
+            'status' => 'required|numeric|in:1,2,3,5,6,7',
             'otp' => 'required_if:status,1',
         ]);
         $order_id = $request->order_id;
