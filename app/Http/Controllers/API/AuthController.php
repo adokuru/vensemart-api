@@ -1070,6 +1070,7 @@ class AuthController extends Controller
 
         return response()->json($arr, 200);
     }
+
     /***************************user profile*************************/
     public function user_details()
     {
@@ -1089,6 +1090,8 @@ class AuthController extends Controller
                     $arr['data'] = $profile;
                 }
             }
+
+            
             if ($profile->type == "1") {
                 $profile->profile = $profile->profile ? url('storage/uploads/profile') . '/' . $profile->profile : '';
 

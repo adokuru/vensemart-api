@@ -237,8 +237,7 @@ class DeliveryRiderController extends Controller
             $data['availibility'] = $availibility != '' ? "yes" : "no";
             $data['pending_order'] = $pending_order != 0 ? $pending_order : 0;
             $data['completed_order'] = $completed_order != 0 ? $completed_order : 0;
-
-            $arr['status'] = 1;
+             $arr['status'] = 1;
             $arr['message'] = 'Success';
             $arr['data'] = $data;
             return response()->json($arr, 200);
@@ -283,7 +282,16 @@ class DeliveryRiderController extends Controller
     {
         try {
             $pending_order = DB::table('orders as o')
-                ->select('o.*', 's.store_name', 's.address as store_address', "s.lati as store_latitude", "s.longi as store_longitude", 'ua.location as delivery_address', 'ua.location_lat as delivery_latitude', 'ua.location_long as delivery_longitude')
+                ->select('o.*', 's.store_name', 
+                's.address as store_address',
+                 "s.lati as store_latitude",
+                 "s.longi as store_longitude",
+                  'ua.location as delivery_address',
+                  'ua.location_lat as delivery_latitude',
+                  'ua.location_long as delivery_longitude',
+                  'ua.mobile as delivery_mobile',
+                  
+                  )
                 ->leftjoin('stores as s', 's.id', 'o.shop_id')
                 ->leftjoin('users as ua', 'ua.id', 'o.user_id')
                 ->where('o.driver_id', Auth::id())->where('o.status', '2')->orwhere('o.status', '3')->get()->toArray();
@@ -349,7 +357,9 @@ class DeliveryRiderController extends Controller
 
 
             $complete_order = DB::table('orders as o')
-                ->select('o.*', 's.store_name', 's.address as store_address', "s.lati as store_latitude", "s.longi as store_longitude", 'ua.location as delivery_address', 'ua.location_lat as delivery_latitude', 'ua.location_long as delivery_longitude')
+                ->select('o.*', 's.store_name', 's.address as store_address', "s.lati as store_latitude",
+                 "s.longi as store_longitude", 'ua.location as delivery_address', 
+                'ua.location_lat as delivery_latitude', 'ua.location_long as delivery_longitude')
                 ->leftjoin('stores as s', 's.id', 'o.shop_id')
                 ->leftjoin('users as ua', 'ua.id', 'o.user_id')
                 ->where('o.driver_id', Auth::id())->where('o.status', '4')->get()->toArray();
@@ -752,7 +762,17 @@ class DeliveryRiderController extends Controller
 
     public function db_update_profile(Request $request)
     {
-        $rule = ['name' => 'required', 'email' => 'required', 'mobile' => 'required', 'vehicle_type' => 'required', 'vehicle_number' => 'required', 'dl_number' => 'required', 'insurance_number' => 'required'];
+
+        $rule = [
+        'name' => 'required', 
+        'email' => 'required', 
+        'mobile' => 'required', 
+        // 'vehicle_type' => 'required', 
+        // 'vehicle_number' => 'required', 
+        // 'dl_number' => 'required',
+        //  'insurance_number' => 'required'
+        ];
+
         $validator = Validator::make($request->all(), $rule);
         if ($validator->fails()) {
             $arr['status'] = 0;
@@ -850,6 +870,8 @@ class DeliveryRiderController extends Controller
 
         return response()->json($arr, 200);
     }
+
+
 
     public function withdrawn_request(Request $request)
     {
