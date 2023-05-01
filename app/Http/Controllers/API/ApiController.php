@@ -315,7 +315,9 @@ class ApiController extends Controller
     {
         try {
             $product_id = $request->product_id;
-            $product_details = DB::table('products as p')->select('p.*', 'p.product_image as imagename', 'c.category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/product_images') . '","/",product_image)  as product_image'))
+            $product_details = DB::table('products as p')->select('p.*', 'p.product_image as imagename',
+             'c.category_name', 's.store_name', 'u.name as uom_name', 
+            DB::raw('CONCAT("' . url('storage/product_images') . '","/",product_image)  as product_image'))
                 ->join('category as c', 'c.id', 'p.category_id')
                 ->join('stores as s', 's.id', 'p.shop_id')
                 ->join('uom as u', 'u.id', 'p.uom_id')
@@ -328,7 +330,9 @@ class ApiController extends Controller
                 return response()->json($arr, 200);
             } else {
 
-                $suggestion_product = DB::table('products as p')->select('p.*', 'p.product_image as imagename', 'c.category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/product_images') . '","/",product_image)  as product_image'))
+                $suggestion_product = DB::table('products as p')->select('p.*',
+                 'p.product_image as imagename', 'c.category_name', 's.store_name', 
+                 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/product_images') . '","/",product_image)  as product_image'))
                     ->join('category as c', 'c.id', 'p.category_id')
                     ->join('stores as s', 's.id', 'p.shop_id')
                     ->join('uom as u', 'u.id', 'p.uom_id')
@@ -640,7 +644,9 @@ class ApiController extends Controller
     {
         $user_id = Auth::id();
         try {
-            $cart_list = DB::table('cart as c')->select('c.*', 's.id as shop_id', 'p.product_description', 'p.discount', 'cat.category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/product_images') . '","/",c.product_image)  as product_image'), 'c.product_image as image_name')
+            $cart_list = DB::table('cart as c')->select('c.*', 's.id as shop_id', 
+            'p.product_description', 'p.discount', 'cat.category_name', 's.store_name',
+            'u.name as uom_name', DB::raw('CONCAT("' . url('storage/product_images') . '","/",c.product_image)  as product_image'), 'c.product_image as image_name')
                 ->join('products as p', 'p.id', 'c.product_id')
                 ->join('category as cat', 'cat.id', 'c.cat_id')
                 ->join('stores as s', 's.id', 'p.shop_id')

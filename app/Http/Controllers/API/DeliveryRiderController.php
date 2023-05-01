@@ -290,7 +290,7 @@ class DeliveryRiderController extends Controller
                   'ua.location_lat as delivery_latitude',
                   'ua.location_long as delivery_longitude',
                   'ua.mobile as delivery_mobile',
-                  
+            
                   )
                 ->leftjoin('stores as s', 's.id', 'o.shop_id')
                 ->leftjoin('users as ua', 'ua.id', 'o.user_id')
@@ -976,6 +976,7 @@ class DeliveryRiderController extends Controller
         }
         return response()->json($arr, 200);
     }
+    
     public function contactus_driver()
     {
         try {
@@ -1001,7 +1002,8 @@ class DeliveryRiderController extends Controller
         // print_r('adfasd');die;
         try {
             $data = DB::table('orders')
-                ->select('orders.*', 'users.name as user_name', DB::raw('CONCAT("' . url('storage/shop_images') . '","/",stores.store_image)  as store_image'))
+                ->select('orders.*', 'users.name as user_name',
+                 DB::raw('CONCAT("' . url('storage/shop_images') . '","/",stores.store_image)  as store_image'))
                 ->leftJoin('users', 'users.id', '=', 'orders.user_id')
                 ->leftJoin('stores', 'stores.id', '=', 'orders.shop_id')
                 ->where('orders.status', 1)

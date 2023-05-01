@@ -14,6 +14,7 @@ class ProductsController extends Controller
         $userId = Auth::id();
         $categoryId = $category_id;
         try {
+            
             $suggestion_product = DB::table('products as p')->select('p.*', 'p.product_image as imagename', 'c.category_name', 's.store_name', 'u.name as uom_name', DB::raw('CONCAT("' . url('storage/product_images') . '","/",product_image)  as product_image'))
                 ->join('category as c', 'c.id', 'p.category_id')
                 ->join('stores as s', 's.id', 'p.shop_id')
