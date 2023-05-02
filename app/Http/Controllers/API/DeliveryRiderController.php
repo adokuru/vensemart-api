@@ -492,12 +492,7 @@ class DeliveryRiderController extends Controller
  
  
  
-             $phone_Number = '+234' . substr($request->phone, -10);
-
-             $message = "Your Vensemart authentication code is " . $otp . ". 
-             Please do not share this code with anyone. This will be used to complete your delivery.";
- 
-             $this->sendSMSMessage($request->phone, $message);
+             
  
 
              //send otp to user
@@ -516,7 +511,11 @@ class DeliveryRiderController extends Controller
                  $arr['message'] = 'Order not found or already accepted';
                  return response()->json($arr, 200);
              }
- 
+              
+             $this->sendSMSMessage(
+                "+234" . substr($userphone, -10),
+                "order-" . $orderid . " has been picked up successfully!! use this pin to complete your order: " . $otp
+            );
  
              Orders::where('id', $orderid)->update(['otp' => "$otp"]);
  
