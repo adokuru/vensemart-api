@@ -572,7 +572,7 @@ class DeliveryRiderController extends Controller
 
             if ($order->otp != $request->otp) {
                 $arr['status'] = 0;
-                $arr['message'] = 'Order not successfully ended';
+                $arr['message'] = 'Pin does not match';
                 return response()->json($arr, 200);
             }
  
