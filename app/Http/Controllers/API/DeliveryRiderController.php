@@ -496,7 +496,7 @@ class DeliveryRiderController extends Controller
              $message = "Your Vensemart authentication code is " . $otp . ". 
              Please do not share this code with anyone. This will be used to complete your delivery.";
  
-             $this->sendSMSMessage($phone_Number, $message);
+             $this->sendSMSMessage($userphone, $message);
  
 
              //send otp to user
