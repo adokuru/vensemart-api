@@ -53,6 +53,9 @@ Route::group([
     Route::post('acceptorders_driver', [DeliveryRiderController::class, 'acceptorders_driver']);
     Route::post('send_otp_to_delivery', [DeliveryRiderController::class, 'send_otp_to_delivery']);
 
+    Route::post('complete_order_sms', [DeliveryRiderController::class, 'complete_order_sms']);
+   
+
     Route::get('get_notification', [DeliveryRiderController::class, 'get_notification']);
 
     Route::get('delete_notification', [DeliveryRiderController::class, 'delete_notification']);

@@ -281,6 +281,7 @@ class DeliveryRiderController extends Controller
     public function pending_order()
     {
         try {
+         
             $pending_order = DB::table('orders as o')
                 ->select('o.*', 's.store_name', 
                 's.address as store_address',
@@ -290,11 +291,12 @@ class DeliveryRiderController extends Controller
                   'ua.location_lat as delivery_latitude',
                   'ua.location_long as delivery_longitude',
                   'ua.mobile as delivery_mobile',
-            
                   )
                 ->leftjoin('stores as s', 's.id', 'o.shop_id')
                 ->leftjoin('users as ua', 'ua.id', 'o.user_id')
-                ->where('o.driver_id', Auth::id())->where('o.status', '2')->orwhere('o.status', '3')->get()->toArray();
+                ->where('o.driver_id', Auth::id())->where('o.status', '2')->orwhere('o.status', '3')->get();
+
+
 
             if ($pending_order == []) {
                 $arr['status'] = 0;
@@ -464,6 +466,80 @@ class DeliveryRiderController extends Controller
          }
          return response()->json($arr, 200);
      }
+
+
+     public function complete_order_sms(Request $request)
+     {
+         try {
+             $validator = Validator::make($request->all(), [
+                 'order_id' => 'required',
+                 'phone' => 'required',
+             ]);
+ 
+             if ($validator->fails()) {
+                 $arr['status'] = 0;
+                 $arr['message'] = $validator->errors()->first();
+                 return response()->json($arr, 422);
+             }
+ 
+             $orderid = $request->order_id;
+             $userphone = $request->phone;
+
+
+             $otp = rand(1000, 9999);
+             // $users->otp = $otp;
+             // $users->save();
+ 
+ 
+ 
+             $phone_Number = '+234' . substr($userphone, -10);
+             $message = "Your Vensemart authentication code is " . $otp . ". 
+             Please do not share this code with anyone. This will be used to complete your delivery.";
+ 
+             $this->sendSMSMessage($phone_Number, $message);
+ 
+
+             //send otp to user
+
+             //update order with otp
+
+
+             //if otp entered is correct, change status of 
+
+             $driverId = Auth::id();
+ 
+             $order = DB::table('orders')->where('id', $orderid)->where('status', '3')->where('driver_id', $driverId)->first();
+ 
+             if ($order == null) {
+                 $arr['status'] = 0;
+                 $arr['message'] = 'Order not found or already accepted';
+                 return response()->json($arr, 200);
+             }
+ 
+ 
+             Orders::where('id', $orderid)->update(['otp' => "$otp"]);
+ 
+             $arr['status'] = 1;
+             $arr['message'] = 'Order Completed Successfully!!';
+             $arr['data'] = true;
+ 
+             return response()->json($arr, 200);
+         } catch (\Exception $e) {
+             $arr['status']  = 0;
+             $arr['message'] = 'something went wrong';
+             $arr['data']    = NULL;
+         }
+         return response()->json($arr, 200);
+     }
+
+
+
+
+
+  
+
+
+
 
     public function reject_order(Request $request)
     {
