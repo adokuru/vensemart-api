@@ -571,7 +571,7 @@ class DeliveryRiderController extends Controller
             // );
 
             if ($order->otp == $request->otp) {
-                $arr['status'] = 0;
+                $arr['status'] = 1;
                 $arr['message'] = 'Successful';
                 return response()->json($arr, 200);
             }
