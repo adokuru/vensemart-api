@@ -492,11 +492,12 @@ class DeliveryRiderController extends Controller
  
  
  
-             $phone_Number = '+234' . substr($userphone, -10);
+             $phone_Number = '+234' . substr($request->phone, -10);
+
              $message = "Your Vensemart authentication code is " . $otp . ". 
              Please do not share this code with anyone. This will be used to complete your delivery.";
  
-             $this->sendSMSMessage($userphone, $message);
+             $this->sendSMSMessage($request->phone, $message);
  
 
              //send otp to user
