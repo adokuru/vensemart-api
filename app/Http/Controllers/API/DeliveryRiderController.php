@@ -570,9 +570,9 @@ class DeliveryRiderController extends Controller
             //     "order-" . $orderid . " has been picked up successfully!! use this pin to complete your order: " . $otp
             // );
 
-            if ($order->otp == $request->otp) {
-                $arr['status'] = 1;
-                $arr['message'] = 'Successful';
+            if ($order->otp != $request->otp) {
+                $arr['status'] = 0;
+                $arr['message'] = 'Order not successfully ended';
                 return response()->json($arr, 200);
             }
  
