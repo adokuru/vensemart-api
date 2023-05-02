@@ -490,16 +490,9 @@ class DeliveryRiderController extends Controller
              // $users->otp = $otp;
              // $users->save();
  
- 
- 
-             
- 
 
              //send otp to user
-
              //update order with otp
-
-
              //if otp entered is correct, change status of 
 
              $driverId = Auth::id();
@@ -534,6 +527,76 @@ class DeliveryRiderController extends Controller
 
 
 
+     public function validate_order_details(Request $request)
+     {
+         try {
+             $validator = Validator::make($request->all(), [
+                 'order_id' => 'required',
+                 'otp'  => 'required'
+                 
+             ]);
+ 
+             if ($validator->fails()) {
+                 $arr['status'] = 0;
+                 $arr['message'] = $validator->errors()->first();
+                 return response()->json($arr, 422);
+             }
+ 
+             $orderid = $request->order_id;
+            //  $userphone = $request->phone;
+             $requested_otp = $request->otp;
+
+
+            //  $otp = rand(1000, 9999);
+             // $users->otp = $otp;
+             // $users->save();
+ 
+
+             //send otp to user
+             //update order with otp
+             //if otp entered is correct, change status of 
+
+             $driverId = Auth::id();
+ 
+             $order = DB::table('orders')->where('id', $orderid)->where('status', '3')->where('driver_id', $driverId)->first();
+             
+             $orderotp = $order->otp;
+             if ($order == null) {
+                 $arr['status'] = 0;
+                 $arr['message'] = 'Order not found or already accepted';
+                 return response()->json($arr, 200);
+             }
+
+             
+
+             if($orderotp == $requested_otp){
+
+                $arr['status'] = 1;
+                $arr['message'] = 'Order Completed Successfully!!';
+                $arr['data'] = true;
+
+                Orders::where('id', $orderid)->update(['status' => "4"]);
+                
+                return response()->json($arr, 200);
+
+
+                //   Orders::where('id', $orderid)->update(['otp' => "$otp"]);
+             }
+              
+             
+ 
+           
+ 
+            
+ 
+            
+         } catch (\Exception $e) {
+             $arr['status']  = 0;
+             $arr['message'] = 'something went wrong';
+             $arr['data']    = NULL;
+         }
+         return response()->json($arr, 200);
+     }
 
 
   
