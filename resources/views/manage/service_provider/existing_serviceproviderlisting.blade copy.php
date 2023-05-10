@@ -44,7 +44,8 @@
                 <td>{{ $val->email }}</td>
                 <td>{{ $val->mobile }}</td> 
                 
-                <td><?php if($val->service_type == 1)
+                <td>
+                  <?php if($val->service_type == 1)
                        {?> <span class="">Saloon</span> <?php } 
                        elseif($val->service_type == 2)
                        {?> <span class="">Hair and Nails</span> <?php } 
