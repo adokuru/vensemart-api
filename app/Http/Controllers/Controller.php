@@ -221,7 +221,7 @@ class Controller extends BaseController
 
 
         try {
-            
+
             $orderDetails = \App\Models\EshopPurchaseDetail::where('order_id', $orderID)->first();
             $customer = User::where('id', $customerID)->first();
 
@@ -299,7 +299,7 @@ class Controller extends BaseController
                 if ($rider->id == 0) throw new \Exception('No Rider Available for this order at the moment');
                 if ($rider->id == null) throw new \Exception('No Rider Available for this order at the moment 2');
                 // assign order to rider
-                Log::info("301 - Rider2: " . $rider);
+                Log::info("302 - Rider2: " . $rider);
                 Orders::where('order_id', $orderID)->update(['driver_id' => (int)$rider->id, 'status' => 2, 'shop_id' => $vendor->id]);
 
                 // send notification to rider 
