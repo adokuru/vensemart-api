@@ -37,16 +37,24 @@ class ReAssignRiders extends Command
             Log::info('No Orders awaiting re-assignment');
             return Command::SUCCESS;
         }
+        foreach ($deliveryOrders as $deliveryOrder) {
+            $this->reAssignRider($deliveryOrder);
+        }
+        return Command::SUCCESS;
+    }
 
-        $order =  \App\Models\Orders::where('id', $deliveryOrders->order_id)->first();
+    protected function reAssignRider($deliveryOrder)
+    {
+        // Get all riders that are available
+        $order =  \App\Models\Orders::where('id', $deliveryOrder->order_id)->first();
         if (!$order) {
             Log::info('Order not found');
-            return Command::SUCCESS;
+            return;
         }
         $controller = new \App\Http\Controllers\Controller();
-        $controller->contactRiderAndVendor($order->order_id, $deliveryOrders->customer_id);
+        $controller->contactRiderAndVendor($order->order_id, $deliveryOrder->customer_id);
 
-        Log::info('Re-assigning rider to order ' . $deliveryOrders->order_id);
-        return Command::SUCCESS;
+        Log::info('Re-assigning rider to order ' . $order->order_id);
+        return;
     }
 }
