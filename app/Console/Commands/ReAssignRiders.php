@@ -44,7 +44,7 @@ class ReAssignRiders extends Command
             return Command::SUCCESS;
         }
         $controller = new \App\Http\Controllers\Controller();
-        $controller->contactRiderAndVendor($deliveryOrders->order_id, $deliveryOrders->customer_id);
+        $controller->contactRiderAndVendor($order->order_id, $deliveryOrders->customer_id);
 
         Log::info('Re-assigning rider to order ' . $deliveryOrders->order_id);
         return Command::SUCCESS;
