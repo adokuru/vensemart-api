@@ -962,7 +962,10 @@ class AdminController extends Controller
 
     public function managecompletedserviceorderslisting()
     {
-        $data['listing']= DB::table('servicebook_user')->select('servicebook_user.*','users.name as user_name')->leftJoin('users','users.id','=','servicebook_user.user_id')->where('servicebook_user.status',2)->orderBy('servicebook_user.id','desc')->get();
+        $data['listing']= DB::table('servicebook_user')->select('servicebook_user.*','users.name as user_name','editor.name as editor_name','editor.mobile as editor_mobile')
+        ->leftJoin('users','users.id','=','servicebook_user.user_id')
+        ->leftJoin('users as editor','users.id','=','servicebook_user.service_pro_id')
+        ->where('servicebook_user.status',2)->orderBy('servicebook_user.id','desc')->get();
 
    
         // $data['listing']= DB::table('serviceprovider_user_orders')->select('*')->get();

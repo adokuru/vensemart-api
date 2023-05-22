@@ -37,7 +37,8 @@ class Stores extends Model
      * @var array
      */
     protected $fillable = [
-        'address', 'created_at', 'franchise_id', 'lati', 'longi', 'status', 'store_image', 'store_name', 'updated_at'
+        'address', 'created_at', 'franchise_id', 
+        'lati', 'longi', 'status', 'store_image', 'store_name', 'updated_at'
     ];
 
     /**

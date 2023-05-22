@@ -323,7 +323,13 @@ class DeliveryRiderController extends Controller
             //     ->select('o.*')
             //     ->where('o.driver_id', Auth::id())->where('o.status', '7')->get()->toArray();
 
-
+    //pos_registration
+    //stores
+    //product
+    //category
+    //subcategory
+    //bank
+    
             $cancel_order = DB::table('orders as o')
                 ->select('o.*', 's.store_name', 's.address as store_address', "s.lati as store_latitude", "s.longi as store_longitude", 'ua.location as delivery_address', 'ua.location_lat as delivery_latitude', 'ua.location_long as delivery_longitude')
                 ->leftjoin('stores as s', 's.id', 'o.shop_id')
