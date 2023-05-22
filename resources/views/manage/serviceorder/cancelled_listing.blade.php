@@ -40,8 +40,8 @@
                 <th>Booking Date</th>
                 <th>Service</th>
 
-                <th>Provider name</th>
-                <th>Provider mobile</th>
+                <!-- <th>Provider name</th>
+                <th>Provider mobile</th> -->
                 <!-- <th>Payment Status</th>
                 <th>Order Status</th> -->
                 
@@ -213,8 +213,8 @@
 
 
                 <!-- <td>{{ $valprice ?? ''}}</td> -->
-                <td>{{ $val->editor_name ?? 'No provider name'}}</td>
-                <td>{{ $val->editor_mobile ?? 'No provider mobile'}}</td> 
+                <!-- <td>{{ $val->editor_name ?? 'No provider name'}}</td>
+                <td>{{ $val->editor_mobile ?? 'No provider mobile'}}</td>  -->
                
                
               </tr>
