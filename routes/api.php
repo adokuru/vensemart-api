@@ -8,6 +8,7 @@ use App\Http\Controllers\API\SecondController;
 use App\Http\Controllers\API\DeliveryBoyController;
 use App\Http\Controllers\API\NewRoutesController;
 use App\Http\Controllers\API\ServiceProviderController;
+use App\Http\Controllers\API\ProductsController;
 use App\Http\Controllers\API\BankDetailsController;
 use App\Http\Controllers\Controller;
 
@@ -34,6 +35,8 @@ Route::get('about-us', [SecondController::class, 'aboutus']);
 Route::get('contact-us', [SecondController::class, 'contactus']);
 
 Route::get('faqs', [SecondController::class, 'faqs']);
+
+Route::post('update_product_image',[ProductsController::class], 'update_product_image');
 
 
 require __DIR__ . '/customer_app.php';
