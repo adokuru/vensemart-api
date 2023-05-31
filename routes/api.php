@@ -36,7 +36,10 @@ Route::get('contact-us', [SecondController::class, 'contactus']);
 
 Route::get('faqs', [SecondController::class, 'faqs']);
 
-Route::post('update_product_image',[ProductsController::class, 'update_product_image']);
+
+Route::post('product_image', [ProductsController::class, 'product_image']);
+
+// Route::post('product_image',[ProductsController::class, 'product_image']);
 
 
 require __DIR__ . '/customer_app.php';

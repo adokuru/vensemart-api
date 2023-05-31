@@ -111,7 +111,7 @@ class ProductsController extends Controller
 
     /******************product image**********************************/
 
-    public function update_product_image(Request $request)
+    public function product_image(Request $request)
     {
         $validate = Validator::make($request->all(), ['product_title' => 'required']);
 
