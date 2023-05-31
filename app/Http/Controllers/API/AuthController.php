@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
+use App\Models\Products;
 use App\Traits\SendMessage;
 
 
@@ -1079,6 +1080,7 @@ class AuthController extends Controller
             $insert = $request->all();
 
             if (!empty($request->profile)) {
+
                 $file_name = date('dmy') . rand(1, 4) . $request->file('profile')->getClientOriginalName();
                 $store = $request->file('profile')->storeAs('public/uploads/profile', $file_name);
                 if ($store) {
@@ -1132,6 +1134,9 @@ class AuthController extends Controller
 
         return response()->json($arr, 200);
     }
+
+
+    
 
     /***************************user profile*************************/
     public function user_details()

@@ -108,12 +108,61 @@ class ProductsController extends Controller
     }
 
 
-    
 
+    /******************product image**********************************/
 
+    public function update_product_image(Request $request)
+    {
+        $validate = Validator::make($request->all(), ['product_title' => 'required']);
 
+        if ($validate->fails()) {
+            $arr['status'] = 0;
+            $arr['message'] = 'Validation failed';
+            $arr['data'] = NULL;
 
-    
+            return response()->json($arr, 200);
+        }
+
+        try {
+            $insert = $request->all();
+
+            if (!empty($request->product_image)) {
+                
+                $file_name = date('dmy') . rand(1, 4) . $request->file('product_image')->getClientOriginalName();
+                $store = $request->file('product_image')->storeAs('public/product_images', $file_name);
+                if ($store) {
+                    $insert['product_image'] = $file_name;
+                } else {
+                    $arr['status'] = 0;
+                    $arr['message'] = 'Product image not uploaded!!';
+                    $arr['data'] = NULL;
+
+                    return response()->json($arr, 200);
+                }
+            }
+            
+            
+            $product = Products::where('product_title', $request->product_title)->update($insert);
+
+            if ($product) {
+                $productdata = Products::where('product_title', $request->product_title)->first();
+                $productdata->profile = !empty($productdata->product_image) ? url('storage/product_images') . '/' . $productdata->product_image : '';
+                $arr['status'] = 1;
+                $arr['message'] = 'Success';
+                $arr['data']['user'] = $productdata;
+            } else {
+                $arr['status'] = 0;
+                $arr['message'] = 'Try Again';
+                $arr['data'] = NULL;
+            }
+        } catch (\Exception $e) {
+            $arr['status'] = 0;
+            $arr['message'] = $e->getMessage();
+            $arr['data'] = NULL;
+        }
+
+        return response()->json($arr, 200);
+    }
 
 
 

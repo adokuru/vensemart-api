@@ -40,7 +40,7 @@ Route::post('forget_password', [AuthController::class, 'forget_password']);
 
 
 
-
+Route::post('update-product_image',[ProductsController::class], 'update_product_image');
 
 Route::group(['middleware' => 'auth:api'], function () {
     Route::post('update_profile', [AuthController::class, 'update_profile']);
