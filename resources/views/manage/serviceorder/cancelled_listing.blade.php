@@ -133,7 +133,7 @@
                        elseif($val->service_type == 33)
                        {?> <span class="">Dish Installer</span> <?php }
                        elseif($val->service_type == 34)
-                       {?> <span class="">Tailor</span> <?php }   
+                       {?> <span class="">fashion designer</span> <?php }   
 
                        elseif($val->service_type == 37)
                        {?> <span class="">CCTV, SOLAR and INVERTER</span> <?php }  

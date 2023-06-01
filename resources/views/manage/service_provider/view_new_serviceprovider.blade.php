@@ -104,7 +104,7 @@
                        elseif($listing->service_type == 33)
                        {?> <span class="badge badge-success">Dish Installer</span> <?php }
                        elseif($listing->service_type == 34)
-                       {?> <span class="badge badge-success">Tailor</span> <?php }  
+                       {?> <span class="badge badge-success">fashion designer</span> <?php }  
                        
                        elseif($listing->service_type == 37)
                        {?> <span class="">CCTV, SOLAR and INVERTER</span> <?php }  

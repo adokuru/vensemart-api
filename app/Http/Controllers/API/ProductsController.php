@@ -118,10 +118,12 @@ class ProductsController extends Controller
         $validate = Validator::make($request->all(), 
         
         ['product_title' => 'required']
+
     
     );
 
         if ($validate->fails()) {
+            
             $arr['status'] = 0;
             $arr['message'] = 'Validation failed';
             $arr['data'] = NULL;
