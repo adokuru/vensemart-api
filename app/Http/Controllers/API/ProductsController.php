@@ -115,15 +115,19 @@ class ProductsController extends Controller
 
     public function product_image(Request $request)
     {
-        // $validate = Validator::make($request->all(), ['product_title' => 'required']);
+        $validate = Validator::make($request->all(), 
+        
+        ['product_title' => 'required']
+    
+    );
 
-        // if ($validate->fails()) {
-        //     $arr['status'] = 0;
-        //     $arr['message'] = 'Validation failed';
-        //     $arr['data'] = NULL;
+        if ($validate->fails()) {
+            $arr['status'] = 0;
+            $arr['message'] = 'Validation failed';
+            $arr['data'] = NULL;
 
-        //     return response()->json($arr, 200);
-        // }
+            return response()->json($arr, 200);
+        }
 
         try {
             $insert = $request->all();
