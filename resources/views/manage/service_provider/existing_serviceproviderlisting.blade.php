@@ -189,6 +189,9 @@
                        elseif($val->service_type ==53)
                        {?> <span class="">     Shoe Cobbler</span> <?php } 
 
+                       elseif($val->service_type ==54)
+                       {?> <span class="">     Interior Decoration</span> <?php } 
+
 
                        
 
