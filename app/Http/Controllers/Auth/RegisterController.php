@@ -67,14 +67,17 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
 
+       
+
+       $random = rand(200000, 900000);
 
         Stores::create([
             'address' => 'Abuja', 
-            'franchise_id'=> 1000,
-            'lati'=> 'Abuja', 
-            'longi'=> 'Abuja', 
+            'franchise_id'=> 'WH'.$random,
+            'lati'=> '9.0659989', 
+            'longi'=> '7.4239171', 
             'status' => '1',
-             'store_image' => 'Abuja',
+             'store_image' => 'No Store Image',
              'store_name' => 'No Store Name', 
         ]);
 
@@ -99,23 +102,23 @@ class RegisterController extends Controller
             'telephone' => $data['phone_no'],
             'email' => $data['email'],
             'username' => $data['name'],
-            'user_id' => 1000,
+            'user_id' => 'WH'.$random,
             'ref_id' => 1000,
             'lendmark' => 'Abuja',
              'zipcode'  => '100101',
              'admin_status'=> 1,
              'user_status' => 'Abuja',
              'registration_date'=> now(),
-            'image'=> 'Abuja',
+            'image'=> 'No image',
             'acc_name'=> 'Abuja',
             'ac_no'=> '00000000',
             'bank_nm'=> 'Access',
             'branch_nm'=> 'Main Branch',
-            'swift_code'=> 'Abuja',
+            'swift_code'=> 'Enter Swift code',
             'last_login_date'=> now(),
             'current_login_date'=> now(),
-            'id_card'=> 'Abuja',
-            'id_no'=> 'Abuja',
+            'id_card'=> 'NO ID CARD',
+            'id_no'=> 'No ID No',
             'kyc_status'=> 1,
             'activation_date'=> now(),
             'franchise_category'=> 'Abuja',

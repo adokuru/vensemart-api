@@ -48,8 +48,15 @@ use Illuminate\Database\Eloquent\Model;
  * @property string   $zipcode
  * @property DateTime $updated_at
  */
-class PocRegistration extends Model
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Passport\HasApiTokens;
+
+class PocRegistration extends Authenticatable
 {
+    use HasApiTokens, HasFactory, Notifiable;
     /**
      * The database table used by the model.
      *
@@ -64,13 +71,33 @@ class PocRegistration extends Model
      */
     protected $primaryKey = 'id';
 
+
+    
+
     /**
      * Attributes that should be mass-assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'ac_no', 'acc_name', 'activation_date', 'address', 'admin_status', 'bank_nm', 'branch_nm', 'city', 'country', 'country_code', 'created_at', 'current_login_date', 'email', 'first_name', 'franchise_category', 'franchise_satus', 'gender', 'gst', 'id_card', 'id_no', 'image', 'is_verified', 'kyc_status', 'last_login_date', 'last_name', 'lati', 'lendmark', 'longi', 'merried_status', 'password', 'ref_id', 'registration_date', 'state', 'swift_code', 'telephone', 'ts', 'updated_at', 'user_id', 'user_status', 'username', 'zipcode'
+
+        'ac_no', 'acc_name', 
+        'activation_date', 'address', 
+        'admin_status', 'bank_nm',
+         'branch_nm', 'city', 'country', 
+        'country_code', 'created_at', 
+        'current_login_date', 'email', 
+        'first_name', 'franchise_category', 
+        'franchise_satus', 'gender', 
+        'gst', 'id_card', 'id_no', 'image', 
+        'is_verified', 'kyc_status', 
+        'last_login_date', 'last_name', 'lati', 'lendmark', 'longi',
+        'merried_status', 'password',
+        'ref_id', 'registration_date',
+        'state', 'swift_code', 'telephone', 
+        'ts', 'updated_at', 'user_id', 
+        'user_status', 'username', 'zipcode'
+        
     ];
 
     /**
@@ -79,7 +106,7 @@ class PocRegistration extends Model
      * @var array
      */
     protected $hidden = [
-        
+        'password',
     ];
 
     /**

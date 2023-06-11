@@ -12,8 +12,8 @@
     <!-- Page Title  -->
     <title>Register | vensemart</title>
     <!-- StyleSheets  -->
-    <link rel="stylesheet" href="{{ asset('nk1/assets/css/dashlite.css?ver=2.9.1') }}">
-    <link id="skin-default" rel="stylesheet" href="{{ asset('nk1/assets/css/theme.css?ver=2.9.1') }}">
+    <link rel="stylesheet" href="{{ asset('nk5/assets/css/dashlite.css?ver=2.9.1') }}">
+    <link id="skin-default" rel="stylesheet" href="{{ asset('nk5/assets/css/theme.css?ver=2.9.1') }}">
 </head>
 
 <body class="nk-body bg-white npc-general pg-auth">
@@ -853,8 +853,8 @@ $.ajax({
     </div>
     <!-- app-root @e -->
     <!-- JavaScript -->
-    <script src="{{ asset('nk1/assets/js/bundle.js?ver=2.9.1') }}"></script>
-    <script src="{{ asset('nk1/assets/js/scripts.js?ver=2.9.1') }}"></script>
+    <script src="{{ asset('nk5/assets/js/bundle.js?ver=2.9.1') }}"></script>
+    <script src="{{ asset('nk5/assets/js/scripts.js?ver=2.9.1') }}"></script>
     <!-- select region modal -->
     <div class="modal fade" tabindex="-1" role="dialog" id="region">
         <div class="modal-dialog modal-lg" role="document">
