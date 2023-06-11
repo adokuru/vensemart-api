@@ -17,12 +17,119 @@ use App\Http\Controllers\Admin\AdminController;
 */
 
 
+// Route::get('/', function () {
+//     return "Vensemart Version 1.0";
+// });
+
+
 Route::get('/', function () {
-    return "Vensemart Version 1.0";
+    return view('outer_files/dup');
+})->middleware(['auth', 'verified']);
+
+Auth::routes();
+
+Route::get('/home', 
+   function(){
+    return view('outer_files/dup');
+})->middleware(['auth', 'verified']);
+
+
+Route::get('/product-form', function(){
+
+    return view('outer_files/product-form');
 });
 
+
+
+// Route::post('submit', [UploadController::class, 'submit']);
+
+Route::get('/product', function(){
+
+    return view('outer_files/uploadfile');
+
+});
+
+
+
+
+
+Route::get('/dashboard', function () {
+    return view('outer_files/dup');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+
+Route::get('/markets', function () {
+    return view('outer_files/markets');
+})->middleware(['auth', 'verified'])->name('markets');
+
+
+Route::get('/collectors', function () {
+    return view('outer_files/collectors');
+})->middleware(['auth', 'verified'])->name('collectors');
+
+
+Route::get('/edit-product', function () {
+    return view('outer_files/product-edit');
+})->middleware(['auth', 'verified'])->name('product-edit');
+
+Route::get('/duplicate', function () {
+    return view('outer_files/duplicate');
+})->middleware(['auth', 'verified'])->name('duplicate');
+
+
+Route::get('/product-details', function () {
+    return view('nk1/product-list');
+})->middleware(['auth', 'verified'])->name('product-details');
+
+
+Route::get('/orders-list', function () {
+    return view('nk1/orders');
+})->middleware(['auth', 'verified'])->name('orders');
+
+
+
+Route::get('/dup', function(){
+    return view('outer_files/dup');
+})->middleware(['auth', 'verified'])->name('dup');
+
+
+
+Route::get('/index', function(){
+    return view('nk1/index');
+})->middleware(['auth', 'verified'])->name('index');
+
+Route::get('/duppp', function(){
+    return view('outer_files/dupppp');
+})->middleware(['auth', 'verified'])->name('duppp');
+
+
+Route::get('/orders', function(){
+    return view('outer_files/orders');
+})->middleware(['auth', 'verified'])->name('orders');
+
+Route::get('/dupp', function(){
+    return view('outer_files/dupp');
+})->middleware(['auth', 'verified'])->name('dupp');
+
+Route::get('/records', function () {
+    return view('outer_files/records');
+})->middleware(['auth', 'verified'])->name('records');
+
+
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+
+Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
+
+
+
 Route::match(['get', 'post'], '/admin', [AuthController::class, 'login']);
-Route::match(['get', 'post'], '/login', [AuthController::class, 'login']);
+// Route::match(['get', 'post'], '/login', [AuthController::class, 'login']);
 Route::match(['get', 'post'], 'admin/login', [AuthController::class, 'login']);
 
 /********************After login *************************/
