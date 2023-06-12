@@ -22,7 +22,8 @@
         "livewire/livewire": "^2.12",
         "onecentlin/laravel-adminer": "^6.0",
         "opcodesio/log-viewer": "^2.4",
-        "twilio/sdk": "^6.43"
+        "twilio/sdk": "^6.43",
+        "yoeunes/toastr": "^2.3"
     },
     "require-dev": {
         "spatie/laravel-ignition": "^1.0",

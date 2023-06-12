@@ -58,7 +58,7 @@
                     @else
 
                     
-                    <span class="data-value">  <img width="120" height="100" src="{{ asset('/storage/'.$store_image) }}" /></span>
+                    <span class="data-value">  <img width="120" height="100" src="{{ asset('/storage/shop_images/'.$store_image) }}" /></span>
 
                     @endif
 
@@ -244,7 +244,7 @@
                                                                 @else
 
                                                                 
-                                                                <span class="data-value">  <img width="50" height="50" src="{{ asset('/storage/'.$store_image) }}" /></span>
+                                                                <span class="data-value">  <img width="50" height="50" src="{{ asset('/storage/shop_images/'.$store_image) }}" /></span>
 
                                                                 @endif
                                                             </div>

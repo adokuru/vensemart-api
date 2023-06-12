@@ -121,7 +121,7 @@ class ProductsList extends Component
 
     public function render(): View
     {
-        $products = Products::query()
+        $products = Products::query()->where('shop_id',auth()->user()->user_id)
         //    ->where('user_id', auth()->user()->id)
             // ->select(['products.*', 'countries.id as countryId', 'countries.name as countryName',])
             // ->join('countries', 'countries.id', '=', 'products.country_id')

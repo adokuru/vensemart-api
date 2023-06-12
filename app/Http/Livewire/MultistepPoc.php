@@ -232,13 +232,15 @@ class MultistepPoc extends Component
             // ]);
            $poc = PocRegistration::find(auth()->user()->id)->first();
 
-           $destinationPath = 'public/todos'; 
+           $destinationPath = 'vendor_images'; 
 
            $extension = $this->fileName->getClientOriginalExtension(); 
    
-           $fileName = $this->image. '.' . $extension;
+           $fileName = rand(10000,200000000).$this->image. '.' . $extension;
    
-           $this->image = $this->fileName->storeAs($destinationPath, $fileName.rand(1000,2000),'public');
+           $this->image = $this->fileName->storeAs($destinationPath, $fileName,'public');
+
+           $this->image = $fileName;
             //    dd($this->image);
     
              auth()->user()->update([
@@ -251,8 +253,8 @@ class MultistepPoc extends Component
                 'telephone' => $this->telephone,
                 'email' => $this->email,
                 'username' => $this->username,
-                'user_id' => 1000,
-                'ref_id' => 1000,
+                // 'user_id' => 1000,
+                // 'ref_id' => 1000,
                 'lendmark' => $this->lendmark,
                  'zipcode'  => $this->zipcode,
                  'admin_status'=> 1,
@@ -267,15 +269,15 @@ class MultistepPoc extends Component
                 'last_login_date'=> now(),
                 'current_login_date'=> now(),
                 'id_card'=> $this->id_card,
-                'id_no'=> 'Abuja',
+                'id_no'=> '0000',
                 'kyc_status'=> 1,
                 'activation_date'=> $this->activation_date,
                 'franchise_category'=> $this->franchise_category,
                 'franchise_satus'=> 1,
                 'is_verified'=> 1,
                 'gst'=> $this->gst,
-                'lati'=> 'Abuja',
-                'longi'=> 'Abuja',
+                // 'lati'=> 'Abuja',
+                // 'longi'=> 'Abuja',
                 'merried_status'=> $this->merried_status,
                 'gender'=> $this->gender,
                 

@@ -38,7 +38,7 @@ return [
     'guards' => [
         'web' => [
             'driver' => 'session',
-            'provider' => 'admins',
+            'provider' => 'poc_registrations',
         ],
         'api' => [
             'driver' => 'passport',
@@ -68,6 +68,12 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
+
+        'poc_registrations' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\PocRegistration::class,
+        ],
+
         'admins' => [
             'driver' => 'eloquent',
             'model' => App\Models\Admin::class,

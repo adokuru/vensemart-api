@@ -98,7 +98,7 @@ class Products extends Component
 
     public function render()
     {
-        $this->minings = Product::orderBy('id', 'DESC')->get();
+        $this->minings = Product::where('shop_id', auth()->user()->user_id)->orderBy('id', 'DESC')->get();
         return view('livewire.products');
     }
 }

@@ -217,23 +217,24 @@ class MultistepStore extends Component
 
            $store =  Stores::where('franchise_id', auth()->user()->user_id)->first();
 
-           $destinationPath = 'public/todos'; 
+           $destinationPath = 'shop_images'; 
 
         $extension = $this->fileName->getClientOriginalExtension(); 
 
-        $fileName = $this->store_name . '.' . $extension;
+        $fileName = rand(1000,500000).$this->store_name . '.' . $extension;
+        
 
-        $this->store_image = $this->fileName->storeAs($destinationPath, $fileName.rand(1000,2000),'public');
+        $this->store_image = $this->fileName->storeAs($destinationPath, $fileName,'public');
             
-    
+        $this->store_image = $fileName;
+
            $store->update([
-              'address' => 'Abujam', 
-              'franchise_id'=> 1000,
-              'lati'=> 'Abuja', 
-               'longi'=> 'Abuja', 
+              'address' => $this->address, 
+            //   'lati'=> 'Abuja', 
+            //    'longi'=> 'Abuja', 
               'status' => 2,
               'store_image' => $this->store_image,
-              'store_name' => 'Abujammmm', 
+              'store_name' => $this->store_name, 
                 
              ]);
 

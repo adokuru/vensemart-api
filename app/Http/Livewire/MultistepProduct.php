@@ -165,14 +165,20 @@ class MultistepProduct extends Component
 
 
 
-            $destinationPath = 'https://api.vensemart.com/public/todos'; 
+        $destinationPath = 'product_images'; 
 
         $extension = $this->fileName->getClientOriginalExtension(); 
 
-        $fileName = $this->product_title . '.' . $extension;
+        $fileName = rand(1000,2000000).$this->product_title . '.' . $extension;
 
-        $this->product_image = $this->fileName->storeAs($destinationPath, $fileName.rand(1000,2000),'public');
 
+        $this->product_image = $this->fileName->storeAs($destinationPath, $fileName,'public');
+
+        $this->product_image = $fileName;
+        
+        // $filename = $this->image->store('images', 'public');
+       
+         
         // 'id' => 'int', 'category_id' => 'int',
         //  'created_at' => 'timestamp', 'discount' => 'string',
         //  'product_Description' => 'string', 'product_image' => 'string', 
@@ -189,7 +195,7 @@ class MultistepProduct extends Component
                  'product_price' =>  $this->product_price, 
                   'product_title' => $this->product_title, 
                   'quantity' =>  $this->quantity, 
-                  'shop_id' =>  1000,
+                  'shop_id' =>  auth()->user()->user_id,
                    'status' =>  1, 
                    'sub_cat_id' =>  1, 
                    'uom_id' =>  1, 

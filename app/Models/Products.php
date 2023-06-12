@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Category;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property int      $id
@@ -81,6 +83,11 @@ class Products extends Model
     // Functions ...
 
     // Relations ...
+
+    public function category(): belongsTo
+    {
+        return $this->belongsTo(Category::class);
+    }
 
     public function shop()
     {

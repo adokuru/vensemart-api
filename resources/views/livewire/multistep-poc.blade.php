@@ -321,7 +321,7 @@
                                                             <div class="data-col">
                                                                 <span class="data-label">Display Picture</span>
                                                                 
-                                                                <span class="data-value"><img width="50" height="50" src="{{ asset('/storage/'.$image) }}" /></span>
+                                                                <span class="data-value"><img width="50" height="50" src="{{ asset('/storage/vendor_images/'.$image) }}" /></span>
                                                             </div>
                                                             <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
                                                         </div><!-- data-item -->

@@ -34,9 +34,7 @@
                             Delete Selected
                         </button>
 
-                        <!-- <x-primary-button wire:click="export('csv')">CSV</x-primary-button>
-                        <x-primary-button wire:click="export('xlsx')">XLSX</x-primary-button>
-                        <x-primary-button wire:click="export('pdf')">PDF</x-primary-button> -->
+                        
                     </div>
 
                     <div class="overflow-hidden overflow-x-auto mb-4 min-w-full align-middle sm:rounded-md">
@@ -123,7 +121,7 @@
                                         </td>
                                         <td class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
                                             {{ $product->product_title }}
-                                            <img width="50" height="50" src="{{ asset('/storage/'.$product->product_image) }}" />
+                                            <img width="50" height="50" src="{{ asset('/storage/product_images/'.$product->product_image) }}" />
                                         </td>
                                         
             
