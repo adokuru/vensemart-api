@@ -133,7 +133,7 @@ Route::match(['get', 'post'], '/admin', [AuthController::class, 'login']);
 Route::match(['get', 'post'], 'admin/login', [AuthController::class, 'login']);
 
 /********************After login *************************/
-Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['afterLoginAuth']], function () {
+Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['admin-email']], function () {
     /**************************Admin Data**************************************/
     Route::match(['get', 'post'], 'dashboard', [AdminController::class, 'dashboard']);
     Route::match(['get', 'post'], 'logout', [AuthController::class, 'logout']);
