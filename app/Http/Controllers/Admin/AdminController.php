@@ -149,7 +149,7 @@ class AdminController extends Controller
     {
         $lastSavenDate = date('Y-m-d H:i:s', strtotime("-7 day", strtotime(date('Y-m-d H:i:s'))));
        
-        $data['listing'] = DB::table('users')
+        $data['listing'] = DB::table('users')->where('type',1)
                 // ->where('is_deleted', '=', 0)
                 ->whereBetween('created_at', [$lastSavenDate, date('Y-m-d H:i:s')])
                 ->orderBy('id','desc')

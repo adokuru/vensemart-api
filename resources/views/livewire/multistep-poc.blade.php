@@ -1,4 +1,5 @@
 <div>
+     <div>
     
      <form wire:submit.prevent="register">
 
@@ -495,4 +496,5 @@ function secpass() {
      </form>
 
 
+</div>
 </div>

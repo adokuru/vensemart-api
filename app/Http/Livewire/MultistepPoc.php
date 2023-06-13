@@ -141,7 +141,7 @@ class MultistepPoc extends Component
         $this->crypto_amount = 0;
         $this->currency = 'btc';
         $this->amount = 0;
-        $this->todos = Products::all();
+        // $this->todos = Products::all();
     }
     
     
