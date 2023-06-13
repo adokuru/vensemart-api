@@ -185,6 +185,10 @@ class MultistepProduct extends Component
         //  'product_price' => 'float', 'product_title' => 'string', 'quantity' => 'int',
         //  'shop_id' => 'int', 'sub_cat_id' => 'int', 'uom_id' => 'int', 'updated_at' => 'datetime'
 
+
+        $store = App\Model\Stores::where('franchise_id', auth()->user()->user_id)->first();
+        $storeId =  $store->id;
+
             $product->create([
 
                 'category_id'  =>  $this->category_id, 
@@ -195,7 +199,7 @@ class MultistepProduct extends Component
                  'product_price' =>  $this->product_price, 
                   'product_title' => $this->product_title, 
                   'quantity' =>  $this->quantity, 
-                  'shop_id' =>  auth()->user()->user_id,
+                  'shop_id' =>  $storeId,
                    'status' =>  1, 
                    'sub_cat_id' =>  1, 
                    'uom_id' =>  1, 

@@ -853,14 +853,13 @@ class ApiController extends Controller
                 Log::info('product name ' . $value->product_name);
                 Log::info('product name ' . $value->qty);
                 Log::info('Store Id ' . $store_id);
-            
-        
-                // $vendor = DB::table('poc_registration')->where('id', $store_id)->first();
+
+                $vendor = $this->getVendor($store_id);
+
+
+                Log::info('vendor phone ' . $vendor->telephone);
                
 
-                // Log::info('vendor phone ' . $vendor->telephone);
-                
-                
                  $phone_Number = '+234' . substr('07030628145', -10);
 
                  $message = "Dear Vensemart Vendor, please prepare product for delivery ". " product name :" . $value->product_name . " quantity :" . $value->qty;
@@ -1123,6 +1122,18 @@ class ApiController extends Controller
     //     return response()->json($arr, 200);
     // }
     //Search Product for Perticular Sub Category API
+
+
+
+    public function getVendor($shopID)
+    {
+        try {
+            $vendor = \App\Models\Stores::where('id', $shopID)->first();
+            return $vendor;
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+    }
 
     public function search_product_for_perticular_sub_category(Request $request)
     {
