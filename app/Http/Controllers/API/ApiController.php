@@ -18,7 +18,7 @@ use App\Traits\SendMessage;
 
 class ApiController extends Controller
 {
-    use SendMessage;
+use SendMessage;
     //Notification List API
 
     public function test()
@@ -823,9 +823,6 @@ class ApiController extends Controller
 
                     $ins_data[$k]['order_id'] = $order_data['order_id'];
 
-                    // $value->product_name = $prod_name;
-                    // $value->qty = $prod_quantity;
-
                     $product_details = DB::table('products')->where('id', $value->product_id)->first();
                     if ($product_details) {
                         if ($product_details->quantity < $value->qty) {
@@ -841,21 +838,18 @@ class ApiController extends Controller
                 // return $ins_data;
                 $n_result = DB::table('eshop_purchase_detail')->insert($ins_data);
 
-               
+
                 $orderIdd = $order_data['order_id'];
 
                 $data_noti = array('title' => "Order Placed", 'message' => "order placed successfully!  order  ID is  $orderIdd", 'user_id' => Auth::id());
-
-                
-                
-
                 $this->sendNotification(Auth::id(), "Order Placed", "Order Placed Successfully ");
                 
                 $this->contactRiderAndVendor($orderIdd, $user_id);
 
-                // $phone_Number = '+234' . substr('07030628145', -10);
-                // $message = "Please prepare order for pickup! Product name :  $prod_name ,  Quantity : $prod_quantity";
-                // $this->sendSMSMessage($phone_Number, $message);
+                $phone_Number = '+234' . substr('07030628145', -10);
+                $message = "Your Order details are here";
+    
+                $this->sendSMSMessage($phone_Number, $message);
     
 
 
