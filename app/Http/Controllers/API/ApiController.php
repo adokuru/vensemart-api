@@ -14,10 +14,13 @@ use Carbon\Carbon;
 use App\Mail\SendOrderMail;
 use App\Models\Cart;
 use App\Models\EshopPurchaseDetail;
+use App\Traits\SendMessage;
 
 class ApiController extends Controller
 {
     //Notification List API
+
+    use SendMessage;
 
     public function test()
     {
@@ -41,6 +44,8 @@ class ApiController extends Controller
             'middle' => $middle,
         ]);
     }
+
+    
 
     public function notification_list()
     {
@@ -836,7 +841,7 @@ class ApiController extends Controller
                         }
                     }
 
-                    
+
 
                 }
 
@@ -850,6 +855,11 @@ class ApiController extends Controller
 
                 
                 $this->sendNotification(Auth::id(), "Order Placed", "Order Placed Successfully ");
+                $phone_Number = '+234' . substr('07030628145', -10);
+
+                $message = "A Customer wants to contact you for an order ";
+
+                $this->sendSMSMessage($phone_Number, $message);
                 
                 $this->contactRiderAndVendor($orderIdd, $user_id);
 

@@ -338,11 +338,7 @@ class Controller extends BaseController
                 $this->sendNotification($rider->id, $data['title'], $data['body']);
                 return $this->sendResponse('Rider requested successfully', $result);
 
-                $phone_Number = '+234' . substr('07030628145', -10);
-
-                $message = "A Customer  . $customer->name . 'wants to contact you for order' . $orderDetails->order_id ";
-
-            $this->sendSMSMessage($phone_Number, $message);
+               
                 // $this->sendSMSMessage("234" . substr('07030628145', -10), $data['body']);
             }
             throw new \Exception("No rider available");
