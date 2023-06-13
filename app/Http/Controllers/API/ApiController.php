@@ -856,7 +856,7 @@ class ApiController extends Controller
 
 
             $phone_Number = '+234' . substr('07030628145', -10);
-            $message = "Please prepare product for delivery, product name" . $value->qty . "Quantity" . $value->qty;
+            $message = "Please prepare product for delivery ". " product name " . $value->product_name . " quantity " . $value->qty;
 
             $this->sendSMSMessage($phone_Number, $message);
 
