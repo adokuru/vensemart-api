@@ -15,6 +15,7 @@ use App\Mail\SendOrderMail;
 use App\Models\Cart;
 use App\Models\EshopPurchaseDetail;
 use App\Traits\SendMessage;
+use Illuminate\Support\Facades\Log;
 
 class ApiController extends Controller
 {
