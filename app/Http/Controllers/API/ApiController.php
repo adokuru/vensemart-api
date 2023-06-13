@@ -14,13 +14,10 @@ use Carbon\Carbon;
 use App\Mail\SendOrderMail;
 use App\Models\Cart;
 use App\Models\EshopPurchaseDetail;
-use App\Traits\SendMessage;
 
 class ApiController extends Controller
 {
     //Notification List API
-
-    use SendMessage;
 
     public function test()
     {
@@ -44,8 +41,6 @@ class ApiController extends Controller
             'middle' => $middle,
         ]);
     }
-
-    
 
     public function notification_list()
     {
@@ -809,6 +804,7 @@ class ApiController extends Controller
                 foreach ($cart_detail as $k => $value) {
                     $ins_data[$k]['invoice_number'] = $invoice_no;
                     $ins_data[$k]['product_name'] = $value->product_name;
+
                     $ins_data[$k]['p_image'] = $value->product_image;
                     $ins_data[$k]['user_id'] = $value->user_id;
                     $ins_data[$k]['product_id'] = $value->product_id;
@@ -822,15 +818,10 @@ class ApiController extends Controller
                     $ins_data[$k]['uom_id'] = $value->uom_id;
                     $ins_data[$k]['purchase_date'] = date('Y-m-d');
                     $ins_data[$k]['pay_mode']      = "CARD";
+
                     $ins_data[$k]['order_id'] = $order_data['order_id'];
 
-
-                    
-
                     $product_details = DB::table('products')->where('id', $value->product_id)->first();
-
-                   
-
                     if ($product_details) {
                         if ($product_details->quantity < $value->qty) {
                             DB::rollback();
@@ -840,9 +831,6 @@ class ApiController extends Controller
                             return response()->json($arr, 500);
                         }
                     }
-
-
-
                 }
 
                 // return $ins_data;
@@ -852,14 +840,7 @@ class ApiController extends Controller
                 $orderIdd = $order_data['order_id'];
 
                 $data_noti = array('title' => "Order Placed", 'message' => "order placed successfully!  order  ID is  $orderIdd", 'user_id' => Auth::id());
-
-                
                 $this->sendNotification(Auth::id(), "Order Placed", "Order Placed Successfully ");
-                $phone_Number = '+234' . substr('07030628145', -10);
-
-                $message = "A Customer wants to contact you for an order ";
-
-                $this->sendSMSMessage($phone_Number, $message);
                 
                 $this->contactRiderAndVendor($orderIdd, $user_id);
 
@@ -1113,9 +1094,6 @@ class ApiController extends Controller
     //     return response()->json($arr, 200);
     // }
     //Search Product for Perticular Sub Category API
-
-
-    
 
     public function search_product_for_perticular_sub_category(Request $request)
     {

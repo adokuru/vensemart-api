@@ -17,11 +17,10 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use App\Traits\SendMessage;
 
 class Controller extends BaseController
 {
-    use AuthorizesRequests, DispatchesJobs, ValidatesRequests,sendSMSMessage;
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
 
 
@@ -169,8 +168,6 @@ class Controller extends BaseController
         }
     }
 
-    
-
     public function calculateLevelForServiceProvider($serviceProviderID)
     {
         try {
@@ -304,14 +301,7 @@ class Controller extends BaseController
                 // assign order to rider
                 Log::info("302 - Rider2: " . $rider);
                 Orders::where('order_id', $orderID)->update(['driver_id' => (int)$rider->id, 'status' => 2, 'shop_id' => $vendor->id]);
-                 
-                $this->sendNotification(Auth::id(), "Order Placed", "Order Placed Successfully ");
-                
-                $phone_Number = '+234' . substr('07030628145', -10);
 
-                $message = "A Customer wants to contact you for an order ";
-
-                $this->sendSMSMessage($phone_Number, $message);
                 // send notification to rider 
                 $this->sendNotification($rider->id, $data['title'], $data['body']);
 
@@ -336,8 +326,7 @@ class Controller extends BaseController
                     'driver_id' => (int)$rider->id,
                     'delivery_status' => 0,
                 ]);
-
-              
+                // $this->sendSMSMessage("234" . substr($rider->mobile, -10), $data['body']);
 
                 // assign order to rider
                 Log::info("Rider1: " . $rider);
@@ -345,9 +334,6 @@ class Controller extends BaseController
                 // send notification to rider 
                 $this->sendNotification($rider->id, $data['title'], $data['body']);
                 return $this->sendResponse('Rider requested successfully', $result);
-
-               
-                // $this->sendSMSMessage("234" . substr('07030628145', -10), $data['body']);
             }
             throw new \Exception("No rider available");
         } catch (\Exception $e) {
