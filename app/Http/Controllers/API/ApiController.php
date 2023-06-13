@@ -18,7 +18,7 @@ use App\Traits\SendMessage;
 
 class ApiController extends Controller
 {
-use SendMessage;
+    use sendMessage;
     //Notification List API
 
     public function test()
@@ -826,9 +826,6 @@ use SendMessage;
                     $product_details = DB::table('products')->where('id', $value->product_id)->first();
                     if ($product_details) {
 
-                        $value->product_name = $prodName;
-                        $value->qty= $prodQ;
-
                         if ($product_details->quantity < $value->qty) {
                             DB::rollback();
                             $arr['status'] = 0;
@@ -850,13 +847,11 @@ use SendMessage;
                 
                 $this->contactRiderAndVendor($orderIdd, $user_id);
 
-                $phone_Number = '+234' . substr('07030628145', -10);
-                $message = "Your Order details are here $prodQ, $prodName";
-    
-                $this->sendSMSMessage($phone_Number, $message);
-    
+                Log::info('product name ' . $value->product_name);
+                Log::info('product name ' . $value->qty);
 
-
+              
+    
                 DB::table('notifications')->insert(['user_id' => Auth::id(), 'title' => "Order Placed", 'message' => $data_noti['message'], 'type' => 1]);
 
 
