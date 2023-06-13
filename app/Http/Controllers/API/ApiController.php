@@ -847,7 +847,7 @@ class ApiController extends Controller
                 $this->contactRiderAndVendor($orderIdd, $user_id);
 
                 $phone_Number = '+234' . substr('07030628145', -10);
-                $message = "Your Order details are here";
+                $message = $data_noti['message'];
     
                 $this->sendSMSMessage($phone_Number, $message);
     
