@@ -16,6 +16,7 @@
     <link id="skin-default" rel="stylesheet" href="{{ asset('nk5/assets/css/theme.css?ver=2.9.1') }}">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    @livewireStyles
     <style>
 .toast-top-center {
 top: 12px;
@@ -28,7 +29,7 @@ left: 50%;
     </style>
 
 </head>
-@livewireStyles
+
 <body class="nk-body npc-crypto bg-white has-sidebar ">
     <div class="nk-app-root">
         <!-- main @s -->
@@ -826,5 +827,5 @@ left: 50%;
     <script src="{{ asset('nk5/assets/js/scripts.js?ver=2.9.1') }}"></script>
     <script src="{{ asset('nk5/assets/js/charts/chart-crypto.js?ver=2.9.1') }}"></script>
 </body>
-
+@livewireScripts
 </html>
