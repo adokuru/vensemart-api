@@ -822,6 +822,9 @@ class ApiController extends Controller
                     $ins_data[$k]['pay_mode']      = "CARD";
 
                     $ins_data[$k]['order_id'] = $order_data['order_id'];
+                    $ins_data[$k]['product_name'] = $order_data['product_name'];
+                    $ins_data[$k]['quantity'] = $order_data['quantity'];
+
 
                     $product_details = DB::table('products')->where('id', $value->product_id)->first();
                     if ($product_details) {
@@ -838,8 +841,13 @@ class ApiController extends Controller
                 // return $ins_data;
                 $n_result = DB::table('eshop_purchase_detail')->insert($ins_data);
 
+            //    Log::info($ins_data);
 
                 $orderIdd = $order_data['order_id'];
+                $orderQuantity = $order_data['quantity'];
+                $orderName = $order_data['product_name'];
+
+                $order_noti = array('title' => "Order Placed", 'message' => "Dear Vendor, please prepare items for pickup for the rider!  Product Name :  $orderName", 'quantity' => $orderQuantity);
 
                 $data_noti = array('title' => "Order Placed", 'message' => "order placed successfully!  order  ID is  $orderIdd", 'user_id' => Auth::id());
                 $this->sendNotification(Auth::id(), "Order Placed", "Order Placed Successfully ");
