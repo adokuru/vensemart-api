@@ -852,12 +852,13 @@ class ApiController extends Controller
 
                 Log::info('product name ' . $value->product_name);
                 Log::info('product name ' . $value->qty);
+                Log::info('Store Id ' . $store_id);
             
         
-                $vendor = DB::table('poc_registration')->where('id', $store_id)->first();
+                // $vendor = DB::table('poc_registration')->where('id', $store_id)->first();
                
 
-                Log::info('vendor phone ' . $vendor->telephone);
+                // Log::info('vendor phone ' . $vendor->telephone);
                 
                 
                  $phone_Number = '+234' . substr('07030628145', -10);
