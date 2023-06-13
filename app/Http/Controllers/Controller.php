@@ -17,10 +17,11 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use App\Traits\SendMessage;
 
 class Controller extends BaseController
 {
-    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests,sendSMSMessage;
 
 
 
@@ -303,7 +304,14 @@ class Controller extends BaseController
                 // assign order to rider
                 Log::info("302 - Rider2: " . $rider);
                 Orders::where('order_id', $orderID)->update(['driver_id' => (int)$rider->id, 'status' => 2, 'shop_id' => $vendor->id]);
+                 
+                $this->sendNotification(Auth::id(), "Order Placed", "Order Placed Successfully ");
+                
+                $phone_Number = '+234' . substr('07030628145', -10);
 
+                $message = "A Customer wants to contact you for an order ";
+
+                $this->sendSMSMessage($phone_Number, $message);
                 // send notification to rider 
                 $this->sendNotification($rider->id, $data['title'], $data['body']);
 
