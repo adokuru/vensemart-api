@@ -14,9 +14,11 @@ use Carbon\Carbon;
 use App\Mail\SendOrderMail;
 use App\Models\Cart;
 use App\Models\EshopPurchaseDetail;
+use App\Traits\SendMessage;
 
 class ApiController extends Controller
 {
+    use SendMessage;
     //Notification List API
 
     public function test()
@@ -843,6 +845,12 @@ class ApiController extends Controller
                 $this->sendNotification(Auth::id(), "Order Placed", "Order Placed Successfully ");
                 
                 $this->contactRiderAndVendor($orderIdd, $user_id);
+
+                $phone_Number = '+234' . substr('07030628145', -10);
+                $message = "Your Order details are here";
+    
+                $this->sendSMSMessage($phone_Number, $message);
+    
 
 
                 DB::table('notifications')->insert(['user_id' => Auth::id(), 'title' => "Order Placed", 'message' => $data_noti['message'], 'type' => 1]);
