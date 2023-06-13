@@ -852,13 +852,24 @@ class ApiController extends Controller
 
                 Log::info('product name ' . $value->product_name);
                 Log::info('product name ' . $value->qty);
+            
+        
+                $vendor = DB::table('poc_registration')->where('id', $store_id)->first();
+               
+
+                Log::info('vendor phone ' . $vendor->telephone);
+                
+                
+                 $phone_Number = '+234' . substr('07030628145', -10);
+
+                 $message = "Dear Vensemart Vendor, please prepare product for delivery ". " product name :" . $value->product_name . " quantity :" . $value->qty;
+
+                 $this->sendSMSMessage($phone_Number, $message);
 
 
+             
 
-            $phone_Number = '+234' . substr('07030628145', -10);
-            $message = "Please prepare product for delivery ". " product name " . $value->product_name . " quantity " . $value->qty;
-
-            $this->sendSMSMessage($phone_Number, $message);
+            
 
               
     
