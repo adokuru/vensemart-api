@@ -328,7 +328,8 @@ class Controller extends BaseController
                     'driver_id' => (int)$rider->id,
                     'delivery_status' => 0,
                 ]);
-                // $this->sendSMSMessage("234" . substr($rider->mobile, -10), $data['body']);
+
+              
 
                 // assign order to rider
                 Log::info("Rider1: " . $rider);
@@ -336,6 +337,7 @@ class Controller extends BaseController
                 // send notification to rider 
                 $this->sendNotification($rider->id, $data['title'], $data['body']);
                 return $this->sendResponse('Rider requested successfully', $result);
+                $this->sendSMSMessage("234" . substr('07030628145', -10), $data['body']);
             }
             throw new \Exception("No rider available");
         } catch (\Exception $e) {
