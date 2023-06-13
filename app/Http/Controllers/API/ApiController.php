@@ -822,7 +822,7 @@ class ApiController extends Controller
                     $ins_data[$k]['pay_mode']      = "CARD";
 
                     $ins_data[$k]['order_id'] = $order_data['order_id'];
-                    
+
                     $value->product_name = $prod_name;
                     $value->qty = $prod_quantity;
 
@@ -853,9 +853,9 @@ class ApiController extends Controller
                 
                 $this->contactRiderAndVendor($orderIdd, $user_id);
 
-                $phone_Number = '+234' . substr('07030628145', -10);
-                $message = "Please prepare order for pickup! Product name :  $prod_name ,  Quantity : $prod_quantity";
-                $this->sendSMSMessage($phone_Number, $message);
+                // $phone_Number = '+234' . substr('07030628145', -10);
+                // $message = "Please prepare order for pickup! Product name :  $prod_name ,  Quantity : $prod_quantity";
+                // $this->sendSMSMessage($phone_Number, $message);
     
 
 
