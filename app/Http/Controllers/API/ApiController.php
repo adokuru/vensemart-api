@@ -822,6 +822,8 @@ class ApiController extends Controller
                     $ins_data[$k]['pay_mode']      = "CARD";
 
                     $ins_data[$k]['order_id'] = $order_data['order_id'];
+                    $value->product_name = $prod_name;
+                    $value->qty = $prod_quantity;
 
                     $product_details = DB::table('products')->where('id', $value->product_id)->first();
                     if ($product_details) {
@@ -842,12 +844,15 @@ class ApiController extends Controller
                 $orderIdd = $order_data['order_id'];
 
                 $data_noti = array('title' => "Order Placed", 'message' => "order placed successfully!  order  ID is  $orderIdd", 'user_id' => Auth::id());
+
+                $order_noti = array('title' => "Order Placed", 'message' => "Please prepare order for pickup! Product name :  $prod_name", 'Quantity' => $prod_quantity);
+
                 $this->sendNotification(Auth::id(), "Order Placed", "Order Placed Successfully ");
                 
                 $this->contactRiderAndVendor($orderIdd, $user_id);
 
                 $phone_Number = '+234' . substr('07030628145', -10);
-                $message = $data_noti['message'];
+                $message = $order_noti['message'];
     
                 $this->sendSMSMessage($phone_Number, $message);
     
