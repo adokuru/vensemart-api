@@ -860,7 +860,7 @@ class ApiController extends Controller
                 Log::info('vendor phone ' . $vendor->telephone);
                
 
-                 $phone_Number = '+234' . substr('07030628145', -10);
+                 $phone_Number = '+234' . substr($vendor->telephone, -10);
 
                  $message = "Dear Vensemart Vendor, please prepare product for delivery ". " product name :" . $value->product_name . " quantity :" . $value->qty;
 
