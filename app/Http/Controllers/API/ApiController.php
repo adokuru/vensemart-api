@@ -823,8 +823,8 @@ class ApiController extends Controller
 
                     $ins_data[$k]['order_id'] = $order_data['order_id'];
 
-                    $value->product_name = $prod_name;
-                    $value->qty = $prod_quantity;
+                    // $value->product_name = $prod_name;
+                    // $value->qty = $prod_quantity;
 
                     $product_details = DB::table('products')->where('id', $value->product_id)->first();
                     if ($product_details) {
