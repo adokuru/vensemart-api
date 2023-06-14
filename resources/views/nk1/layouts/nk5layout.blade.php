@@ -714,7 +714,7 @@ left: 50%;
                                             <div class="dropdown-inner user-card-wrap bg-lighter d-none d-md-block">
                                                 <div class="user-card">
                                                     <div class="user-avatar">
-                                                        <span> <img width="50" height="35" src="{{ asset('/storage/'.auth()->user()->image ) }}" /></span>
+                                                        <span> <img width="50" height="35" src="{{ asset('/storage/vendor_images'.auth()->user()->image ) }}" /></span>
                                                     </div>
                                                     <div class="user-info">
                                                         <span class="lead-text">{{ auth()->user()->name }} </span>
