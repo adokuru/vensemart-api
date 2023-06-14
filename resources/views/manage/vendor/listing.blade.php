@@ -54,7 +54,7 @@
                             $burl2 ='https://api.vensemart.com/';
                          //   echo $burl1;
                    ?>
-                   <img src="<?php echo $burl2.'vendor_images/'.$val->image; ?>"  width="30" height="30">
+                   <img src="<?php echo $burl2.'storage/vendor_images/'.$val->image; ?>"  width="30" height="30">
                     <!--<img src="{{  url('vensemart_vendor/cmsadmin/warehouse_images').'/'. $val->image }}"  width="30" height="30">-->
                    
                     <?php } ?>
