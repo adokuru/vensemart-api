@@ -694,7 +694,7 @@ left: 50%;
                                                 @else
 
                                                 <div class="user-avatar sm">
-                                                <img width="50" height="35" src="{{ asset('/storage/'.auth()->user()->image )  
+                                                <img width="50" height="35" src="{{ asset('/storage/vendor_images'.auth()->user()->image )  
                                             
                                             
                                         }}" /> 
