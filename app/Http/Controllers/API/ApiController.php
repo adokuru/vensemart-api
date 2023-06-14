@@ -853,16 +853,15 @@ class ApiController extends Controller
                 Log::info('product name ' . $value->product_name);
                 Log::info('product name ' . $value->qty);
                 Log::info('Store Id ' . $store_id);
+              
 
-                $vendor = $this->getVendor($store_id);
+                $vendorphone = getVendorPhone($store_id);
 
+                Log::info('vendor phone ' . $vendorphone);
+                
+                $phone_Number = '+234' . substr($vendorphone, -10);
 
-                Log::info('vendor phone ' . $vendor->telephone);
-               
-
-                 $phone_Number = '+234' . substr($vendor->telephone, -10);
-
-                 $message = "Dear Vensemart Vendor, please prepare product for delivery ". " product name :" . $value->product_name . " quantity :" . $value->qty;
+                 $message = "Dear Vensemart Vendor, please prepare product for delivery ". " product name : " . $value->product_name . " quantity : " . $value->qty;
 
                  $this->sendSMSMessage($phone_Number, $message);
 
@@ -1133,6 +1132,20 @@ class ApiController extends Controller
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
+    }
+
+
+    public function getVendorPhone($shopID)
+    {
+
+        try {
+            $shop = \App\Models\Stores::where('id', $shopID)->first();
+            $vendor = \App\Models\PocRegistration::where('user_id', $shop->franchiseId)->first();
+            return $vendor->telephone;
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+
     }
 
     public function search_product_for_perticular_sub_category(Request $request)
