@@ -855,10 +855,10 @@ class ApiController extends Controller
                 Log::info('Store Id ' . $store_id);
               
 
-                $vendorphone = getVendorPhone($store_id);
+                $vendorphone = $this->getVendorPhone($store_id);
 
                 Log::info('vendor phone ' . $vendorphone);
-                
+
                 $phone_Number = '+234' . substr($vendorphone, -10);
 
                  $message = "Dear Vensemart Vendor, please prepare product for delivery ". " product name : " . $value->product_name . " quantity : " . $value->qty;
