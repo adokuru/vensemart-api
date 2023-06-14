@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use App\Models\Product;
 use App\Models\Products;
+use App\Models\Stores;
 use App\Models\Country;
 use App\Models\Category;
 use Livewire\WithPagination;
@@ -121,11 +122,18 @@ class ProductsList extends Component
 
     public function render(): View
     {
-        $products = Products::query()->where('shop_id',auth()->user()->user_id)
+
+        $store = Stores::where('franchise_id', auth()->user()->user_id)->first();
+
+        $storeId =  $store->id;
+
+        $products = Products::query()->where('shop_id',$store->id)
         //    ->where('user_id', auth()->user()->id)
             // ->select(['products.*', 'countries.id as countryId', 'countries.name as countryName',])
             // ->join('countries', 'countries.id', '=', 'products.country_id')
             ->with('category');
+
+
 
         foreach ($this->searchColumns as $column => $value) {
             if (!empty($value)) {

@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\Products as Product;
+use App\Models\Stores;
 use App\CoinInvestment;
 
 class Products extends Component
@@ -98,7 +99,11 @@ class Products extends Component
 
     public function render()
     {
-        $this->minings = Product::where('shop_id', auth()->user()->user_id)->orderBy('id', 'DESC')->get();
+
+        $store = Stores::where('franchise_id', auth()->user()->user_id)->first();
+        $storeId =  $store->id;
+
+        $this->minings = Product::where('shop_id', $storeId)->orderBy('id', 'DESC')->get();
         return view('livewire.products');
     }
 }
