@@ -33,6 +33,10 @@ Route::get('/home',
     return view('outer_files/dup');
 })->middleware(['auth', 'verified']);
 
+Route::get('/vendor', 
+   function(){
+    return view('outer_files/dup');
+})->middleware(['auth', 'verified']);
 
 Route::get('/product-form', function(){
 
