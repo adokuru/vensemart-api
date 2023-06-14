@@ -50,15 +50,11 @@
                 <?php   $burl = URL::to('/'); 
                    
                             $burl = str_replace($burl,'Vensemart','vensemart_vendor');
-                            // $burl1 ='https://api.vensemart.com/'.$burl;
-                            $burl1 ='https://api.vensemart.com/';
+                            $burl1 ='https://vensemart.com/'.$burl;
                          //   echo $burl1;
                    ?>
-                  
-                   <img src="<?php echo $burl1.'vendor_images'.$val->image; ?>"  width="30" height="30">
+                   <img src="<?php echo $burl1.'/cmsadmin/warehouse_images/'.$val->image; ?>"  width="30" height="30">
                     <!--<img src="{{  url('vensemart_vendor/cmsadmin/warehouse_images').'/'. $val->image }}"  width="30" height="30">-->
-                    <!--<img src=" width="30" height="30">
-                    $burl1.'/cmsadmin/warehouse_images/'.$val->image;
                    
                     <?php } ?>
                 </td>
