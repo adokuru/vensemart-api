@@ -186,7 +186,7 @@ class MultistepProduct extends Component
         //  'shop_id' => 'int', 'sub_cat_id' => 'int', 'uom_id' => 'int', 'updated_at' => 'datetime'
 
 
-        $store = App\Model\Stores::where('franchise_id', auth()->user()->user_id)->first();
+        $store = Stores::where('franchise_id', auth()->user()->user_id)->first();
         $storeId =  $store->id;
 
             $product->create([
