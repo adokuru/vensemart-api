@@ -130,23 +130,23 @@
                                                         </div>
                                                     </div>
                                                     <div class="card-amount">
-                                                        <span class="amount"> 0.00 <span class="currency currency-usd"></span>
+                                                        <span class="amount"> {{ $productsCount }} <span class="currency currency-usd"></span>
                                                         </span>
                                                     </div>
                                                     <div class="invest-data">
                                                         <div class="invest-data-amount g-2">
                                                             <div class="invest-data-history">
                                                                 <div class="title">This Month</div>
-                                                                <div class="amount">0.00 <span class="currency currency-usd">NGN</span></div>
+                                                                <div class="amount">{{ $productsCount }} <span class="currency currency-usd"> </span></div>
                                                             </div>
                                                             <div class="invest-data-history">
                                                                 <div class="title">This Week</div>
-                                                                <div class="amount">0.00 <span class="currency currency-usd">NGN</span></div>
+                                                                <div class="amount">{{ $productsCount }} <span class="currency currency-usd"> </span></div>
                                                             </div>
 
                                                             <div class="invest-data-history">
                                                                 <div class="title">Today</div>
-                                                                <div class="amount">0.00 <span class="currency currency-usd">NGN</span></div>
+                                                                <div class="amount">{{ $productsCount }} <span class="currency currency-usd"> </span></div>
                                                             </div>
 
                                                         </div>

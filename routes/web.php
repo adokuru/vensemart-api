@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Models\Stores;
+use App\Models\Products;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -99,7 +101,17 @@ Route::get('/dup', function(){
 
 
 Route::get('/index', function(){
-    return view('nk1/index');
+
+
+        $store = Stores::where('franchise_id', auth()->user()->user_id)->first();
+
+        $storeId =  $store->id;
+
+        $productsCount = Products::where('shop_id',$store->id)->count();
+    return view('nk1/index',[
+        "productsCount" => $productsCount,
+    ]
+);
 })->middleware(['auth', 'verified'])->name('index');
 
 Route::get('/duppp', function(){
