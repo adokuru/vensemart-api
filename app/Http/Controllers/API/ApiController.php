@@ -1140,7 +1140,7 @@ class ApiController extends Controller
 
         try {
             $shop = \App\Models\Stores::where('id', $shopID)->first();
-            $vendor = \App\Models\PocRegistration::where('user_id', $shop->franchiseId)->first();
+            $vendor = \App\Models\PocRegistration::where('user_id', $shop->franchise_id)->first();
             return $vendor->telephone;
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
