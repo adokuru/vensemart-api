@@ -37,7 +37,9 @@
               </tr>
               </thead>
               <tbody>
-              <?php if($listing){ $i=1; foreach($listing as $val){?>      
+              <?php if($listing){ $i=1; foreach($listing as $val){?>  
+                
+                @if($val->email !== 'admin@gmail.com')
               <tr>
                 <td>{{  $i }}</td>
                 <td>{{$val->user_id}}</td>
@@ -69,6 +71,7 @@
                     <a href="{{url('admin/new-user/delete').'/'.$val->id }}"><i class="fas fa-trash"></i></a>
                 </td>
               </tr>
+              @endif
               <?php $i++; }}?>
               </tbody>
              
