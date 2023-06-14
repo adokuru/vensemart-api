@@ -304,7 +304,7 @@ class Controller extends BaseController
 
                 // send notification to rider 
                 $this->sendNotification($rider->id, $data['title'], $data['body']);
-
+                
                 return $this->sendResponse('Rider requested successfully', $result);
             }
 
@@ -362,6 +362,7 @@ class Controller extends BaseController
             $value['distance'] = $distance;
 
             // order by distance
+            Log::info("rider array : $value");
             $riderArray[] = $value;
         }
 
