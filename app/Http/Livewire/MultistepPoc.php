@@ -236,7 +236,7 @@ class MultistepPoc extends Component
 
            $extension = $this->fileName->getClientOriginalExtension(); 
    
-           $fileName = rand(10000,200000000).$this->image. '.' . $extension;
+           $fileName = rand(10000,200000000).$this->first_name. '.' . $extension;
    
            $this->image = $this->fileName->storeAs($destinationPath, $fileName,'public');
 
