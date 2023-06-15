@@ -338,6 +338,7 @@ class Controller extends BaseController
                 Log::info("Rider1 here: " . $rider);
                 Orders::where('order_id', $orderID)->update(['driver_id' => (int)$rider->id, 'status' => 2, 'shop_id' => $vendor->id]);
                 // send notification to rider 
+                $this->sendNotification($rider->id, 'you are booked', 'you are booked');
                 $this->sendNotification($rider->id, $data['title'], $data['body']);
                 return $this->sendResponse('Rider requested successfully', $result);
             }
