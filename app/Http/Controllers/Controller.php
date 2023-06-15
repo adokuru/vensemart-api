@@ -296,6 +296,12 @@ class Controller extends BaseController
                     'delivery_status' => 0,
                 ]);
 
+                Log::info('riderid ' .$rider->id);
+                // send notification to rider 
+                $this->sendNotification($rider->id, "You have been booked");
+                Log::info('riderid, we reached here.');
+
+
                 if ($rider->id == 0) throw new \Exception('No Rider Available for this order at the moment');
                 if ($rider->id == null) throw new \Exception('No Rider Available for this order at the moment 2');
                 // assign order to rider
