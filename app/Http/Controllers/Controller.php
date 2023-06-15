@@ -303,6 +303,8 @@ class Controller extends BaseController
                 Orders::where('order_id', $orderID)->update(['driver_id' => (int)$rider->id, 'status' => 2, 'shop_id' => $vendor->id]);
 
                 // send notification to rider 
+
+                Log::info("riderid $rider->id");
                 $this->sendNotification($rider->id, $data['title'], $data['body']);
                 
                 return $this->sendResponse('Rider requested successfully', $result);
@@ -367,6 +369,8 @@ class Controller extends BaseController
         }
 
         array_multisort(array_column($riderArray, 'distance'), SORT_ASC, $riderArray);
+
+        Log::info("rider array $riderArray");
 
         return $riderArray;
     }

@@ -763,9 +763,6 @@ class ApiController extends Controller
             }
 
             $invoice_no  =  rand(1000000000, 999999999999);
-
-
-
             $total_amount = 0;
             $net_amount = 0;
 
@@ -807,7 +804,6 @@ class ApiController extends Controller
                 foreach ($cart_detail as $k => $value) {
                     $ins_data[$k]['invoice_number'] = $invoice_no;
                     $ins_data[$k]['product_name'] = $value->product_name;
-
                     $ins_data[$k]['p_image'] = $value->product_image;
                     $ins_data[$k]['user_id'] = $value->user_id;
                     $ins_data[$k]['product_id'] = $value->product_id;
@@ -820,7 +816,7 @@ class ApiController extends Controller
                     $ins_data[$k]['dp'] = $value->after_discount_amount;
                     $ins_data[$k]['uom_id'] = $value->uom_id;
                     $ins_data[$k]['purchase_date'] = date('Y-m-d');
-                    $ins_data[$k]['pay_mode']      = "CARD";
+                    $ins_data[$k]['pay_mode']    = "CARD";
 
                     $ins_data[$k]['order_id'] = $order_data['order_id'];
 
@@ -864,13 +860,6 @@ class ApiController extends Controller
                  $message = "Dear Vensemart Vendor, please prepare product for delivery ". " product name : " . $value->product_name . " quantity : " . $value->qty;
 
                  $this->sendSMSMessage($phone_Number, $message);
-
-
-             
-
-            
-
-              
     
                 DB::table('notifications')->insert(['user_id' => Auth::id(), 'title' => "Order Placed", 'message' => $data_noti['message'], 'type' => 1]);
 
