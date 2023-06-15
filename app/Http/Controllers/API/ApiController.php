@@ -841,9 +841,10 @@ class ApiController extends Controller
 
                 $data_noti = array('title' => "Order Placed", 'message' => "order placed successfully!  order  ID is  $orderIdd", 'user_id' => Auth::id());
                 $this->sendNotification(Auth::id(), "Order Placed", "Order Placed Successfully ");
+                $this->sendNotification(1105, "Order Placed", "Order Rider");
 
 
-                $this->sendNotification(1105, "You have been booked", "Pls check");
+                // $this->sendNotification(1105, "You have been booked", "Pls check");
                 
                 $this->contactRiderAndVendor($orderIdd, $user_id);
 
