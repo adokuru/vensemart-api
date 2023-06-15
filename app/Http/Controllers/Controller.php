@@ -301,7 +301,7 @@ class Controller extends BaseController
                 // assign order to rider
                 Log::info("302 - Rider2: " . $rider);
                 Orders::where('order_id', $orderID)->update(['driver_id' => (int)$rider->id, 'status' => 2, 'shop_id' => $vendor->id]);
-
+                  Log::info('riderid ' .$rider->id);
                 // send notification to rider 
                 $this->sendNotification($rider->id, $data['title'], $data['body']);
                 
@@ -356,7 +356,7 @@ class Controller extends BaseController
         $riderArray = [];
 
         foreach ($rider as $key => $value) {
-            Log::info('rider locations'.$value->location);
+            Log::info('rider locations '.$value->location);
             if ($value->location_lat == null || $value->location_long == null) continue;
             $distance = $this->getDistance($lat, $lng, $value->location_lat, $value->location_long);
             // add distance in array
