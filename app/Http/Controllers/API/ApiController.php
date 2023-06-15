@@ -855,11 +855,11 @@ class ApiController extends Controller
 
                 Log::info('vendor phone ' . $vendorphone);
 
-                $phone_Number = '+234' . substr($vendorphone, -10);
+                // $phone_Number = '+234' . substr($vendorphone, -10);
 
-                 $message = "Dear Vensemart Vendor, please prepare product for delivery ". " product name : " . $value->product_name . " quantity : " . $value->qty;
+                //  $message = "Dear Vensemart Vendor, please prepare product for delivery ". " product name : " . $value->product_name . " quantity : " . $value->qty;
 
-                 $this->sendSMSMessage($phone_Number, $message);
+                //  $this->sendSMSMessage($phone_Number, $message);
     
                 DB::table('notifications')->insert(['user_id' => Auth::id(), 'title' => "Order Placed", 'message' => $data_noti['message'], 'type' => 1]);
 
