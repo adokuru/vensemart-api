@@ -31,28 +31,28 @@ class ReAssignRiders extends Command
     public function handle()
     {
         // Get all orders that have been unassigned
-        $deliveryOrders = DeliveryRequestStatus::where('delivery_status', 0)->where('created_at', '>', Carbon::now()->subMinutes(10))->get();
+        // $deliveryOrders = DeliveryRequestStatus::where('delivery_status', 0)->where('created_at', '>', Carbon::now()->subMinutes(10))->get();
 
-        if (!$deliveryOrders) {
-            Log::info('No Orders awaiting re-assignment');
-            return Command::SUCCESS;
-        }
-        foreach ($deliveryOrders as $deliveryOrder) {
-            $this->reAssignRider($deliveryOrder);
-        }
+        // if (!$deliveryOrders) {
+        //     Log::info('No Orders awaiting re-assignment');
+        //     return Command::SUCCESS;
+        // }
+        // foreach ($deliveryOrders as $deliveryOrder) {
+        //     $this->reAssignRider($deliveryOrder);
+        // }
         return Command::SUCCESS;
     }
 
     protected function reAssignRider($deliveryOrder)
     {
         // Get all riders that are available
-        $order =  \App\Models\Orders::where('id', $deliveryOrder->order_id)->first();
-        if (!$order) {
-            Log::info('Order not found');
-            return;
-        }
-        $controller = new \App\Http\Controllers\Controller();
-        $controller->contactRiderAndVendor($order->order_id, $deliveryOrder->customer_id);
+        // $order =  \App\Models\Orders::where('id', $deliveryOrder->order_id)->first();
+        // if (!$order) {
+        //     Log::info('Order not found');
+        //     return;
+        // }
+        // $controller = new \App\Http\Controllers\Controller();
+        // $controller->contactRiderAndVendor($order->order_id, $deliveryOrder->customer_id);
 
         Log::info('Re-assigning rider to order ' . $order->order_id);
         return;
