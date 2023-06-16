@@ -298,6 +298,8 @@ class Controller extends BaseController
 
                 Log::info('riderid ' .$rider->id);
 
+
+
                 $phone_Number = '+234' . substr($rider->mobile, -10);
 
                  $message = "Dear Rider, you have a new delivery, please check vensemart rider app for details. ";
@@ -312,7 +314,10 @@ class Controller extends BaseController
                 if ($rider->id == null) throw new \Exception('No Rider Available for this order at the moment 2');
                 // assign order to rider
                 Log::info("302 - Rider2: " . $rider->id);
+
                 Orders::where('order_id', $orderID)->update(['driver_id' => (int)$rider->id, 'status' => 2, 'shop_id' => $vendor->id]);
+
+                
                 Log::info('riderid ' .$rider->id);
                 // send notification to rider 
                 $this->sendNotification($rider->id, $data['title'], $data['body']);
@@ -427,5 +432,14 @@ class Controller extends BaseController
         $vendor = $this->getVendor($product->shop_id);
 
         return $vendor->id;
+    }
+
+    public function addUserWallet($userId, $amount){
+        $walletamount = DB::table('my_wallet')->where('user_id', $userId)->first();
+        $driveramount = (int)$walletamount->amount;
+        $net_earned_on_ride = (85 / 100) * 1500;
+        $newamount = $driveramount + $net_earned_on_ride;
+        DB::table('my_wallet')->where('user_id', $userId)->update(['amount' => $newamount]);
+
     }
 }

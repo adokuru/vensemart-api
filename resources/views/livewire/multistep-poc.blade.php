@@ -172,11 +172,11 @@
  
  
 
-  <div class="form-group">
+  <!-- <div class="form-group">
   <label for="address">Address</label>
       <input type="text" class="form-control" placeholder="address" wire:model="address">
       @error('address') <span class="text-danger">{{ $message }}</span> @enderror
-  </div>
+  </div> -->
 
   <div class="form-group">
   <label for="city">City</label>

@@ -570,6 +570,7 @@ class DeliveryRiderController extends Controller
                  $arr['message'] = 'Order not found or already accepted';
                  return response()->json($arr, 200);
              }
+
               
             //  $this->sendSMSMessage(
             //     "+234" . substr($userphone, -10),
@@ -583,6 +584,12 @@ class DeliveryRiderController extends Controller
             }
  
              Orders::where('id', $orderid)->update(['status' => "4"]);
+
+
+             $this->addUserWallet($order->driver_id, $order->delivery_charge);
+
+
+             
  
              $arr['status'] = 1;
              $arr['message'] = 'Order Completed Successfully!!';
@@ -598,6 +605,15 @@ class DeliveryRiderController extends Controller
      }
 
 
+
+     public function addUserWallet($userId, $amount){
+        $walletamount = DB::table('my_wallet')->where('user_id', $userId)->first();
+        $driveramount = (int)$walletamount->amount;
+        $net_earned_on_ride = (85 / 100) * $amount;
+        $newamount = $driveramount + $net_earned_on_ride;
+        DB::table('my_wallet')->where('user_id', $userId)->update(['amount' => $newamount]);
+
+    }
   
 
 
