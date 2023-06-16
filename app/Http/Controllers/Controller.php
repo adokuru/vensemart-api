@@ -298,11 +298,11 @@ class Controller extends BaseController
 
                 Log::info('riderid ' .$rider->id);
 
-                // $phone_Number = '+234' . substr($rider->mobile, -10);
+                $phone_Number = '+234' . substr($rider->mobile, -10);
 
-                //  $message = "Dear Rider, you have a new delivery, please check vensemart rider app for details. ";
+                 $message = "Dear Rider, you have a new delivery, please check vensemart rider app for details. ";
 
-                //  $this->sendSMSMessage($$rider->mobile, $message);
+                 $this->sendSMSMessage($$rider->mobile, $message);
     
                 // send notification to rider 
                 $this->sendNotification($rider->id, "You have been booked");
