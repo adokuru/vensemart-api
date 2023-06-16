@@ -193,6 +193,11 @@
                        {?> <span class="">     Interior Decoration</span> <?php } 
 
 
+                       elseif($val->service_type ==55)
+                       {?> <span class="">     Fumigation and Pest Control</span> <?php } 
+
+
+
                        
 
 

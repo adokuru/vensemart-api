@@ -179,6 +179,10 @@
                        elseif($listing->service_type == 54)
                        {?> <span class="">     Interior Decoration</span> <?php } 
 
+                       elseif($listing->service_type ==55)
+                       {?> <span class="">     Fumigation and Pest Control</span> <?php } 
+
+
                        
                        
           

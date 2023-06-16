@@ -203,7 +203,11 @@
 
 
                        elseif($val->service_type ==53)
-                       {?> <span class="">     Shoe Cobbler</span> <?php } 
+                       {?> <span class="">     Shoe Cobbler</span> <?php }
+                       
+                       elseif($val->service_type ==55)
+                       {?> <span class="">     Fumigation and Pest Control</span> <?php } 
+
 
                        
                      
