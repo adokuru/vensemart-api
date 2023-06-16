@@ -297,10 +297,16 @@ class Controller extends BaseController
                 ]);
 
                 Log::info('riderid ' .$rider->id);
+
+                // $phone_Number = '+234' . substr($rider->mobile, -10);
+
+                //  $message = "Dear Rider, you have a new delivery, please check vensemart rider app for details. ";
+
+                //  $this->sendSMSMessage($$rider->mobile, $message);
+    
                 // send notification to rider 
                 $this->sendNotification($rider->id, "You have been booked");
-                Log::info('riderid, we reached here.');
-
+                Log::info("rider phonne, $rider->mobile");
 
                 if ($rider->id == 0) throw new \Exception('No Rider Available for this order at the moment');
                 if ($rider->id == null) throw new \Exception('No Rider Available for this order at the moment 2');
