@@ -52,16 +52,16 @@
                                                         <div class="invest-data-amount g-2">
                                                             <div class="invest-data-history">
                                                                 <div class="title">This Month</div>
-                                                                <div class="amount">0.00 <span class="currency currency-usd">NGN</span></div>
+                                                                <div class="amount">{{ $salesCount }} <span class="currency currency-usd">  </span></div>
                                                             </div>
                                                             <div class="invest-data-history">
                                                                 <div class="title">This Week</div>
-                                                                <div class="amount">0.00 <span class="currency currency-usd">NGN</span></div>
+                                                                <div class="amount">{{ $salesCount }} <span class="currency currency-usd"> </span></div>
                                                             </div>
 
                                                             <div class="invest-data-history">
                                                                 <div class="title">Today</div>
-                                                                <div class="amount">0.00 <span class="currency currency-usd">NGN</span></div>
+                                                                <div class="amount">{{ $salesCount }} <span class="currency currency-usd"> </span></div>
                                                             </div>
                                                         </div>
                                                         <div class="invest-data-ck">
@@ -93,18 +93,18 @@
                                                         <div class="invest-data-amount g-2">
                                                             <div class="invest-data-history">
                                                                 <div class="title">This Month</div>
-                                                                <div class="amount">0.00 <span class="currency currency-usd">NGN</span></div>
+                                                                <div class="amount">{{ $ordersCount }} <span class="currency currency-usd"> </span></div>
                                                             </div>
 
                                                             <div class="invest-data-history">
                                                                 <div class="title">This Week</div>
-                                                                <div class="amount">0.00 <span class="currency currency-usd">NGN</span></div>
+                                                                <div class="amount">{{ $ordersCount }} <span class="currency currency-usd">  </span></div>
                                                             </div>
 
 
                                                             <div class="invest-data-history">
                                                                 <div class="title">Today</div>
-                                                                <div class="amount">0.00 <span class="currency currency-usd">NGN</span></div>
+                                                                <div class="amount">{{ $ordersCount }} <span class="currency currency-usd"> </span></div>
                                                             </div>
                                                             
                                                         </div>
@@ -179,26 +179,26 @@
                                                         </span>
                                                         <!-- <span class="change up text-danger"><em class="icon ni ni-arrow-long-up"></em>1.93%</span> -->
                                                     </div>
-                                                    <!-- <div class="invest-data">
+                                                    <div class="invest-data">
                                                         <div class="invest-data-amount g-2">
                                                             <div class="invest-data-history">
                                                                 <div class="title">This Month</div>
-                                                                <div class="amount">0.00 <span class="currency currency-usd">NGN</span></div>
+                                                                <div class="amount">{{ $salesCount }} <span class="currency currency-usd"> </span></div>
                                                             </div>
                                                             <div class="invest-data-history">
                                                                 <div class="title">This Week</div>
-                                                                <div class="amount">0.00 <span class="currency currency-usd">NGN</span></div>
+                                                                <div class="amount">{{ $salesCount }} <span class="currency currency-usd"> </span></div>
                                                             </div>
 
                                                             <div class="invest-data-history">
                                                                 <div class="title">Today</div>
-                                                                <div class="amount">0.00 <span class="currency currency-usd">NGN</span></div>
+                                                                <div class="amount">{{ $salesCount }} <span class="currency currency-usd"> </span></div>
                                                             </div>
                                                         </div>
                                                         <div class="invest-data-ck">
                                                             <canvas class="iv-data-chart" id="totalDeposit"></canvas>
                                                         </div>
-                                                    </div> -->
+                                                    </div>
                                                 </div>
                                             </div><!-- .card -->
                                         </div><!-- .col -->
