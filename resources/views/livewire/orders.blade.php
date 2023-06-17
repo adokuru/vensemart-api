@@ -63,7 +63,7 @@
 
                                                         <td class="tb-tnx-amount is-alt ">
                                                             <div class="tb-tnx-total">
-                                                                <span class="amount">&#8358;{{$data->net_price }}</span>
+                                                                <span class="amount">&#8358;{{$data->net_amount }}</span>
                                                                 <!-- <span class="amount">{{$data->invoice_number }}</span> -->
                                                                 
                                                             </div>

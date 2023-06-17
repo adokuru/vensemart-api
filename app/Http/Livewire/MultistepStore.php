@@ -225,7 +225,7 @@ class MultistepStore extends Component
         
 
 
-        if($this->fileName->getClientOriginalExtension() !== null){
+        if($this->fileName !== null){
 
 
             $extension = $this->fileName->getClientOriginalExtension(); 
