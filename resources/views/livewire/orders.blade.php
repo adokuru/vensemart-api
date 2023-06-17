@@ -14,19 +14,19 @@
                                                         <th class="tb-tnx-id"><span class="">User Name</span></th>
                                                         <th class="tb-tnx-info">
                                                             <span class="tb-tnx-desc d-none d-sm-inline-block">
-                                                                <span> Amount</span>
+                                                                <span> Invoice Number</span>
                                                             </span>
                                                             <span class="tb-tnx-date d-md-inline-block d-none">
-                                                                <span class="d-md-none">Coin name</span>
+                                                                <span class="d-md-none">Product name</span>
                                                                 <span class="d-none d-md-block">
-                                                                    <span>Start time</span>
-                                                                     <span>End Time</span>
+                                                                    <span>Quantity</span>
+                                                                     <span>Purchase_date</span>
                                                                  </span>
                                                             </span> 
                                                         </th>
                                                        
                                                         <th class="tb-tnx-amount is-alt">
-                                                            <span class="tb-tnx-total">Coin Name</span>
+                                                            <span class="tb-tnx-total">Net Price</span>
                                                             <!--<span class="tb-tnx-status d-none d-md-inline-block">coin option</span>-->
                                                         </th>
                                                         <!-- <th class="tb-tnx-amount is-alt">
@@ -48,7 +48,7 @@
                                       <!-- <div class="nk-tnx-type-icon bg-success-dim text-success">
                                        <em class="icon ni ni-arrow-up-right"></em>
                                       </div> -->
-                                      {{ $data->user->name ?? 'James' }}   {{ $data->username }}</span></a>
+                                         {{ $data->user_name }} </span></a>
                                                         </td>
                                                         <td class="tb-tnx-info">
                                                             <div class="tb-tnx-desc">
@@ -56,14 +56,14 @@
                                                             </div>
                                                             <div class="tb-tnx-date">
                                                                  <span class="date">{{$data->quantity }}</span> 
-                                                                 <span class="date">&#8358;{{$data->net_price }}</span> 
+                                                                 <span class="date">{{$data->purchase_date }}</span> 
                                                              </div> 
                                                         </td>
                                                        
 
                                                         <td class="tb-tnx-amount is-alt">
                                                             <div class="tb-tnx-total">
-                                                                <span class="amount">Driver ID</span>
+                                                                <span class="amount">&#8358;{{$data->net_price }}</span>
                                                             </div>
                                                             <div class="tb-tnx-status">
                                                                 

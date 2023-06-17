@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Models\Stores;
 use App\Models\Products;
+use App\Models\Orders;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -89,6 +90,7 @@ Route::get('/product-details', function () {
 
 
 Route::get('/orders-list', function () {
+
     return view('nk1/orders');
 })->middleware(['auth', 'verified'])->name('orders');
 
@@ -108,8 +110,18 @@ Route::get('/index', function(){
         $storeId =  $store->id;
 
         $productsCount = Products::where('shop_id',$store->id)->count();
+
+        $ordersCount = Orders::where('shop_id',$store->id)->count();
+
+        $salesCount = Orders::where('shop_id',$store->id)->where('status', 4)->count();
+        $pendingCount = Orders::where('shop_id',$store->id)->where('status', 3)->count();
+
+
     return view('nk1/index',[
         "productsCount" => $productsCount,
+        "ordersCount" => $ordersCount,
+        "salesCount" => $salesCount,
+        "pendingCount" => $pendingCount,
     ]
 );
 })->middleware(['auth', 'verified'])->name('index');

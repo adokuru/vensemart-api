@@ -30,7 +30,11 @@ class OrdersList extends Component
 
     public function render(): View
     {
-        $orders = Orders::query()
+
+        $store = Stores::where('franchise_id', auth()->user()->user_id)->first();
+        $storeId =  $store->id;
+
+        $orders = Orders::query()->where('shop_id', $store->id)
             ->select(['orders.*', 'users.name as username'])
             ->join('users', 'users.id', '=', 'orders.user_id');
 

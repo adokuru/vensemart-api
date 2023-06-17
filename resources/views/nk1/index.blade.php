@@ -44,7 +44,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="card-amount">
-                                                        <span class="amount"> 0.00 <span class="currency currency-usd"></span>
+                                                        <span class="amount"> {{ $salesCount }} <span class="currency currency-usd"></span>
                                                         </span>
                                                         <!-- <span class="change up text-danger"><em class="icon ni ni-arrow-long-up"></em>1.93%</span> -->
                                                     </div>
@@ -85,7 +85,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="card-amount">
-                                                        <span class="amount"> 0.00 <span class="currency currency-usd"></span>
+                                                        <span class="amount"> {{ $ordersCount }}<span class="currency currency-usd"></span>
                                                         </span>
                                                         <!-- <span class="change down text-danger"><em class="icon ni ni-arrow-long-down"></em>1.93%</span> -->
                                                     </div>
@@ -175,7 +175,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="card-amount">
-                                                        <span class="amount"> 0.00 <span class="currency currency-usd"></span>
+                                                        <span class="amount"> {{ $salesCount }} <span class="currency currency-usd"></span>
                                                         </span>
                                                         <!-- <span class="change up text-danger"><em class="icon ni ni-arrow-long-up"></em>1.93%</span> -->
                                                     </div>
@@ -216,7 +216,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="card-amount">
-                                                        <span class="amount"> 0.00 <span class="currency currency-usd"></span>
+                                                        <span class="amount"> {{ $pendingCount }} <span class="currency currency-usd"></span>
                                                         </span>
                                                         <!-- <span class="change down text-danger"><em class="icon ni ni-arrow-long-down"></em>1.93%</span> -->
                                                     </div>
@@ -261,7 +261,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="card-amount">
-                                                        <span class="amount"> 0.00 <span class="currency currency-usd"></span>
+                                                        <span class="amount"> {{ $salesCount }} <span class="currency currency-usd"></span>
                                                         </span>
                                                     </div>
                                                     <!-- <div class="invest-data">

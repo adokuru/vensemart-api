@@ -91,4 +91,9 @@ class EshopPurchaseDetail extends Model
     // Functions ...
 
     // Relations ...
+
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User', 'user_id');
+    }
 }

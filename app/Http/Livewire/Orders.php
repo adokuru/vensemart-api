@@ -9,6 +9,8 @@ use App\Models\EshopPurchaseDetail;
 use App\Models\TodoInvestment;
 use App\Models\Plantoken;
 
+use App\Models\Stores;
+
 
 class Orders extends Component
 {
@@ -130,7 +132,26 @@ class Orders extends Component
     public function render()
     {
 
-        $this->minings = EshopPurchaseDetail::all();
+
+        $store = Stores::where('franchise_id', auth()->user()->user_id)->first();
+        $storeId =  $store->id;
+
+
+       
+    
+
+
+        // $this->minings = EshopPurchaseDetail::where('seller_id',$store->id)->get();
+
+        $this->minings = EshopPurchaseDetail::query()
+        ->leftJoin('users', 'eshop_purchase_detail.user_id', '=', 'users.id')
+        ->select('eshop_purchase_detail.*', 'users.name as user_name')
+        ->where('seller_id',$store->id)
+        ->get();
+
+        
+
+        // $this->minings = EshopPurchaseDetail::all();
         return view('livewire.orders');
     }
 }
