@@ -146,7 +146,7 @@ class Orders extends Component
         $this->minings = EshopPurchaseDetail::query()
         ->leftJoin('users', 'eshop_purchase_detail.user_id', '=', 'users.id')
         ->select('eshop_purchase_detail.*', 'users.name as user_name')
-        ->where('seller_id',$store->id)
+        // ->where('seller_id',$store->id)
         ->get();
 
         
