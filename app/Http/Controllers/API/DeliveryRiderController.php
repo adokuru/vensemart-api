@@ -586,7 +586,12 @@ class DeliveryRiderController extends Controller
              Orders::where('id', $orderid)->update(['status' => "4"]);
 
 
+             Log::info("orderid : $order->driver_id");
+
+
              $this->addUserWallet($order->driver_id, $order->delivery_charge);
+
+
              $arr['status'] = 1;
              $arr['message'] = 'Order Completed Successfully!!';
              $arr['data'] = true;
@@ -607,6 +612,10 @@ class DeliveryRiderController extends Controller
         $driveramount = (int)$walletamount->amount;
         $net_earned_on_ride = (80 / 100) * $amount;
         $newamount = $driveramount + $net_earned_on_ride;
+        
+        Log::info("newamounnt : $newamount");
+
+        
         DB::table('my_wallet')->where('user_id', $userId)->update(['amount' => $newamount]);
 
     }
