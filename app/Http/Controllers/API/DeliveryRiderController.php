@@ -220,7 +220,7 @@ class DeliveryRiderController extends Controller
     public function dhome(Request $request)
     {
         try {
-            DB::table('users')->where('id', Auth::id())->update(['location_lat' => $request->location_lat, 'location_long' => $request->location_long]);
+            // DB::table('users')->where('id', Auth::id())->update(['location_lat' => $request->location_lat, 'location_long' => $request->location_long]);
             $total_order = DB::table('orders')->where('driver_id', Auth::id())->count();
             $total_earning = DB::table('my_wallet')->where('user_id', Auth::id())->sum('amount');
             $availibility = DB::table('users')->where('id', Auth::id())->where('status', '1')->first();
@@ -587,10 +587,6 @@ class DeliveryRiderController extends Controller
 
 
              $this->addUserWallet($order->driver_id, $order->delivery_charge);
-
-
-             
- 
              $arr['status'] = 1;
              $arr['message'] = 'Order Completed Successfully!!';
              $arr['data'] = true;
@@ -609,7 +605,7 @@ class DeliveryRiderController extends Controller
      public function addUserWallet($userId, $amount){
         $walletamount = DB::table('my_wallet')->where('user_id', $userId)->first();
         $driveramount = (int)$walletamount->amount;
-        $net_earned_on_ride = (85 / 100) * $amount;
+        $net_earned_on_ride = (80 / 100) * $amount;
         $newamount = $driveramount + $net_earned_on_ride;
         DB::table('my_wallet')->where('user_id', $userId)->update(['amount' => $newamount]);
 
