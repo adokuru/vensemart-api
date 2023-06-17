@@ -27,12 +27,12 @@
                                                        
                                                         <th class="tb-tnx-amount is-alt">
                                                             <span class="tb-tnx-total">Net Price</span>
-                                                            <!--<span class="tb-tnx-status d-none d-md-inline-block">coin option</span>-->
+                                                            <!-- <span class="tb-tnx-status d-none d-md-inline-block">Invoice Number</span> -->
                                                         </th>
-                                                        <!-- <th class="tb-tnx-amount is-alt">
-                                                            <span class="tb-tnx-total">Total</span>
-                                                            <span class="tb-tnx-status d-none d-md-inline-block">Status</span>
-                                                        </th> -->
+                                                        <!-- <th class="tb-tnx-amount is-alt"> -->
+                                                            <!-- <span class="tb-tnx-total">Invoice Number</span> -->
+                                                            <!-- <span class="tb-tnx-status d-none d-md-inline-block">Status</span> -->
+                                                        <!-- </th> -->
                                                         <th class="tb-tnx-action">
                                                             <span>&nbsp;</span>
                                                         </th>
@@ -61,15 +61,17 @@
                                                         </td>
                                                        
 
-                                                        <td class="tb-tnx-amount is-alt">
+                                                        <td class="tb-tnx-amount is-alt ">
                                                             <div class="tb-tnx-total">
                                                                 <span class="amount">&#8358;{{$data->net_price }}</span>
+                                                                <!-- <span class="amount">{{$data->invoice_number }}</span> -->
+                                                                
                                                             </div>
-                                                            <div class="tb-tnx-status">
+                                                            <!-- <div class="tb-tnx-status">
                                                                 
                                                              
-                                                            
-                                                            </div>
+                                                           
+                                                            </div> -->
                                                         </td>
 
 
