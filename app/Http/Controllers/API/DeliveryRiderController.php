@@ -584,28 +584,31 @@ class DeliveryRiderController extends Controller
             }
 
 
-        $walletamount = DB::table('my_wallet')->where('user_id', $order->driver)->first();
+        $walletamount = DB::table('my_wallet')->where('user_id', $order->driver_id)->first();
+
+        Log::info("orderid : $order->driver_id");
+
         $driveramount = (int)$walletamount->amount;
+
+        Log::info("delivery charge : $order->delivery_charge");
+        
         $net_earned_on_ride = (80 / 100) * $order->delivery_charge;
         $newamount = $driveramount + $net_earned_on_ride;
         
         Log::info("newamounnt : $newamount");
 
         
-        DB::table('my_wallet')->where('user_id', $userId)->update(['amount' => $newamount]);
+        DB::table('my_wallet')->where('user_id', $order->driver_id)->update(['amount' => $newamount]);
         
        
-
-        
-        DB::table('my_wallet')->where('user_id', $userId)->update(['amount' => $newamount]);
  
-             Orders::where('id', $orderid)->update(['status' => "4"]);
+        Orders::where('id', $orderid)->update(['status' => "4"]);
 
 
-             Log::info("orderid : $order->driver_id");
+      Log::info("orderid : $order->driver_id");
 
 
-             $this->addUserWallet($order->driver_id, $order->delivery_charge);
+     //  $this->addUserWallet($order->driver_id, $order->delivery_charge);
 
 
              $arr['status'] = 1;
