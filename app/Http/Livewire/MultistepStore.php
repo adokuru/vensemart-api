@@ -219,11 +219,13 @@ class MultistepStore extends Component
 
         $destinationPath = 'shop_images'; 
 
-        $extension = $this->fileName->getClientOriginalExtension(); 
+        
 
 
-        if($extension !== null){
+        if($this->fileName->getClientOriginalExtension() !== null){
 
+
+            $extension = $this->fileName->getClientOriginalExtension(); 
 
 
           
