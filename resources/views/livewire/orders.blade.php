@@ -48,7 +48,7 @@
                                       <!-- <div class="nk-tnx-type-icon bg-success-dim text-success">
                                        <em class="icon ni ni-arrow-up-right"></em>
                                       </div> -->
-                                         {{ $data->user_name }} </span></a>
+                                         {{ $data->user_name ?? 'No UserName'}} </span></a>
                                                         </td>
                                                         <td class="tb-tnx-info">
                                                             <div class="tb-tnx-desc">
