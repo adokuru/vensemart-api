@@ -143,10 +143,17 @@ class Orders extends Component
 
         // $this->minings = EshopPurchaseDetail::where('seller_id',$store->id)->get();
 
-        $this->minings = EshopPurchaseDetail::query()
-        ->leftJoin('users', 'eshop_purchase_detail.user_id', '=', 'users.id')
-        ->select('eshop_purchase_detail.*', 'users.name as user_name')
-        // ->where('seller_id',$store->id)
+        // $this->minings = EshopPurchaseDetail::query()
+        // ->leftJoin('users', 'eshop_purchase_detail.user_id', '=', 'users.id')
+        // ->select('eshop_purchase_detail.*', 'users.name as user_name')
+        // // ->where('seller_id',$store->id)
+        // ->get();
+
+
+        $this->minings = Order::query()
+        ->leftJoin('users', 'orders.user_id', '=', 'users.id')
+        ->select('orders.*', 'users.name as user_name')
+        ->where('shop_id',$store->id)
         ->get();
 
         

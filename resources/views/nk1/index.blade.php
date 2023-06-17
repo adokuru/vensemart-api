@@ -183,16 +183,16 @@
                                                         <div class="invest-data-amount g-2">
                                                             <div class="invest-data-history">
                                                                 <div class="title">This Month</div>
-                                                                <div class="amount">{{ $salesCount }} <span class="currency currency-usd"> </span></div>
+                                                                <div class="amount">{{ $salesCount }} Orders <span class="currency currency-usd"> </span></div>
                                                             </div>
                                                             <div class="invest-data-history">
                                                                 <div class="title">This Week</div>
-                                                                <div class="amount">{{ $salesCount }} <span class="currency currency-usd"> </span></div>
+                                                                <div class="amount">{{ $salesCount }} Orders<span class="currency currency-usd"> </span></div>
                                                             </div>
 
                                                             <div class="invest-data-history">
                                                                 <div class="title">Today</div>
-                                                                <div class="amount">{{ $salesCount }} <span class="currency currency-usd"> </span></div>
+                                                                <div class="amount">{{ $salesCount }} Orders<span class="currency currency-usd"> </span></div>
                                                             </div>
                                                         </div>
                                                         <div class="invest-data-ck">
