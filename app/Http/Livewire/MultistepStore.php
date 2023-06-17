@@ -215,11 +215,22 @@ class MultistepStore extends Component
             // ]);
         //    $poc = PocRegistration::find(auth()->user()->id)->first();
 
-           $store =  Stores::where('franchise_id', auth()->user()->user_id)->first();
+        $store =  Stores::where('franchise_id', auth()->user()->user_id)->first();
 
-           $destinationPath = 'shop_images'; 
+        $destinationPath = 'shop_images'; 
 
         $extension = $this->fileName->getClientOriginalExtension(); 
+
+
+        if($extension !== null){
+
+
+
+          
+
+        // $destinationPath = 'shop_images'; 
+
+        // $extension = $this->fileName->getClientOriginalExtension(); 
 
         $fileName = rand(1000,500000).$this->store_name . '.' . $extension;
         
@@ -241,7 +252,34 @@ class MultistepStore extends Component
              
              toastr()->success('Store information has been updated successfully!');
        
-            
+             return redirect('/collectors');
+          
+
+
+
+        }else{
+
+            $store->update([
+                'address' => $this->address, 
+              //   'lati'=> 'Abuja', 
+              //    'longi'=> 'Abuja', 
+                // 'status' => 2,
+                // 'store_image' => $this->store_image,
+                'store_name' => $this->store_name, 
+                  
+               ]);
+
+            toastr()->success('Store information has been updated successfully!');
+       
+             return redirect('/collectors');
+
+
+
+
+
+        }
+
+           
     
             
             // $validate = $this->validate([
@@ -265,7 +303,6 @@ class MultistepStore extends Component
        
             // Products::create($validate);
            
-            return redirect('/collectors');
           
            
   
