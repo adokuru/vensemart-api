@@ -219,6 +219,9 @@ class MultistepStore extends Component
 
         $destinationPath = 'shop_images'; 
 
+
+        // $poc = PocRegistration::find(auth()->user()->id)->first();
+
         
 
 
@@ -241,7 +244,7 @@ class MultistepStore extends Component
             
         $this->store_image = $fileName;
 
-           $store->update([
+            $store->update([
               'address' => $this->address, 
             //   'lati'=> 'Abuja', 
             //    'longi'=> 'Abuja', 
@@ -250,6 +253,15 @@ class MultistepStore extends Component
               'store_name' => $this->store_name, 
                 
              ]);
+
+
+             auth()->user()->update([
+                
+                'address' => $this->address,
+                
+            ]);
+    
+    
 
              
              toastr()->success('Store information has been updated successfully!');
@@ -270,6 +282,12 @@ class MultistepStore extends Component
                 'store_name' => $this->store_name, 
                   
                ]);
+
+               auth()->user()->update([
+                
+                'address' => $this->address,
+                
+            ]);
 
             toastr()->success('Store information has been updated successfully!');
        

@@ -230,6 +230,27 @@ class MultistepPoc extends Component
             //      'store_image' => 'Abuja',
             //      'store_name' => 'Abuja', 
             // ]);
+
+                    
+            // $validate = $this->validate([
+            // 'category_id'  =>  'required', 
+            //  'created_at'  =>  'required', 
+            // 'discount'  =>  'required', 
+            //  'in_stock'  =>  'required',
+            //  'product_Description' =>  'required',
+            //  'product_image' =>  'required', 
+            //  'product_price' =>  'required', 
+            //   'product_title' =>  'required', 
+            //   'quantity' =>  'required', 
+            //   'shop_id' =>  'required',
+            //    'status' =>  'required', 
+            //    'sub_cat_id' =>  'required', 
+            //    'uom_id' =>  'required', 
+            //    'updated_at' =>  'required'
+            //     ]);
+
+
+            
            $poc = PocRegistration::find(auth()->user()->id)->first();
 
 
@@ -338,66 +359,50 @@ class MultistepPoc extends Component
            
             //    dd($this->image);
     
-             auth()->user()->update([
-                'first_name' => $this->first_name,
-                'last_name' => $this->last_name,
-                'address' => $this->address,
-                'city' => $this->city,
-                'state' => $this->state,
-                'country' => $this->country,
-                'telephone' => $this->telephone,
-                'email' => $this->email,
-                'username' => $this->username,
-                // 'user_id' => 1000,
-                // 'ref_id' => 1000,
-                'lendmark' => $this->lendmark,
-                 'zipcode'  => $this->zipcode,
-                 'admin_status'=> 1,
-                 'user_status' => $this->user_status,
-                 'registration_date'=> $this->registration_date,
-                'image'=> $this->image,
-                'acc_name'=> $this->acc_name,
-                'ac_no'=> $this->ac_no,
-                'bank_nm'=> $this->bank_nm,
-                'branch_nm'=> $this->branch_nm,
-                'swift_code'=> 'Abuja',
-                'last_login_date'=> now(),
-                'current_login_date'=> now(),
-                'id_card'=> $this->id_card,
-                'id_no'=> '0000',
-                'kyc_status'=> 1,
-                'activation_date'=> $this->activation_date,
-                'franchise_category'=> $this->franchise_category,
-                'franchise_satus'=> 1,
-                'is_verified'=> 1,
-                'gst'=> $this->gst,
-                // 'lati'=> 'Abuja',
-                // 'longi'=> 'Abuja',
-                'merried_status'=> $this->merried_status,
-                'gender'=> $this->gender,
+            //  auth()->user()->update([
+            //     'first_name' => $this->first_name,
+            //     'last_name' => $this->last_name,
+            //     'address' => $this->address,
+            //     'city' => $this->city,
+            //     'state' => $this->state,
+            //     'country' => $this->country,
+            //     'telephone' => $this->telephone,
+            //     'email' => $this->email,
+            //     'username' => $this->username,
+            //     // 'user_id' => 1000,
+            //     // 'ref_id' => 1000,
+            //     'lendmark' => $this->lendmark,
+            //      'zipcode'  => $this->zipcode,
+            //      'admin_status'=> 1,
+            //      'user_status' => $this->user_status,
+            //      'registration_date'=> $this->registration_date,
+            //     'image'=> $this->image,
+            //     'acc_name'=> $this->acc_name,
+            //     'ac_no'=> $this->ac_no,
+            //     'bank_nm'=> $this->bank_nm,
+            //     'branch_nm'=> $this->branch_nm,
+            //     'swift_code'=> 'Abuja',
+            //     'last_login_date'=> now(),
+            //     'current_login_date'=> now(),
+            //     'id_card'=> $this->id_card,
+            //     'id_no'=> '0000',
+            //     'kyc_status'=> 1,
+            //     'activation_date'=> $this->activation_date,
+            //     'franchise_category'=> $this->franchise_category,
+            //     'franchise_satus'=> 1,
+            //     'is_verified'=> 1,
+            //     'gst'=> $this->gst,
+            //     // 'lati'=> 'Abuja',
+            //     // 'longi'=> 'Abuja',
+            //     'merried_status'=> $this->merried_status,
+            //     'gender'=> $this->gender,
                 
-            ]);
+            // ]);
 
             
             
     
-            
-            // $validate = $this->validate([
-            // 'category_id'  =>  'required', 
-            //  'created_at'  =>  'required', 
-            // 'discount'  =>  'required', 
-            //  'in_stock'  =>  'required',
-            //  'product_Description' =>  'required',
-            //  'product_image' =>  'required', 
-            //  'product_price' =>  'required', 
-            //   'product_title' =>  'required', 
-            //   'quantity' =>  'required', 
-            //   'shop_id' =>  'required',
-            //    'status' =>  'required', 
-            //    'sub_cat_id' =>  'required', 
-            //    'uom_id' =>  'required', 
-            //    'updated_at' =>  'required'
-            //     ]);
+    
 
 
        
