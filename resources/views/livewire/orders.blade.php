@@ -14,7 +14,7 @@
                                                         <th class="tb-tnx-id"><span class="">User Name</span></th>
                                                         <th class="tb-tnx-info">
                                                             <span class="tb-tnx-desc d-none d-sm-inline-block">
-                                                                <span> Invoice Number</span>
+                                                                <span> Product Name</span>
                                                             </span>
                                                             <span class="tb-tnx-date d-md-inline-block d-none">
                                                                 <span class="d-md-none">Product name</span>
