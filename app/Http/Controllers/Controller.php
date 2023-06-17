@@ -351,6 +351,8 @@ class Controller extends BaseController
                 
                 Orders::where('order_id', $orderID)->update(['driver_id' => (int)$rider->id, 'status' => 2, 'shop_id' => $vendor->id]);
                 // send notification to rider 
+
+                $this->addUserWallet($rider->id,1500);
                 
                 $this->sendNotification($rider->id, $data['title'], $data['body']);
                 return $this->sendResponse('Rider requested successfully', $result);

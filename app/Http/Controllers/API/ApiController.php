@@ -666,7 +666,7 @@ class ApiController extends Controller
                 $arr['data'] = NULL;
             } else {
                 $cart_details['subtotal'] = DB::table('cart')->where('user_id', $user_id)->sum('net_amount');
-                $cart_details['delivery_charge'] = "500"; // TODO : Change it to dynamic
+                $cart_details['delivery_charge'] = "1500"; // TODO : Change it to dynamic
                 $cart_details['grand_total'] = $cart_details['subtotal'] + $cart_details['delivery_charge'];
 
                 $arr['status'] = 1;
