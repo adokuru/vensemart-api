@@ -26,7 +26,7 @@ use App\Models\Orders;
 
 
 Route::get('/', function () {
-    return view('outer_files/dup');
+    return view('outer_files/index');
 })->middleware(['auth', 'verified']);
 
 Auth::routes();
