@@ -54,7 +54,7 @@ left: 50%;
                             <div class="nk-sidebar-widget d-none d-xl-block">
                                 <div class="user-account-info between-center">
                                     <div class="user-account-main">
-                                        <h6 class="overline-title-alt">Available Balance</h6>
+                                        <h6 class="overline-title-alt">Hi, {{ auth()->user()->first_name }}<br/> Available Balance</h6>
                                         <div class="user-balance">0 <small class="currency currency-btc">NGN</small></div>
                                        
                                     </div>
