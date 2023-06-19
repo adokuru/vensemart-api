@@ -26,7 +26,25 @@ use App\Models\Orders;
 
 
 Route::get('/', function () {
-    return view('nk1/index');
+    $store = Stores::where('franchise_id', auth()->user()->user_id)->first();
+
+    $storeId =  $store->id;
+
+    $productsCount = Products::where('shop_id',$store->id)->count();
+
+    $ordersCount = Orders::where('shop_id',$store->id)->count();
+
+    $salesCount = Orders::where('shop_id',$store->id)->where('status', 4)->count();
+    $pendingCount = Orders::where('shop_id',$store->id)->where('status', 3)->count();
+
+
+return view('nk1/index',[
+    "productsCount" => $productsCount,
+    "ordersCount" => $ordersCount,
+    "salesCount" => $salesCount,
+    "pendingCount" => $pendingCount,
+]
+);
 })->middleware(['auth', 'verified']);
 
 Auth::routes();
