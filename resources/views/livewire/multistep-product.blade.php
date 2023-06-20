@@ -84,14 +84,14 @@
   
   <div class="form-group">
   <label for="product_price">Product Price(&#8358;)</label>
-      <input type="number" class="form-control" placeholder="product_price" wire:model="product_price">
+      <input type="number" inputmode="numeric" pattern="[0-9]*" class="form-control" placeholder="product_price" wire:model="product_price">
       @error('product_price') <span class="text-danger">{{ $message }}</span> @enderror
   </div>
 
 
   <div class="form-group">
   <label for="discount">Discount Price(&#8358;)</label>
-      <input type="number" class="form-control" placeholder="discount" wire:model="discount">
+      <input type="number" inputmode="numeric" pattern="[0-9]*" class="form-control" placeholder="discount" wire:model="discount">
       @error('discount') <span class="text-danger">{{ $message }}</span> @enderror
   </div>
 
@@ -153,13 +153,13 @@
 
 <div class="form-group">
   <label for="Quantity">Product Quantity Available</label>
-      <input type="number" class="form-control" placeholder="quantity" wire:model="quantity" >
+      <input type="number" inputmode="numeric" pattern="[0-9]*" class="form-control" placeholder="quantity" wire:model="quantity" >
       @error('quantity') <span class="text-danger">{{ $message }}</span> @enderror
   </div>
   
   <div class="form-group">
   <label for="product_weight">Product Weight(kg)</label>
-      <input type="number" class="form-control" placeholder="product_weight" wire:model="product_weight">
+      <input type="number" inputmode="numeric" pattern="[0-9]*"  class="form-control" placeholder="product_weight" wire:model="product_weight">
       @error('product_weight') <span class="text-danger">{{ $message }}</span> @enderror
   </div>
 
