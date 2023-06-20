@@ -116,7 +116,7 @@ class MultistepProduct extends Component
               $this->validate([
                  'quantity'=>'required|numeric',
                  'product_weight'=>'required|numeric',
-                 'fileName' => 'required|image|max:1024',
+                 'fileName' => 'required',
                 //  'crypto_amount'=>'required|numeric',
               ]);
         }
