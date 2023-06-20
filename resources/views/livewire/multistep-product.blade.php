@@ -284,7 +284,7 @@
             @endif
 
             @if ($currentStep == 2 || $currentStep == 3 || $currentStep == 4)
-            <a wire:click="decreaseStep()" class="btn btn-outline-light bg-white d-none d-sm-inline-flex"><em class="icon ni ni-arrow-left"></em><span>Back</span></a>
+            <button type="button" class="btn btn-md btn-secondary" wire:click="decreaseStep()">Back</button>
             @endif
             
             @if ($currentStep == 1 || $currentStep == 2 || $currentStep == 3)
