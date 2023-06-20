@@ -78,7 +78,7 @@
  
   <div class="form-group">
   <label for="platform">Product title</label>
-      <input type="text" class="form-control" placeholder="product_title" wire:model="product_title">
+      <input type="text" class="form-control"  placeholder="product_title" wire:model="product_title">
       @error('product_title') <span class="text-danger">{{ $message }}</span> @enderror
   </div>
   
@@ -180,7 +180,7 @@
 
  <div class="form-group">
   <label for="Net">Product image</label>
-      <input type="file" class="form-control" placeholder="fileName" wire:model="fileName" >
+      <input type="file" accept="image/*" class="form-control" placeholder="fileName" wire:model="fileName" >
       @error('fileName') <span class="text-danger">{{ $message }}</span> @enderror
   </div>
 
