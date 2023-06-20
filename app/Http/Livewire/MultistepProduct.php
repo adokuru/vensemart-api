@@ -104,11 +104,23 @@ class MultistepProduct extends Component
             // ]);
         }
         elseif($this->currentStep == 2){
-            //   $this->validate([
-            //      'payment'=>'required|numeric',
-            //     //  'crypto_amount'=>'required|numeric',
-            //   ]);
+              $this->validate([
+                 'product_title'=>'required',
+                 'product_price'=>'required|numeric',
+                 'discount'=>'required|numeric',
+                 'product_Description'=>'required',
+              ]);
         }
+
+        elseif($this->currentStep == 3){
+              $this->validate([
+                 'quantity'=>'required|numeric',
+                 'product_weight'=>'required|numeric',
+                 'fileName' => 'required|image|max:1024',
+                //  'crypto_amount'=>'required|numeric',
+              ]);
+        }
+        
         
     }
 

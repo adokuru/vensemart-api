@@ -181,7 +181,7 @@
  <div class="form-group">
   <label for="Net">Product image</label>
       <input type="file" class="form-control" placeholder="fileName" wire:model="fileName" >
-      @error('product_image') <span class="text-danger">{{ $message }}</span> @enderror
+      @error('fileName') <span class="text-danger">{{ $message }}</span> @enderror
   </div>
 
             
@@ -237,7 +237,7 @@
                                                             <ul class="d-flex g-3 gx-5">
                                                                 <li>
                                                                     <div class="fs-14px text-muted">Product Weight</div>
-                                                                    <div class="fs-16px fw-bold text-secondary">{{ $product_weight}} kg</div>
+                                                                    <div class="fs-16px fw-bold text-secondary">{{ $product_weight ?? 'no product weight' }} kg</div>
                                                                 </li>
 
                                                                 <li>
@@ -252,7 +252,7 @@
                                                             <ul class="d-flex g-3 gx-5">
                                                                 <li>
                                                                     <div class="fs-14px text-muted">Quantity</div>
-                                                                    <div class="fs-16px fw-bold text-secondary">{{ $quantity ?? '0.00'}}</div>
+                                                                    <div class="fs-16px fw-bold text-secondary">{{ $quantity ?? 'No Quantity available'}}</div>
                                                                 </li>
                                                                 <!-- <li>
                                                                     <div class="fs-14px text-muted">Model Number</div>

@@ -48,7 +48,7 @@ return view('nk1/index',[
 })->middleware(['auth', 'verified']);
 
 Auth::routes();
-
+   
 Route::get('/home', 
    function(){
     return view('outer_files/dup');
