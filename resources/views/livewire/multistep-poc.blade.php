@@ -215,51 +215,51 @@
          @if ($currentStep == 3)
              
      
-         <div class="step-three">
-             <div class="card">
-                 <div class="card-header bg-secondary text-white">STEP 3/4 - Bank Details</div>
-                 <div class="card-body">
-                     
-                 <!-- 'acc_name'=> 'Abuja',
-                'ac_no'=> 'Abuja',
-                'bank_nm'=> 'Abuja',
-                'branch_nm'=> 'Abuja',
-                'swift_code'=> 'Abuja', -->
+        <div class="step-three">
+            <div class="card">
+                <div class="card-header bg-secondary text-white">STEP 3/4 - Bank Details</div>
+                <div class="card-body">
+                    
+                <!-- 'acc_name'=> 'Abuja',
+            'ac_no'=> 'Abuja',
+            'bank_nm'=> 'Abuja',
+            'branch_nm'=> 'Abuja',
+            'swift_code'=> 'Abuja', -->
 
-                     <div class="form-group">
-  <label for="acc_name">Account Name</label>
-      <input type="text" class="form-control" placeholder="acc_name" wire:model="acc_name" >
-      @error('acc_name') <span class="text-danger">{{ $message }}</span> @enderror
-  </div>
-
-
-  <div class="form-group">
-  <label for="ac_no">Account Number</label>
-      <input type="text" class="form-control" placeholder="ac_no" wire:model="ac_no" >
-      @error('roiu') <span class="text-danger">{{ $message }}</span> @enderror
-  </div>
-
-  
-
-  <div class="form-group">
-  <label for="bank_nm">Bank Name</label>
-      <input type="text" class="form-control" placeholder="bank_nm" wire:model="bank_nm" >
-      @error('bank_nm') <span class="text-danger">{{ $message }}</span> @enderror
-  </div>
+                    <div class="form-group">
+<label for="acc_name">Account Name</label>
+    <input type="text" class="form-control" placeholder="acc_name" wire:model="acc_name" >
+    @error('acc_name') <span class="text-danger">{{ $message }}</span> @enderror
+</div>
 
 
-  <div class="form-group">
-  <label for="branch_nm">Branch Name</label>
-      <input type="text" class="form-control" placeholder="branch_nm" wire:model="branch_nm" >
-      @error('roiu') <span class="text-danger">{{ $message }}</span> @enderror
-  </div>
+<div class="form-group">
+<label for="ac_no">Account Number</label>
+    <input type="text" class="form-control" placeholder="ac_no" wire:model="ac_no" >
+    @error('roiu') <span class="text-danger">{{ $message }}</span> @enderror
+</div>
 
 
 
-            
-                 </div>
-             </div>
-         </div>
+<div class="form-group">
+<label for="bank_nm">Bank Name</label>
+    <input type="text" class="form-control" placeholder="bank_nm" wire:model="bank_nm" >
+    @error('bank_nm') <span class="text-danger">{{ $message }}</span> @enderror
+</div>
+
+
+<div class="form-group">
+<label for="branch_nm">Branch Name</label>
+    <input type="text" class="form-control" placeholder="branch_nm" wire:model="branch_nm" >
+    @error('roiu') <span class="text-danger">{{ $message }}</span> @enderror
+</div>
+
+
+
+        
+                </div>
+            </div>
+        </div>
          @endif
 
          {{-- STEP 4 --}}
@@ -273,6 +273,7 @@
          
              <div class="card">
                  <div class="card-header bg-secondary text-white">STEP 4/4 - Overview</div>
+
                  <div class="container-fluid">
                         <div class="nk-content-inner">
                             <div class="nk-content-body">
@@ -302,9 +303,9 @@
                                                         <div class="data-item" data-toggle="modal" data-target="#profile-edit">
                                                             <div class="data-col">
                                                                 <span class="data-label">Display Name</span>
-                                                                <span class="data-value">{{$first_name}} {{$last_name }}</span>
+                                                                <span class="data-value">{{$first_name}}</span>
                                                             </div>
-                                                            <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
+                                                            <div class="data-col data-col-end"></div>
                                                         </div><!-- data-item -->
 
                                                        
@@ -318,21 +319,22 @@
                                                         </div><!-- data-item -->
 
 
-                                                        <div class="data-item" data-toggle="modal" data-target="#profile-edit">
+                                                        <!-- <div class="data-item" data-toggle="modal" data-target="#profile-edit">
                                                             <div class="data-col">
                                                                 <span class="data-label">Display Picture</span>
                                                                 
                                                                 <span class="data-value"><img width="50" height="50" src="{{ asset('/storage/vendor_images/'.$image) }}" /></span>
                                                             </div>
-                                                            <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
-                                                        </div><!-- data-item -->
+                                                            <div class="data-col data-col-end"></div>
+                                                        </div> -->
+                                                        <!-- data-item -->
 
                                                         <div class="data-item" data-toggle="modal" data-target="#profile-edit">
                                                             <div class="data-col">
                                                                 <span class="data-label">Address</span>
                                                                 <span class="data-value">{{ $address }}</span>
                                                             </div>
-                                                            <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
+                                                            <div class="data-col data-col-end"></div>
                                                         </div><!-- data-item -->
 
                                                         <div class="data-item" data-toggle="modal" data-target="#profile-edit">
@@ -340,7 +342,7 @@
                                                                 <span class="data-label">Bank</span>
                                                                 <span class="data-value">{{ $bank_nm }}</span>
                                                             </div>
-                                                            <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
+                                                            <div class="data-col data-col-end"></div>
                                                         </div><!-- data-item -->
                                                         
 
@@ -351,21 +353,21 @@
                                                                 <span class="data-label">Phone Number</span>
                                                                 <span class="data-value text-soft">{{ $telephone }}</span>
                                                             </div>
-                                                            <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
+                                                            <div class="data-col data-col-end"></div>
                                                         </div><!-- data-item -->
                                                         <!-- <div class="data-item" data-toggle="modal" data-target="#profile-edit">
                                                             <div class="data-col">
                                                                 <span class="data-label">Date of Birth</span>
                                                                 <span class="data-value">29 Feb, 1986</span>
                                                             </div>
-                                                            <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
+                                                            <div class="data-col data-col-end"></div>
                                                         </div>data-item -->
                                                         <!-- <div class="data-item" data-toggle="modal" data-target="#profile-edit" data-tab-target="#address">
                                                             <div class="data-col">
                                                                 <span class="data-label">Address</span>
                                                                 <span class="data-value">2337 Kildeer Drive,<br>Kentucky, Canada</span>
                                                             </div>
-                                                            <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
+                                                            <div class="data-col data-col-end"></div>
                                                         </div>data-item -->
                                                     </div><!-- data-list -->
                                                     <div class="nk-data data-list">
@@ -429,7 +431,7 @@
             @endif
 
             @if ($currentStep == 2 || $currentStep == 3 || $currentStep == 4)
-            <a wire:click="decreaseStep()" class="btn btn-outline-light bg-white d-none d-sm-inline-flex"><em class="icon ni ni-arrow-left"></em><span>Back</span></a>
+            <button type="button" class="btn btn-md btn-secondary" wire:click="decreaseStep()">Back</button>
             @endif
             
             @if ($currentStep == 1 || $currentStep == 2 || $currentStep == 3)

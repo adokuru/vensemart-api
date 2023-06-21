@@ -247,7 +247,7 @@ class MultistepProduct extends Component
             toastr()->success('Product has been created successfully!');
             session()->flash('message', 'product created successfully successfully.');
             
-            return redirect('collectors');
+            return redirect('duppp');
           
            
   

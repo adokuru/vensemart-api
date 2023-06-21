@@ -10,7 +10,7 @@
     <!-- Fav Icon  -->
     <link rel="shortcut icon" href="{{ asset('https://vensemart.com/blocklive.com/images/favicon.ico') }}">
     <!-- Page Title  -->
-    <title> vensemart.com</title>
+    <title> Vensemart Vendor </title>
     <!-- StyleSheets  -->
     <link rel="stylesheet" href="{{ asset('nk5/assets/css/dashlite.css?ver=2.9.1') }}">
     <link id="skin-default" rel="stylesheet" href="{{ asset('nk5/assets/css/theme.css?ver=2.9.1') }}">
@@ -79,7 +79,7 @@ left: 50%;
                                 </div>
                             </div><!-- .nk-sidebar-widget -->
                             <div class="nk-sidebar-widget nk-sidebar-widget-full d-xl-none pt-0">
-                                <a class="nk-profile-toggle toggle-expand" data-target="sidebarProfile" href="#">
+                                <!-- <a class="nk-profile-toggle toggle-expand" data-target="sidebarProfile" href="#">
                                     <div class="user-card-wrap">
                                         <div class="user-card">
                                             <div class="user-avatar">
@@ -94,17 +94,17 @@ left: 50%;
                                             </div>
                                         </div>
                                     </div>
-                                </a>
-                                <div class="nk-profile-content toggle-expand-content" data-content="sidebarProfile">
+                                </a> -->
+                                <!-- <div class="nk-profile-content toggle-expand-content" data-content="sidebarProfile">
                                     <div class="user-account-info between-center">
                                         <div class="user-account-main">
                                             <h6 class="overline-title-alt">Available Balance</h6>
-                                            <div class="user-balance"> <small class="currency currency-btc">NGN</small></div>
+                                            <div class="user-balance"> <small class="currency currency-btc">NGN</small></div> -->
                                             <!--<div class="user-balance-alt">18,934.84 <span class="currency currency-btc">BTC</span></div>-->
-                                        </div>
+                                        <!-- </div>
                                         <a href="#" class="btn btn-icon btn-light"><em class="icon ni ni-line-chart"></em></a>
-                                    </div>
-                                    <ul class="user-account-data">
+                                    </div> -->
+                                    <!-- <ul class="user-account-data">
                                        
                                         <li>
                                             <div class="user-account-label">
@@ -114,20 +114,20 @@ left: 50%;
                                                 <span class="sub-text text-base"> <span class="currency currency-btc">NGN</span></span>
                                             </div>
                                         </li>
-                                    </ul>
-                                    <ul class="user-account-links">
+                                    </ul> -->
+                                    <!-- <ul class="user-account-links"> -->
                                         <!--<li><a href="#" class="link"><span>Withdraw Funds</span> <em class="icon ni ni-wallet-out"></em></a></li>-->
                                         <!--<li><a href="/deposit-create" class="link"><span>Deposit Funds</span> <em class="icon ni ni-wallet-in"></em></a></li>-->
-                                    </ul>
-                                    <ul class="link-list">
-                                        <li><a href="/profile"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
-                                        <li><a href="/profile-security"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>
-                                        <li><a href="/profile-activity"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li>
-                                    </ul>
-                                    <ul class="link-list">
-                                        <li><a href="/logout"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
-                                    </ul>
-                                </div>
+                                    <!-- </ul> -->
+                                    <!-- <ul class="link-list"> -->
+                                        <!-- <li><a href="/profile"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li> -->
+                                        <!-- <li><a href="/profile-security"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li> -->
+                                        <!-- <li><a href="/profile-activity"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li> -->
+                                    <!-- </ul> -->
+                                    <!-- <ul class="link-list"> -->
+                                        <!-- <li><a href="/logout"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li> -->
+                                    <!-- </ul> -->
+                                <!-- </div> -->
                             </div><!-- .nk-sidebar-widget -->
                             <div class="nk-sidebar-menu">
                                 <!-- Menu -->
@@ -227,7 +227,7 @@ left: 50%;
                                     
 
                                     <li class="nk-menu-heading">
-                                        <h6 class="overline-title">Vendor Details & Company</h6>
+                                        <h6 class="overline-title">Vendor Details & Store Details</h6>
                                     </li>
 
                                     <li class="nk-menu-item">
@@ -241,10 +241,17 @@ left: 50%;
                                     <li class="nk-menu-item">
                                         <a href="/dupp" class="nk-menu-link">
                                             <span class="nk-menu-icon"><em class="icon ni  ni-tranx"></em></span>
-                                            <span class="nk-menu-text">Company Details</span>
+                                            <span class="nk-menu-text">Store Details</span>
                                         </a>
                                     </li>
 
+
+                                    <li class="nk-menu-item">
+                                        <a href="/bank" class="nk-menu-link">
+                                            <span class="nk-menu-icon"><em class="icon ni  ni-tranx"></em></span>
+                                            <span class="nk-menu-text">Bank Details</span>
+                                        </a>
+                                    </li>
 
                                     <!-- <li class="nk-menu-heading">
                                         <h6 class="overline-title">Bank Details & Withdrawal</h6>
@@ -615,7 +622,7 @@ left: 50%;
                                                 <span class="nk-menu-icon"><em class="icon ni ni-globe"></em></span>
                                                 <span class="nk-menu-text">English</span>
                                             </a>
-                                            <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+                                            <!-- <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
                                                 <ul class="language-list">
                                                     <li>
                                                         <a href="#" class="language-item">
@@ -642,7 +649,7 @@ left: 50%;
                                                         </a>
                                                     </li>
                                                 </ul>
-                                            </div>
+                                            </div> -->
                                         </div>
                                     </li>
                                 </ul><!-- .nk-footer-menu -->
@@ -723,15 +730,15 @@ left: 50%;
                                                 </div>
                                             </div>
                                             <div class="dropdown-inner user-account-info">
-                                                <h6 class="overline-title-alt">Wallet Account</h6>
+                                                <h6 class="overline-title-alt"> Available balance</h6>
                                                 <div class="user-balance"> <small class="currency currency-btc">NGN</small></div>
                                                 <!--<div class="user-balance-sub">Locked <span>0.344939 <span class="currency currency-btc">BTC</span></span></div>-->
                                                 <!--<a href=/deposit-create class="link"><span>Deposit Funds</span> <em class="icon ni ni-wallet-out"></em></a>-->
                                             </div>
                                             <div class="dropdown-inner">
                                                 <ul class="link-list">
-                                                    <li><a href="/dup"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
-                                                    <li><a href="/profile-security"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>
+                                                    <li><a href="/profile"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
+                                                    <!-- <li><a href="/profile-security"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li> -->
                                                 
                                                     <li><a class="dark-switch" href="#"><em class="icon ni ni-moon"></em><span>Dark Mode</span></a></li>
                                                 </ul>
@@ -757,7 +764,7 @@ left: 50%;
                 <div class="nk-footer nk-footer-fluid">
                     <div class="container-fluid">
                         <div class="nk-footer-wrap">
-                            <div class="nk-footer-copyright"> &copy; 2017 vensemart.com. Blocklive <a href="vensemart.com">International Ltd</a>
+                            <div class="nk-footer-copyright"> &copy; 2017 vensemart.com <a href="vensemart.com">International Ltd</a>
                             </div>
                             <div class="nk-footer-links">
                                 <ul class="nav nav-sm">

@@ -803,6 +803,7 @@ $.ajax({
                                         <li class="nav-item">
                                             <a class="nav-link" href="#">Help</a>
                                         </li>
+<!--                                         
                                         <li class="nav-item dropup">
                                             <a class="dropdown-toggle dropdown-indicator has-indicator nav-link" data-toggle="dropdown" data-offset="0,10"><span>English</span></a>
                                             <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
@@ -833,7 +834,7 @@ $.ajax({
                                                     </li>
                                                 </ul>
                                             </div>
-                                        </li>
+                                        </li> -->
                                     </ul>
                                 </div>
                                 <div class="col-lg-6">
@@ -860,7 +861,7 @@ $.ajax({
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <a href="#" class="close" data-dismiss="modal"><em class="icon ni ni-cross-sm"></em></a>
-                <div class="modal-body modal-body-md">
+                <!-- <div class="modal-body modal-body-md">
                     <h5 class="title mb-4">Select Your Country</h5>
                     <div class="nk-country-region">
                         <ul class="country-list text-center gy-2">
@@ -974,7 +975,7 @@ $.ajax({
                             </li>
                         </ul>
                     </div>
-                </div>
+                </div> -->
             </div><!-- .modal-content -->
         </div><!-- .modla-dialog -->
     </div><!-- .modal -->

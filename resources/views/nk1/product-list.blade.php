@@ -709,32 +709,11 @@
                                         <a herf="#" class="dropdown-toggle dropdown-indicator has-indicator nav-link" data-toggle="dropdown" data-offset="0,10"><span>English</span></a>
                                         <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
                                             <ul class="language-list">
-                                                <li>
-                                                    <a href="#" class="language-item">
-                                                        <span class="language-name">English</span>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#" class="language-item">
-                                                        <span class="language-name">Español</span>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#" class="language-item">
-                                                        <span class="language-name">Français</span>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#" class="language-item">
-                                                        <span class="language-name">Türkçe</span>
-                                                    </a>
-                                                </li>
+                                               
                                             </ul>
                                         </div>
                                     </li>
-                                    <li class="nav-item">
-                                        <a href="#" data-toggle="modal" data-target="#region" class="nav-link"><em class="icon ni ni-globe"></em><span class="ml-1">Select Region</span></a>
-                                    </li>
+                                    
                                 </ul>
                             </div>
                         </div>
@@ -754,7 +733,7 @@
                 <a href="#" class="close" data-dismiss="modal"><em class="icon ni ni-cross-sm"></em></a>
                 <div class="modal-body modal-body-md">
                     <h5 class="title mb-4">Select Your Country</h5>
-                    <div class="nk-country-region">
+                    <!-- <div class="nk-country-region">
                         <ul class="country-list text-center gy-2">
                             <li>
                                 <a href="#" class="country-item">
@@ -865,7 +844,7 @@
                                 </a>
                             </li>
                         </ul>
-                    </div>
+                    </div> -->
                 </div>
             </div><!-- .modal-content -->
         </div><!-- .modla-dialog -->

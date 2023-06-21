@@ -10,9 +10,9 @@
                                 <div class="nk-block-head nk-block-head-sm">
                                     <div class="nk-block-between">
                                         <div class="nk-block-head-content">
-                                            <h3 class="nk-block-title page-title">Orders</h3>
+                                            <h3 class="nk-block-title page-title">Bank Details</h3>
                                             <div class="nk-block-des text-soft">
-                                                <p>Your Orders.</p>
+                                                <p>Bank Details</p>
                                             </div>
                                         </div><!-- .nk-block-head-content -->
                                         <div class="nk-block-head-content">
@@ -39,8 +39,8 @@
                                         </div><!-- .nk-block-head-content -->
                                     </div><!-- .nk-block-between -->
                                 </div><!-- .nk-block-head -->
-
-                                <livewire:orders-list />
+                                
+                                <livewire:multistep-bank />
                                 
                                 <br/>
                                 <!-- <div class="nk-block-head-content">
@@ -61,7 +61,7 @@
                 <div class="nk-footer">
                     <div class="container-fluid">
                         <div class="nk-footer-wrap">
-                            <div class="nk-footer-copyright"> &copy; 2022 <a href="https://mining.{{ config('app.name') }}.com" target="_blank">{{ config('app.name') }}</a>
+                            <div class="nk-footer-copyright"> &copy; 2022 <a href="vensemart.com" target="_blank">{{ config('app.name') }}</a>
                             </div>
                             <div class="nk-footer-links">
                                 <ul class="nav nav-sm">

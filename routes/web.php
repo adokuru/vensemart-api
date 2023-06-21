@@ -149,6 +149,10 @@ Route::get('/duppp', function(){
 })->middleware(['auth', 'verified'])->name('duppp');
 
 
+Route::get('/bank', function(){
+    return view('outer_files/bank');
+})->middleware(['auth', 'verified'])->name('duppp');
+
 Route::get('/orders', function(){
     return view('outer_files/orders');
 })->middleware(['auth', 'verified'])->name('orders');
@@ -164,9 +168,20 @@ Route::get('/records', function () {
 
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get(
+
+        '/profile', function(){
+
+            return view('outer_files/profile');
+
+        }
+    );
+
+    
+    // Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 
