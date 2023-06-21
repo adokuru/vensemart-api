@@ -44,7 +44,7 @@ class MultistepPoc extends Component
     public $terms;
     public $todos;
     public $us_balance,$todo;
-    public $totalSteps = 4;
+    public $totalSteps = 3;
     public $currentStep = 1;
     public $name;
     public $first_name;
@@ -194,7 +194,7 @@ class MultistepPoc extends Component
 
     public function register(){
           $this->resetErrorBag();
-          if($this->currentStep == 4){
+          if($this->currentStep == 3){
 
             // session()->flash('message', 'logged in successfully.');
             //   $this->validate([
@@ -283,15 +283,15 @@ class MultistepPoc extends Component
              'zipcode'  => $this->zipcode,
              'admin_status'=> 1,
              'user_status' => $this->user_status,
-             'registration_date'=> $this->registration_date,
+            //  'registration_date'=> $this->registration_date,
             'image'=> $this->image,
-            'acc_name'=> $this->acc_name,
-            'ac_no'=> $this->ac_no,
-            'bank_nm'=> $this->bank_nm,
-            'branch_nm'=> $this->branch_nm,
-            'swift_code'=> 'Abuja',
-            'last_login_date'=> now(),
-            'current_login_date'=> now(),
+            // 'acc_name'=> $this->acc_name,
+            // 'ac_no'=> $this->ac_no,
+            // 'bank_nm'=> $this->bank_nm,
+            // 'branch_nm'=> $this->branch_nm,
+            // 'swift_code'=> 'Abuja',
+            // 'last_login_date'=> now(),
+            // 'current_login_date'=> now(),
             'id_card'=> $this->id_card,
             'id_no'=> '0000',
             'kyc_status'=> 1,
@@ -327,14 +327,14 @@ class MultistepPoc extends Component
                  'zipcode'  => $this->zipcode,
                  'admin_status'=> 1,
                  'user_status' => $this->user_status,
-                 'registration_date'=> $this->registration_date,
-                'acc_name'=> $this->acc_name,
-                'ac_no'=> $this->ac_no,
-                'bank_nm'=> $this->bank_nm,
-                'branch_nm'=> $this->branch_nm,
-                'swift_code'=> 'Abuja',
-                'last_login_date'=> now(),
-                'current_login_date'=> now(),
+                //  'registration_date'=> $this->registration_date,
+                // 'acc_name'=> $this->acc_name,
+                // 'ac_no'=> $this->ac_no,
+                // 'bank_nm'=> $this->bank_nm,
+                // 'branch_nm'=> $this->branch_nm,
+                // 'swift_code'=> 'Abuja',
+                // 'last_login_date'=> now(),
+                // 'current_login_date'=> now(),
                 'id_card'=> $this->id_card,
                 'id_no'=> '0000',
                 'kyc_status'=> 1,

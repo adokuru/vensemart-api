@@ -151,13 +151,13 @@ Route::get('/duppp', function(){
 
 Route::get('/bank', function(){
     return view('outer_files/bank');
-})->middleware(['auth', 'verified'])->name('duppp');
+})->middleware(['auth', 'verified'])->name('bank');
 
 Route::get('/orders', function(){
     return view('outer_files/orders');
 })->middleware(['auth', 'verified'])->name('orders');
 
-Route::get('/dupp', function(){
+Route::get('/dupp ', function(){
     return view('outer_files/dupp');
 })->middleware(['auth', 'verified'])->name('dupp');
 

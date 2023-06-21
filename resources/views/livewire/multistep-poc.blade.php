@@ -46,7 +46,7 @@
       
          <div class="step-one">
              <div class="card">
-                 <div class="card-header bg-secondary text-white">STEP 1/4 - Personal Details</div>
+                 <div class="card-header bg-secondary text-white">STEP 1/3 - Personal Details</div>
                  <div class="card-body">
                     
                      <div class="row">
@@ -109,74 +109,13 @@
         
          <div class="step-two">
              <div class="card">
-                 <div class="card-header bg-secondary text-white">STEP 2/4 - User Details</div>
+                 <div class="card-header bg-secondary text-white">STEP 2/3 - User Details</div>
                  <div class="card-body">
                      <div class="row">
-                       
-
-
-                     <!-- 'address' => 'plot 360',
-                'city' => 'Abuja',
-                'state' => 'Abuja',
-                'country' => 'Nigeria',
-                'telephone' => '08033994499',
-                'email' => 'Candar@gmail.com',
-                'username' => 'Candar@gmail.com',
-                'user_id' => 1000,
-                'ref_id' => 1000,
-                'lendmark' => 'Abuja',
-                 'zipcode'  => 'Abuja',
-                 'admin_status'=> 1,
-                 'user_status' => 'Abuja',
-                 'registration_date'=> 'Abuja',
-                'image'=> 'Abuja',
-                'acc_name'=> 'Abuja',
-                'ac_no'=> 'Abuja',
-                'bank_nm'=> 'Abuja',
-                'branch_nm'=> 'Abuja',
-                'swift_code'=> 'Abuja',
-                'last_login_date'=> 'Abuja',
-                'current_login_date'=> 'Abuja',
-                'id_card'=> 'Abuja',
-                'id_no'=> 'Abuja',
-                'kyc_status'=> 1,
-                'activation_date'=> 'Abuja',
-                'franchise_category'=> 'Abuja',
-                'franchise_satus'=> 1,
-                'is_verified'=> 1,
-                'gst'=> 'Abuja',
-                'lati'=> 'Abuja',
-                'longi'=> 'Abuja',
-                'merried_status'=> 'Abuja',
-                'gender'=> 'Abuja',
-                 -->
-
-
-
-
-                
-
-
-
-
-
-
-    
-
+                    
 
  </div>
 
-
-  
- 
- 
- 
-
-  <!-- <div class="form-group">
-  <label for="address">Address</label>
-      <input type="text" class="form-control" placeholder="address" wire:model="address">
-      @error('address') <span class="text-danger">{{ $message }}</span> @enderror
-  </div> -->
 
   <div class="form-group">
   <label for="city">City</label>
@@ -210,60 +149,10 @@
          </div>
 
          @endif
+       
+
          {{-- STEP 3 --}}
-
          @if ($currentStep == 3)
-             
-     
-        <div class="step-three">
-            <div class="card">
-                <div class="card-header bg-secondary text-white">STEP 3/4 - Bank Details</div>
-                <div class="card-body">
-                    
-                <!-- 'acc_name'=> 'Abuja',
-            'ac_no'=> 'Abuja',
-            'bank_nm'=> 'Abuja',
-            'branch_nm'=> 'Abuja',
-            'swift_code'=> 'Abuja', -->
-
-                    <div class="form-group">
-<label for="acc_name">Account Name</label>
-    <input type="text" class="form-control" placeholder="acc_name" wire:model="acc_name" >
-    @error('acc_name') <span class="text-danger">{{ $message }}</span> @enderror
-</div>
-
-
-<div class="form-group">
-<label for="ac_no">Account Number</label>
-    <input type="text" class="form-control" placeholder="ac_no" wire:model="ac_no" >
-    @error('roiu') <span class="text-danger">{{ $message }}</span> @enderror
-</div>
-
-
-
-<div class="form-group">
-<label for="bank_nm">Bank Name</label>
-    <input type="text" class="form-control" placeholder="bank_nm" wire:model="bank_nm" >
-    @error('bank_nm') <span class="text-danger">{{ $message }}</span> @enderror
-</div>
-
-
-<div class="form-group">
-<label for="branch_nm">Branch Name</label>
-    <input type="text" class="form-control" placeholder="branch_nm" wire:model="branch_nm" >
-    @error('roiu') <span class="text-danger">{{ $message }}</span> @enderror
-</div>
-
-
-
-        
-                </div>
-            </div>
-        </div>
-         @endif
-
-         {{-- STEP 4 --}}
-         @if ($currentStep == 4)
              
      
          <div class="step-four">
@@ -272,7 +161,7 @@
           @endif
          
              <div class="card">
-                 <div class="card-header bg-secondary text-white">STEP 4/4 - Overview</div>
+                 <div class="card-header bg-secondary text-white">STEP 3/3 - Overview</div>
 
                  <div class="container-fluid">
                         <div class="nk-content-inner">
@@ -430,17 +319,17 @@
                 <div></div>
             @endif
 
-            @if ($currentStep == 2 || $currentStep == 3 || $currentStep == 4)
+            @if ($currentStep == 2 || $currentStep == 3)
             <button type="button" class="btn btn-md btn-secondary" wire:click="decreaseStep()">Back</button>
             @endif
             
-            @if ($currentStep == 1 || $currentStep == 2 || $currentStep == 3)
+            @if ($currentStep == 1 || $currentStep == 2)
                 <button type="button" class="btn btn-md btn-success" wire:click="increaseStep()">Next</button>
             @endif
             
-            @if ($currentStep == 4)
+            @if ($currentStep == 3)
            
-                 <button type="submit" class="btn btn-md btn-primary">Finish</button>
+                 <button type="submit" class="btn btn-md btn-primary">Save Information</button>
                 <!-- Creat Countdown Timer -->
   
 

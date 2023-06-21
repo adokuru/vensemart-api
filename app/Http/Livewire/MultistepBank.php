@@ -101,31 +101,16 @@ class MultistepBank extends Component
         // $this->user_id = auth()->user()->id;
         $this->currentStep = 1;
 
-
-        $store =  Stores::where('franchise_id', auth()->user()->user_id)->first();
-        $this->store_name = $store->store_name;
-        $this->store_image = $store->store_image;
-        $this->address = $store->address;
-        $this->name = auth()->user()->name;
-        $this->first_name =  auth()->user()->first_name;
-        $this->last_name =  auth()->user()->last_name;
-        $this->amount = 0;
-        $this->crypto_amount = 0;
-        $this->currency = 'btc';
-        $this->amount = 0;
-        $this->todos = Products::all();
+        $this->acc_name =  auth()->user()->acc_name;
+        $this->ac_no =  auth()->user()->ac_no;
+        $this->bank_nm =  auth()->user()->bank_nm;
+        $this->branch_nm =  auth()->user()->branch_nm;
+        $this->swift_code =  auth()->user()->swift_code;
+       
     }
     
     
-    
-     public function selectedPair($id){
-        $todo = Products::find($id);
-        $this->todo = $todo;
-        $this->todo_id = $todo->fileTitle;
-         $this->filename = $todo->fileName;
-        $this->increaseStep();
-    }
-
+   
 
 
     public function increaseStep(){
@@ -166,18 +151,23 @@ class MultistepBank extends Component
 
     public function register(){
           $this->resetErrorBag();
+
           if($this->currentStep == 2){
 
 
-
-        $store =  Stores::where('franchise_id', auth()->user()->user_id)->first();
-
-        
-        $store->update([
-            'address' => $this->address, 
-            'store_name' => $this->store_name, 
+        auth()->user()->update([
+            'acc_name'=> $this->acc_name,
+            'ac_no'=> $this->ac_no,
+            'bank_nm'=> $this->bank_nm,
+            'branch_nm'=> $this->branch_nm,
+            'swift_code'=> 'Abuja',
               
            ]);
+
+           toastr()->success('Bank information has been updated successfully!');
+       
+           return redirect('/index');
+        
             
           }
 
