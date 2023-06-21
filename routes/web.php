@@ -195,9 +195,10 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
     /*****************************End Existing User*************************************************/
 
     /***************************** Vendor***************************************/
-    Route::get('manage_vendor', [AdminController::class, 'vendors_list']);
+    Route::get('manage_vendor', [AdminController::class, 'vendors_list'])->name('vendors_list');
     Route::get('edit-vendor/{id}', [AdminController::class, 'edit_vendor']);
     Route::post('verify_vendor', [AdminController::class, 'verify_vendor']);
+    Route::get('existingvendor/delete/{key}', [AdminController::class, 'existingvendordelete']);
 
 
     /*****************************Manage New User***********************************/

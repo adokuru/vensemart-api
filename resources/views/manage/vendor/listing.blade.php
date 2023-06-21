@@ -68,7 +68,7 @@
                <?php  } ?></td>
                 <td>
                     <a href="{{url('admin/edit-vendor').'/'.$val->id }}"><i class="fas fa-edit"></i></a> |
-                    <a href="{{url('admin/new-user/delete').'/'.$val->id }}"><i class="fas fa-trash"></i></a>
+                    <a href="{{url('admin/existingvendor/delete').'/'.$val->id }}"><i class="fas fa-trash"></i></a>
                 </td>
               </tr>
               @endif

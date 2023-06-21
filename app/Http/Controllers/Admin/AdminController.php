@@ -207,6 +207,18 @@ class AdminController extends Controller
             </script>
         <?php
     }
+
+
+    public function existingvendordelete($id)
+    {
+       DB::table('poc_registration')->where('id',$id)->delete();
+       ?>
+       <script>
+           alert('Vendor Deleted Successfully!!');
+           window.location.href="<?php echo url('admin/manage_vendor'); ?>";
+       </script>
+       <?php
+    }
     
     public function managenew_edit(Request $request,$id)
     {
