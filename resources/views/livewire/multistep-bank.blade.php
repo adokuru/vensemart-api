@@ -61,13 +61,13 @@
          @if ($currentStep == 2)
              
      
-         <div class="step-four">
+         <div class="step-two">
          @if(session()->has('message'))
         <div class="alert alert-success">{{ session('message') }}</div>
           @endif
          
              <div class="card">
-                 <div class="card-header bg-secondary text-white">STEP 4/4 - Overview</div>
+                 <div class="card-header bg-secondary text-white">STEP 2/2 - Overview</div>
 
                  <div class="container-fluid">
                         <div class="nk-content-inner">
