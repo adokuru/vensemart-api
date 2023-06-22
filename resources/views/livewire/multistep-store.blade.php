@@ -90,7 +90,7 @@
         
          <div class="step-two">
              <div class="card">
-                 <div class="card-header bg-secondary text-white">STEP 2/4 - Amount</div>
+                 <div class="card-header bg-secondary text-white">STEP 2/4 - Address</div>
                  <div class="card-body">
                      <div class="row">
                        

@@ -53,7 +53,7 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:poc_registration'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
@@ -110,10 +110,10 @@ class RegisterController extends Controller
              'user_status' => 'Abuja',
              'registration_date'=> now(),
             'image'=> 'No image',
-            'acc_name'=> 'Abuja',
-            'ac_no'=> '00000000',
-            'bank_nm'=> 'Access',
-            'branch_nm'=> 'Main Branch',
+            'acc_name'=> '',
+            'ac_no'=> '',
+            'bank_nm'=> '',
+            'branch_nm'=> '',
             'swift_code'=> 'Enter Swift code',
             'last_login_date'=> now(),
             'current_login_date'=> now(),
