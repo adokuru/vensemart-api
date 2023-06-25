@@ -652,7 +652,7 @@ class ServiceProviderController extends Controller
                     )
                     ->where('users.type', 3)
                     ->where('users.service_type', '!=', null)
-                    ->distinct()
+                    ->groupBy('name', 'email')
                     ->leftJoin('serviceprovider_category', 'serviceprovider_category.id', '=', 'users.service_type')
                     ->leftJoin('servicebook_user', 'servicebook_user.service_pro_id', '=', 'users.id')
                     ->orderBy('distance', 'asc')
