@@ -656,8 +656,8 @@ class ServiceProviderController extends Controller
                     ->leftJoin('servicebook_user', 'servicebook_user.service_pro_id', '=', 'users.id')
                     ->orderBy('distance', 'asc')
                     ->orderBy('booking_count', 'desc')
-                    ->distinct()
                     ->limit(8)
+                    ->distinct()
                     ->get(8);
 
                 foreach ($data as $key => $value) {
