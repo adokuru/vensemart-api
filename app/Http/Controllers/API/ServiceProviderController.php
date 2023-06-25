@@ -728,7 +728,9 @@ class ServiceProviderController extends Controller
 
 
             foreach ($data as $key => $value) {
-                $data[$key]->profile = $value->profile ? url('storage/uploads/profile/' . $value->profile) : "https://www.nicepng.com/png/detail/933-9332131_profile-picture-default-png.png";
+                
+                $data[$key]->profile = $value->profile ? url('storage/uploads/profile/' . $value->profile) : "storage/uploads/profile/servicehomebg.png";
+                // $data[$key]->profile = $value->profile ? url('storage/uploads/profile/' . $value->profile) : "https://www.nicepng.com/png/detail/933-9332131_profile-picture-default-png.png";
             }
 
 
