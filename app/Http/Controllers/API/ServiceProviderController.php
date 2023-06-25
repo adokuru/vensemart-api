@@ -306,7 +306,7 @@ class ServiceProviderController extends Controller
 
 
             foreach ($data as $key => $value) {
-                $data[$key]->profile = $value->profile ? url('storage/uploads/profile/' . $value->profile) : "https://www.nicepng.com/png/detail/933-9332131_profile-picture-default-png.png";
+                $data[$key]->profile = $value->profile ? url('storage/uploads/profile/' . $value->profile) : "storage/uploads/profile/servicehomebg.png";
             }
 
             foreach ($data as $val) {
@@ -663,7 +663,7 @@ class ServiceProviderController extends Controller
                     ->get(8);
 
                 foreach ($data as $key => $value) {
-                    $data[$key]->profile = $value->profile ? url('storage/uploads/profile/' . $value->profile) : "https://www.nicepng.com/png/detail/933-9332131_profile-picture-default-png.png";
+                    $data[$key]->profile = $value->profile ? url('storage/uploads/profile/' . $value->profile) : "storage/uploads/profile/servicehomebg.png";
                 }
 
 
@@ -730,7 +730,7 @@ class ServiceProviderController extends Controller
             foreach ($data as $key => $value) {
                 
                 $data[$key]->profile = $value->profile ? url('storage/uploads/profile/' . $value->profile) : "storage/uploads/profile/servicehomebg.png";
-                // $data[$key]->profile = $value->profile ? url('storage/uploads/profile/' . $value->profile) : "https://www.nicepng.com/png/detail/933-9332131_profile-picture-default-png.png";
+                // $data[$key]->profile = $value->profile ? url('storage/uploads/profile/' . $value->profile) : "storage/uploads/profile/servicehomebg.png";
             }
 
 
@@ -819,7 +819,7 @@ class ServiceProviderController extends Controller
 
                 if (!empty($data[0])) {
                     foreach ($data as $key =>  $val) {
-                        $data[$key]->profile = $val->profile ? url('storage/uploads/profile/' . $val->profile) : "https://www.nicepng.com/png/detail/933-9332131_profile-picture-default-png.png";
+                        $data[$key]->profile = $val->profile ? url('storage/uploads/profile/' . $val->profile) : "storage/uploads/profile/servicehomebg.png";
                     }
                     $arr['status'] = 1;
                     $arr['message'] = 'Success';
@@ -841,7 +841,7 @@ class ServiceProviderController extends Controller
                     ->get();
                 if (!empty($data[0])) {
                     foreach ($data as $key =>  $val) {
-                        $data[$key]->profile = $val->profile ? url('storage/uploads/profile/' . $val->profile) : "https://www.nicepng.com/png/detail/933-9332131_profile-picture-default-png.png";
+                        $data[$key]->profile = $val->profile ? url('storage/uploads/profile/' . $val->profile) : "storage/uploads/profile/servicehomebg.png";
                     }
                     $arr['status'] = 1;
                     $arr['message'] = 'Success';
@@ -864,7 +864,7 @@ class ServiceProviderController extends Controller
                     ->get();
                 if (!empty($data[0])) {
                     foreach ($data as $key =>  $val) {
-                        $data[$key]->profile = $val->profile ? url('storage/uploads/profile/' . $val->profile) : "https://www.nicepng.com/png/detail/933-9332131_profile-picture-default-png.png";
+                        $data[$key]->profile = $val->profile ? url('storage/uploads/profile/' . $val->profile) : "storage/uploads/profile/servicehomebg.png";
                     }
                     $arr['status'] = 1;
                     $arr['message'] = 'Success';
