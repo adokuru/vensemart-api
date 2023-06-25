@@ -650,12 +650,14 @@ class ServiceProviderController extends Controller
                         * sin(radians(users.location_lat))) AS distance"),
                         DB::raw("COUNT(servicebook_user.id) as booking_count")
                     )
+                    ->groupBy('id')
                     ->where('users.type', 3)
                     ->where('users.service_type', '!=', null)
                     ->leftJoin('serviceprovider_category', 'serviceprovider_category.id', '=', 'users.service_type')
                     ->leftJoin('servicebook_user', 'servicebook_user.service_pro_id', '=', 'users.id')
                     ->orderBy('distance', 'asc')
                     ->orderBy('booking_count', 'desc')
+                    ->orderBy('id', 'desc')
                     ->limit(8)
                     ->select('id')->distinct()
                     ->get(8);
