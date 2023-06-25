@@ -303,6 +303,7 @@ class ServiceProviderController extends Controller
                 // ->where('status', 1)
                 ->orderBy('distance', 'asc')
                 ->get();
+                
 
 
             foreach ($data as $key => $value) {
@@ -383,7 +384,15 @@ class ServiceProviderController extends Controller
     {
 
         try {
-            $data  = DB::table('serviceprovider_category')->select('serviceprovider_category.*', 'serviceprovider_category.id as category_id')->get();
+            // $data  = DB::table('serviceprovider_category')->select('serviceprovider_category.*', 'serviceprovider_category.id as category_id')->get();
+
+
+            $data = DB::table('serviceprovider_category')
+        ->select('serviceprovider_category.*', 'serviceprovider_category.id as category_id', DB::raw('COUNT(users.id) as user_count'))
+        ->leftJoin('users', 'users.service_type', '=', 'serviceprovider_category.id')
+        ->groupBy('serviceprovider_category.id')
+        ->orderBy('user_count', 'desc')
+        ->get();
 
             foreach ($data as $val) {
                 $val->category_icon = $val->category_icon ? url('storage/category_icons') . '/' . $val->category_icon : '';
@@ -404,6 +413,15 @@ class ServiceProviderController extends Controller
         }
         return response()->json($arr, 200);
     }
+
+
+
+
+
+    
+
+
+
 
     public function paymentbookingservice(Request $request)
     {
