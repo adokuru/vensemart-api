@@ -657,7 +657,7 @@ class ServiceProviderController extends Controller
                     ->orderBy('distance', 'asc')
                     ->orderBy('booking_count', 'desc')
                     ->limit(8)
-                    ->distinct()
+                    ->select('id')->distinct()
                     ->get(8);
 
                 foreach ($data as $key => $value) {
