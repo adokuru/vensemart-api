@@ -651,15 +651,15 @@ class ServiceProviderController extends Controller
                         DB::raw("COUNT(servicebook_user.id) as booking_count")
                     )
                     ->where('users.type', 3)
-                    ->where('users.location_lat', '!=', null)
-                    ->where('users.location_long', '!=', null)
+                    ->where('users.location_lat', '!==', null)
+                    ->where('users.location_long', '!==', null)
                     ->where('users.service_type', '!=', null)
                     ->leftJoin('serviceprovider_category', 'serviceprovider_category.id', '=', 'users.service_type')
                     ->leftJoin('servicebook_user', 'servicebook_user.service_pro_id', '=', 'users.id')
                     ->orderBy('distance', 'asc')
                     ->orderBy('booking_count', 'desc')
-                    ->limit(8)
-                    ->get(8);
+                    ->limit(5)
+                    ->get(5);
 
                 foreach ($data as $key => $value) {
                     $data[$key]->profile = $value->profile ? url('storage/uploads/profile/' . $value->profile) : "https://www.nicepng.com/png/detail/933-9332131_profile-picture-default-png.png";
