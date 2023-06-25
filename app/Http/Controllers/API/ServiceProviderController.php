@@ -650,7 +650,7 @@ class ServiceProviderController extends Controller
                         * sin(radians(users.location_lat))) AS distance"),
                         DB::raw("COUNT(servicebook_user.id) as booking_count")
                     )
-                    ->where('users.type', 3)
+                    ->where('users.type', 2)
                     ->where('users.location_lat', '!==', null)
                     ->where('users.location_long', '!==', null)
                     ->where('users.service_type', '!=', null)
