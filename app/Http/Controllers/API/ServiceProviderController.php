@@ -669,6 +669,7 @@ class ServiceProviderController extends Controller
                         DB::raw("COUNT(servicebook_user.id) as booking_count")
                     )
                     ->where('users.type', 3)
+                    ->where('users.location', '!=', null)
                     ->where('users.location_lat', '!=', null)
                     ->where('users.location_long', '!=', null)
                     ->where('users.profile', '!=', null)
@@ -736,6 +737,7 @@ class ServiceProviderController extends Controller
                     "users.status",
                 )
                 ->where('users.type', 3)
+                ->where('users.location', '!=', null)
                 ->where('users.location_lat', '!=', null)
                 ->where('users.location_long', '!=', null)
                 ->where('users.profile', '!=', null)
