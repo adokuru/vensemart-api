@@ -17,14 +17,14 @@
 
                     <div class="form-group">
 <label for="acc_name">Account Name</label>
-    <input type="text" class="form-control" placeholder="acc_name" wire:model="acc_name" >
+    <input type="text" class="form-control" placeholder="acc_name" wire:model.lazy="acc_name" >
     @error('acc_name') <span class="text-danger">{{ $message }}</span> @enderror
 </div>
 
 
 <div class="form-group">
 <label for="ac_no">Account Number</label>
-    <input type="text" class="form-control" placeholder="ac_no" wire:model="ac_no" >
+    <input type="text" class="form-control" placeholder="ac_no" wire:model.lazy="ac_no" >
     @error('roiu') <span class="text-danger">{{ $message }}</span> @enderror
 </div>
 
@@ -32,14 +32,14 @@
 
 <div class="form-group">
 <label for="bank_nm">Bank Name</label>
-    <input type="text" class="form-control" placeholder="bank_nm" wire:model="bank_nm" >
+    <input type="text" class="form-control" placeholder="bank_nm" wire:model.lazy="bank_nm" >
     @error('bank_nm') <span class="text-danger">{{ $message }}</span> @enderror
 </div>
 
 
 <div class="form-group">
 <label for="branch_nm">Branch Name</label>
-    <input type="text" class="form-control" placeholder="branch_nm" wire:model="branch_nm" >
+    <input type="text" class="form-control" placeholder="branch_nm" wire:model.lazy="branch_nm" >
     @error('roiu') <span class="text-danger">{{ $message }}</span> @enderror
 </div>
 

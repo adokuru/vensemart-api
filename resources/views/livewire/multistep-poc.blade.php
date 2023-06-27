@@ -54,33 +54,33 @@
 
                          <div class="form-group">
   <label for="first_name">First Name</label>
-      <input type="text" class="form-control" placeholder="firstname" wire:model="first_name">
+      <input type="text" class="form-control" placeholder="firstname" wire:model.lazy="first_name">
       @error('first_name') <span class="text-danger">{{ $message }}</span> @enderror
   </div>
   
   <div class="form-group">
   <label for="last_name">Last Name</label>
-      <input type="text" class="form-control" placeholder="last_name" wire:model="last_name">
+      <input type="text" class="form-control" placeholder="last_name" wire:model.lazy="last_name">
       @error('last_name') <span class="text-danger">{{ $message }}</span> @enderror
   </div>
 
   <div class="form-group">
   <label for="email">Email</label>
-      <input type="text" class="form-control" placeholder="email" wire:model="email" >
+      <input type="text" class="form-control" placeholder="email" wire:model.lazy="email" >
       @error('email') <span class="text-danger">{{ $message }}</span> @enderror
   </div>
 
 
   <div class="form-group">
   <label for="telephone">Telephone</label>
-      <input type="text" class="form-control" placeholder="telephone" wire:model="telephone" >
+      <input type="text" class="form-control" placeholder="telephone" wire:model.lazy="telephone" >
       @error('roiu') <span class="text-danger">{{ $message }}</span> @enderror
   </div>
 
 
   <div class="form-group">
   <label for="fileName">Image</label>
-      <input type="file" class="form-control" placeholder="profile picture" wire:model="fileName" >
+      <input type="file" class="form-control" placeholder="profile picture" wire:model.lazy="fileName" >
       @error('roiu') <span class="text-danger">{{ $message }}</span> @enderror
   </div>
 
@@ -89,7 +89,7 @@
   
   <div class="form-group">
   <label for="gender">Gender</label>
-      <input type="text" class="form-control" placeholder="gender" wire:model="gender" >
+      <input type="text" class="form-control" placeholder="gender" wire:model.lazy="gender" >
       @error('roiu') <span class="text-danger">{{ $message }}</span> @enderror
   </div>
 
@@ -119,20 +119,20 @@
 
   <div class="form-group">
   <label for="city">City</label>
-      <input type="text" class="form-control" placeholder="city" wire:model="city" >
+      <input type="text" class="form-control" placeholder="city" wire:model.lazy="city" >
       @error('city') <span class="text-danger">{{ $message }}</span> @enderror
   </div>
   
   <div class="form-group">
   <label for="Net">State</label>
-      <input type="text" class="form-control" placeholder="state" wire:model="state" >
+      <input type="text" class="form-control" placeholder="state" wire:model.lazy="state" >
       @error('net') <span class="text-danger">{{ $message }}</span> @enderror
   </div>
 
 
   <div class="form-group">
   <label for="Net">Country</label>
-      <input type="country" class="form-control" placeholder="country" wire:model="country" >
+      <input type="country" class="form-control" placeholder="country" wire:model.lazy="country" >
       @error('roiu') <span class="text-danger">{{ $message }}</span> @enderror
   </div>
 

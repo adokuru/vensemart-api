@@ -16,7 +16,7 @@
                          <div class="col-md-6">
                              <div class="form-group">
                                  <label for="">choose product category</label>
-                                 <select  class="form-control" wire:model="category_id">
+                                 <select  class="form-control" wire:model.lazy="category_id">
                                  <option value="" selected>No product Selected</option>
                                     @foreach($categories as $category)
                                     
@@ -78,20 +78,20 @@
  
   <div class="form-group">
   <label for="platform">Product title</label>
-      <input type="text" class="form-control"  placeholder="product_title" wire:model="product_title">
+      <input type="text" class="form-control"  placeholder="product_title" wire:model.lazy="product_title">
       @error('product_title') <span class="text-danger">{{ $message }}</span> @enderror
   </div>
   
   <div class="form-group">
   <label for="product_price">Product Price(&#8358;)</label>
-      <input type="number" inputmode="numeric" pattern="[0-9]*" class="form-control" placeholder="product_price" wire:model="product_price">
+      <input type="number" inputmode="numeric" pattern="[0-9]*" class="form-control" placeholder="product_price" wire:model.lazy="product_price">
       @error('product_price') <span class="text-danger">{{ $message }}</span> @enderror
   </div>
 
 
   <div class="form-group">
   <label for="discount">Discount Price(&#8358;)</label>
-      <input type="number" inputmode="numeric" pattern="[0-9]*" class="form-control" placeholder="discount" wire:model="discount">
+      <input type="number" inputmode="numeric" pattern="[0-9]*" class="form-control" placeholder="discount" wire:model.lazy="discount">
       @error('discount') <span class="text-danger">{{ $message }}</span> @enderror
   </div>
 
@@ -105,7 +105,7 @@
   <div class="form-group">
   <label for="product_Description">Product Description</label>
 
-  <textarea rows="5" cols="33" class="form-control" placeholder="product_Description" wire:model="product_Description">
+  <textarea rows="5" cols="33" class="form-control" placeholder="product_Description" wire:model.lazy="product_Description">
   Product description 
 </textarea>
       
@@ -116,7 +116,7 @@
 
   <!-- <div class="form-group">
   <label for="add deposit">Add Deposit</label>
-      <input type="text" class="form-control" placeholder="add_deposit" wire:model="add_deposit" >
+      <input type="text" class="form-control" placeholder="add_deposit" wire:model.lazy="add_deposit" >
       @error('roiu') <span class="text-danger">{{ $message }}</span> @enderror
   </div> -->
 
@@ -153,13 +153,13 @@
 
 <div class="form-group">
   <label for="Quantity">Product Quantity Available</label>
-      <input type="number" inputmode="numeric" pattern="[0-9]*" class="form-control" placeholder="quantity" wire:model="quantity" >
+      <input type="number" inputmode="numeric" pattern="[0-9]*" class="form-control" placeholder="quantity" wire:model.lazy="quantity" >
       @error('quantity') <span class="text-danger">{{ $message }}</span> @enderror
   </div>
   
   <div class="form-group">
   <label for="product_weight">Product Weight(kg)</label>
-      <input type="number" inputmode="numeric" pattern="[0-9]*"  class="form-control" placeholder="product_weight" wire:model="product_weight">
+      <input type="number" inputmode="numeric" pattern="[0-9]*"  class="form-control" placeholder="product_weight" wire:model.lazy="product_weight">
       @error('product_weight') <span class="text-danger">{{ $message }}</span> @enderror
   </div>
 
@@ -167,20 +167,20 @@
 
   <!-- <div class="form-group">
   <label for="product_weight">Product Weight(kg)</label>
-      <input type="number" class="form-control" placeholder="product_weight" wire:model="product_weight">
+      <input type="number" class="form-control" placeholder="product_weight" wire:model.lazy="product_weight">
       @error('product_weight') <span class="text-danger">{{ $message }}</span> @enderror
   </div> -->
 
   <!-- <div class="form-group">
   <label for="Status">Status</label>
-      <input type="number" step="0.00001" class="form-control" placeholder="status" wire:model="status" >
+      <input type="number" step="0.00001" class="form-control" placeholder="status" wire:model.lazy="status" >
       @error('net') <span class="text-danger">{{ $message }}</span> @enderror
   </div> -->
 
 
  <div class="form-group">
   <label for="Net">Product image</label>
-      <input type="file" accept="image/*" class="form-control" placeholder="fileName" id="select" wire:model="fileName" >
+      <input type="file" accept="image/*" class="form-control" placeholder="fileName" id="select" wire:model.lazy="fileName" >
       @error('fileName') <span class="text-danger">{{ $message }}</span> @enderror
   </div>
 

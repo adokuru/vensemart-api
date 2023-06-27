@@ -65,13 +65,13 @@
                              
   <div class="form-group mt-4">
   <label for="Stakee">Store Name</label>
-      <input type="text" class="form-control" placeholder="store_name" wire:model="store_name" >
+      <input type="text" class="form-control" placeholder="store_name" wire:model.lazy="store_name" >
       @error('store_name') <span class="text-danger">{{ $message }}</span> @enderror
   </div>
   
   <div class="form-group">
   <label for="fileName">Store Logo</label>
-      <input type="file"class="form-control" placeholder="store logo" wire:model="fileName" >
+      <input type="file"class="form-control" placeholder="store logo" wire:model.lazy="fileName" >
       @error('fileName') <span class="text-danger">{{ $message }}</span> @enderror
   </div>
 
@@ -118,32 +118,32 @@
  
   <div class="form-group">
   <label for="platform">Address</label>
-      <input type="text" class="form-control" placeholder="address" wire:model="address">
+      <input type="text" class="form-control" placeholder="address" wire:model.lazy="address">
       @error('platform') <span class="text-danger">{{ $message }}</span> @enderror
   </div>
   
   <!-- <div class="form-group">
   <label for="last_name">Lati</label>
-      <input type="text" class="form-control" placeholder="lati" wire:model="lati">
+      <input type="text" class="form-control" placeholder="lati" wire:model.lazy="lati">
       @error('last_name') <span class="text-danger">{{ $message }}</span> @enderror
   </div>
 
   <div class="form-group">
   <label for="longi">Longitude</label>
-      <input type="text" class="form-control" placeholder="long" wire:model="longi">
+      <input type="text" class="form-control" placeholder="long" wire:model.lazy="longi">
       @error('longi') <span class="text-danger">{{ $message }}</span> @enderror
   </div> -->
 
 
   <!-- <div class="form-group">
   <label for="Net">Roiu</label>
-      <input type="text" class="form-control" placeholder="roiu" wire:model="roiu" >
+      <input type="text" class="form-control" placeholder="roiu" wire:model.lazy="roiu" >
       @error('roiu') <span class="text-danger">{{ $message }}</span> @enderror
   </div>
 
   <div class="form-group">
   <label for="add deposit">Add Deposit</label>
-      <input type="text" class="form-control" placeholder="add_deposit" wire:model="add_deposit" >
+      <input type="text" class="form-control" placeholder="add_deposit" wire:model.lazy="add_deposit" >
       @error('roiu') <span class="text-danger">{{ $message }}</span> @enderror
   </div> -->
 
