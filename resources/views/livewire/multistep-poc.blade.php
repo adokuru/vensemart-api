@@ -325,6 +325,11 @@
             
             @if ($currentStep == 1 || $currentStep == 2)
                 <button type="button" class="btn btn-md btn-success" wire:click="increaseStep()">Next</button>
+
+                <div wire:loading>
+                    <p>loading....please wait</p>
+        <!-- <img src="/path/to/spinner.gif" alt="Processing Payment..."> -->
+    </div>
             @endif
             
             @if ($currentStep == 3)

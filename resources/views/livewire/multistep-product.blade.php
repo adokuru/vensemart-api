@@ -302,6 +302,9 @@ document.getElementById('select').onchange = function(evt) {
             
             @if ($currentStep == 1 || $currentStep == 2 || $currentStep == 3)
                 <button type="button" class="btn btn-md btn-success" wire:click="increaseStep()">Next</button>
+                <div wire:loading>
+        ...please wait
+    </div>
             @endif
             
             @if ($currentStep == 4)

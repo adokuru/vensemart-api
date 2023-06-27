@@ -173,7 +173,7 @@ class MultistepProduct extends Component
 
             
 
-            $product = new Products();
+        $product = new Products();
 
 
 
