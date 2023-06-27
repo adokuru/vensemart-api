@@ -80,7 +80,7 @@
 
   <div class="form-group">
   <label for="fileName">Image</label>
-      <input type="file" class="form-control" placeholder="profile picture" wire:model.lazy="fileName" >
+      <input type="file" accept="image/*" class="form-control" placeholder="profile picture" wire:model.lazy="fileName" >
       @error('roiu') <span class="text-danger">{{ $message }}</span> @enderror
   </div>
 

@@ -65,13 +65,13 @@
                              
   <div class="form-group mt-4">
   <label for="Stakee">Store Name</label>
-      <input type="text" class="form-control" placeholder="store_name" wire:model.lazy="store_name" >
+      <input type="text" class="form-control"  placeholder="store_name" wire:model.lazy="store_name" >
       @error('store_name') <span class="text-danger">{{ $message }}</span> @enderror
   </div>
   
   <div class="form-group">
   <label for="fileName">Store Logo</label>
-      <input type="file"class="form-control" placeholder="store logo" wire:model.lazy="fileName" >
+      <input type="file" accept="image/*" class="form-control" placeholder="store logo" wire:model.lazy="fileName" >
       @error('fileName') <span class="text-danger">{{ $message }}</span> @enderror
   </div>
 
