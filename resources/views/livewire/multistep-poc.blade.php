@@ -324,7 +324,7 @@
             @endif
             
             @if ($currentStep == 1 || $currentStep == 2)
-                <button type="button" class="btn btn-md btn-success" wire:click="increaseStep()">Next</button>
+                <button type="button" wire:loading.attr="disabled" class="btn btn-md btn-success" wire:click="increaseStep()">Next</button>
 
                 <div wire:loading>
                     <p>loading....please wait</p>

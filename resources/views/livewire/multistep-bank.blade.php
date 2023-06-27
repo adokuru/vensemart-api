@@ -161,7 +161,11 @@
          <div class="action-buttons d-flex justify-content-between bg-white pt-2 pb-2">
 
             @if ($currentStep == 1)
-            <button type="button" class="btn btn-md btn-success" wire:click="increaseStep()">Next</button>
+            <button type="button" wire:loading.attr="disabled" class="btn btn-md btn-success" wire:click="increaseStep()">Next</button>
+            <div wire:loading>
+                    <p>loading....please wait</p>
+        <!-- <img src="/path/to/spinner.gif" alt="Processing Payment..."> -->
+    </div>
             
             @endif
 
@@ -170,7 +174,7 @@
             @endif
             
             @if ( $currentStep == 2)
-            <button type="submit" class="btn btn-md btn-primary">Confirm Details</button>
+            <button type="submit" wire:loading.attr="disabled"class="btn btn-md btn-primary">Confirm Details</button>
             @endif
             
           

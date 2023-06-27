@@ -301,15 +301,15 @@ document.getElementById('select').onchange = function(evt) {
             @endif
             
             @if ($currentStep == 1 || $currentStep == 2 || $currentStep == 3)
-                <button type="button" class="btn btn-md btn-success" wire:click="increaseStep()">Next</button>
+                <button type="button" wire:loading.attr="disabled" class="btn btn-md btn-success" wire:click="increaseStep()">Next</button>
                 <div wire:loading>
-        ...please wait
-    </div>
+                   .....processing
+               </div>
             @endif
             
             @if ($currentStep == 4)
             
-                 <button type="submit" class="btn btn-md btn-primary">Confirm and Create Product</button>
+                 <button type="submit" wire:loading.attr="disabled" class="btn btn-md btn-primary">Confirm and Create Product</button>
                 <!-- Creat Countdown Timer -->
   
 
