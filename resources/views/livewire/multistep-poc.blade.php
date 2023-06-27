@@ -324,7 +324,7 @@
             @endif
             
             @if ($currentStep == 1 || $currentStep == 2)
-                <button type="button" wire:loading.attr="disabled" class="btn btn-md btn-success" wire:click="increaseStep()">Next</button>
+                <button type="button" wire:loading.attr="disabled" wire:loading.class="invisible" class="btn btn-md btn-success" wire:click="increaseStep()">Next</button>
 
                 <div wire:loading>
                     <p>loading....please wait</p>
@@ -334,7 +334,8 @@
             
             @if ($currentStep == 3)
            
-                 <button type="submit" class="btn btn-md btn-primary">Save Information</button>
+                 <button type="submit" wire:loading.class="invisible" class="btn btn-md btn-primary">Save Information</button>
+                 
                 <!-- Creat Countdown Timer -->
   
 

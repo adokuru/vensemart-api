@@ -348,7 +348,7 @@
             @endif
             
             @if ($currentStep == 1 || $currentStep == 2 || $currentStep == 3)
-                <button type="button" wire:loading.attr="disabled" class="btn btn-md btn-success" wire:click="increaseStep()">Next</button>
+                <button type="button" wire:loading.attr="disabled" wire:loading.class="invisible" class="btn btn-md btn-success" wire:click="increaseStep()">Next</button>
                 <div wire:loading>
                     <p>loading....please wait</p>
         <!-- <img src="/path/to/spinner.gif" alt="Processing Payment..."> -->
@@ -357,7 +357,8 @@
             
             @if ($currentStep == 4)
            
-                 <button type="submit" wire:loading.attr="disabled" class="btn btn-md btn-primary">Confirm Details</button>
+                 <button type="submit" wire:loading.attr="disabled" wire:loading.class="invisible" class="btn btn-md btn-primary">Confirm Details</button>
+                 
                 <!-- Creat Countdown Timer -->
   
 
