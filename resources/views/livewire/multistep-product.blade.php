@@ -297,7 +297,7 @@ document.getElementById('select').onchange = function(evt) {
             @endif
 
             @if ($currentStep == 2 || $currentStep == 3 || $currentStep == 4)
-            <button type="button" class="btn btn-md btn-secondary" wire:click="decreaseStep()">Back</button>
+            <button type="button" wire:loading.class="non-visible" class="btn btn-md btn-secondary" wire:click="decreaseStep()">Back</button>
             @endif
             
             @if ($currentStep == 1 || $currentStep == 2 || $currentStep == 3)
