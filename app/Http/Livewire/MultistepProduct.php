@@ -59,7 +59,7 @@ class MultistepProduct extends Component
 
 
     protected $messages = [
-        'fileName.required' => 'Please refresh the page, then pick another image from your gallery',
+        'fileName.required' => 'Please kindly refresh the page, then pick another image from your gallery',
       
     ];
 

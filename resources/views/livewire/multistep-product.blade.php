@@ -307,7 +307,7 @@ document.getElementById('select').onchange = function(evt) {
                </div>
 
                <div wire:loading>
-               .....loading
+               ...please wait
                </div>
             @endif
             
