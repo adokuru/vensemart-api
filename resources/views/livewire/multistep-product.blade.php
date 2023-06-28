@@ -301,9 +301,13 @@ document.getElementById('select').onchange = function(evt) {
             @endif
             
             @if ($currentStep == 1 || $currentStep == 2 || $currentStep == 3)
+            <div wire:loading.remove>
                 <button type="button" wire:loading.attr="disabled" wire:loading.class="non-visible" class="btn btn-md btn-success" wire:click="increaseStep()">Next</button>
-                <div wire:loading>
-                   .....processing
+               
+               </div>
+
+               <div wire:loading>
+               .....loading
                </div>
             @endif
             
