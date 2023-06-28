@@ -309,7 +309,7 @@ document.getElementById('select').onchange = function(evt) {
             
             @if ($currentStep == 4)
             
-                 <button type="submit" wire:loading.attr="disabled" wire:loading.class="invisible" class="btn btn-md btn-primary">Confirm and Create Product</button>
+                 <button type="submit" wire:loading.attr="disabled" wire:loading.class="non-visible" class="btn btn-md btn-primary">Confirm and Create Product</button>
                 <!-- Creat Countdown Timer -->
   
 
@@ -367,7 +367,7 @@ function secpass() {
      </form>
 
      <style>
-        .invisible{
+        .non-visible{
             visibility:hidden;
         }
         </style>
