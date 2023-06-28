@@ -370,6 +370,11 @@ function secpass() {
         .non-visible{
             visibility:hidden;
         }
+
+button:disabled,
+button[disabled]{
+    visibility:hidden;
+}
         </style>
 
 </div>
