@@ -366,5 +366,10 @@ function secpass() {
 
      </form>
 
+     <style>
+        .invisible{
+            visibility:hidden;
+        }
+        </style>
 
 </div>
