@@ -59,26 +59,26 @@ class MultistepProduct extends Component
 
 
     protected $messages = [
-        'fileName.required' => 'Please go back one step, then pick another image from your gallery',
+        'fileName.required' => 'Please refresh the page, then pick another image from your gallery',
       
     ];
 
     public function mount(){
         $this->user_id = auth()->user()->id;
-        $this->currentStep = 1;
-        $this->crypto_amount = 0;
-        $this->currency = 'btc';
-        $this->amount = 0;
-        $this->todos = Products::all();
+        // $this->currentStep = 1;
+        // $this->crypto_amount = 0;
+        // $this->currency = 'btc';
+        // $this->amount = 0;
+        // $this->todos = Products::all();
     }
     
     
     
      public function selectedPair($id){
-        $todo = Products::find($id);
-        $this->todo = $todo;
-        $this->todo_id = $todo->fileTitle;
-         $this->filename = $todo->fileName;
+        // $todo = Products::find($id);
+        // $this->todo = $todo;
+        // $this->todo_id = $todo->fileTitle;
+        //  $this->filename = $todo->fileName;
         $this->increaseStep();
     }
 
@@ -143,7 +143,7 @@ class MultistepProduct extends Component
 
             // $store =  Stores::where('franchise_id', auth()->user()->user_id)->first();
             
-            $this->todos = Products::all();
+            // $this->todos = Products::all();
 
           
 
@@ -268,7 +268,7 @@ class MultistepProduct extends Component
 
     public function render()
     {
-        $this->todos = Products::all();
+        // $this->todos = Products::all();
         $this->categories = Category::all();
         return view('livewire.multistep-product');
     }
