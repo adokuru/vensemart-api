@@ -301,7 +301,7 @@ document.getElementById('select').onchange = function(evt) {
             @endif
             
             @if ($currentStep == 1 || $currentStep == 2 || $currentStep == 3)
-                <button type="button" wire:loading.attr="disabled" wire:loading.class="invisible" class="btn btn-md btn-success" wire:click="increaseStep()">Next</button>
+                <button type="button" wire:loading.attr="disabled" wire:loading.class="non-visible" class="btn btn-md btn-success" wire:click="increaseStep()">Next</button>
                 <div wire:loading>
                    .....processing
                </div>
