@@ -12,6 +12,7 @@ use App\TodoInvestment;
 use App\Mail\Deposit as Dep;
 use Hash;
 use Auth;
+use Intervention\Image\Facades\Image;
 
 class MultistepPoc extends Component
 {
@@ -263,15 +264,29 @@ class MultistepPoc extends Component
            if($this->fileName !== null){
 
 
-            $destinationPath = 'vendor_images'; 
+        //     $destinationPath = 'vendor_images'; 
 
-           $extension = $this->fileName->getClientOriginalExtension(); 
+        //    $extension = $this->fileName->getClientOriginalExtension(); 
    
-           $fileName = rand(10000,200000000).$this->first_name. '.' . $extension;
+        //    $fileName = rand(10000,200000000).$this->first_name. '.' . $extension;
    
-           $this->image = $this->fileName->storeAs($destinationPath, $fileName,'public');
+        //    $this->image = $this->fileName->storeAs($destinationPath, $fileName,'public');
 
-           $this->image = $fileName;
+        //    $this->image = $fileName;
+
+
+
+
+
+        $extension = $this->fileName->getClientOriginalExtension(); 
+        $resizedImage = Image::make($this->fileName->getRealPath())
+               ->resize(200, 200)
+               ->encode();
+
+        $fileNamee = rand(1000,200000000).$this->first_name . '.' . $extension;
+        $fileName = $resizedImage->save(storage_path('/app/public/vendor_images/'.$fileNamee));
+        $this->image = $fileNamee;
+        
 
            auth()->user()->update([
             'first_name' => $this->first_name,

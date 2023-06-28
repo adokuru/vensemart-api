@@ -324,12 +324,14 @@
             @endif
             
             @if ($currentStep == 1 || $currentStep == 2)
-                <button type="button" wire:loading.attr="disabled" wire:loading.class="invisible" class="btn btn-md btn-success" wire:click="increaseStep()">Next</button>
+            <div wire:loading.remove>
+                <button type="button" wire:loading.attr="disabled" wire:loading.class="non-visible" class="btn btn-md btn-success" wire:click="increaseStep()">Next</button>
+               
+               </div>
 
-                <div wire:loading>
-                    <p>loading....please wait</p>
-        <!-- <img src="/path/to/spinner.gif" alt="Processing Payment..."> -->
-    </div>
+               <div wire:loading>
+               ...please wait
+               </div>
             @endif
             
             @if ($currentStep == 3)
@@ -394,4 +396,16 @@ function secpass() {
 
 
 </div>
+
+<style>
+        .non-visible{
+            visibility:hidden;
+        }
+
+button:disabled,
+button[disabled]{
+    visibility:hidden;
+}
+        </style>
+
 </div>

@@ -13,6 +13,7 @@
         "berkayk/onesignal-laravel": "^1.0",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
+        "intervention/image": "^2.7",
         "kreait/laravel-firebase": "^5.0",
         "laravel/framework": "^9.0",
         "laravel/passport": "^10.3",
@@ -22,6 +23,7 @@
         "livewire/livewire": "^2.12",
         "onecentlin/laravel-adminer": "^6.0",
         "opcodesio/log-viewer": "^2.4",
+        "spatie/laravel-medialibrary": "^10.10",
         "twilio/sdk": "^6.43",
         "yoeunes/toastr": "^2.3"
     },

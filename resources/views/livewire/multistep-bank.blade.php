@@ -161,12 +161,14 @@
          <div class="action-buttons d-flex justify-content-between bg-white pt-2 pb-2">
 
             @if ($currentStep == 1)
-            <button type="button" wire:loading.attr="disabled" wire:loading.class="invisible" class="btn btn-md btn-success" wire:click="increaseStep()">Next</button>
-            <div wire:loading>
-                    <p>loading....please wait</p>
-        <!-- <img src="/path/to/spinner.gif" alt="Processing Payment..."> -->
-    </div>
-            
+            <div wire:loading.remove>
+                <button type="button" wire:loading.attr="disabled" wire:loading.class="non-visible" class="btn btn-md btn-success" wire:click="increaseStep()">Next</button>
+               
+               </div>
+
+               <div wire:loading>
+               ...please wait
+               </div>
             @endif
 
             @if ($currentStep == 2)
@@ -190,28 +192,17 @@
             <div class="lds-ripple"><div></div><div></div></div>
     </div>
    
+    <style>
+    .non-visible{
+            visibility:hidden;
+        }
 
-     <style>
-
-
-
-.lds-ripple {
-  display: inline-block;
-  position: relative;
-  width: 80px;
-  height: 80px;
-}
-.lds-ripple div {
-  position: absolute;
-  border: 4px solid #fff;
-  opacity: 1;
-  border-radius: 50%;
-  animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
-}
-.lds-ripple div:nth-child(2) {
-  animation-delay: -0.5s;
+button:disabled,
+button[disabled]{
+    visibility:hidden;
 }
      </style>
+
 
 
 </div>

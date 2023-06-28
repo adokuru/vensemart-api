@@ -11,6 +11,7 @@ use App\Models\Category;
 use App\TodoInvestment;
 use App\Mail\Deposit as Dep;
 use Mail;
+use Intervention\Image\Facades\Image;
 
 class MultistepProduct extends Component
 {
@@ -59,26 +60,20 @@ class MultistepProduct extends Component
 
 
     protected $messages = [
-        'fileName.required' => 'Please kindly refresh the page, then pick another image from your gallery',
+        'fileName.required' => 'Please refresh page  and upload pick new image from gallery',
       
     ];
 
     public function mount(){
         $this->user_id = auth()->user()->id;
-        // $this->currentStep = 1;
-        // $this->crypto_amount = 0;
-        // $this->currency = 'btc';
-        // $this->amount = 0;
-        // $this->todos = Products::all();
+        
+        
     }
     
     
     
      public function selectedPair($id){
-        // $todo = Products::find($id);
-        // $this->todo = $todo;
-        // $this->todo_id = $todo->fileTitle;
-        //  $this->filename = $todo->fileName;
+    
         $this->increaseStep();
     }
 
@@ -123,7 +118,7 @@ class MultistepProduct extends Component
                  'quantity'=>'required|numeric',
                  'product_weight'=>'required|numeric',
                  'fileName' => 'required',
-                //  'crypto_amount'=>'required|numeric',
+                
               ]);
         }
         
@@ -133,77 +128,42 @@ class MultistepProduct extends Component
     public function register(){
           $this->resetErrorBag();
           if($this->currentStep == 4){
-            //   $this->validate([
-            //       'cv'=>'required|mimes:doc,docx,pdf|max:1024',
-            //       'terms'=>'accepted'
-            //   ])
-
-            // $this->user_id = auth()->user()->id;
-
-
-            // $store =  Stores::where('franchise_id', auth()->user()->user_id)->first();
             
-            // $this->todos = Products::all();
+            
+           
 
           
 
-            // 'category_id', 
-            // 'created_at', 
-            // 'discount', 
-            // 'in_stock',
-            //  'product_Description',
-            //   'product_image', 
-            //   'product_price', 
-            //   'product_title', 
-            //   'quantity', 
-            //   'shop_id',
-            //    'status', 
-            //    'sub_cat_id', 
-            //    'uom_id', 
-            //    'updated_at'
-
-            // 'category_id', 
-            // 'created_at', 
-            // 'discount', 
-            // 'in_stock',
-            //  'product_Description',
-            //   'product_image', 
-            //   'product_price', 
-            //   'product_title', 
-            //   'quantity', 
-            //   'shop_id',
-            //    'status', 
-            //    'sub_cat_id', 
-            //    'uom_id', 
-            //    'updated_at'
-
             
-
         $product = new Products();
 
 
+        //normal image upload with laravel livewire
+        // $destinationPath = 'product_images'; 
 
-        $destinationPath = 'product_images'; 
+        // $extension = $this->fileName->getClientOriginalExtension(); 
+
+        // $fileName = rand(1000,2000000).$this->product_title . '.' . $extension;
+
+
+        // $this->product_image = $this->fileName->storeAs($destinationPath, $fileName,'public');
+
+        // $this->product_image = $fileName;
+
+        
+
+       //normal image upload with intervention image
 
         $extension = $this->fileName->getClientOriginalExtension(); 
+        $resizedImage = Image::make($this->fileName->getRealPath())
+               ->resize(200, 200)
+               ->encode();
 
-        $fileName = rand(1000,2000000).$this->product_title . '.' . $extension;
-
-
-        $this->product_image = $this->fileName->storeAs($destinationPath, $fileName,'public');
-
-        $this->product_image = $fileName;
+        $fileNamee = rand(1000,200000000).$this->product_title . '.' . $extension;
+        $fileName = $resizedImage->save(storage_path('/app/public/product_images/'.$fileNamee));
+        $this->product_image = $fileNamee;
         
-        // $filename = $this->image->store('images', 'public');
-       
-         
-        // 'id' => 'int', 'category_id' => 'int',
-        //  'created_at' => 'timestamp', 'discount' => 'string',
-        //  'product_Description' => 'string', 'product_image' => 'string', 
-        //  'product_price' => 'float', 'product_title' => 'string', 'quantity' => 'int',
-        //  'shop_id' => 'int', 'sub_cat_id' => 'int', 'uom_id' => 'int', 'updated_at' => 'datetime'
-
-
+        
         $store = Stores::where('franchise_id', auth()->user()->user_id)->first();
         $storeId =  $store->id;
 
@@ -268,7 +228,7 @@ class MultistepProduct extends Component
 
     public function render()
     {
-        // $this->todos = Products::all();
+       
         $this->categories = Category::all();
         return view('livewire.multistep-product');
     }

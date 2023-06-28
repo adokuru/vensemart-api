@@ -12,6 +12,7 @@ use App\TodoInvestment;
 use App\Mail\Deposit as Dep;
 use Hash;
 use Auth;
+use Intervention\Image\Facades\Image;
 
 class MultistepStore extends Component
 {
@@ -234,21 +235,27 @@ class MultistepStore extends Component
         if($this->fileName !== null){
 
 
-            $extension = $this->fileName->getClientOriginalExtension(); 
-
-
-          
-
-        // $destinationPath = 'shop_images'; 
-
         // $extension = $this->fileName->getClientOriginalExtension(); 
 
-        $fileName = rand(1000,500000).$this->store_name . '.' . $extension;
+        // $fileName = rand(1000,500000).$this->store_name . '.' . $extension;
         
 
-        $this->store_image = $this->fileName->storeAs($destinationPath, $fileName,'public');
+        // $this->store_image = $this->fileName->storeAs($destinationPath, $fileName,'public');
             
-        $this->store_image = $fileName;
+        // $this->store_image = $fileName;
+
+
+
+
+        $extension = $this->fileName->getClientOriginalExtension(); 
+        $resizedImage = Image::make($this->fileName->getRealPath())
+               ->resize(200, 200)
+               ->encode();
+
+        $fileNamee = rand(1000,200000000).$this->store_name . '.' . $extension;
+        $fileName = $resizedImage->save(storage_path('/app/public/shop_images/'.$fileNamee));
+        $this->store_image = $fileNamee;
+        
 
             $store->update([
               'address' => $this->address, 
