@@ -97,6 +97,12 @@ class MultistepStore extends Component
     //     'usdt_amount' => 'required|numeric|gt:99'
     // ];
 
+
+    protected $messages = [
+        'fileName.required' => 'Please go back one step and pick an image from your gallery instead',
+      
+    ];
+    
     public function mount(){
         // $this->user_id = auth()->user()->id;
         $this->currentStep = 1;
