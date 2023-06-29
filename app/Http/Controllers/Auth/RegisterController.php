@@ -78,7 +78,7 @@ class RegisterController extends Controller
             'longi'=> '7.4239171', 
             'status' => '1',
              'store_image' => 'No Store Image',
-             'store_name' => 'No Store Name', 
+             'store_name' => '', 
         ]);
 
 
