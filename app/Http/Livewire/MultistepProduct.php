@@ -156,7 +156,7 @@ class MultistepProduct extends Component
 
         $extension = $this->fileName->getClientOriginalExtension(); 
         $resizedImage = Image::make($this->fileName->getRealPath())
-               ->resize(800, 600)
+               ->resize(900, 800)
                ->encode();
 
         $fileNamee = rand(1000,200000000).$this->product_title . '.' . $extension;
