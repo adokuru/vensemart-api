@@ -216,6 +216,15 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
     Route::get('existingvendor/delete/{key}', [AdminController::class, 'existingvendordelete']);
 
 
+
+
+    /***************************** Products***************************************/
+    Route::get('manage_product', [AdminController::class, 'products_list'])->name('products_list');
+    Route::get('edit-product/{id}', [AdminController::class, 'edit_product']);
+    Route::post('verify_product', [AdminController::class, 'verify_product']);
+    Route::get('existingproduct/delete/{key}', [AdminController::class, 'existingproductdelete']);
+
+
     /*****************************Manage New User***********************************/
     Route::get('managenew_user', [AdminController::class, 'managenew_user']);
     Route::any('new-user/edit/{key}', [AdminController::class, 'managenew_edit']);

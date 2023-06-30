@@ -24,6 +24,7 @@ class AdminController extends Controller
     public function dashboard()
     {
         $dashboard = new Dashboard();
+
         $data['get_total_daily_existing_user']         =  $dashboard->get_total_daily_existing_user();
         $data['get_total_weekly_existing_user']        =  $dashboard->get_total_weekly_existing_user();
         $data['get_total_monthly_existing_user']       =  $dashboard->get_total_monthly_existing_user();
@@ -50,6 +51,15 @@ class AdminController extends Controller
         $data['get_total_weekly_new_service_user']             =  $dashboard->get_total_weekly_new_service_user();
         $data['get_total_monthly_new_service_user']            =  $dashboard->get_total_monthly_new_service_user();
         $data['get_total_yearly_new_service_user']             =  $dashboard->get_total_yearly_new_service_user();
+
+
+
+        $data['get_total_yesterday_existing_vendors']     =  $dashboard->get_total_yesterday_existing_vendors();
+        $data['get_total_daily_existing_vendors']         =  $dashboard->get_total_daily_existing_vendors();
+        $data['get_total_weekly_existing_vendors']        =  $dashboard->get_total_weekly_existing_vendors();
+        $data['get_total_monthly_existing_vendors']       =  $dashboard->get_total_monthly_existing_vendors();
+        $data['get_total_yearly_existing_vendors']        =  $dashboard->get_total_yearly_existing_vendors();
+        
 
 
         // $data['get_total_yesterday_new_service_user']              =  $dashboard->get_total_yesterday_new_service_user();
@@ -219,6 +229,59 @@ class AdminController extends Controller
        </script>
        <?php
     }
+
+
+
+
+     
+    public function products_list()
+    {
+        
+        $data['listing'] = DB::table('products')
+                // ->where('is_deleted', '=', 0)
+                // ->whereBetween('created_at', [$lastSavenDate, date('Y-m-d H:i:s')])
+                ->orderBy('id','desc')
+                ->orderByRaw('created_at DESC')
+                ->get();
+        return view('manage.products.listing',$data);
+    }
+    
+    public function edit_product($id)
+    {
+         $user = DB::table('products')->where('id',$id)->first();
+        //  print_r($user);exit;
+        return view('manage.product.edit', compact('user'));
+    }
+    
+    public function verify_product(Request $request)
+    {
+        
+        $result = DB::table('products')->where('id',$request->edit_id)->update(['is_verified' => $request->verify_status]);
+        
+        $storedata=DB::table('products')->where('id',$request->edit_id)->first();
+        $storeId=DB::table('stores')->where('franchise_id',$storedata->user_id)->update(['status'=>$request->verify_status]);
+        
+        ?>
+        <script>
+                alert('Products Status Updated Successfully!!');
+                window.location.href="<?php echo url('admin/manage_product'); ?>";
+            </script>
+        <?php
+    }
+
+
+    public function existingproductsdelete($id)
+    {
+       DB::table('products')->where('id',$id)->delete();
+       ?>
+       <script>
+           alert('Product Deleted Successfully!!');
+           window.location.href="<?php echo url('admin/manage_product'); ?>";
+       </script>
+       <?php
+    }
+
+
     
     public function managenew_edit(Request $request,$id)
     {

@@ -186,6 +186,33 @@
               
             </ul>
           </li>
+
+
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              
+              <p>
+                Manage Products
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ url('admin/manage_product')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Products</p>
+                </a>
+              </li>
+
+               <!-- <li class="nav-item">
+                <a href="{{ url('admin/managesubcategory/listing')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Sub Category</p>
+                </a>
+              </li> -->
+              
+            </ul>
+          </li>
           
           <li class="nav-item">
             <a href="#" class="nav-link">
@@ -351,7 +378,7 @@
           <!--    </li>-->
               
           <!--  </ul>-->
-          <!--</li>-->
+          </li>
           
           <!--<li class="nav-item">-->
           <!--  <a href="#" class="nav-link">-->
@@ -405,6 +432,8 @@
           <!--    </li>-->
           <!--  </ul>-->
           <!--</li>-->
+
+
           <li class="nav-item">
             <a href="#" class="nav-link">
               

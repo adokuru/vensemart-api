@@ -169,6 +169,53 @@ class Dashboard extends Model
         // dd(DB::getQueryLog());die;
         return $result;
     }
+
+
+
+
+
+
+    public function get_total_yesterday_existing_vendors(){
+        $array = ['1','2'];
+        // DB::enableQueryLog();
+        $result  = DB::table('poc_registration')->where('created_at', '>=', Carbon::yesterday()->toDateString())->count('id');
+        // dd(DB::getQueryLog());die;
+        return $result;
+    }
+
+
+    public function get_total_daily_existing_vendors(){
+
+        // DB::enableQueryLog();
+        $result  = DB::table('poc_registration')->where('created_at', '>=', Carbon::now()->toDateString())->count('id');
+        // dd(DB::getQueryLog());die;
+        return $result;
+    }
+    public function get_total_weekly_existing_vendors(){
+       
+        // DB::enableQueryLog();
+        $result  = DB::table('poc_registration')->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->count('id');
+        // dd(DB::getQueryLog());die;
+        return $result;
+    }
+    public function get_total_monthly_existing_vendors(){
+        
+        // DB::enableQueryLog();
+        $result  = DB::table('poc_registration')->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->count();
+        // dd(DB::getQueryLog());die;
+        return $result;
+    }
+    public function get_total_yearly_existing_vendors(){
+       
+        // DB::enableQueryLog();
+        $result  = DB::table('poc_registration')->where('created_at', '>=', Carbon::now()->startOfYear()->toDateString())->count('id');
+        // dd(DB::getQueryLog());die;
+        return $result;
+    }
+
+
+
+
     
     public function get_total_daily_new_user(){
         $array = ['1','2'];

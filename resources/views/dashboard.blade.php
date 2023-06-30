@@ -104,6 +104,9 @@
                   </div>
 
 
+                  
+
+
 
 
 
@@ -311,31 +314,31 @@
 
                       <div class="col-md-6">
                         <a href="javascript:void(0);">
-                          <div class="panel panel-info pricing-big">
+                          <div class="panel panel-warning pricing-big">
                             <div class="panel-heading">
-                              <h3 class="panel-title">Existing Delivery Person
-                              <span class="panel-title" style="display:inline-block;float:right;font-size:18px;">{{$get_total_yearly_existing_driver}}</span></h3>
+                              <h3 class="panel-title">Vendors
+                              <span class="panel-title" style="display:inline-block;float:right;font-size:18px;">Total Vendors this year : {{$get_total_yearly_existing_vendors}}</span></h3>
                             </div>
                             <div class="">
                               <div class="row">
                                 <div class="col-md-3 col-6 text-center reports">
                                   <h5>Today
-                                    <strong>{{$get_total_daily_existing_driver}}</strong>
+                                    <strong>{{$get_total_daily_existing_vendors }}</strong>
                                   </h5>
                                 </div>
                                 <div class="col-md-3 col-6 text-center reports">
                                   <h5>This Week
-                                    <strong>{{$get_total_weekly_existing_driver}}</strong>
+                                    <strong>{{$get_total_weekly_existing_vendors }}</strong>
                                   </h5>
                                 </div>
                                 <div class="col-md-3 col-6 text-center reports">
                                   <h5>This Month
-                                    <strong>{{$get_total_monthly_existing_driver}}</strong>
+                                    <strong>{{$get_total_monthly_existing_vendors}} </strong>
                                   </h5>
                                 </div>
                                 <div class="col-md-3 col-6 text-center reports">
-                                  <h5>This Year
-                                    <strong>{{$get_total_yearly_existing_driver}}</strong>
+                                  <h5>Yesterday
+                                    <strong>{{$get_total_yesterday_existing_vendors }}</strong>
                                   </h5>
                                 </div>
                               </div>
@@ -347,8 +350,7 @@
                   </div>
 
 
-
-
+               
 
 
                   <div class="container-fluid mt-3">
