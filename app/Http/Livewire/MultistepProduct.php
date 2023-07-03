@@ -10,6 +10,7 @@ use App\Models\Stores;
 use App\Models\Category;
 use App\TodoInvestment;
 use App\Mail\Deposit as Dep;
+use App\Models\SubCategory;
 use Mail;
 use Intervention\Image\Facades\Image;
 
@@ -20,7 +21,6 @@ class MultistepProduct extends Component
     use WithFileUploads;
 
     public $category_id;
-
    public $created_at;
    public $discount;
    public $fileName;
@@ -52,6 +52,13 @@ class MultistepProduct extends Component
     public $totalSteps = 4;
     public $currentStep = 1;
 
+    public $selectedState = null;
+    public $subcategories;
+    public $selectedCategory;
+    public $selectedSubcategory;
+
+
+
 
     // protected $rules = [
     //     'btc_amount' => 'required|numeric',
@@ -69,7 +76,12 @@ class MultistepProduct extends Component
         
         
     }
-    
+
+
+    public function updatedCategoryId($value)
+    {
+        $this->subcategories = Subcategory::where('cat_id', $this->category_id)->get();
+    }
     
     
      public function selectedPair($id){

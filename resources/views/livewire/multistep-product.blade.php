@@ -30,6 +30,7 @@
                     
                      <div class="row">
                          <div class="col-md-6">
+
                              <div class="form-group">
                                  <label for="">choose product category</label>
                                  <select  class="form-control" wire:model.lazy="category_id">
@@ -42,6 +43,23 @@
                                  </select>
                                  <span class="text-danger">@error('currency'){{ $message }}@enderror</span>
                              </div>
+
+                             @if (!is_null($category_id))
+                             <div class="form-group">
+                                 <label for="">Choose Subcategory</label>
+                                 <select  class="form-control" wire:model.lazy="selectedSubcategory">
+                                 <option value="" selected>No SubCategory</option>
+                                 @foreach ($subcategories as $subcategory)
+                                    
+                                        <option value="{{ $subcategory->id }}">{{ $subcategory->name }}</option>
+                                @endforeach
+                                       
+                                 </select>
+                                 <span class="text-danger">@error('subcategory'){{ $message }}@enderror</span>
+                             </div>
+
+                          @endif
+
                          </div>
                         
                      </div>
@@ -425,6 +443,9 @@ bottom: 0px;
 width: 250px;
 left: 250px;
 }
+
+
+
 
    </style>
 
