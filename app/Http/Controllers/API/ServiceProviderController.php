@@ -1077,7 +1077,7 @@ class ServiceProviderController extends Controller
             ->where(function ($query) {
                 return $query
                     ->where('su.status', 2)
-                    ->orWhere('su.status', 3)
+                    // ->orWhere('su.status', 3)
                     ->orWhere('su.status', 1);
             })
             ->get()
