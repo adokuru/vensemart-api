@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class ServiceProviderController extends Controller
 {
@@ -1068,9 +1069,10 @@ class ServiceProviderController extends Controller
     {
 
         $get_service_type = DB::table('servicebook_user as su')
-            ->select('su.*', 'u.name', 'u.email', 'u.mobile as user_mobile', 'c.category_name')
+        ->select('su.*', 'u.name', 'u.email', 'u.mobile as user_mobile')
+            // ->select('su.*', 'u.name', 'u.email', 'u.mobile as user_mobile', 'c.category_name')
             ->join('users as u', 'u.id', '=', 'su.user_id')
-            ->join('category as c', 'c.id', '=', 'su.service_type')
+            // ->join('category as c', 'c.id', '=', 'su.service_type')
             ->where('su.service_pro_id', Auth::id())
             ->where(function ($query) {
                 return $query
@@ -1080,6 +1082,11 @@ class ServiceProviderController extends Controller
             })
             ->get()
             ->toArray();
+
+            Log::info($get_service_type);
+
+
+        
             
             // ->where(function ($query) {
             //     return $query
