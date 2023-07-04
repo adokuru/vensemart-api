@@ -1198,7 +1198,7 @@ class ServiceProviderController extends Controller
             // ->select('su.*', 'u.name', 'u.email', 'u.mobile', 'c.category_name')
             ->join('users as u', 'u.id', '=', 'su.user_id')
             // ->join('category as c', 'c.id', '=', 'su.service_type')
-            // ->where('su.status', 5)
+            ->where('su.status', 5)
             ->where('su.service_pro_id', Auth::id())
             ->get()
             ->toArray();
@@ -1226,7 +1226,7 @@ class ServiceProviderController extends Controller
             // ->select('su.*', 'u.name', 'u.email', 'u.mobile', 'c.category_name')
             ->join('users as u', 'u.id', '=', 'su.user_id')
             // ->join('category as c', 'c.id', '=', 'su.service_type')
-            // ->where('su.status', 3)
+            ->where('su.status', 3)
             ->where('su.service_pro_id', Auth::id())
             ->get()
             ->toArray();
