@@ -571,6 +571,8 @@ class ServiceProviderController extends Controller
         return response()->json($arr, 200);
     }
 
+
+    //user book service
     public function bookingservice(Request $request)
     {
         $userId = Auth::id();
@@ -835,6 +837,7 @@ class ServiceProviderController extends Controller
                     ->where('servicebook_user.user_id', Auth::id())
                     ->where(function ($query) use ($date_n) {
                         $query->where('servicebook_user.status', 1)
+                            ->orWhere('servicebook_user.status', 3)
                             ->orWhere('servicebook_user.status', 2);
                     })
                     ->orderBy('servicebook_user.id', 'desc')
@@ -858,7 +861,7 @@ class ServiceProviderController extends Controller
                     ->select('servicebook_user.*', 'users.location', 'users.profile as profile', 'users.name', 'users.mobile', 'serviceprovider_category.category_icon as icon', 'serviceprovider_category.category_name as category_name')
                     ->leftJoin('users', 'users.id', '=', 'servicebook_user.service_pro_id')
                     ->leftJoin('serviceprovider_category', 'serviceprovider_category.id', '=', 'servicebook_user.service_type')
-                    ->where('servicebook_user.status', 3)
+                    ->where('servicebook_user.status', 4)
                     ->where('servicebook_user.user_id', Auth::id())
                     ->orderBy('servicebook_user.id', 'desc')
                     ->get();
@@ -1226,7 +1229,7 @@ class ServiceProviderController extends Controller
             // ->select('su.*', 'u.name', 'u.email', 'u.mobile', 'c.category_name')
             ->join('users as u', 'u.id', '=', 'su.user_id')
             // ->join('category as c', 'c.id', '=', 'su.service_type')
-            ->where('su.status', 3)
+            ->where('su.status', 4)
             ->where('su.service_pro_id', Auth::id())
             ->get()
             ->toArray();
