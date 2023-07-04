@@ -572,7 +572,7 @@ class ServiceProviderController extends Controller
     }
 
 
-    //user book service
+    //api for user to book service
     public function bookingservice(Request $request)
     {
         $userId = Auth::id();
