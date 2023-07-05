@@ -160,9 +160,7 @@ class ServiceProviderController extends Controller
 
 
             $pending_requests = DB::table('servicebook_user')
-                ->where('servicebook_user.status', 1)
-                ->where('servicebook_user.status', 2)
-                ->where('servicebook_user.status', 3)
+                 ->whereIn('status', [1, 2, 3])
                 ->where('servicebook_user.service_pro_id', $userid)
                 ->count();
             $completed_requests = DB::table('servicebook_user')
