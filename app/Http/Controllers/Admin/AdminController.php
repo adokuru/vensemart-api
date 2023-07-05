@@ -1028,8 +1028,8 @@ class AdminController extends Controller
         ->leftJoin('users','users.id','=','servicebook_user.user_id')
         ->leftJoin('users as editors','editors.id','=','servicebook_user.service_pro_id')
         ->where('servicebook_user.status',1)
-        ->where('servicebook_user.status',2)
-        ->where('servicebook_user.status',3)
+        ->orWhere('servicebook_user.status',2)
+        ->orWhere('servicebook_user.status',3)
         ->orderBy('servicebook_user.id','desc')
         ->get();
 
