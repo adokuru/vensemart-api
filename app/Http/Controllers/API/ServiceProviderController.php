@@ -1067,7 +1067,7 @@ class ServiceProviderController extends Controller
         }
     }
 
-
+//api to get service provider upcoming booking
     public function upcomming_request_list(Request $request)
     {
 
