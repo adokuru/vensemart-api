@@ -1086,7 +1086,7 @@ class ServiceProviderController extends Controller
             ->get()
             ->toArray();
 
-            Log::info($get_service_type);
+            // Log::info($get_service_type);
 
 
         
@@ -2202,11 +2202,11 @@ class ServiceProviderController extends Controller
         Log::info('request data: ' . $data['status']);
 
         $user_id = Auth::id();
-        if ($request->status == 1 || $request->status == 2 || $request->status == 3) {
-            $data['status'] = $request->status;
-        } elseif ($request->status == 2) {
-            $data['status'] = $request->status;
-        }
+        // if ($request->status == 1 || $request->status == 2 || $request->status == 3) {
+        //     $data['status'] = $request->status;
+        // } elseif ($request->status == 2) {
+        //     $data['status'] = $request->status;
+        // }
 
 
 
