@@ -1072,7 +1072,7 @@ class ServiceProviderController extends Controller
     {
 
         $get_service_type = DB::table('servicebook_user as su')
-        // ->select('su.*', 'u.name', 'u.email', 'u.mobile as user_mobile')
+        ->select('su.*', 'u.name', 'u.email', 'u.mobile as user_mobile')
             // ->select('su.*', 'u.name', 'u.email', 'u.mobile as user_mobile', 'c.category_name')
             ->join('users as u', 'u.id', '=', 'su.user_id')
             ->join('serviceprovider_category as c', 'c.id', '=', 'su.service_type')
