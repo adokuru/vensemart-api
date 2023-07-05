@@ -1028,7 +1028,7 @@ class AdminController extends Controller
         ->leftJoin('users','users.id','=','servicebook_user.user_id')
         ->leftJoin('users as editors','editors.id','=','servicebook_user.service_pro_id')
         ->whereIn('status', [1, 2, 3])
-        ->orderBy('servicebook_user.created_at','desc')
+        ->orderBy('servicebook_user.id','desc')
         ->get();
 
     // dd($data['listing']);
