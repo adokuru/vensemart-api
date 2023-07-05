@@ -2242,7 +2242,7 @@ class ServiceProviderController extends Controller
 
             /***********  end  **********************************************/
             $arr['status'] = 1;
-            $arr['message'] = $request->status == 1 ? "Booking Accepted" : "Booking Rejected";
+            $arr['message'] = $request->status == 3 ? "Booking Accepted" : "Booking Rejected";
             $arr['data'] = null;
             return response()->json($arr, 200);
         } else {
