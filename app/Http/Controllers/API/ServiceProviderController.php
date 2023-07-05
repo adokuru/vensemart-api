@@ -2057,7 +2057,7 @@ class ServiceProviderController extends Controller
         }
     }
 
-
+//api to accept or reject a booking
     public function service_booking_accept(Request $request)
     {
 
@@ -2105,7 +2105,7 @@ class ServiceProviderController extends Controller
             return response()->json($arr, 200);
         }
     }
-
+//api to complete a booking
     public function service_booking_complete(Request $request)
     {
 
