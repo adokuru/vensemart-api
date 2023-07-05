@@ -2198,20 +2198,21 @@ class ServiceProviderController extends Controller
             return response()->json($arr, 200);
         }
 
-        // $validate = $data;
-
+        $request = $data;
+        
+        Log::info('validation data'. $data);
         
 
         $user_id = Auth::id();
         if ($request->status == 1) {
-            $validate['status'] = 2;
+            $data['status'] = 2;
         } elseif ($request->status == 2) {
-            $validate['status'] = 5;
+            $data['status'] = 5;
         }
      
 
 
-        $update_status = DB::table('servicebook_user')->where('booking_id', $request->booking_id)->update($validate);
+        $update_status = DB::table('servicebook_user')->where('booking_id', $request->booking_id)->update($data);
         if (!empty($update_status)) {
             /*************  send mail  ******************************/
 
