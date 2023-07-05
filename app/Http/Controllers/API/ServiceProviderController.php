@@ -2189,6 +2189,12 @@ class ServiceProviderController extends Controller
 
         ]);
 
+        $validate = $data;
+
+    Log::info('status:'. $request->status);
+     Log::info('data:'. $data);
+     Log::info('data:'. $validate);
+
         if ($validate->fails()) {
             $arr['status'] = 0;
             $arr['message'] = 'Validation failed';
@@ -2199,15 +2205,17 @@ class ServiceProviderController extends Controller
 
         $validate = $data;
 
+    Log::info('status:'. $request->status);
+     Log::info('data:'. $data);
+     Log::info('data:'. $validate);
+
         $user_id = Auth::id();
         if ($request->status == 1) {
             $data['status'] = 2;
         } elseif ($request->status == 2) {
             $data['status'] = 5;
         }
-     Log::info('status:'. $request->status);
-     Log::info('data:'. $data);
-     Log::info('data:'. $validate);
+     
 
 
         $update_status = DB::table('servicebook_user')->where('booking_id', $request->booking_id)->update($data);
