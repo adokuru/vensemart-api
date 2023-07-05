@@ -2188,7 +2188,7 @@ class ServiceProviderController extends Controller
             'status' => 'required',        //  1=>accept, 2=>reject
 
         ]);
-        Log::info('validation data'. $validate);
+        
 
         if ($validate->fails()) {
             $arr['status'] = 0;
@@ -2199,7 +2199,7 @@ class ServiceProviderController extends Controller
         }
 
         $request = $data;
-        
+
         Log::info('validation data'. $data);
         
 
