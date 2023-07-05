@@ -150,7 +150,7 @@ class ServiceProviderController extends Controller
         }
     }
 
-//api to get service provider home
+//api to get service provider home info
 
     public function homeServiceProvider()
     {
@@ -161,8 +161,8 @@ class ServiceProviderController extends Controller
 
             $pending_requests = DB::table('servicebook_user')
                 ->where('servicebook_user.status', 1)
-                ->orWhere('servicebook_user.status', 2)
-                ->orWhere('servicebook_user.status', 3)
+                ->where('servicebook_user.status', 2)
+                ->where('servicebook_user.status', 3)
                 ->where('servicebook_user.service_pro_id', $userid)
                 ->count();
             $completed_requests = DB::table('servicebook_user')
