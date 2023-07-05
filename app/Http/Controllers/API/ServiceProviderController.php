@@ -2198,12 +2198,13 @@ class ServiceProviderController extends Controller
         }
 
         $user_id = Auth::id();
-        if ($request->status == 1 || $request->status == 2 ||  $request->status == 3) {
-            $data['status'] = $request->status;
-        } elseif ($request->status == 1 || $request->status == 2 ||  $request->status == 3) {
-            $data['status'] = $request->status;
+        if ($request->status == 1) {
+            $data['status'] = 2;
+        } elseif ($request->status == 2) {
+            $data['status'] = 5;
         }
-
+     Log::info('status:'. $request->status);
+     Log::info('data:'. $data);
 
 
         $update_status = DB::table('servicebook_user')->where('booking_id', $request->booking_id)->update($data);
