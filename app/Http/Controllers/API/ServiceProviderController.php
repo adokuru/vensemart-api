@@ -1228,7 +1228,7 @@ class ServiceProviderController extends Controller
          ->select('su.*', 'u.name', 'u.email', 'u.mobile')
             ->select('su.*', 'u.name', 'u.email', 'u.mobile', 'c.category_name')
             ->join('users as u', 'u.id', '=', 'su.user_id')
-            ->join('serviceprovider_category as c', 'c.id', '=', 'su.service_type')
+            // ->join('serviceprovider_category as c', 'c.id', '=', 'su.service_type')
             ->where('su.status', 4)
             ->where('su.service_pro_id', Auth::id())
             ->get()
@@ -1268,7 +1268,7 @@ class ServiceProviderController extends Controller
         $get_service_type = DB::table('servicebook_user as su')
             ->select('su.*', 'u.name', 'u.email', 'u.mobile', 'c.category_name')
             ->join('users as u', 'u.id', '=', 'su.user_id')
-            ->join('serviceprovider_category as c', 'c.id', '=', 'su.service_type')
+            ->join('category as c', 'c.id', '=', 'su.service_type')
             ->where('su.status', 5)
             ->where('su.service_pro_id', Auth::id())
             ->where('su.id', $request->id)
@@ -2188,7 +2188,6 @@ class ServiceProviderController extends Controller
             'status' => 'required',        //  1=>accept, 2=>reject
 
         ]);
-        
 
         if ($validate->fails()) {
             $arr['status'] = 0;
@@ -2198,10 +2197,9 @@ class ServiceProviderController extends Controller
             return response()->json($arr, 200);
         }
 
-        $request = $data;
 
-        Log::info('validation data'. $data);
-        
+        $data = $request->all();
+        Log::info('request data: ' . $data);
 
         $user_id = Auth::id();
         if ($request->status == 1) {
@@ -2209,7 +2207,7 @@ class ServiceProviderController extends Controller
         } elseif ($request->status == 2) {
             $data['status'] = 5;
         }
-     
+
 
 
         $update_status = DB::table('servicebook_user')->where('booking_id', $request->booking_id)->update($data);
