@@ -1027,7 +1027,9 @@ class AdminController extends Controller
         $data['listing']= DB::table('servicebook_user')->select('servicebook_user.*','users.name as user_name','editors.name as editor_name','editors.mobile as editor_mobile')
         ->leftJoin('users','users.id','=','servicebook_user.user_id')
         ->leftJoin('users as editors','editors.id','=','servicebook_user.service_pro_id')
-        ->whereIn('status', [1, 2, 3])
+        ->where('servicebook_user.status',1)
+        ->orWhere('servicebook_user.status',2)
+        ->orWhere('servicebook_user.status',3)
         ->orderBy('servicebook_user.id','desc')
         ->get();
 
