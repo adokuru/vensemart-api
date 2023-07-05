@@ -2202,7 +2202,7 @@ class ServiceProviderController extends Controller
         Log::info('request data: ' . $data->status);
 
         $user_id = Auth::id();
-        if ($request->status == 1) {
+        if ($request->status == 1 || $request->status == 2 || $request->status == 3 || $request->status == 4) {
             $data->status = 2;
         } elseif ($request->status == 2) {
             $data->status = 5;
