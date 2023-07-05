@@ -2197,6 +2197,8 @@ class ServiceProviderController extends Controller
             return response()->json($arr, 200);
         }
 
+        $validate = $data;
+
         $user_id = Auth::id();
         if ($request->status == 1) {
             $data['status'] = 2;
