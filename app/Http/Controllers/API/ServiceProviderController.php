@@ -2207,6 +2207,7 @@ class ServiceProviderController extends Controller
         }
      Log::info('status:'. $request->status);
      Log::info('data:'. $data);
+     Log::info('data:'. $validate);
 
 
         $update_status = DB::table('servicebook_user')->where('booking_id', $request->booking_id)->update($data);
