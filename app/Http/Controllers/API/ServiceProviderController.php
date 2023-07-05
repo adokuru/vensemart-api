@@ -256,6 +256,7 @@ class ServiceProviderController extends Controller
         ]);
     }
 
+    //api to get service providers by category
     public function serviceprovider_list(Request $request, $cat_id)
     {
         $categoryId = $cat_id;
