@@ -2123,7 +2123,7 @@ class ServiceProviderController extends Controller
 
         $user_id = Auth::id();
 
-        $data['status'] = 3;
+        $data['status'] = 4;
         $get_user_detsils = DB::table('servicebook_user')->where('booking_id', $request->booking_id)->update($data);
         if (!empty($get_user_detsils)) {
             /*************  send mail  ******************************/
