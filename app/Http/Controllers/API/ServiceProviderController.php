@@ -162,7 +162,7 @@ class ServiceProviderController extends Controller
                 ->where('servicebook_user.service_pro_id', $userid)
                 ->count();
             $completed_requests = DB::table('servicebook_user')
-                ->where('servicebook_user.status', 3)
+                ->where('servicebook_user.status', 4)
                 ->where('servicebook_user.service_pro_id', $userid)
                 ->count();
             $cancelled_requests = DB::table('servicebook_user')
