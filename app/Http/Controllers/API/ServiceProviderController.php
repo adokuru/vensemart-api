@@ -2188,12 +2188,7 @@ class ServiceProviderController extends Controller
             'status' => 'required',        //  1=>accept, 2=>reject
 
         ]);
-
-        $validate = $data;
-
-    Log::info('status:'. $request->status);
-     Log::info('data:'. $data);
-     Log::info('data:'. $validate);
+        Log::info('validation data'. $validate);
 
         if ($validate->fails()) {
             $arr['status'] = 0;
@@ -2203,22 +2198,20 @@ class ServiceProviderController extends Controller
             return response()->json($arr, 200);
         }
 
-        $validate = $data;
+        // $validate = $data;
 
-    Log::info('status:'. $request->status);
-     Log::info('data:'. $data);
-     Log::info('data:'. $validate);
+        
 
         $user_id = Auth::id();
         if ($request->status == 1) {
-            $data['status'] = 2;
+            $validate['status'] = 2;
         } elseif ($request->status == 2) {
-            $data['status'] = 5;
+            $validate['status'] = 5;
         }
      
 
 
-        $update_status = DB::table('servicebook_user')->where('booking_id', $request->booking_id)->update($data);
+        $update_status = DB::table('servicebook_user')->where('booking_id', $request->booking_id)->update($validate);
         if (!empty($update_status)) {
             /*************  send mail  ******************************/
 
