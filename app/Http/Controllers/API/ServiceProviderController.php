@@ -2203,9 +2203,9 @@ class ServiceProviderController extends Controller
 
         $user_id = Auth::id();
         if ($request->status == 1 || $request->status == 2 || $request->status == 3 || $request->status == 4) {
-            $data['status'] = 2;
+            $data['status'] = $request->status;
         } elseif ($request->status == 2) {
-            $data['status'] = 5;
+            $data['status'] = $request->status;
         }
 
 
