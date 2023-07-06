@@ -158,7 +158,7 @@ $.ajax({
                                 
                                    @if($errors->any())
     <div class="alert alert-danger">
-        <p><strong>Please make sure to correct email and password</strong></p>
+        <p><strong>Please make sure to enter correct email and password</strong></p>
        
     </div>
 @endif
