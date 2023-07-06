@@ -158,13 +158,8 @@ $.ajax({
                                 
                                    @if($errors->any())
     <div class="alert alert-danger">
-        <p><strong>Opps Something went wrong</strong></p>
-        <ul>
-        @foreach ($errors->all() as $error)
-            <!-- <li>{{ $error }}</li> -->
-            <li>please email or password is incorrect</li>
-        @endforeach
-        </ul>
+        <p><strong>Please make sure to correct email and password</strong></p>
+       
     </div>
 @endif
 
