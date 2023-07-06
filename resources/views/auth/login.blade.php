@@ -161,7 +161,8 @@ $.ajax({
         <p><strong>Opps Something went wrong</strong></p>
         <ul>
         @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
+            <!-- <li>{{ $error }}</li> -->
+            <li>please email or password is incorrect</li>
         @endforeach
         </ul>
     </div>
