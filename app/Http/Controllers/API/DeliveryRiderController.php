@@ -226,11 +226,11 @@ class DeliveryRiderController extends Controller
             $availibility = DB::table('users')->where('id', Auth::id())->where('status', '1')->first();
             $pending_order = DB::table('orders')->where('driver_id', Auth::id())->where('status', '2')->count();
             $completed_order = DB::table('orders')->where('driver_id', Auth::id())->where('status', '4')->count();
-            $today_order = DB::table('orders as o')
-                ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/shop_images') . '","/",s.store_image)  as store_image'))
-                ->join('stores as s', 's.id', 'o.shop_id')
-                ->join('user_address as ua', 'ua.id', 'o.address_id')
-                ->where('o.driver_id', Auth::id())->whereDate('o.order_date', date('Y-m-d'))->get()->toArray();
+            // $today_order = DB::table('orders as o')
+            //     ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/shop_images') . '","/",s.store_image)  as store_image'))
+            //     ->join('stores as s', 's.id', 'o.shop_id')
+            //     ->join('user_address as ua', 'ua.id', 'o.address_id')
+            //     ->where('o.driver_id', Auth::id())->whereDate('o.order_date', date('Y-m-d'))->get()->toArray();
             $data['total_order'] = $total_order != 0 ? $total_order : 0;
             $data['total_earning'] = $total_earning != 0 ? number_format((float)$total_earning, 2, '.', '') : 0.00;
             $data['today_order'] = $today_order != [] ? $today_order : [];
