@@ -638,8 +638,8 @@ class ServiceProviderController extends Controller
 
             Log::info($serviceproviderId);
 
-
-            $this->sendNotification($data['service_pro_id'], "Booking", "New Booking Request From"  . $user->name);
+            $this->sendNotification($serviceproviderId, "Booking", "Booking Was Successfully Submitted");
+            $this->sendNotification($serviceproviderId, "Booking", "New Booking Request From"  . $user->name);
 
             $arr['status'] = 1;
             $arr['message'] = 'Success';
