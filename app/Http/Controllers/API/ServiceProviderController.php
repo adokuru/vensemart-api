@@ -634,6 +634,11 @@ class ServiceProviderController extends Controller
             $d = DB::table('servicebook_user')->insert($data);
 
             $this->sendNotification(Auth::id(), "Booking", "Booking Was Successfully Submitted");
+            // $serviceproviderId
+
+            Log::info($serviceproviderId);
+
+
             $this->sendNotification($data['service_pro_id'], "Booking", "New Booking Request From"  . $user->name);
 
             $arr['status'] = 1;
