@@ -174,7 +174,7 @@ class MultistepProduct extends Component
         $resizedImage = Image::make($this->fileName->getRealPath())
     ->resize(500, null, function ($constraint) {
         $constraint->aspectRatio();
-    })
+    })   
     ->encode();
 
 

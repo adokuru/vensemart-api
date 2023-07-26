@@ -29,8 +29,7 @@
                 <th>User Id</th>
                 <th>Name</th>
                 <th>Email</th>
-                
-                
+                <th>Phone</th>
                 <th>Image</th>
                 <th>Vendor Verified</th>
                 <th>Action</th>
@@ -45,6 +44,7 @@
                 <td>{{$val->user_id}}</td>
                 <td>{{ $val->first_name }}</td>
                 <td>{{ $val->email }}</td>
+                <td>{{ $val->telephone }}</td>
                 
                 
                 
