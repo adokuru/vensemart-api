@@ -167,9 +167,16 @@ class MultistepProduct extends Component
        //normal image upload with intervention image
 
         $extension = $this->fileName->getClientOriginalExtension(); 
+        // $resizedImage = Image::make($this->fileName->getRealPath())
+        //        ->resize(500, 664)
+        //        ->encode();
+
         $resizedImage = Image::make($this->fileName->getRealPath())
-               ->resize(500, 664)
-               ->encode();
+    ->resize(500, null, function ($constraint) {
+        $constraint->aspectRatio();
+    })
+    ->encode();
+
 
         $fileNamee = rand(1000,200000000).$this->product_title . '.' . $extension;
         $fileName = $resizedImage->save(storage_path('/app/public/product_images/'.$fileNamee));
