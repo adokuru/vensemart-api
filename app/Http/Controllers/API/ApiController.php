@@ -848,7 +848,7 @@ class ApiController extends Controller
 
 
                 // $this->sendNotification(1105, "You have been booked", "Pls check");
-                
+                Log::info('this works here 2');
                 $this->contactRiderAndVendor($orderIdd, $user_id);
 
 
