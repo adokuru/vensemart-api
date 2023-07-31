@@ -415,6 +415,7 @@ class Controller extends BaseController
         $data = json_decode($res->getBody(), true);
         Log::info("this is the data: $data");
         $distance = $data ? $data["rows"][0]["elements"][0]["distance"]["value"] / 1000 : 1;
+        Log::info("this is the distance: $distance");
         return $distance;
     }
 
