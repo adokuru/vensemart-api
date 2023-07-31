@@ -252,6 +252,7 @@ class Controller extends BaseController
 
                 $vendor = $this->getVendor($product->shop_id);
                 $riders =  $this->requestRiderForDelivery($vendor->lati, $vendor->longi);
+
             } else {
                 $riders =  $this->requestRiderForDelivery($Corddata['lati'], $Corddata['longi']);
             }
@@ -391,10 +392,6 @@ class Controller extends BaseController
         }
 
         array_multisort(array_column($riderArray, 'distance'), SORT_ASC, $riderArray);
-        
-
-       
-
         return $riderArray;
     }
 
@@ -429,8 +426,8 @@ class Controller extends BaseController
     public function getVendorId($productID)
     {
         $product = \App\Models\Products::find($productID);
-        Log::info('it works');
-        // if (!$product) throw $this->sendError('Product not found', [], 422);
+        // Log::info('it works');
+        if (!$product) throw $this->sendError('Product not found', [], 422);
 
         $vendor = $this->getVendor($product->shop_id);
 
