@@ -382,10 +382,12 @@ class Controller extends BaseController
     ->whereNotNull('location_long')
     ->get();
 
+    
+
         $riderArray = [];
 
         foreach ($rider as $key => $value) {
-             Log::info('rider locations '.$value->location);
+             Log::info('rider locations '.$value->location_lat);
             if ($value->location_lat == null || $value->location_long == null) continue;
             $distance = $this->getDistance($lat, $lng, $value->location_lat, $value->location_long);
             // add distance in array
@@ -413,9 +415,7 @@ class Controller extends BaseController
         $client = new Client();
         $res = $client->get($url);
         $data = json_decode($res->getBody(), true);
-        Log::info($data['0']);
         $distance = $data ? $data["rows"][0]["elements"][0]["distance"]["value"] / 1000 : 1;
-        Log::info($distance['0']);
         return $distance;
     }
 
