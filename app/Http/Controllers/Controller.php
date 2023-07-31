@@ -425,6 +425,8 @@ class Controller extends BaseController
 
     public function getVendorId($productID)
     {
+
+       Log::info("product Id is .$productID");
         $product = \App\Models\Products::find($productID);
         Log::info('it works');
         if (!$product){
@@ -432,7 +434,6 @@ class Controller extends BaseController
             // throw $this->sendError('Product not found', [], 422);
         }
          
-
         $vendor = $this->getVendor($product->shop_id);
 
         return $vendor->id;
