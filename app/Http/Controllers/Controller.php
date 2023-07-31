@@ -375,7 +375,12 @@ class Controller extends BaseController
         // )->where('is_online', 1)->get();
 
 
-        $rider = User::where('type', 2)->get();
+        // $rider = User::where('type', 2)->get();
+
+        $rider =  User::where('type', 2)
+    ->whereNotNull('location_lat')
+    ->whereNotNull('location_long')
+    ->get();
 
         $riderArray = [];
 
