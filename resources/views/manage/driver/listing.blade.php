@@ -28,6 +28,7 @@
                 <th>Name</th>
                 <th>Email</th>
                <th>mobile</th>
+               <th>Registered</th>
                 <!-- <th>Image</th>  -->
                 <!-- <th>Is Verify</th> -->
              
@@ -42,6 +43,7 @@
                 <td>{{ $val->name }}</td>
                 <td>{{ $val->email }}</td>
                 <td>{{ $val->mobile }}</td> 
+                <td>  {{ \Carbon\Carbon::parse($val->created_at)->diffForHumans() }}</td>
 
                 <td> <?php if($val->profile){?>
                     <img src="{{  url('uploads/driver_image').'/'. $val->profile }}"  width="30" height="30">
