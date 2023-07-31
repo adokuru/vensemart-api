@@ -51,8 +51,7 @@
                 
                </td>
                 <td>
-                    <!-- <a href="{{url('admin/new-driver/view').'/'.$val->user_idOne }}"><i class="fa fa-eye" aria-hidden="true"></i></a> | -->
-                    <!--<a href="{{url('admin/new-driver/edit').'/'.$val->id }}"><i class="fas fa-edit"></i></a> |-->
+                   
                     <a href="{{url('admin/new-driver/delete').'/'.$val->id }}"><i class="fas fa-trash"></i></a>
                 </td>
               </tr>
