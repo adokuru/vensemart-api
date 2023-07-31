@@ -49,11 +49,7 @@
                 </td>
                 <td>
                
-               <select onchange="change_status(<?php echo $val->id;?>,this)">
-                   <option value="0" <?php if($val->isVerify == 1){ echo "Selected";}?> > <a href="#heading1">Not Approved </a></option>
-                   <option value="1" <?php if($val->isVerify == 2){ echo "Selected";}?> >  <a href="#heading1">Approved </a></option>
-                   <option value="2" <?php if($val->isVerify == 3){ echo "Selected";}?> >  <a href="#heading1">Rejected</option>
-               </select>
+               
                </td>
                 <td>
                     <?php if($val->status == 1){ ?>
