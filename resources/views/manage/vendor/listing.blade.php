@@ -48,6 +48,7 @@
                 
                 
                 
+                
                 <td> <?php if($val->image){?>
                 <?php   $burl = URL::to('/'); 
                    

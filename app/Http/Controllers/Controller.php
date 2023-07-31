@@ -305,7 +305,7 @@ class Controller extends BaseController
 
                  $message = "Dear Rider, you have a new delivery, please check vensemart rider app for details. ";
 
-                 $this->sendSMSMessage($$rider->mobile, $message);
+                 $this->sendSMSMessage($rider->mobile, $message);
     
                 // send notification to rider 
                 $this->sendNotification($rider->id, "You have been booked");
