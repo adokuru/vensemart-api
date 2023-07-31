@@ -387,7 +387,7 @@ class Controller extends BaseController
         $riderArray = [];
 
         foreach ($rider as $key => $value) {
-             Log::info('rider locations '.$value->location_lat);
+             Log::info('rider locations '.$value->location_lat.$value->location_long);
             if ($value->location_lat == null || $value->location_long == null) continue;
             $distance = $this->getDistance($lat, $lng, $value->location_lat, $value->location_long);
             // add distance in array
