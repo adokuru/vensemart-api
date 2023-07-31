@@ -151,6 +151,7 @@ class MultistepProduct extends Component
 
 
         //normal image upload with laravel livewire
+        
         // $destinationPath = 'product_images'; 
 
         // $extension = $this->fileName->getClientOriginalExtension(); 
