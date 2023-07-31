@@ -413,9 +413,9 @@ class Controller extends BaseController
         $client = new Client();
         $res = $client->get($url);
         $data = json_decode($res->getBody(), true);
-        Log::info(implode(", ", $data));
+        Log::info($data['0']);
         $distance = $data ? $data["rows"][0]["elements"][0]["distance"]["value"] / 1000 : 1;
-        Log::info(implode(", ", $distance));
+        Log::info($distance['0']);
         return $distance;
     }
 
