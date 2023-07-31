@@ -426,7 +426,7 @@ class Controller extends BaseController
     public function getVendorId($productID)
     {
 
-       Log::info("product Id is .$productID");
+       Log::info("product Id is $productID now");
         $product = \App\Models\Products::find($productID);
         Log::info('it works');
         if (!$product){
