@@ -810,6 +810,7 @@ class ApiController extends Controller
                     $ins_data[$k]['p_image'] = $value->product_image;
                     $ins_data[$k]['user_id'] = $value->user_id;
                     $ins_data[$k]['product_id'] = $value->product_id;
+                    Log::info('this works here 2');
                     $store_id =  $this->getVendorId($value->product_id);
                     $ins_data[$k]['quantity'] = $value->qty;
                     $ins_data[$k]['net_price'] = $value->net_amount;
@@ -848,7 +849,7 @@ class ApiController extends Controller
 
 
                 // $this->sendNotification(1105, "You have been booked", "Pls check");
-                Log::info('this works here 2');
+                
                 $this->contactRiderAndVendor($orderIdd, $user_id);
 
 
