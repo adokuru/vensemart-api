@@ -797,6 +797,9 @@ class ApiController extends Controller
 
             DB::beginTransaction();
 
+
+            Log::info('this works here');
+
             $result1 = DB::table('orders')->insert($order_data);
             $store_id = 0;
             if ($result1) {
