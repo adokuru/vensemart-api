@@ -307,15 +307,13 @@ class AdminController extends Controller
     
     public function managenew_drivers()
     {
-        $data['listing']=DB::table('users')->
-        select('users.name','users.email','users.profile','users.mobile',
-        'users.id as user_idOne')
+        // $data['listing']=DB::table('users')->
         // select('users.name','users.email','users.profile','users.mobile',
         // 'users.id as user_idOne','vehicle_details.*')
         // ->leftJoin('vehicle_details','vehicle_details.user_id',
         // '=','users.id')->where('vehicle_details.isVerify','2')
-        ->where('users.type','2')->get();
-        // $data['listing'] = DB::table('users')->where('type',2)->where('created_at', '>=', Carbon::now()->subDay()->toDateTimeString())->get();
+        // ->where('users.type','2')->get();
+        $data['listing'] = DB::table('users')->where('type',2)->where('created_at', '>=', Carbon::now()->subDay()->toDateTimeString())->get();
         return view('manage.driver.listing',$data);
         
     }
