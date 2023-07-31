@@ -812,6 +812,7 @@ class ApiController extends Controller
                     $ins_data[$k]['product_id'] = $value->product_id;
                     Log::info('this works here 2');
                     $store_id =  $this->getVendorId($value->product_id);
+                    Log::info('this works here 3');
                     $ins_data[$k]['quantity'] = $value->qty;
                     $ins_data[$k]['net_price'] = $value->net_amount;
                     $ins_data[$k]['gst_percent'] = 0;
