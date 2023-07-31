@@ -47,16 +47,8 @@
                     <img src="{{  url('uploads/driver_image').'/'. $val->profile }}"  width="30" height="30">
                     <?php } ?>
                 </td>
-                <td>
                
-               
-               </td>
-                <td>
-                    <?php if($val->status == 1){ ?>
-                      <span class="badge badge-success">Active</span>
-                <?php }else { ?>
-                      <span class="badge badge-danger">InActive</span>
-               <?php  } ?>
+                
                </td>
                 <td>
                     <a href="{{url('admin/new-driver/view').'/'.$val->user_idOne }}"><i class="fa fa-eye" aria-hidden="true"></i></a> |
