@@ -389,6 +389,7 @@
                           </div>
                         </a>
                       </div>
+                      
                       <div class="col-md-6">
                         <a href="javascript:void(0);">
                           <div class="panel panel-warning pricing-big">
