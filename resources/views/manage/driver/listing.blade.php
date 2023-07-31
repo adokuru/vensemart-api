@@ -27,9 +27,9 @@
                 <th>S.No.</th>
                 <th>Name</th>
                 <th>Email</th>
-                <th>mobile</th>
-                <th>Image</th>
-                <th>Is Verify</th>
+               <th>mobile</th>
+                <!-- <th>Image</th>  -->
+                <!-- <th>Is Verify</th> -->
              
                 <th>Status</th>
                 <th>Action</th>
