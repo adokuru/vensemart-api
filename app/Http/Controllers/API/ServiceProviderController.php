@@ -13,9 +13,13 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use App\Traits\SendMessage;
 
 class ServiceProviderController extends Controller
 {
+
+
+    use sendMessage;
 
     public function serviceprovider_onboarding(Request $request)
     {
@@ -637,6 +641,19 @@ class ServiceProviderController extends Controller
             // $serviceproviderId
 
             Log::info($serviceproviderId);
+           
+             
+            $servicephone = $serviceProvider->mobile;
+
+           
+
+            $phone_Number = '+234' . substr( $servicephone, -10);
+
+            Log::info($phone_Number);
+            
+            $message = "Dear Vensemart Service provider, you have been booked, pls check your vensemart service provider app for details ";
+
+            $this->sendSMSMessage($phone_Number, $message);
 
             $this->sendNotification($serviceproviderId, "Booking", "Booking Was Successfully Submitted");
             $this->sendNotification($serviceproviderId, "Booking", "New Booking Request From"  . $user->name);
