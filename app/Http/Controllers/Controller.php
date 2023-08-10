@@ -17,79 +17,28 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use App\Traits\SendMessage;  
+  
 
 class Controller extends BaseController
 {
-    use AuthorizesRequests, DispatchesJobs, ValidatesRequests,sendMessage;
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
 
 
-    // public function sendSMSMessage($to, $message)
-    // {
-    //     try {
-    //         $client = new SMSController(env('TERMII_API_KEY'));
-
-    //         $response = $client->sendMessage($to, 'N-Alert', $message, "dnd");
-    //         return $response;
-    //     } catch (\Exception $e) {
-    //         throw new \Exception($e->getMessage());
-    //     }
-    // }
-
-
-    public function send_otp(Request $request)
+    public function sendSMSMessage($to, $message)
     {
         try {
-            $typevalidate = Validator::make($request->all(), [
-                'phone_number' => 'required'
-            ]);
+            $client = new SMSController(env('TERMII_API_KEY'));
 
-            if ($typevalidate->fails()) {
-                $arr['status'] = 0;
-                $arr['message'] = $typevalidate->errors()->first();
-                $arr['data'] = NULL;
-                return response()->json($arr, 422);
-            }
-
-            $users = User::where(function ($query) use ($request) {
-                $query->orwhere('mobile', $request->phone_number);
-            })->first();
-
-            if (!$users) {
-                $arr['status'] = 0;
-                $arr['message'] = 'Phone number not found';
-                $arr['data'] = NULL;
-                return response()->json($arr, 422);
-            }
-
-            // set otp
-
-            $otp = rand(1000, 9999);
-            $users->otp = $otp;
-            $users->save();
-
-
-
-            $phone_Number = '+234' . substr($request->phone_number, -10);
-            $message = "Your Vensemart authentication code is " . $otp . ". Please do not share this code with anyone. This code expires in 5 mins.";
-
-            $this->sendSMSMessage($phone_Number, $message);
-
-            $arr['status'] = 1;
-            $arr['message'] = 'OTP sent successfully';
-            $arr['data'] = NULL;
-            return response()->json($arr, 200);
+            $response = $client->sendMessage($to, 'N-Alert', $message, "dnd");
+            return $response;
         } catch (\Exception $e) {
-            $arr['status'] = 0;
-            $arr['message'] = $e->getMessage();
-            $arr['data'] = NULL;
-            return response()->json($arr, 500);
+            throw new \Exception($e->getMessage());
         }
     }
 
 
-
+    
     public function validateNumber($phone_number)
     {
         $request = Http::withHeaders([
