@@ -38,6 +38,7 @@ class Controller extends BaseController
     }
 
 
+    
     public function validateNumber($phone_number)
     {
         $request = Http::withHeaders([
