@@ -12,8 +12,6 @@ use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Products;
 use App\Traits\SendMessage;
-
-
 use App\Mail\NotifyMail;
 use App\Models\UserVerifiedInfo;
 use Illuminate\Support\Facades\Mail;

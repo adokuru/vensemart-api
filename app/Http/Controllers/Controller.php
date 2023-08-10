@@ -25,17 +25,17 @@ class Controller extends BaseController
 
 
 
-    // public function sendSMSMessage($to, $message)
-    // {
-    //     try {
-    //         $client = new SMSController(env('TERMII_API_KEY'));
+    public function sendSMSMessage($to, $message)
+    {
+        try {
+            $client = new SMSController(env('TERMII_API_KEY'));
 
-    //         $response = $client->sendMessage($to, 'N-Alert', $message, "dnd");
-    //         return $response;
-    //     } catch (\Exception $e) {
-    //         throw new \Exception($e->getMessage());
-    //     }
-    // }
+            $response = $client->sendMessage($to, 'N-Alert', $message, "dnd");
+            return $response;
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+    }
 
 
     public function validateNumber($phone_number)
