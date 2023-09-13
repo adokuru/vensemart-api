@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Models\Stores;
 use App\Models\Products;
 use App\Models\Orders;
+use Illuminate\Http\Request;
 use Jenssegers\Agent\Facades\Agent;
 /*
 |--------------------------------------------------------------------------
