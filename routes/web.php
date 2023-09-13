@@ -75,9 +75,9 @@ Route::get('/product', function(){
 });
 
 
-Route::get('/api/ref', function () {
+Route::get('/api/ref', function (Request $request) {
     $referralCode = request()->query('');
-    $request = request()->all();
+  
 
     // Call the detectDeviceAgent function passing the referral code
     return app(\App\Http\Controllers\API\SecondController::class)->detectDeviceAgent($referralCode, $request);
