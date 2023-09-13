@@ -37,6 +37,14 @@ Route::get('contact-us', [SecondController::class, 'contactus']);
 Route::get('faqs', [SecondController::class, 'faqs']);
 
 
+Route::get('/api/ref', function () {
+    $referralCode = request()->query('');
+
+    // Call the detectDeviceAgent function passing the referral code
+    return app(SecondController::class)->detectDeviceAgent($referralCode);
+});
+
+
 Route::post('product_image', [ProductsController::class, 'product_image']);
 
 // Route::post('product_image',[ProductsController::class, 'product_image']);

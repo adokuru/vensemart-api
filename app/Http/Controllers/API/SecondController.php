@@ -76,4 +76,28 @@ class SecondController extends Controller
         }
         return response()->json($arr, 200);
     }
+
+
+    public function detectDeviceAgent(Request $request)
+    {
+    $referralCode = $request->query('ref');
+
+    // Use the extracted referral code for further processing
+    // For example, you can append it to the store link
+
+    $referralLink = 'https://api.vensemart.com/api/ref?';
+
+    if (Agent::isMobile()) {
+        // Redirect to iOS store with referral code
+        $storeLink = 'https://apps.apple.com/us/app/vensemart-customer/id1670924558?ref=' . $referralCode;
+    } elseif (Agent::isAndroidOS()) {
+        // Redirect to Android store with referral code
+        $storeLink = 'https://play.google.com/store/apps/details?id=com.vensemart.vensemart&ref=' . $referralCode;
+    } else {
+        // Redirect to the referral link with referral code
+        $storeLink = $referralLink . '=' . $referralCode;
+    }
+
+    return redirect($storeLink);
+   }
 }
