@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Models\Stores;
 use App\Models\Products;
 use App\Models\Orders;
+use Jenssegers\Agent\Facades\Agent;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -75,16 +76,29 @@ Route::get('/product', function(){
 });
 
 
-Route::get('/api/ref', function (Request $request) {
-    $referralCode = request()->query('');
-  
+Route::get('/api/ref', function($referralCode, Request $request){
 
-    // Call the detectDeviceAgent function passing the referral code
-    return app(\App\Http\Controllers\API\SecondController::class)->detectDeviceAgent($referralCode, $request);
+
+    $referralCode = $request->query('ref');
+
+    // Use the extracted referral code for further processing
+    // For example, you can append it to the store link
+
+    $referralLink = 'https://api.vensemart.com/api/ref?';
+
+    if (Agent::isMobile()) {
+        // Redirect to iOS store with referral code
+        $storeLink = 'https://apps.apple.com/us/app/vensemart-customer/id1670924558?ref=' . $referralCode;
+    } elseif (Agent::isAndroidOS()) {
+        // Redirect to Android store with referral code
+        $storeLink = 'https://play.google.com/store/apps/details?id=com.vensemart.vensemart&ref=' . $referralCode;
+    } else {
+        // Redirect to the referral link with referral code
+        $storeLink = $referralLink . '=' . $referralCode;
+    }
+
+    return redirect($storeLink);
 });
-
-
-
 
 
 Route::get('/dashboard', function () {
