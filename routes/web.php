@@ -88,34 +88,37 @@ Route::get('/api/ref', function(Request $request) {
 
     if (Agent::isMobile()) {
         if (Agent::is('iPhone') || Agent::is('iPad')) {
-            // Redirect to iOS store with referral code
-            $storeLink = 'https://apps.apple.com/us/app/vensemart-customer/id1670924558?ref=' . $referralCode;
-
             // Check if the iOS app is installed
             if (Agent::is('iPhone') && Agent::match('VensemartCustomer')) {
                 return redirect('vensemartcustomer://?ref=' . $referralCode);
             } elseif (Agent::is('iPad') && Agent::match('VensemartCustomer')) {
                 return redirect('vensemartcustomeripad://?ref=' . $referralCode);
+            } else {
+                // Redirect to iOS store with referral code
+                $storeLink = 'https://apps.apple.com/us/app/vensemart-customer/id1670924558?ref=' . $referralCode;
+                return redirect($storeLink);
             }
         } elseif (Agent::isAndroidOS()) {
-            // Redirect to Android store with referral code
-            $storeLink = 'https://play.google.com/store/apps/details?id=com.vensemart.vensemart&ref=' . $referralCode;
-
             // Check if the Android app is installed
             if (Agent::match('VensemartCustomer')) {
                 return redirect('vensemartcustomer://?ref=' . $referralCode);
+            } else {
+                // Redirect to Android store with referral code
+                $storeLink = 'https://play.google.com/store/apps/details?id=com.vensemart.vensemart&ref=' . $referralCode;
+                return redirect($storeLink);
             }
         } else {
             // Redirect to the referral link with referral code
             $storeLink = $referralLink . '=' . $referralCode;
+            return redirect($storeLink);
         }
     } else {
         // Redirect to the referral link with referral code
         $storeLink = $referralLink . '=' . $referralCode;
+        return redirect($storeLink);
     }
-
-    return redirect($storeLink);
 });
+
 
 
 Route::get('/dashboard', function () {
