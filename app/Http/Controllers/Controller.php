@@ -456,4 +456,6 @@ class Controller extends BaseController
         DB::table('my_wallet')->where('user_id', $userId)->update(['amount' => $newamount]);
 
     }
+
+    
 }

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use Carbon\Carbon;
+use Jenssegers\Agent\Facades\Agent;
 
 class SecondController extends Controller
 {
