@@ -335,6 +335,9 @@ class AuthController extends Controller
                 $query->orwhere('mobile', $request->mobile);
             })
                 ->first();
+
+           
+            
             if ($users) {
                 $arr['status'] = 0;
                 $arr['message'] = 'E-mail id or Phone number already exist!!';
@@ -349,11 +352,26 @@ class AuthController extends Controller
             if (isset($data['password'])) {
                 $data['password'] = Hash::make($data['password']);
             }
+
+            $referrer = User::where('referral_code', $request->referral_code)->first();
+
+            $data['referral_code'] = "RF_" . \Str::random(4);
+            $data['referred_by_id'] = $referrer ? $referrer->id 
+            : null;
+
             DB::beginTransaction();
             try {
                 $user = User::create($data);
                 $token = $user->createToken('Pontus')->accessToken;
+
                 User::where('id', $user->id)->update(['remember_token' => $token, 'api_token' => $token]);
+
+                // if ($user->referrer !== null) {
+                //     //perform any logic to gift the referrer or update 
+                // //    the referrer wallet
+           
+                //      }
+                
                 $userArr = User::where('id', $user->id)->get()->first();
                 DB::commit();
                 if ($user) {

@@ -50,7 +50,9 @@ class User extends Authenticatable
         'state',
         'town',
         'age',
-        'gender'
+        'gender',
+        'referred_by_id',
+         'referral_code'
     ];
 
     /**
@@ -71,4 +73,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function referredBy()
+    {
+    return $this->belongsTo(User::class, 'referred_by_id', 'id');
+    }
+
+
+   public function referrals()
+   {
+    return $this->hasMany(User::class, 'referred_by_id', 'id');
+    }
+
 }
