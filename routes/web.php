@@ -77,9 +77,9 @@ Route::get('/product', function(){
 });
 
 
-Route::get('/api/ref', function($referralCode, Request $request){
 
 
+Route::get('/api/ref', function(Request $request) {
     $referralCode = $request->query('ref');
 
     // Use the extracted referral code for further processing
