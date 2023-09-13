@@ -79,7 +79,7 @@ class SecondController extends Controller
     }
 
 
-    public function detectDeviceAgent(Request $request)
+    public function detectDeviceAgent($referralCode, Request $request,)
     {
     $referralCode = $request->query('ref');
 
