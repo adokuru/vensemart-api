@@ -78,7 +78,6 @@ Route::get('/product', function(){
 
 
 
-
 Route::get('/api/ref', function(Request $request) {
     $referralCode = $request->query('ref');
 
@@ -88,11 +87,28 @@ Route::get('/api/ref', function(Request $request) {
     $referralLink = 'https://api.vensemart.com/api/ref?';
 
     if (Agent::isMobile()) {
-        // Redirect to iOS store with referral code
-        $storeLink = 'https://apps.apple.com/us/app/vensemart-customer/id1670924558?ref=' . $referralCode;
-    } elseif (Agent::isAndroidOS()) {
-        // Redirect to Android store with referral code
-        $storeLink = 'https://play.google.com/store/apps/details?id=com.vensemart.vensemart&ref=' . $referralCode;
+        if (Agent::is('iPhone') || Agent::is('iPad')) {
+            // Redirect to iOS store with referral code
+            $storeLink = 'https://apps.apple.com/us/app/vensemart-customer/id1670924558?ref=' . $referralCode;
+
+            // Check if the iOS app is installed
+            if (Agent::is('iPhone') && Agent::match('VensemartCustomer')) {
+                return redirect('vensemartcustomer://?ref=' . $referralCode);
+            } elseif (Agent::is('iPad') && Agent::match('VensemartCustomer')) {
+                return redirect('vensemartcustomeripad://?ref=' . $referralCode);
+            }
+        } elseif (Agent::isAndroidOS()) {
+            // Redirect to Android store with referral code
+            $storeLink = 'https://play.google.com/store/apps/details?id=com.vensemart.vensemart&ref=' . $referralCode;
+
+            // Check if the Android app is installed
+            if (Agent::match('VensemartCustomer')) {
+                return redirect('vensemartcustomer://?ref=' . $referralCode);
+            }
+        } else {
+            // Redirect to the referral link with referral code
+            $storeLink = $referralLink . '=' . $referralCode;
+        }
     } else {
         // Redirect to the referral link with referral code
         $storeLink = $referralLink . '=' . $referralCode;
