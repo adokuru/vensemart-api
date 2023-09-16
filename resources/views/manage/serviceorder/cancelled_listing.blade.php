@@ -42,6 +42,7 @@
 
                 <th>Provider name</th>
                 <th>Provider mobile</th>
+                <th>Referrer Name</th> <!-- New column for referrer name -->
                 <!-- <th>Payment Status</th>
                 <th>Order Status</th> -->
                 
@@ -218,7 +219,9 @@
 
                 <!-- <td>{{ $valprice ?? ''}}</td> -->
                 <td>{{ $val->editor_name ?? 'No provider name'}}</td>
-                <td>{{ $val->editor_mobile ?? 'No provider mobile'}}</td> 
+                <td>{{ $val->editor_mobile ?? 'No provider mobile'}}</td>
+                <td>{{ $val->referrer_name ?? 'N/A' }}</td> <!-- Display referrer name -->
+ 
                
                
               </tr>

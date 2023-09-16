@@ -42,6 +42,7 @@
                 
                 <th>Provider name</th>
                 <th>Provider mobile</th>
+                <th>Referrer Name</th> <!-- New column for referrer name -->
                 <!-- <th>Order Status</th>  -->
                 
                 <!-- <th>Action</th> -->
@@ -61,6 +62,7 @@
                 <!-- <td>{{ $val->price ?? ''}}</td> -->
                 <td>{{ $val->booking_time ?? 'No Time' }}</td>
                 <td>{{ $val->booking_date  ?? 'No Date' }}</td>
+                
                 <td>
                   <?php if($val->service_type == 1)
                        {?> <span class="">Saloon</span> <?php } 
@@ -221,6 +223,8 @@
 
                  <td>{{ $val->editor_name ?? 'No provider name'}}</td>
                 <td>{{ $val->editor_mobile ?? 'No provider mobile'}}</td> 
+                <td>{{ $val->referrer_name ?? 'N/A' }}</td> <!-- Display referrer name -->
+
                
                
               </tr>
