@@ -355,7 +355,7 @@ class AuthController extends Controller
 
             $referrer = User::where('referral_code', $request->referral_code)->first();
 
-            $data['referral_code'] = "RF_" . \Str::random(4);
+            $data['referral_code'] = "VS_" . \Str::random(4);
             $data['referred_by_id'] = $referrer ? $referrer->id 
             : null;
 
