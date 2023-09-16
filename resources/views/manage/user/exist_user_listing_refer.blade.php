@@ -38,7 +38,10 @@
                         <td>{{ $user->mobile }}</td>
                         <td>{{ $user->referredBy ? $user->referredBy->name : 'N/A' }}</td>
                         <td>{{ $user->referrals->count() }}</td>
-                        <td>{{ $user->servicebookUsers->count() }}</td>
+                        <td>{{ $user->referrals->sum(function ($referral) {
+    return $referral->servicebookUsers->count();
+}) }}</td>
+
                         <td>
                           @if($user->referrals->count() > 0)
                             @foreach($user->referrals as $referredUser)
