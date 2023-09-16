@@ -41,7 +41,6 @@
                 <td>{{ $val->name }}</td>
                 <td>{{ $val->email }}</td>
                 <td>{{ $val->mobile }}</td>
-                <td>{{ $val->referred_by_id }}</td>
                 
                 <td> <?php if($val->profile){?>
                     <img src="{{  url('storage/uploads/profile').'/'. $val->profile }}"  width="50" height="50">

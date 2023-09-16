@@ -14,16 +14,26 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+
               <li class="nav-item">
                 <a href="{{ url('admin/managenew_user')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>New user</p>
                 </a>
               </li>
+
                <li class="nav-item">
                 <a href="{{ url('admin/manageexisting_user')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Existing User</p>
+                </a>
+              </li>
+
+
+              <li class="nav-item">
+                <a href="{{ url('admin/manageexisting_user_refer')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Referrals and Users</p>
                 </a>
               </li>
               

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Admin;
+use App\Models\User;
 use Auth;
 use Carbon;
 use Twilio\Jwt\AccessToken;
@@ -150,6 +151,17 @@ class AdminController extends Controller
             
             return view('manage.user.exist_user_listing',$data);    
     }
+
+
+
+    public function manageexisting_user_refer(Request $request)
+    {
+        
+            $data['listing']= User::with(['referredBy', 'referrals'])->get();
+            
+            return view('manage.user.exist_user_listing_refer',$data);    
+    }
+
     public function existinguseredit($id)
     {
         $data['user']=DB::table('users')->where('id',$id)->first();

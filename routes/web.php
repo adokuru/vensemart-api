@@ -248,6 +248,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
 
     /*****************************Existing User***************************************/
     Route::any('manageexisting_user', [AdminController::class, 'manageexisting_user']);
+    Route::any('manageexisting_user_refer', [AdminController::class, 'manageexisting_user_refer']);
     Route::any('existinguser/edit/{key}', [AdminController::class, 'existinguseredit']);
     Route::get('existinguser/delete/{key}', [AdminController::class, 'existinguserdelete']);
     /*****************************End Existing User*************************************************/
