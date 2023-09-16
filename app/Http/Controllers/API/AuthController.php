@@ -1307,4 +1307,52 @@ class AuthController extends Controller
             return response()->json($arr, 500);
         }
     }
+
+ public function referrals(){
+
+    // $arr = [];
+
+    //     $validate = Validator::make($request->all(), [
+    //         'location' => 'required',
+    //         'state' => 'required',
+    //         'location_lat' => 'required',
+    //         'location_long' => 'required'
+    //     ]);
+
+    //     if ($validate->fails()) {
+    //         $arr['status'] = 0;
+    //         $arr['message'] = $validate->errors()->first();
+    //         $arr['data'] = NULL;
+    //         return response()->json($arr, 422);
+    //     }
+
+    $arr = [];
+
+        try {
+            
+            $user =  User::where('user_id', Auth::id)->with(['referredBy', 'referrals'])->latest()->get();
+            if ($user) {
+                $arr['status'] = 1;
+                $arr['message'] = 'Success';
+                $arr['data'] =   $user;
+                return response()->json($arr, 200);
+            } else {
+                $arr['status'] = 0;
+                $arr['message'] = 'Try Again';
+                $arr['data'] = NULL;
+                return response()->json($arr, 404);
+            }
+        } catch (\Exception $e) {
+            $arr['status'] = 0;
+            $arr['message'] = 'something went wrong';
+            $arr['data'] = NULL;
+            return response()->json($arr, 500);
+        }
+
+
+
+ }
+
+
+    
 }
