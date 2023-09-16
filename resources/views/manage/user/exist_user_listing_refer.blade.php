@@ -21,8 +21,8 @@
                     <th>Name</th>
                     <th>Mobile</th>
                     <th>Referred By</th>
-                    <th>Number of Users Referred</th>
-                    <th>Number of Services Ordered</th>
+                    <th>No of Users Referred</th>
+                    <th>No of Services Ordered by referred Users</th>
                     <th>Names of Users Referred</th>
                     <th>Image</th>
                     <th>Registered</th>
