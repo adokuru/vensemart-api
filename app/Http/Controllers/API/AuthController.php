@@ -1330,7 +1330,7 @@ class AuthController extends Controller
 
         try {
 
-            $user =  User::with(['referredBy', 'referrals'])->where('user_id', auth()->user()->id)->latest()->get();
+            $user =  User::with(['referredBy', 'referrals'])->where('id', auth()->user()->id)->latest()->get();
             if ($user) {
                 $arr['status'] = 1;
                 $arr['message'] = 'Success';
