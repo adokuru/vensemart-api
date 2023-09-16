@@ -1330,6 +1330,8 @@ class AuthController extends Controller
 
         try {
 
+            $arr['status'] = 0;
+            $arr['message'] = 'Cart is Empty';
             $user =  User::with(['referredBy', 'referrals'])->where('id', auth()->user()->id)->latest()->get();
             if ($user) {
                 $arr['status'] = 1;
@@ -1352,6 +1354,47 @@ class AuthController extends Controller
 
 
  }
+
+
+ public function cart_list()
+    {
+        $user_id = Auth::id();
+        try {
+            $cart_list = DB::table('cart as c')->select('c.*', 's.id as shop_id', 
+            'p.product_description', 'p.discount', 'cat.category_name', 's.store_name',
+            'u.name as uom_name', DB::raw('CONCAT("' . url('storage/product_images') . '","/",c.product_image)  as product_image'), 'c.product_image as image_name')
+                ->join('products as p', 'p.id', 'c.product_id')
+                ->join('category as cat', 'cat.id', 'c.cat_id')
+                ->join('stores as s', 's.id', 'p.shop_id')
+                ->join('uom as u', 'u.id', 'c.uom_id')
+                ->where('user_id', $user_id)
+                ->orderBy('id', 'desc')
+                ->get()->toArray();
+
+
+
+            if ($cart_list == []) {
+                $arr['status'] = 0;
+                $arr['message'] = 'Cart is Empty';
+                $arr['data'] = NULL;
+            } else {
+                $cart_details['subtotal'] = DB::table('cart')->where('user_id', $user_id)->sum('net_amount');
+                $cart_details['delivery_charge'] = "1500"; // TODO : Change it to dynamic
+                $cart_details['grand_total'] = $cart_details['subtotal'] + $cart_details['delivery_charge'];
+
+                $arr['status'] = 1;
+                $arr['message'] = 'cart data found successfully.';
+                $arr['data']['cart_list'] = $cart_list;
+                $arr['data']['cart_details'] = $cart_details;
+            }
+            return response()->json($arr, 200);
+        } catch (\Exception $e) {
+            $arr['status'] = 0;
+            $arr['message'] = 'Sorry!! Something Went Wrong';
+            $arr['data'] = NULL;
+        }
+        return response()->json($arr, 200);
+    }
 
 
     
