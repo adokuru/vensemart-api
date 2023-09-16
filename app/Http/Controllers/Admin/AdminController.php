@@ -1042,14 +1042,27 @@ class AdminController extends Controller
     {
         // $data['listing']= DB::table('servicebook_user')->select('servicebook_user.*','users.name as user_name')->leftJoin('users','users.id','=','servicebook_user.user_id')->where('servicebook_user.status',1)->orderBy('servicebook_user.id','desc')->get();
 
-        $data['listing']= DB::table('servicebook_user')->select('servicebook_user.*','users.name as user_name','editors.name as editor_name','editors.mobile as editor_mobile')
-        ->leftJoin('users','users.id','=','servicebook_user.user_id')
-        ->leftJoin('users as editors','editors.id','=','servicebook_user.service_pro_id')
-        ->where('servicebook_user.status',1)
-        ->orWhere('servicebook_user.status',2)
-        ->orWhere('servicebook_user.status',3)
-        ->orderBy('servicebook_user.id','desc')
-        ->get();
+        // $data['listing']= DB::table('servicebook_user')->select('servicebook_user.*','users.name as user_name','editors.name as editor_name','editors.mobile as editor_mobile')
+        // ->leftJoin('users','users.id','=','servicebook_user.user_id')
+        // ->leftJoin('users as editors','editors.id','=','servicebook_user.service_pro_id')
+        // ->where('servicebook_user.status',1)
+        // ->orWhere('servicebook_user.status',2)
+        // ->orWhere('servicebook_user.status',3)
+        // ->orderBy('servicebook_user.id','desc')
+        // ->get();
+
+
+        $data['listing'] = DB::table('servicebook_user')
+    ->select('servicebook_user.*', 'users.name as user_name', 'editors.name as editor_name', 'editors.mobile as editor_mobile', 'referrers.name as referrer_name')
+    ->leftJoin('users', 'users.id', '=', 'servicebook_user.user_id')
+    ->leftJoin('users as editors', 'editors.id', '=', 'servicebook_user.service_pro_id')
+    ->leftJoin('users as referrers', 'referrers.id', '=', 'users.referred_by_id')
+    ->where('servicebook_user.status', 1)
+    ->orWhere('servicebook_user.status', 2)
+    ->orWhere('servicebook_user.status', 3)
+    ->orderBy('servicebook_user.id', 'desc')
+    ->get();
+
 
     // dd($data['listing']);
 
