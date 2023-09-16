@@ -42,7 +42,7 @@
                         <td>{{ $user->referrals->count() }}</td>
                         <td>
                           @foreach($user->referrals as $referredUser)
-                            {{ $referredUser->name ? $referredUser->name :'N/A' }},
+                            {{ $referredUser->name ? $referredUser->name : 'N/A' }},
                           @endforeach
                         </td>
                         <td>
