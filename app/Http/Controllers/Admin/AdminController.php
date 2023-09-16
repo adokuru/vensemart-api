@@ -157,7 +157,8 @@ class AdminController extends Controller
     public function manageexisting_user_refer(Request $request)
     {
         
-            $data['listing']= User::with(['referredBy', 'referrals'])->get();
+            // $data['listing'] = User::with(['referredBy', 'referrals'])->get();
+            $users = User::with(['referredBy', 'referrals'])->get();
             
             return view('manage.user.exist_user_listing_refer',$data);    
     }
