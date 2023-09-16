@@ -160,7 +160,7 @@ class AdminController extends Controller
             // $data['listing'] = User::with(['referredBy', 'referrals'])->get();
             $users = User::with(['referredBy', 'referrals'])->get();
             
-            return view('manage.user.exist_user_listing_refer',$data);    
+            return view('manage.user.exist_user_listing_refer',compact('users'));    
     }
 
     public function existinguseredit($id)
