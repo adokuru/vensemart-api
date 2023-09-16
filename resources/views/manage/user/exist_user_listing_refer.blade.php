@@ -41,10 +41,15 @@
                         <td>{{ $user->referredBy ? $user->referredBy->name : 'N/A' }}</td>
                         <td>{{ $user->referrals->count() }}</td>
                         <td>
-                          @foreach($user->referrals as $referredUser)
-                            {{ $referredUser->name ? $referredUser->name : 'N/A' }},
-                          @endforeach
+                          @if($user->referrals->count() > 0)
+                            @foreach($user->referrals as $referredUser)
+                              {{ $referredUser->name }},
+                            @endforeach
+                          @else
+                            No User
+                          @endif
                         </td>
+
                         <td>
                           @if($user->profile)
                             <img src="{{ url('storage/uploads/profile').'/'.$user->profile }}" width="50" height="50">
