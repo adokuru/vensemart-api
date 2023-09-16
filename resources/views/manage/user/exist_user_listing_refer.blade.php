@@ -19,13 +19,13 @@
                   <tr>
                     <th>S.No.</th>
                     <th>Name</th>
-                    <th>Email</th>
+                    <!-- <th>Email</th> -->
                     <th>Mobile</th>
                     <th>Referred By</th>
                     <th>Number of Users Referred</th>
                     <th>Names of Users Referred</th>
                     <th>Image</th>
-                    <th>Status</th>
+                    <!-- <th>Status</th> -->
                     <th>Registered</th>
                     <th>Action</th>
                   </tr>
@@ -36,13 +36,13 @@
                       <tr>
                         <td>{{ $i + 1 }}</td>
                         <td>{{ $user->name }}</td>
-                        <td>{{ $user->email }}</td>
+                        <!-- <td>{{ $user->email }}</td> -->
                         <td>{{ $user->mobile }}</td>
                         <td>{{ $user->referredBy ? $user->referredBy->name : 'N/A' }}</td>
                         <td>{{ $user->referrals->count() }}</td>
                         <td>
                           @foreach($user->referrals as $referredUser)
-                            {{ $referredUser->name }},
+                            {{ $referredUser->name ? $referredUser->name :'N/A' }},
                           @endforeach
                         </td>
                         <td>
@@ -52,13 +52,13 @@
                             <img src="{{ url('uploads/profile') }}/noimageavailable.jpg" width="50" height="50">
                           @endif
                         </td>
-                        <td>
+                        <!-- <td>
                           @if($user->status == 1)
                             <span class="badge badge-success">Active</span>
                           @else
                             <span class="badge badge-danger">InActive</span>
                           @endif
-                        </td>
+                        </td> -->
                         <td>{{ \Carbon\Carbon::parse($user->created_at)->diffForHumans() }}</td>
                         <td>
                           <a href="{{ url('admin/existinguser/delete').'/'.$user->id }}"><i class="fas fa-trash"></i></a>
