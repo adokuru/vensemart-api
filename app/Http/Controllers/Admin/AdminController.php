@@ -158,7 +158,11 @@ class AdminController extends Controller
     {
         
             // $data['listing'] = User::with(['referredBy', 'referrals'])->get();
-            $users = User::with(['referredBy', 'referrals'])->latest()->get();
+            // $users = User::with(['referredBy', 'referrals'])->latest()->get();
+            $users = User::whereHas('servicebookUsers')
+        ->with(['referredBy', 'referrals'])
+        ->latest()
+        ->get();
         
             return view('manage.user.exist_user_listing_refer',compact('users'));    
     }

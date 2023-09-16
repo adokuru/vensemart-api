@@ -85,4 +85,10 @@ class User extends Authenticatable
     return $this->hasMany(User::class, 'referred_by_id', 'id');
     }
 
+    public function servicebookUsers()
+{
+    return $this->hasMany(ServicebookUser::class, 'user_id', 'id');
+}
+
+
 }
