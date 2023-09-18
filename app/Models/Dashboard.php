@@ -4,6 +4,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use App\Models\User;
+use App\Models\ServicebookUser;
 use Carbon\Carbon;
 
 
@@ -212,6 +214,126 @@ class Dashboard extends Model
         // dd(DB::getQueryLog());die;
         return $result;
     }
+
+
+
+    function countReferredUsersWithBookedServiceYesterday() {
+        $yesterday = Carbon::yesterday();
+    
+        $count = User::whereNotNull('referred_by')
+            ->whereHas('servicebookUser', function ($query) use ($yesterday) {
+                $query->whereDate('created_at', $yesterday);
+            })
+            ->count();
+    
+        return $count;
+    }
+    
+    function countReferredUsersWithBookedServiceToday() {
+        $today = Carbon::today();
+    
+        $count = User::whereNotNull('referred_by')
+            ->whereHas('servicebookUser', function ($query) use ($today) {
+                $query->whereDate('created_at', $today);
+            })
+            ->count();
+    
+        return $count;
+    }
+    
+    function countReferredUsersWithBookedServiceThisWeek() {
+        $startOfWeek = Carbon::now()->startOfWeek();
+        $endOfWeek = Carbon::now()->endOfWeek();
+    
+        $count = User::whereNotNull('referred_by')
+            ->whereHas('servicebookUser', function ($query) use ($startOfWeek, $endOfWeek) {
+                $query->whereBetween('created_at', [$startOfWeek, $endOfWeek]);
+            })
+            ->count();
+    
+        return $count;
+    }
+    
+    function countReferredUsersWithBookedServiceThisMonth() {
+        $startOfMonth = Carbon::now()->startOfMonth();
+        $endOfMonth = Carbon::now()->endOfMonth();
+    
+        $count = User::whereNotNull('referred_by')
+            ->whereHas('servicebookUser', function ($query) use ($startOfMonth, $endOfMonth) {
+                $query->whereBetween('created_at', [$startOfMonth, $endOfMonth]);
+            })
+            ->count();
+    
+        return $count;
+    }
+    
+    function countReferredUsersWithBookedServiceThisYear() {
+        $startOfYear = Carbon::now()->startOfYear();
+        $endOfYear = Carbon::now()->endOfYear();
+    
+        $count = User::whereNotNull('referred_by')
+            ->whereHas('servicebookUser', function ($query) use ($startOfYear, $endOfYear) {
+                $query->whereBetween('created_at', [$startOfYear, $endOfYear]);
+            })
+            ->count();
+    
+        return $count;
+    }
+
+
+    function countReferredUsersYesterday() {
+        $yesterday = Carbon::yesterday();
+    
+        $count = User::whereNotNull('referred_by')
+            ->whereDate('created_at', $yesterday)
+            ->count();
+    
+        return $count;
+    }
+    
+    function countReferredUsersToday() {
+        $today = Carbon::today();
+    
+        $count = User::whereNotNull('referred_by')
+            ->whereDate('created_at', $today)
+            ->count();
+    
+        return $count;
+    }
+    
+    function countReferredUsersThisWeek() {
+        $startOfWeek = Carbon::now()->startOfWeek();
+        $endOfWeek = Carbon::now()->endOfWeek();
+    
+        $count = User::whereNotNull('referred_by')
+            ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
+            ->count();
+    
+        return $count;
+    }
+    
+    function countReferredUsersThisMonth() {
+        $startOfMonth = Carbon::now()->startOfMonth();
+        $endOfMonth = Carbon::now()->endOfMonth();
+    
+        $count = User::whereNotNull('referred_by')
+            ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
+            ->count();
+    
+        return $count;
+    }
+    
+    function countReferredUsersThisYear() {
+        $startOfYear = Carbon::now()->startOfYear();
+        $endOfYear = Carbon::now()->endOfYear();
+    
+        $count = User::whereNotNull('referred_by')
+            ->whereBetween('created_at', [$startOfYear, $endOfYear])
+            ->count();
+    
+        return $count;
+    }
+    
 
 
 

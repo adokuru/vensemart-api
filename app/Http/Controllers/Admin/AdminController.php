@@ -47,7 +47,7 @@ class AdminController extends Controller
         $data['get_total_yearly_existing_service_user']        =  $dashboard->get_total_yearly_existing_user();
         
 
-        $data['get_total_yesterday_new_service_user']              =  $dashboard->get_total_yesterday_new_service_user();
+        $data['get_total_yesterday_new_service_user']           =  $dashboard->get_total_yesterday_new_service_user();
         $data['get_total_daily_new_service_user']              =  $dashboard->get_total_daily_new_service_user();
         $data['get_total_weekly_new_service_user']             =  $dashboard->get_total_weekly_new_service_user();
         $data['get_total_monthly_new_service_user']            =  $dashboard->get_total_monthly_new_service_user();
@@ -129,6 +129,20 @@ class AdminController extends Controller
         $data['total_monthly_out_of_stack_product']   =  $dashboard->total_monthly_out_of_stack_product();
         $data['total_yearly_out_of_stack_product']    =  $dashboard->total_yearly_out_of_stack_product();
         $data['total_out_of_stack_product']           =  $dashboard->total_out_of_stack_product();
+
+        $data['referredYesterdayCount'] = $dashboard->countReferredUsersWithBookedServiceYesterday();
+        $data['referredTodayCount'] = $dashboard->countReferredUsersWithBookedServiceToday();
+        $data['referredThisWeekCount'] = $dashboard->countReferredUsersWithBookedServiceThisWeek();
+        $data['referredThisMonthCount'] = $dashboard->countReferredUsersWithBookedServiceThisMonth();
+        $data['referredThisYearCount'] = $dashboard->countReferredUsersWithBookedServiceThisYear();
+
+
+        $data['referredYesterdayCount'] = $dashboard->countReferredUsersYesterday();
+        $data['referredTodayCount'] = $dashboard->countReferredUsersToday();
+        $data['referredThisWeekCount'] = $dashboard->countReferredUsersThisWeek();
+        $data['referredThisMonthCount'] = $dashboard->countReferredUsersThisMonth();
+        $data['referredThisYearCount'] = $dashboard->countReferredUsersThisYear();
+
         
         // $data['daily_product_sold']                   =  $dashboard->daily_product_sold();
         // $data['weekly_product_sold']                  =  $dashboard->weekly_product_sold();
