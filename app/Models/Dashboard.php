@@ -220,7 +220,7 @@ class Dashboard extends Model
     function countReferredUsersWithBookedServiceYesterday() {
         $yesterday = Carbon::yesterday();
     
-        $count = User::whereNotNull('referred_by')
+        $count = User::whereNotNull('referred_by_id')
             ->whereHas('servicebookUsers', function ($query) use ($yesterday) {
                 $query->whereDate('created_at', $yesterday);
             })
@@ -232,7 +232,7 @@ class Dashboard extends Model
     function countReferredUsersWithBookedServiceToday() {
         $today = Carbon::today();
     
-        $count = User::whereNotNull('referred_by')
+        $count = User::whereNotNull('referred_by_id')
             ->whereHas('servicebookUsers', function ($query) use ($today) {
                 $query->whereDate('created_at', $today);
             })
@@ -245,7 +245,7 @@ class Dashboard extends Model
         $startOfWeek = Carbon::now()->startOfWeek();
         $endOfWeek = Carbon::now()->endOfWeek();
     
-        $count = User::whereNotNull('referred_by')
+        $count = User::whereNotNull('referred_by_id')
             ->whereHas('servicebookUsers', function ($query) use ($startOfWeek, $endOfWeek) {
                 $query->whereBetween('created_at', [$startOfWeek, $endOfWeek]);
             })
@@ -258,7 +258,7 @@ class Dashboard extends Model
         $startOfMonth = Carbon::now()->startOfMonth();
         $endOfMonth = Carbon::now()->endOfMonth();
     
-        $count = User::whereNotNull('referred_by')
+        $count = User::whereNotNull('referred_by_id')
             ->whereHas('servicebookUsers', function ($query) use ($startOfMonth, $endOfMonth) {
                 $query->whereBetween('created_at', [$startOfMonth, $endOfMonth]);
             })
@@ -271,7 +271,7 @@ class Dashboard extends Model
         $startOfYear = Carbon::now()->startOfYear();
         $endOfYear = Carbon::now()->endOfYear();
     
-        $count = User::whereNotNull('referred_by')
+        $count = User::whereNotNull('referred_by_id')
             ->whereHas('servicebookUsers', function ($query) use ($startOfYear, $endOfYear) {
                 $query->whereBetween('created_at', [$startOfYear, $endOfYear]);
             })
@@ -284,7 +284,7 @@ class Dashboard extends Model
     function countReferredUsersYesterday() {
         $yesterday = Carbon::yesterday();
     
-        $count = User::whereNotNull('referred_by')
+        $count = User::whereNotNull('referred_by_id')
             ->whereDate('created_at', $yesterday)
             ->count();
     
@@ -294,7 +294,7 @@ class Dashboard extends Model
     function countReferredUsersToday() {
         $today = Carbon::today();
     
-        $count = User::whereNotNull('referred_by')
+        $count = User::whereNotNull('referred_by_id')
             ->whereDate('created_at', $today)
             ->count();
     
@@ -305,7 +305,7 @@ class Dashboard extends Model
         $startOfWeek = Carbon::now()->startOfWeek();
         $endOfWeek = Carbon::now()->endOfWeek();
     
-        $count = User::whereNotNull('referred_by')
+        $count = User::whereNotNull('referred_by_id')
             ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
             ->count();
     
@@ -316,7 +316,7 @@ class Dashboard extends Model
         $startOfMonth = Carbon::now()->startOfMonth();
         $endOfMonth = Carbon::now()->endOfMonth();
     
-        $count = User::whereNotNull('referred_by')
+        $count = User::whereNotNull('referred_by_id')
             ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
             ->count();
     
@@ -327,7 +327,7 @@ class Dashboard extends Model
         $startOfYear = Carbon::now()->startOfYear();
         $endOfYear = Carbon::now()->endOfYear();
     
-        $count = User::whereNotNull('referred_by')
+        $count = User::whereNotNull('referred_by_id')
             ->whereBetween('created_at', [$startOfYear, $endOfYear])
             ->count();
     
