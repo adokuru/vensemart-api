@@ -270,29 +270,29 @@
     <div class="panel panel-success pricing-big">
       <div class="panel-heading">
         <h3 class="panel-title">Referred Users who ordered services
-          <span class="panel-title" style="display:inline-block;float:right;font-size:18px;">This Year : {{$data['referredThisYearCount']}}</span>
+          <span class="panel-title" style="display:inline-block;float:right;font-size:18px;">This Year : {{$referredThisYearCount}}</span>
         </h3>
       </div>
       <div class="">
         <div class="row">
           <div class="col-md-3 col-6 text-center reports">
             <h5>Today
-              <strong>{{$data['referredTodayCount']}}</strong>
+              <strong>{{$referredTodayCount}}</strong>
             </h5>
           </div>
           <div class="col-md-3 col-6 text-center reports">
             <h5>This Week
-              <strong>{{$data['referredThisWeekCount']}}</strong>
+              <strong>{{$referredThisWeekCount}}</strong>
             </h5>
           </div>
           <div class="col-md-3 col-6 text-center reports">
             <h5>This Month
-              <strong>{{$data['referredThisMonthCount']}}</strong>
+              <strong>{{$referredThisMonthCount}}</strong>
             </h5>
           </div>
           <div class="col-md-3 col-6 text-center reports">
             <h5>Yesterday
-              <strong>{{$data['referredYesterdayCount']}}</strong>
+              <strong>{{$referredYesterdayCount}}</strong>
             </h5>
           </div>
         </div>
@@ -310,29 +310,29 @@
     <div class="panel panel-success pricing-big">
       <div class="panel-heading">
         <h3 class="panel-title">Referred Users
-          <span class="panel-title" style="display:inline-block;float:right;font-size:18px;">This Year : {{$data['referredThisYearCount']}}</span>
+          <span class="panel-title" style="display:inline-block;float:right;font-size:18px;">This Year : {{$referredThisYearCount}}</span>
         </h3>
       </div>
       <div class="">
         <div class="row">
           <div class="col-md-3 col-6 text-center reports">
             <h5>Today
-              <strong>{{$data['referredTodayCount']}}</strong>
+              <strong>{{$referredTodayCount}}</strong>
             </h5>
           </div>
           <div class="col-md-3 col-6 text-center reports">
             <h5>This Week
-              <strong>{{$data['referredThisWeekCount']}}</strong>
+              <strong>{{$referredThisWeekCount}}</strong>
             </h5>
           </div>
           <div class="col-md-3 col-6 text-center reports">
             <h5>This Month
-              <strong>{{$data['referredThisMonthCount']}}</strong>
+              <strong>{{$referredThisMonthCount}}</strong>
             </h5>
           </div>
           <div class="col-md-3 col-6 text-center reports">
             <h5>Yesterday
-              <strong>{{$data['referredYesterdayCount']}}</strong>
+              <strong>{{$referredYesterdayCount}}</strong>
             </h5>
           </div>
         </div>
