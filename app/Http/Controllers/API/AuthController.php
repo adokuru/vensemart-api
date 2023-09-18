@@ -1438,7 +1438,7 @@ function getReferredUsersWithCompletedBookedService() {
 
 function getReferredUsersWithBookedService() {
 
-    $referringUserId = auth()->user()->id();
+    $referringUserId = auth()->user()->id;
 
         $arr = [];
 
