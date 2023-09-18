@@ -56,6 +56,8 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::get('referrals', [AuthController::class, 'referrals']);
 
+    Route::get('referredUsersWithBookings', [AuthController::class, 'getReferredUsersWithBookedService']);
+
     Route::get('notification_list', [ApiController::class, 'notification_list']);
 
     Route::get('delete_user_notification', [ApiController::class, 'delete_user_notification']);

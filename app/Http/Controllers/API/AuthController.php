@@ -1366,10 +1366,13 @@ class AuthController extends Controller
         $arr['message'] = 'Data received';
 
         $user = User::with(['referredBy', 'referrals'])->where('id', auth()->user()->id)->latest()->first();
+        // ->get()->toArray()
         if ($user) {
             $arr['status'] = 'Success';
             $arr['message'] = 'Success';
             $arr['data'] = $user;
+            // $arr['data']['cart_list'] = $cart_list;
+            // $arr['data']['cart_details'] = $cart_details;
             return response()->json($arr, 200);
         } else {
             $arr['status'] = 'Try Again';
@@ -1384,6 +1387,94 @@ class AuthController extends Controller
         return response()->json($arr, 500);
     }
 }
+
+
+
+
+function getReferredUsersWithCompletedBookedService() {
+
+    $referringUserId = auth()->user()->id;
+    // $users = User::where('referred_by_id', $referringUserId)
+    //     ->whereHas('servicebookUsers', function ($query) {
+    //         $query->where('status', 4);
+    //     })
+    //    ->get()->toArray();
+
+
+
+       $arr = [];
+
+    try {
+        $arr['status'] = 'Data received';
+        $arr['message'] = 'Data received';
+
+        $user = User::where('referred_by_id', $referringUserId)
+        ->whereHas('servicebookUsers', function ($query) {
+            $query->where('status', 4);
+        })->get()->toArray();
+
+       
+        if ($user) {
+            $arr['status'] = 'Success';
+            $arr['message'] = 'Success';
+            $arr['data'] = $user;
+            // $arr['data']['cart_list'] = $cart_list;
+            // $arr['data']['cart_details'] = $cart_details;
+            return response()->json($arr, 200);
+        } else {
+            $arr['status'] = 'Try Again';
+            $arr['message'] = 'Try Again';
+            $arr['data'] = NULL;
+            return response()->json($arr, 404);
+        }
+    } catch (\Exception $e) {
+        $arr['status'] = 'something went wrong';
+        $arr['message'] = 'something went wrong';
+        $arr['data'] = NULL;
+        return response()->json($arr, 500);
+    }
+
+}
+
+function getReferredUsersWithBookedService() {
+
+    $referringUserId = auth()->user()->id();
+
+        $arr = [];
+
+        try {
+            $arr['status'] = 'Data received';
+            $arr['message'] = 'Data received';
+    
+            $user = User::where('referred_by_id', $referringUserId)
+            ->whereHas('servicebookUsers')
+            ->get()->toArray();
+    
+            $earning_user = User::where('referred_by_id', $referringUserId)
+            ->whereHas('servicebookUsers', function ($query) {
+                $query->where('status', 4);
+            })->get()->toArray();
+           
+            if ($user) {
+                $arr['status'] = 'Success';
+                $arr['message'] = 'Success';
+                $arr['data']['user'] = $user;
+                $arr['data']['earning_user'] = $earning_user;
+                return response()->json($arr, 200);
+            } else {
+                $arr['status'] = 'Try Again';
+                $arr['message'] = 'Try Again';
+                $arr['data'] = NULL;
+                return response()->json($arr, 404);
+            }
+        } catch (\Exception $e) {
+            $arr['status'] = 'something went wrong';
+            $arr['message'] = 'something went wrong';
+            $arr['data'] = NULL;
+            return response()->json($arr, 500);
+        }
+}
+
 
 
     
