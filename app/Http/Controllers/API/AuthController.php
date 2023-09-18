@@ -1393,7 +1393,7 @@ class AuthController extends Controller
 
 function getReferredUsersWithCompletedBookedService() {
 
-    $referringUserId = auth()->user()->id;
+    $referringUserId = Auth::id();
     // $users = User::where('referred_by_id', $referringUserId)
     //     ->whereHas('servicebookUsers', function ($query) {
     //         $query->where('status', 4);
