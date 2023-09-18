@@ -1437,42 +1437,40 @@ function getReferredUsersWithCompletedBookedService() {
 }
 
 function getReferredUsersWithBookedService() {
-
     $referringUserId = auth()->user()->id;
 
-        $arr = [];
-
-        try {
-            $arr['status'] = 'Data received';
-            $arr['message'] = 'Data received';
-    
-            $user = User::where('referred_by_id', $referringUserId)
+    try {
+        $users = User::where('referred_by_id', $referringUserId)
             ->whereHas('servicebookUsers')
             ->get()->toArray();
-    
-            $earning_user = User::where('referred_by_id', $referringUserId)
+
+        $earningUsers = User::where('referred_by_id', $referringUserId)
             ->whereHas('servicebookUsers', function ($query) {
                 $query->where('status', 4);
             })->get()->toArray();
-           
-            if ($user) {
-                $arr['status'] = 'Success';
-                $arr['message'] = 'Success';
-                $arr['data']['user'] = $user;
-                $arr['data']['earning_user'] = $earning_user;
-                return response()->json($arr, 200);
-            } else {
-                $arr['status'] = 'Try Again';
-                $arr['message'] = 'Try Again';
-                $arr['data'] = NULL;
-                return response()->json($arr, 404);
-            }
-        } catch (\Exception $e) {
-            $arr['status'] = 'something went wrong';
-            $arr['message'] = 'something went wrong';
-            $arr['data'] = NULL;
-            return response()->json($arr, 500);
+
+        $arr['status'] = 'Success';
+        $arr['message'] = 'Success';
+
+        if (count($users) > 0) {
+            $arr['data']['user'] = $users;
+        } else {
+            $arr['data']['user'] = [];
         }
+
+        if (count($earningUsers) > 0) {
+            $arr['data']['earning_user'] = $earningUsers;
+        } else {
+            $arr['data']['earning_user'] = [];
+        }
+
+        return response()->json($arr, 200);
+    } catch (\Exception $e) {
+        $arr['status'] = 'Error';
+        $arr['message'] = $e->getMessage();
+        $arr['data'] = NULL;
+        return response()->json($arr, 500);
+    }
 }
 
 
