@@ -265,90 +265,84 @@
                   </div>
 
 
- <div class="col-md-6">
-  <a href="javascript:void(0);">
-    <div class="panel panel-success pricing-big">
-      <div class="panel-heading">
-        <h3 class="panel-title">Referred Users who ordered services
-          <span class="panel-title" style="display:inline-block;float:right;font-size:18px;">This Year : {{$referredThisYearCount}}</span>
-        </h3>
-      </div>
-      <div class="">
-        <div class="row">
-          <div class="col-md-3 col-6 text-center reports">
-            <h5>Today
-              <strong>{{$referredTodayCount}}</strong>
-            </h5>
-          </div>
-          <div class="col-md-3 col-6 text-center reports">
-            <h5>This Week
-              <strong>{{$referredThisWeekCount}}</strong>
-            </h5>
-          </div>
-          <div class="col-md-3 col-6 text-center reports">
-            <h5>This Month
-              <strong>{{$referredThisMonthCount}}</strong>
-            </h5>
-          </div>
-          <div class="col-md-3 col-6 text-center reports">
-            <h5>Yesterday
-              <strong>{{$referredYesterdayCount}}</strong>
-            </h5>
+                  <div class="row">
+  <div class="col-md-6">
+    <a href="javascript:void(0);">
+      <div class="panel panel-success pricing-big">
+        <div class="panel-heading">
+          <h3 class="panel-title">Referred Users who ordered services
+            <span class="panel-title" style="display:inline-block;float:right;font-size:18px;">This Year : {{$referredThisYearCount}}</span>
+          </h3>
+        </div>
+        <div class="">
+          <div class="row">
+            <div class="col-md-3 col-6 text-center reports">
+              <h5>Today
+                <strong>{{$referredTodayCount}}</strong>
+              </h5>
+            </div>
+            <div class="col-md-3 col-6 text-center reports">
+              <h5>This Week
+                <strong>{{$referredThisWeekCount}}</strong>
+              </h5>
+            </div>
+            <div class="col-md-3 col-6 text-center reports">
+              <h5>This Month
+                <strong>{{$referredThisMonthCount}}</strong>
+              </h5>
+            </div>
+            <div class="col-md-3 col-6 text-center reports">
+              <h5>Yesterday
+                <strong>{{$referredYesterdayCount}}</strong>
+              </h5>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </a>
-</div>
-</div>
-</div>
-
-
-
-<div class="col-md-6">
-  <a href="javascript:void(0);">
-    <div class="panel panel-success pricing-big">
-      <div class="panel-heading">
-        <h3 class="panel-title">Referred Users
-          <span class="panel-title" style="display:inline-block;float:right;font-size:18px;">This Year : {{$referredThisYearCount}}</span>
-        </h3>
-      </div>
-      <div class="">
-        <div class="row">
-          <div class="col-md-3 col-6 text-center reports">
-            <h5>Today
-              <strong>{{$referredTodayCount}}</strong>
-            </h5>
-          </div>
-          <div class="col-md-3 col-6 text-center reports">
-            <h5>This Week
-              <strong>{{$referredThisWeekCount}}</strong>
-            </h5>
-          </div>
-          <div class="col-md-3 col-6 text-center reports">
-            <h5>This Month
-              <strong>{{$referredThisMonthCount}}</strong>
-            </h5>
-          </div>
-          <div class="col-md-3 col-6 text-center reports">
-            <h5>Yesterday
-              <strong>{{$referredYesterdayCount}}</strong>
-            </h5>
+    </a>
+  </div>
+  <div class="col-md-6">
+    <a href="javascript:void(0);">
+      <div class="panel panel-success pricing-big">
+        <div class="panel-heading">
+          <h3 class="panel-title">Referred Users
+            <span class="panel-title" style="display:inline-block;float:right;font-size:18px;">This Year : {{$referredThisYearCount}}</span>
+          </h3>
+        </div>
+        <div class="">
+          <div class="row">
+            <div class="col-md-3 col-6 text-center reports">
+              <h5>Today
+                <strong>{{$referredTodayCount}}</strong>
+              </h5>
+            </div>
+            <div class="col-md-3 col-6 text-center reports">
+              <h5>This Week
+                <strong>{{$referredThisWeekCount}}</strong>
+              </h5>
+            </div>
+            <div class="col-md-3 col-6 text-center reports">
+              <h5>This Month
+                <strong>{{$referredThisMonthCount}}</strong>
+              </h5>
+            </div>
+            <div class="col-md-3 col-6 text-center reports">
+              <h5>Yesterday
+                <strong>{{$referredYesterdayCount}}</strong>
+              </h5>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </a>
+    </a>
+  </div>
 </div>
 </div>
 </div>
 
 
 
-
-
-                  
-                  
+ 
                   
                   <div class="container-fluid mt-3">
                     <div class="row">
