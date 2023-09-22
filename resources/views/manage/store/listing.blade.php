@@ -38,7 +38,7 @@
               <tbody>
               <?php if($listing){ $i=1; foreach($listing as $val){?>  
                 
-                @if($val->email !== 'admin@gmail.com')
+                
               <tr>
                 <td>{{  $i }}</td>
                 <td>{{ $val->user_id ?? 'N/A' }}</td>
@@ -59,7 +59,7 @@
                     <a href="{{url('admin/existingstore/delete').'/'.$val->id }}" onclick="return confirm('Are you sure you want to delete this item?');"><i class="fas fa-trash"></i></a>
                 </td>
               </tr>
-              @endif
+             
               <?php $i++; }}?>
               </tbody>
              
