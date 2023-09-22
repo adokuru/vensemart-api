@@ -32,7 +32,7 @@
                 <th>Branch</th>
                <th>Account Number</th>
                 
-                <th>Action</th>
+                <!-- <th>Action</th> -->
               </tr>
               </thead>
               <tbody>
