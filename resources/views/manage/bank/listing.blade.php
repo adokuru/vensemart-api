@@ -31,8 +31,7 @@
                 <th>Bank Name</th>
                 <th>Branch</th>
                <th>Account Number</th>
-                <!-- <th>Image</th>
-                <th>store Verified</th> -->
+                
                 <th>Action</th>
               </tr>
               </thead>
@@ -47,19 +46,9 @@
                  <td>{{ $val->bank ? $val->bank : 'N/A' }}</td>
                   <td>{{ $val->branch ? $val->branch : 'N/A' }}</td>
                   <td>{{ $val->account_number ? $val->account_number : 'N/A' }}</td>
-                <!-- <td>{{ $val->telephone }}</td> -->
+               
                 
-                <td><?php if($val->is_verified == 1){ ?>
-                      <span class="badge badge-success">Verified</span>
-                <?php }else { ?>
-                      <span class="badge badge-danger">Not-Verified</span>
-               <?php  } ?></td>
-                <td>
-                    <a href="{{url('admin/edit-store').'/'.$val->id }}"><i class="fas fa-edit"></i></a> |
-
-                   
-                    <a href="{{url('admin/existingstore/delete').'/'.$val->id }}" onclick="return confirm('Are you sure you want to delete this item?');"><i class="fas fa-trash"></i></a>
-                </td>
+               
               </tr>
              
               <?php $i++; }}?>
