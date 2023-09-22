@@ -27,9 +27,9 @@
               <tr>
                 <th>S.No.</th>
                 <th>User Id</th>
-                <th>Vendor Name</th>
+                <th>Rider Name</th>
                 <th>Bank Name</th>
-                <th>Account Name</th>
+                <th>Branch</th>
                <th>Account Number</th>
                 <!-- <th>Image</th>
                 <th>store Verified</th> -->
@@ -43,10 +43,10 @@
               <tr>
                 <td>{{  $i }}</td>
                 <td>{{ $val->user_id ?? 'N/A' }}</td>
-                <td>{{ $val->username ? $val->username : 'N/A' }}</td>
-                 <td>{{ $val->bank_nm ? $val->bank_nm : 'N/A' }}</td>
-                  <td>{{ $val->acc_name ? $val->acc_name : 'N/A' }}</td>
-                  <td>{{ $val->ac_no ? $val->ac_no : 'N/A' }}</td>
+                <td>{{ $val->account_holder_name ? $val->account_holder_name : 'N/A' }}</td>
+                 <td>{{ $val->bank ? $val->bank : 'N/A' }}</td>
+                  <td>{{ $val->branch ? $val->branch : 'N/A' }}</td>
+                  <td>{{ $val->account_number ? $val->account_number : 'N/A' }}</td>
                 <!-- <td>{{ $val->telephone }}</td> -->
                 
                 <td><?php if($val->is_verified == 1){ ?>
