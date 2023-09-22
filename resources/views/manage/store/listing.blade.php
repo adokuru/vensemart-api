@@ -43,11 +43,17 @@
               <tr>
                 <td>{{  $i }}</td>
                 <td>{{ $val->user_id ?? 'N/A' }}</td>
-                <td>{{ $val->username ?? 'N/A' }}</td>
-                 <td>{{ $val->bank_nm ?? 'N/A' }}</td>
-                  <td>{{ $val->acc_name ?? 'N/A' }}</td>
-                  <td>{{ $val->ac_no ?? 'N/A' }}</td>
-                <!-- <td>{{ $val->telephone }}</td> -->
+                @if (empty($val))
+    <td>N/A</td>
+    <td>N/A</td>
+    <td>N/A</td>
+    <td>N/A</td>
+@else
+    <td>{{ $val->user_id }}</td>
+    <td>{{ $val->bank_nm }}</td>
+    <td>{{ $val->acc_name }}</td>
+    <td>{{ $val->ac_no }}</td>
+@endif>
                 
                 <td><?php if($val->is_verified == 1){ ?>
                       <span class="badge badge-success">Verified</span>
