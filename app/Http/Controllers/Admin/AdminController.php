@@ -267,7 +267,7 @@ class AdminController extends Controller
     public function stores_list()
     {
         
-        $data['listing'] = DB::table('stores')
+        $data['listing'] = DB::table('poc_registration')
                 // ->where('is_deleted', '=', 0)
                 // ->whereBetween('created_at', [$lastSavenDate, date('Y-m-d H:i:s')])
                 ->orderBy('id','desc')
@@ -278,7 +278,7 @@ class AdminController extends Controller
     
     public function edit_store($id)
     {
-         $user = DB::table('stores')->where('id',$id)->first();
+         $user = DB::table('poc_registration')->where('id',$id)->first();
         //  print_r($user);exit;
         return view('manage.store.edit', compact('user'));
     }
