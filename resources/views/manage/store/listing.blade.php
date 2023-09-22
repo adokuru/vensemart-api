@@ -27,6 +27,7 @@
               <tr>
                 <th>S.No.</th>
                 <th>User Id</th>
+                <th>Vendor Name</th>
                 <th>Bank Name</th>
                 <th>Account Name</th>
                <th>Account Number</th>
@@ -42,6 +43,7 @@
               <tr>
                 <td>{{  $i }}</td>
                 <td>{{ $val->user_id ?? 'N/A' }}</td>
+                <td>{{ $val->username ?? 'N/A' }}</td>
                  <td>{{ $val->bank_nm ?? 'N/A' }}</td>
                   <td>{{ $val->acc_name ?? 'N/A' }}</td>
                   <td>{{ $val->ac_no ?? 'N/A' }}</td>
