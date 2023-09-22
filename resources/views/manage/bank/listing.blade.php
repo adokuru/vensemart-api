@@ -31,8 +31,8 @@
                 <th>Bank Name</th>
                 <th>Branch</th>
                <th>Account Number</th>
-                
-                <!-- <th>Action</th> -->
+               
+                <th>Action</th>
               </tr>
               </thead>
               <tbody>
@@ -48,7 +48,13 @@
                   <td>{{ $val->account_number ? $val->account_number : 'N/A' }}</td>
                
                 
-               
+              
+                <td>
+                    <a href="{{url('admin/edit-bank').'/'.$val->id }}"><i class="fas fa-edit"></i></a> |
+
+                   
+                    <a href="{{url('admin/existingbank/delete').'/'.$val->id }}" onclick="return confirm('Are you sure you want to delete this item?');"><i class="fas fa-trash"></i></a>
+                </td>
               </tr>
              
               <?php $i++; }}?>
