@@ -264,6 +264,56 @@ class AdminController extends Controller
 
 
 
+    public function stores_list()
+    {
+        
+        $data['listing'] = DB::table('stores')
+                // ->where('is_deleted', '=', 0)
+                // ->whereBetween('created_at', [$lastSavenDate, date('Y-m-d H:i:s')])
+                ->orderBy('id','desc')
+                ->orderByRaw('created_at DESC')
+                ->get();
+        return view('manage.store.listing',$data);
+    }
+    
+    public function edit_store($id)
+    {
+         $user = DB::table('stores')->where('id',$id)->first();
+        //  print_r($user);exit;
+        return view('manage.store.edit', compact('user'));
+    }
+    
+    public function verify_store(Request $request)
+    {
+        
+        $result = DB::table('stores')->where('id',$request->edit_id)->update(['is_verified' => $request->verify_status]);
+        
+        $storedata=DB::table('stores')->where('id',$request->edit_id)->first();
+        $storeId=DB::table('stores')->where('franchise_id',$storedata->user_id)->update(['status'=>$request->verify_status]);
+        
+        ?>
+        <script>
+                alert('Vendor Status Updated Successfully!!');
+                window.location.href="<?php echo url('admin/manage_vendor'); ?>";
+            </script>
+        <?php
+    }
+
+
+    public function existingstoredelete($id)
+    {
+       DB::table('poc_registration')->where('id',$id)->delete();
+       ?>
+       <script>
+           alert('Store Deleted Successfully!!');
+           window.location.href="<?php echo url('admin/manage_store'); ?>";
+       </script>
+       <?php
+    }
+
+
+
+
      
     public function products_list()
     {
