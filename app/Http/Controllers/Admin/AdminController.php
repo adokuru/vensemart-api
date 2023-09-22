@@ -282,6 +282,25 @@ class AdminController extends Controller
         //  print_r($user);exit;
         return view('manage.store.edit', compact('user'));
     }
+
+    public function banks_list()
+    {
+        
+        $data['listing'] = DB::table('bank_details')
+                // ->where('is_deleted', '=', 0)
+                // ->whereBetween('created_at', [$lastSavenDate, date('Y-m-d H:i:s')])
+                ->orderBy('id','desc')
+                ->orderByRaw('created_at DESC')
+                ->get();
+        return view('manage.bank.listing',$data);
+    }
+    
+    public function edit_bank($id)
+    {
+         $user = DB::table('bank_details')->where('id',$id)->first();
+        //  print_r($user);exit;
+        return view('manage.bank.edit', compact('user'));
+    }
     
     public function verify_store(Request $request)
     {

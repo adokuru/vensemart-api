@@ -75,12 +75,41 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item">
+
+            <li class="nav-item">
                 <a href="{{ url('admin/manage_store')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Store Bank Accounts</p>
                 </a>
-              </li>
+          </li>
+              <!-- <li class="nav-item">-->
+              <!--  <a href="{{ url('admin/manageexisting_user')}}" class="nav-link">-->
+              <!--    <i class="far fa-circle nav-icon"></i>-->
+              <!--    <p>Existing User</p>-->
+              <!--  </a>-->
+              <!--</li>-->
+              
+            </ul>
+          </li>
+
+
+
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+          
+              <p>
+                Rider Banks
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+
+            <li class="nav-item">
+                <a href="{{ url('admin/manage_bank')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Rider Bank Accounts</p>
+                </a>
+          </li>
               <!-- <li class="nav-item">-->
               <!--  <a href="{{ url('admin/manageexisting_user')}}" class="nav-link">-->
               <!--    <i class="far fa-circle nav-icon"></i>-->

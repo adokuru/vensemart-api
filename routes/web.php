@@ -267,7 +267,11 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
      Route::get('existingvendor/delete/{key}', [AdminController::class, 'existingstoredelete']);
 
 
-
+/***************************** Banks***************************************/
+Route::get('manage_bank', [AdminController::class, 'banks_list'])->name('banks_list');
+Route::get('edit-bank/{id}', [AdminController::class, 'edit_bank']);
+Route::post('verify_store', [AdminController::class, 'verify_store']);
+Route::get('existingvendor/delete/{key}', [AdminController::class, 'existingstoredelete']);
 
     /***************************** Products***************************************/
     Route::get('manage_product', [AdminController::class, 'products_list'])->name('products_list');
