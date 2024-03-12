@@ -22,9 +22,9 @@ use Jenssegers\Agent\Facades\Agent;
 */
 
 
-// Route::get('/', function () {
-//     return "Vensemart Version 1.0";
-// });
+Route::get('/test', function () {
+    return "Vensemart Version 1.0";
+});
 
 
 Route::get('/', function () {
@@ -32,36 +32,42 @@ Route::get('/', function () {
 
     $storeId =  $store->id;
 
-    $productsCount = Products::where('shop_id',$store->id)->count();
+    $productsCount = Products::where('shop_id', $store->id)->count();
 
-    $ordersCount = Orders::where('shop_id',$store->id)->count();
+    $ordersCount = Orders::where('shop_id', $store->id)->count();
 
-    $salesCount = Orders::where('shop_id',$store->id)->where('status', 4)->count();
-    $pendingCount = Orders::where('shop_id',$store->id)->where('status', 3)->count();
+    $salesCount = Orders::where('shop_id', $store->id)->where('status', 4)->count();
+    $pendingCount = Orders::where('shop_id', $store->id)->where('status', 3)->count();
 
 
-return view('nk1/index',[
-    "productsCount" => $productsCount,
-    "ordersCount" => $ordersCount,
-    "salesCount" => $salesCount,
-    "pendingCount" => $pendingCount,
-]
-);
+    return view(
+        'nk1/index',
+        [
+            "productsCount" => $productsCount,
+            "ordersCount" => $ordersCount,
+            "salesCount" => $salesCount,
+            "pendingCount" => $pendingCount,
+        ]
+    );
 })->middleware(['auth', 'verified']);
 
 Auth::routes();
-   
-Route::get('/home', 
-   function(){
-    return view('outer_files/dup');
-})->middleware(['auth', 'verified']);
 
-Route::get('/vendor', 
-   function(){
-    return view('outer_files/dup');
-})->middleware(['auth', 'verified']);
+Route::get(
+    '/home',
+    function () {
+        return view('outer_files/dup');
+    }
+)->middleware(['auth', 'verified']);
 
-Route::get('/product-form', function(){
+Route::get(
+    '/vendor',
+    function () {
+        return view('outer_files/dup');
+    }
+)->middleware(['auth', 'verified']);
+
+Route::get('/product-form', function () {
 
     return view('outer_files/product-form');
 });
@@ -70,15 +76,14 @@ Route::get('/product-form', function(){
 
 // Route::post('submit', [UploadController::class, 'submit']);
 
-Route::get('/product', function(){
+Route::get('/product', function () {
 
     return view('outer_files/uploadfile');
-
 });
 
 
 
-Route::get('/api/ref', function(Request $request) {
+Route::get('/api/ref', function (Request $request) {
     $referralCode = $request->query('ref');
 
     // Use the extracted referral code for further processing
@@ -157,50 +162,52 @@ Route::get('/orders-list', function () {
 
 
 
-Route::get('/dup', function(){
+Route::get('/dup', function () {
     return view('outer_files/dup');
 })->middleware(['auth', 'verified'])->name('dup');
 
 
 
-Route::get('/index', function(){
+Route::get('/index', function () {
 
 
-        $store = Stores::where('franchise_id', auth()->user()->user_id)->first();
+    $store = Stores::where('franchise_id', auth()->user()->user_id)->first();
 
-        $storeId =  $store->id;
+    $storeId =  $store->id;
 
-        $productsCount = Products::where('shop_id',$store->id)->count();
+    $productsCount = Products::where('shop_id', $store->id)->count();
 
-        $ordersCount = Orders::where('shop_id',$store->id)->count();
+    $ordersCount = Orders::where('shop_id', $store->id)->count();
 
-        $salesCount = Orders::where('shop_id',$store->id)->where('status', 4)->count();
-        $pendingCount = Orders::where('shop_id',$store->id)->where('status', 3)->count();
+    $salesCount = Orders::where('shop_id', $store->id)->where('status', 4)->count();
+    $pendingCount = Orders::where('shop_id', $store->id)->where('status', 3)->count();
 
 
-    return view('nk1/index',[
-        "productsCount" => $productsCount,
-        "ordersCount" => $ordersCount,
-        "salesCount" => $salesCount,
-        "pendingCount" => $pendingCount,
-    ]
-);
+    return view(
+        'nk1/index',
+        [
+            "productsCount" => $productsCount,
+            "ordersCount" => $ordersCount,
+            "salesCount" => $salesCount,
+            "pendingCount" => $pendingCount,
+        ]
+    );
 })->middleware(['auth', 'verified'])->name('index');
 
-Route::get('/duppp', function(){
+Route::get('/duppp', function () {
     return view('outer_files/dupppp');
 })->middleware(['auth', 'verified'])->name('duppp');
 
 
-Route::get('/bank', function(){
+Route::get('/bank', function () {
     return view('outer_files/bank');
 })->middleware(['auth', 'verified'])->name('bank');
 
-Route::get('/orders', function(){
+Route::get('/orders', function () {
     return view('outer_files/orders');
 })->middleware(['auth', 'verified'])->name('orders');
 
-Route::get('/dupp ', function(){
+Route::get('/dupp ', function () {
     return view('outer_files/dupp');
 })->middleware(['auth', 'verified'])->name('dupp');
 
@@ -214,14 +221,14 @@ Route::middleware('auth')->group(function () {
 
     Route::get(
 
-        '/profile', function(){
+        '/profile',
+        function () {
 
             return view('outer_files/profile');
-
         }
     );
 
-    
+
     // Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -260,18 +267,18 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
     Route::get('existingvendor/delete/{key}', [AdminController::class, 'existingvendordelete']);
 
 
-     /***************************** Stores***************************************/
-     Route::get('manage_store', [AdminController::class, 'stores_list'])->name('stores_list');
-     Route::get('edit-store/{id}', [AdminController::class, 'edit_store']);
-     Route::post('verify_store', [AdminController::class, 'verify_store']);
-     Route::get('existingvendor/delete/{key}', [AdminController::class, 'existingstoredelete']);
+    /***************************** Stores***************************************/
+    Route::get('manage_store', [AdminController::class, 'stores_list'])->name('stores_list');
+    Route::get('edit-store/{id}', [AdminController::class, 'edit_store']);
+    Route::post('verify_store', [AdminController::class, 'verify_store']);
+    Route::get('existingvendor/delete/{key}', [AdminController::class, 'existingstoredelete']);
 
 
-/***************************** Banks***************************************/
-Route::get('manage_bank', [AdminController::class, 'banks_list'])->name('banks_list');
-Route::get('edit-bank/{id}', [AdminController::class, 'edit_bank']);
-Route::post('verify_store', [AdminController::class, 'verify_store']);
-Route::get('existingvendor/delete/{key}', [AdminController::class, 'existingstoredelete']);
+    /***************************** Banks***************************************/
+    Route::get('manage_bank', [AdminController::class, 'banks_list'])->name('banks_list');
+    Route::get('edit-bank/{id}', [AdminController::class, 'edit_bank']);
+    Route::post('verify_store', [AdminController::class, 'verify_store']);
+    Route::get('existingvendor/delete/{key}', [AdminController::class, 'existingstoredelete']);
 
     /***************************** Products***************************************/
     Route::get('manage_product', [AdminController::class, 'products_list'])->name('products_list');
@@ -305,9 +312,9 @@ Route::get('existingvendor/delete/{key}', [AdminController::class, 'existingstor
     Route::get('exist_serviceprovider/existingserviceprovider_delete/{key}', [AdminController::class, 'deleteserviceprovider']);
 
 
-    
 
-   
+
+
     /**************************End Existing Service Provider***************************/
 
     /**********************New Service Provider*******************************/
