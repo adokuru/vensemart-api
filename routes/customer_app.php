@@ -23,6 +23,8 @@ Route::post('login', [AuthController::class, 'login']);
 
 Route::post('register', [AuthController::class, 'register']);
 
+Route::get('logout', [AuthController::class, 'logout']);
+
 Route::post('/customer/send-otp', [AuthController::class, 'send_otp']);
 
 
