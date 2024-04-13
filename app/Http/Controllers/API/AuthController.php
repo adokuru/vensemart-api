@@ -1215,6 +1215,48 @@ class AuthController extends Controller
         }
         return response()->json($arr, 200);
     }
+
+    public function user_detail(Request $request)
+    {
+        $id = $request->id;
+
+        $profile = User::where('id', $id)->first();
+
+        $arr = [];
+
+        try {
+            // $id = Auth::id();
+            // // print_r(Auth::id());die;
+            // $profile = Auth::user();
+
+            if ($profile->type == "2") {
+                $vehicledetails = DB::table('vehicle_details')->where('user_id', $profile->id)->first();
+                $profile->vehicledetails = $vehicledetails;
+                // display vehicle details, name email, 
+                if ($profile) {
+                    $arr['status'] = 1;
+                    $arr['message'] = 'Success';
+                    $arr['data'] = $profile;
+                }
+            }
+
+
+            if ($profile->type == "1") {
+                $profile->profile = $profile->profile ? url('storage/uploads/profile') . '/' . $profile->profile : '';
+
+                if ($profile) {
+                    $arr['status'] = 1;
+                    $arr['message'] = 'Success';
+                    $arr['data'] = $profile;
+                }
+            }
+        } catch (\Exception $e) {
+            $arr['status'] = 0;
+            $arr['message'] = 'Something went wrong';
+            $arr['data'] = NULL;
+        }
+        return response()->json($arr, 200);
+    }
     /******************change update**********************************/
 
     public function change_password(Request $request)
@@ -1229,7 +1271,7 @@ class AuthController extends Controller
         if ($validate->fails()) {
             $arr['status'] = 0;
             $arr['message'] = 'Validation failed';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
 
             return response()->json($arr, 422);
         }
@@ -1246,23 +1288,23 @@ class AuthController extends Controller
                 if ($update) {
                     $arr['status'] = 1;
                     $arr['message'] = 'Success';
-                    $arr['data'] = NULL;
+                    // $arr['data'] = NULL;
                 } else {
                     $arr['status'] = 0;
                     $arr['message'] = 'Try Again';
-                    $arr['data'] = NULL;
+                    // $arr['data'] = NULL;
                     return response()->json($arr, 422);
                 }
             } else {
                 $arr['status'] = 0;
                 $arr['message'] = 'Invalid old password';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
                 return response()->json($arr, 422);
             }
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'something went wrong';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
             return response()->json($arr, 500);
         }
         return response()->json($arr, 500);

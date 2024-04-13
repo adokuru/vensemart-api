@@ -25,10 +25,10 @@ Route::group([
 
     Route::post('accept_order', [DeliveryRiderController::class, 'accept_order']);
     Route::post('reject_order', [DeliveryRiderController::class, 'reject_order']);
-    
+
     Route::post('complete_order_no_otp', [DeliveryRiderController::class, 'complete_order_noOtp']);
 
-    
+
     Route::get('earning_management', [DeliveryRiderController::class, 'earning_management']);
 
     Route::post('get_single_order_details', [DeliveryRiderController::class, 'get_single_order_details']);
@@ -36,6 +36,9 @@ Route::group([
     Route::post('send_otp_for_product', [DeliveryRiderController::class, 'send_otp_for_product']);
 
     Route::post('on_off_status', [DeliveryRiderController::class, 'on_off_status']);
+
+
+    Route::post('on_off_online', [DeliveryRiderController::class, 'on_off_online']);
 
     Route::post('update_order_status', [DeliveryRiderController::class, 'update_order_status']);
 
@@ -55,7 +58,7 @@ Route::group([
 
     Route::post('complete_order_sms', [DeliveryRiderController::class, 'complete_order_sms']);
     Route::post('validate_order_details', [DeliveryRiderController::class, 'validate_order_details']);
-   
+
 
     Route::get('get_notification', [DeliveryRiderController::class, 'get_notification']);
 
@@ -71,6 +74,6 @@ Route::group([
     Route::get('get-bank-details', [BankDetailsController::class, 'getBankDetails']);
 
     Route::post('add-bank-details', [BankDetailsController::class, 'addBankDetails']);
-    
+
     Route::post('delete-bank-details', [BankDetailsController::class, 'deleteBankDetails']);
 });

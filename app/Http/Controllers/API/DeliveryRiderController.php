@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\NotifyViaMqtt;
 use App\Models\DeliveryRequestStatus;
 use App\Models\MyWallet;
 use App\Models\Orders;
+use App\Models\RideRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
@@ -54,7 +56,8 @@ class DeliveryRiderController extends Controller
             $vehicle_details = $request->all();
             if (!empty($vehicle_details['picture'])) {
                 $file_name = date('dmy') . rand(1, 4) . $request->file('picture')->getClientOriginalName();
-                $store = $request->file('picture')->move('uploads/all_image', $file_name);
+                $store = $request->file('picture')->move(storage_path('uploads/all_image'), $file_name);
+                // dd($file_name, $store);
                 if ($store) {
                     $vehicle_details['dl_picture'] = $file_name;
                 } else {
@@ -224,6 +227,7 @@ class DeliveryRiderController extends Controller
             $total_order = DB::table('orders')->where('driver_id', Auth::id())->count();
             $total_earning = DB::table('my_wallet')->where('user_id', Auth::id())->sum('amount');
             $availibility = DB::table('users')->where('id', Auth::id())->where('status', '1')->first();
+            $is_online = DB::table('users')->where('id', Auth::id())->where('is_online', '1')->first();
             $pending_order = DB::table('orders')->where('driver_id', Auth::id())->where('status', '2')->count();
             $completed_order = DB::table('orders')->where('driver_id', Auth::id())->where('status', '4')->count();
             $today_order = DB::table('orders as o')
@@ -235,9 +239,10 @@ class DeliveryRiderController extends Controller
             $data['total_earning'] = $total_earning != 0 ? number_format((float)$total_earning, 2, '.', '') : 0.00;
             $data['today_order'] = $today_order != [] ? $today_order : [];
             $data['availibility'] = $availibility != '' ? "yes" : "no";
+            $data['is_online'] = $is_online != '' ? "yes" : "no";
             $data['pending_order'] = $pending_order != 0 ? $pending_order : 0;
             $data['completed_order'] = $completed_order != 0 ? $completed_order : 0;
-             $arr['status'] = 1;
+            $arr['status'] = 1;
             $arr['message'] = 'Success';
             $arr['data'] = $data;
             return response()->json($arr, 200);
@@ -253,11 +258,41 @@ class DeliveryRiderController extends Controller
     {
 
         try {
-            $all_order = DB::table('orders as o')
-                ->select('o.*', 's.store_name', 's.address as store_address', "s.lati as store_latitude", "s.longi as store_longitude", 'ua.location as delivery_address', 'ua.location_lat as delivery_latitude', 'ua.location_long as delivery_longitude')
-                ->leftjoin('stores as s', 's.id', 'o.shop_id')
-                ->leftjoin('users as ua', 'ua.id', 'o.user_id')
+            $all_order =
+                // DB::table('orders as o')
+                //     ->select('o.*', 's.store_name', 's.address as store_address', "s.lati as store_latitude", "s.longi as store_longitude", 'ua.location as delivery_address', 'ua.location_lat as delivery_latitude', 'ua.location_long as delivery_longitude')
+                //     ->leftjoin('stores as s', 's.id', 'o.shop_id')
+                //     ->leftjoin('users as ua', 'ua.id', 'o.user_id')
+                //     ->where('o.driver_id', Auth::id())
+                DB::table('orders as o')
+                ->select(
+                    'o.*',
+                    'rr.start_address as ride_start_address',
+                    'rr.end_address as ride_end_address',
+                    'rr.start_latitude as ride_start_latitude',
+                    'rr.start_longitude as ride_start_longitude',
+                    'rr.end_latitude as ride_delivery_latitude',
+                    'rr.end_longitude as ride_delivery_longitude',
+                    'rr.ride_type as ride_type',
+                    'rr.item_type as item_type',
+                    'rr.item_categories as item_categories',
+                    's.store_name',
+                    's.address as store_address',
+                    's.lati as store_latitude',
+                    's.longi as store_longitude',
+                    'ua.location as delivery_address',
+                    'ua.location_lat as delivery_latitude',
+                    'ua.location_long as delivery_longitude',
+                    'ua.mobile as delivery_mobile',
+                    DB::raw("CASE WHEN rr.is_ride_for_other = 1 THEN TRIM(BOTH '\"' FROM JSON_EXTRACT(rr.other_rider_data, '$.name')) ELSE NULL END AS other_rider_name"),
+                    DB::raw("CASE WHEN rr.is_ride_for_other = 1 THEN TRIM(BOTH '\"' FROM JSON_EXTRACT(rr.other_rider_data, '$.phone_number')) ELSE NULL END AS other_rider_phone_number")
+
+                )
+                ->leftJoin('stores as s', 's.id', 'o.shop_id')
+                ->leftJoin('users as ua', 'ua.id', 'o.user_id')
+                ->leftJoin('ride_requests as rr', 'rr.id', 'o.ride_request_id') // Join the ride_request table
                 ->where('o.driver_id', Auth::id())
+
                 ->whereNotIn('o.status', [1])->get()->toArray();
             // return $all_order;                
             if ($all_order == []) {
@@ -281,20 +316,58 @@ class DeliveryRiderController extends Controller
     public function pending_order()
     {
         try {
-         
+
+
             $pending_order = DB::table('orders as o')
-                ->select('o.*', 's.store_name', 
-                's.address as store_address',
-                 "s.lati as store_latitude",
-                 "s.longi as store_longitude",
-                  'ua.location as delivery_address',
-                  'ua.location_lat as delivery_latitude',
-                  'ua.location_long as delivery_longitude',
-                  'ua.mobile as delivery_mobile',
-                  )
-                ->leftjoin('stores as s', 's.id', 'o.shop_id')
-                ->leftjoin('users as ua', 'ua.id', 'o.user_id')
-                ->where('o.driver_id', Auth::id())->where('o.status', '2')->orwhere('o.status', '3')->get();
+                ->select(
+                    'o.*',
+                    'rr.start_address as ride_start_address',
+                    'rr.end_address as ride_end_address',
+                    'rr.start_latitude as ride_start_latitude',
+                    'rr.start_longitude as ride_start_longitude',
+                    'rr.end_latitude as ride_delivery_latitude',
+                    'rr.end_longitude as ride_delivery_longitude',
+                    'rr.ride_type as ride_type',
+                    'rr.item_type as item_type',
+                    'rr.item_categories as item_categories',
+                    's.store_name',
+                    's.address as store_address',
+                    's.lati as store_latitude',
+                    's.longi as store_longitude',
+                    'ua.location as delivery_address',
+                    'ua.location_lat as delivery_latitude',
+                    'ua.location_long as delivery_longitude',
+                    'ua.mobile as delivery_mobile',
+                    DB::raw("CASE WHEN rr.is_ride_for_other = 1 THEN TRIM(BOTH '\"' FROM JSON_EXTRACT(rr.other_rider_data, '$.name')) ELSE NULL END AS other_rider_name"),
+                    DB::raw("CASE WHEN rr.is_ride_for_other = 1 THEN TRIM(BOTH '\"' FROM JSON_EXTRACT(rr.other_rider_data, '$.phone_number')) ELSE NULL END AS other_rider_phone_number")
+
+                )
+                ->leftJoin('stores as s', 's.id', 'o.shop_id')
+                ->leftJoin('users as ua', 'ua.id', 'o.user_id')
+                ->leftJoin('ride_requests as rr', 'rr.id', 'o.ride_request_id') // Join the ride_request table
+                ->where('o.driver_id', Auth::id())
+                ->whereIn('o.status', ['2', '3']) // Use whereIn to check for multiple statuses
+                ->get();
+
+
+
+
+            //     $pending_order = DB::table('orders as o')
+            //         ->select(
+            //             'o.*',
+            //             's.store_name',
+            //             's.address as store_address',
+            //             "s.lati as store_latitude",
+            //             "s.longi as store_longitude",
+            //             'ua.location as delivery_address',
+            //             'ua.location_lat as delivery_latitude',
+            //             'ua.location_long as delivery_longitude',
+            //             'ua.mobile as delivery_mobile',
+            //         )
+            //         ->leftjoin('stores as s', 's.id', 'o.shop_id')
+            //         ->leftjoin('users as ua', 'ua.id', 'o.user_id')
+            //         ->where('o.driver_id', Auth::id())->where('o.status', '2')->get();
+            // }
 
 
 
@@ -307,7 +380,7 @@ class DeliveryRiderController extends Controller
                 $arr['message'] = 'Success';
                 $arr['data'] = $pending_order;
             }
-            return response()->json($arr, 200);
+            // return response()->json($arr, 200);
         } catch (\Exception $e) {
             $arr['status']  = 0;
             $arr['message'] = 'something went wrong';
@@ -323,18 +396,48 @@ class DeliveryRiderController extends Controller
             //     ->select('o.*')
             //     ->where('o.driver_id', Auth::id())->where('o.status', '7')->get()->toArray();
 
-    //pos_registration
-    //stores
-    //product
-    //category
-    //subcategory
-    //bank
-    
-            $cancel_order = DB::table('orders as o')
-                ->select('o.*', 's.store_name', 's.address as store_address', "s.lati as store_latitude", "s.longi as store_longitude", 'ua.location as delivery_address', 'ua.location_lat as delivery_latitude', 'ua.location_long as delivery_longitude')
-                ->leftjoin('stores as s', 's.id', 'o.shop_id')
-                ->leftjoin('users as ua', 'ua.id', 'o.user_id')
-                ->where('o.driver_id', Auth::id())->where('o.status', '7')->get()->toArray();
+            //pos_registration
+            //stores
+            //product
+            //category
+            //subcategory
+            //bank
+
+            $cancel_order =
+                //  DB::table('orders as o')
+                //     ->select('o.*', 's.store_name', 's.address as store_address', "s.lati as store_latitude", "s.longi as store_longitude", 'ua.location as delivery_address', 'ua.location_lat as delivery_latitude', 'ua.location_long as delivery_longitude')
+                //     ->leftjoin('stores as s', 's.id', 'o.shop_id')
+                //     ->leftjoin('users as ua', 'ua.id', 'o.user_id')
+                //     ->where('o.driver_id', Auth::id())
+                DB::table('orders as o')
+                ->select(
+                    'o.*',
+                    'rr.start_address as ride_start_address',
+                    'rr.end_address as ride_end_address',
+                    'rr.start_latitude as ride_start_latitude',
+                    'rr.start_longitude as ride_start_longitude',
+                    'rr.end_latitude as ride_delivery_latitude',
+                    'rr.end_longitude as ride_delivery_longitude',
+                    'rr.ride_type as ride_type',
+                    'rr.item_type as item_type',
+                    'rr.item_categories as item_categories',
+                    's.store_name',
+                    's.address as store_address',
+                    's.lati as store_latitude',
+                    's.longi as store_longitude',
+                    'ua.location as delivery_address',
+                    'ua.location_lat as delivery_latitude',
+                    'ua.location_long as delivery_longitude',
+                    'ua.mobile as delivery_mobile',
+                    DB::raw("CASE WHEN rr.is_ride_for_other = 1 THEN TRIM(BOTH '\"' FROM JSON_EXTRACT(rr.other_rider_data, '$.name')) ELSE NULL END AS other_rider_name"),
+                    DB::raw("CASE WHEN rr.is_ride_for_other = 1 THEN TRIM(BOTH '\"' FROM JSON_EXTRACT(rr.other_rider_data, '$.phone_number')) ELSE NULL END AS other_rider_phone_number")
+                )
+                ->leftJoin('stores as s', 's.id', 'o.shop_id')
+                ->leftJoin('users as ua', 'ua.id', 'o.user_id')
+                ->leftJoin('ride_requests as rr', 'rr.id', 'o.ride_request_id') // Join the ride_request table
+                ->where('o.driver_id', Auth::id())
+
+                ->where('o.status', '7')->get()->toArray();
 
             if ($cancel_order == []) {
                 $arr['status'] = 0;
@@ -364,13 +467,50 @@ class DeliveryRiderController extends Controller
             //     ->where('o.driver_id', Auth::id())->where('o.status', '4')->get()->toArray();
 
 
-            $complete_order = DB::table('orders as o')
-                ->select('o.*', 's.store_name', 's.address as store_address', "s.lati as store_latitude",
-                 "s.longi as store_longitude", 'ua.location as delivery_address', 
-                'ua.location_lat as delivery_latitude', 'ua.location_long as delivery_longitude')
-                ->leftjoin('stores as s', 's.id', 'o.shop_id')
-                ->leftjoin('users as ua', 'ua.id', 'o.user_id')
-                ->where('o.driver_id', Auth::id())->where('o.status', '4')->get()->toArray();
+            $complete_order =
+                // DB::table('orders as o')
+                //     ->select(
+                //         'o.*',
+                //         's.store_name',
+                //         's.address as store_address',
+                //         "s.lati as store_latitude",
+                //         "s.longi as store_longitude",
+                //         'ua.location as delivery_address',
+                //         'ua.location_lat as delivery_latitude',
+                //         'ua.location_long as delivery_longitude'
+                //     )
+                //     ->leftjoin('stores as s', 's.id', 'o.shop_id')
+                //     ->leftjoin('users as ua', 'ua.id', 'o.user_id')
+                //     ->where('o.driver_id', Auth::id())
+                DB::table('orders as o')
+                ->select(
+                    'o.*',
+                    'rr.start_address as ride_start_address',
+                    'rr.end_address as ride_end_address',
+                    'rr.start_latitude as ride_start_latitude',
+                    'rr.start_longitude as ride_start_longitude',
+                    'rr.end_latitude as ride_delivery_latitude',
+                    'rr.end_longitude as ride_delivery_longitude',
+                    'rr.ride_type as ride_type',
+                    'rr.item_type as item_type',
+                    'rr.item_categories as item_categories',
+                    's.store_name',
+                    's.address as store_address',
+                    's.lati as store_latitude',
+                    's.longi as store_longitude',
+                    'ua.location as delivery_address',
+                    'ua.location_lat as delivery_latitude',
+                    'ua.location_long as delivery_longitude',
+                    'ua.mobile as delivery_mobile',
+                    DB::raw("CASE WHEN rr.is_ride_for_other = 1 THEN TRIM(BOTH '\"' FROM JSON_EXTRACT(rr.other_rider_data, '$.name')) ELSE NULL END AS other_rider_name"),
+                    DB::raw("CASE WHEN rr.is_ride_for_other = 1 THEN TRIM(BOTH '\"' FROM JSON_EXTRACT(rr.other_rider_data, '$.phone_number')) ELSE NULL END AS other_rider_phone_number")
+
+                )
+                ->leftJoin('stores as s', 's.id', 'o.shop_id')
+                ->leftJoin('users as ua', 'ua.id', 'o.user_id')
+                ->leftJoin('ride_requests as rr', 'rr.id', 'o.ride_request_id') // Join the ride_request table
+                ->where('o.driver_id', Auth::id())
+                ->where('o.status', '4')->get()->toArray();
 
 
             if ($complete_order == []) {
@@ -409,14 +549,54 @@ class DeliveryRiderController extends Controller
 
             $order = DB::table('orders')->where('id', $orderid)->where('status', '2')->where('driver_id', $driverId)->first();
 
+
+
             if ($order == null) {
                 $arr['status'] = 0;
                 $arr['message'] = 'Order not found or already accepted';
                 return response()->json($arr, 200);
             }
 
-
+            // if ride_request_id is not null, then update the status of the ride_request to 2
             Orders::where('id', $orderid)->update(['status' => "3"]);
+
+            if ($order->ride_request_id != null) {
+                DB::table('ride_requests')->where('id', $order->ride_request_id)->update(['status' => "accepted"]);
+            }
+
+            // $order_request = DB::table('orders as o')
+            //     ->select(
+            //         'o.*',
+            //         'r.*',
+            //         'u.name as user_name',
+            //         'u.mobile as user_phone',
+            //         'u.email as user_email',
+            //         'u.id as user_id',
+            //         'd.id as driver_id',
+            //         'd.name as driver_name',
+            //         'd.mobile as driver_phone',
+            //         'd.email as driver_email',
+
+            //     )
+            //     ->join('ride_requests as r', 'r.id', 'o.ride_request_id')
+            //     ->join('users as u', 'u.id', 'o.user_id')
+            //     ->join('users as d', 'd.id', 'o.driver_id')
+
+            //     ->orderBy('o.created_at', 'desc') // Order by creation date in descending order
+            //     ->first();
+
+            // $history_data = [
+            //     'history_type'      => $order_request->status,
+            //     'ride_request_id'   => $order_request->ride_request_id,
+            //     'ride_request'      => $order_request,
+            // ];
+
+            // // $this->get_order_request();
+            // dd($history_data);
+
+            // $this->saveRideHistory($history_data);
+
+
 
             $arr['status'] = 1;
             $arr['message'] = 'Order Accepted Successfully!!';
@@ -432,146 +612,273 @@ class DeliveryRiderController extends Controller
     }
 
 
-     //complete without otp
-     public function complete_order_noOtp(Request $request)
-     {
-         try {
-             $validator = Validator::make($request->all(), [
-                 'order_id' => 'required',
-             ]);
- 
-             if ($validator->fails()) {
-                 $arr['status'] = 0;
-                 $arr['message'] = $validator->errors()->first();
-                 return response()->json($arr, 422);
-             }
- 
-             $orderid = $request->order_id;
-             $driverId = Auth::id();
- 
-             $order = DB::table('orders')->where('id', $orderid)->where('status', '3')->where('driver_id', $driverId)->first();
- 
-             if ($order == null) {
-                 $arr['status'] = 0;
-                 $arr['message'] = 'Order not found or already accepted';
-                 return response()->json($arr, 200);
-             }
- 
- 
-             Orders::where('id', $orderid)->update(['status' => "4"]);
- 
-             $arr['status'] = 1;
-             $arr['message'] = 'Order Completed Successfully!!';
-             $arr['data'] = true;
- 
-             return response()->json($arr, 200);
-         } catch (\Exception $e) {
-             $arr['status']  = 0;
-             $arr['message'] = 'something went wrong';
-             $arr['data']    = NULL;
-         }
-         return response()->json($arr, 200);
-     }
+    function saveRideHistory($data)
+    {
+        // dd($data);
+        $user_type = auth()->user()->user_type;
+        $data['datetime'] = date('Y-m-d H:i:s');
+        $mqtt_event = 'test_connection';
+        $history_data = [];
+        $sendTo = [];
+
+        // $ride_request_id = $data['ride_request']->rid;
+        $ride_request = RideRequest::find($data['ride_request']->ride_request_id);
+        switch ($data['history_type']) {
+            case 'new_ride_requested':
+                // $data['history_message'] = __('message.ride.new_ride_requested');
+                // $history_data = [
+                //     'rider_id' => $ride_request->rider_id,
+                //     'rider_name' => optional($ride_request->rider)->display_name ?? '',
+                // ];
+                $data['history_message'] = "New Ride Requested";
+                $history_data = [
+                    'rider_id' => $data['ride_request']->driver_id,
+                    // 'rider_name' => optional($data['ride_request']->rider)->display_name ?? '',
+                ];
+                $sendTo = [];
+                break;
+
+            case 'no_drivers_available':
+                # code...
+                break;
+            case 'accepted':
+                $data['history_message'] = "Ride Accepted";
+                $history_data = [
+                    'driver_id' => $data['ride_request']->driver_id,
+                    // 'driver_name' => optional($data['ride_request']->driver)->display_name ?? '',
+                ];
+                $mqtt_event = 'ride_request_status';
+                // $sendTo = removeValueFromArray(['admin', 'rider'], $user_type);
+                break;
 
 
-     public function complete_order_sms(Request $request)
-     {
-         try {
-             $validator = Validator::make($request->all(), [
-                 'order_id' => 'required',
-                 'phone' => 'required',
-             ]);
- 
-             if ($validator->fails()) {
-                 $arr['status'] = 0;
-                 $arr['message'] = $validator->errors()->first();
-                 return response()->json($arr, 422);
-             }
- 
-             $orderid = $request->order_id;
-             $userphone = $request->phone;
+                // ride is in progress from the start to the end location
+            case 'in_progress':
+                $data['history_message'] = "Ride in Progress";
+                $history_data = [
+                    'driver_id' => $data['ride_request']->driver_id,
+                    // 'driver_name' => optional($data['ride_request']->driver)->display_name ?? '',
+                ];
+                $mqtt_event = 'ride_request_status';
+                // $sendTo = removeValueFromArray(['admin', 'rider'], $user_type);
+                break;
+
+            case 'canceled':
+                $data['history_message'] = __('message.ride.canceled');
+
+                if ($ride_request->cancel_by == 'auto') {
+                    $history_data = [
+                        'cancel_by' => $ride_request->cancel_by,
+                        'rider_id' => $ride_request->rider_id,
+                        // 'rider_name' => optional($ride_request->rider)->display_name ?? '',
+                    ];
+                }
 
 
-             $otp = rand(1000, 9999);
-             // $users->otp = $otp;
-             // $users->save();
- 
 
-             //send otp to user
-             //update order with otp
-             //if otp entered is correct, change status of 
+                if ($ride_request->cancel_by == 'driver') {
+                    $data['history_message'] = __('message.ride.driver_canceled');
+                    $history_data = [
+                        'cancel_by' => $ride_request->cancel_by,
+                        'driver_id' => $ride_request->driver_id,
+                        // 'driver_name' => optional($ride_request->driver)->display_name ?? '',
+                    ];
+                }
 
-             $driverId = Auth::id();
- 
-             $order = DB::table('orders')->where('id', $orderid)->where('status', '3')->where('driver_id', $driverId)->first();
- 
-             if ($order == null) {
-                 $arr['status'] = 0;
-                 $arr['message'] = 'Order not found or already accepted';
-                 return response()->json($arr, 200);
-             }
-              
-             $this->sendSMSMessage(
+                $mqtt_event = 'ride_request_status';
+                // $sendTo = removeValueFromArray(['admin', 'rider', 'driver'], $user_type);
+                break;
+
+            case 'driver_canceled':
+                $data['history_message'] = __('message.ride.driver_canceled');
+                $history_data = [
+                    'driver_id' => $ride_request->driver_id,
+                    // 'driver_name' => optional($ride_request->driver)->display_name ?? '',
+                ];
+                $mqtt_event = 'ride_request_status';
+                // $sendTo = removeValueFromArray(['admin', 'rider'], $user_type);
+                break;
+
+            default:
+                # code...
+                break;
+        }
+
+        $data['history_data'] = json_encode($history_data);
+
+
+
+        // if (count($sendTo) > 0) {
+
+
+        $notify_data = new \stdClass();
+        $notify_data->success = true;
+        $notify_data->success_type = $data['history_type'];
+        $notify_data->success_message = $data['history_message'];
+
+        // dd($data);
+
+
+        // if ($user != null) {
+        // dd($mqtt_event . '_' . $data['ride_request']->driver_id, json_encode($notify_data));
+
+
+        if ($data['history_type'] != 'new_ride_requested') {
+            dispatch(new NotifyViaMqtt($mqtt_event . '_' . $data['ride_request']->driver_id, json_encode($notify_data)));
+        }
+
+
+
+
+        // }
+
+    }
+
+
+    //complete without otp
+    public function complete_order_noOtp(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'order_id' => 'required',
+            ]);
+
+            if ($validator->fails()) {
+                $arr['status'] = 0;
+                $arr['message'] = $validator->errors()->first();
+                return response()->json($arr, 422);
+            }
+
+            $orderid = $request->order_id;
+            $driverId = Auth::id();
+
+            // $order = DB::table('orders')->where('id', $orderid)->where('status', '3')->where('driver_id', $driverId)->first();
+            $order = DB::table('orders')->where('id', $orderid)->where('driver_id', $driverId)->first();
+
+            if ($order == null) {
+                $arr['status'] = 0;
+                $arr['message'] = 'Order not found or already accepted';
+                return response()->json($arr, 200);
+            }
+
+
+            Orders::where('id', $orderid)->update(['status' => "4"]);
+
+            RideRequest::where('id', $order->ride_request_id)->update(['status' => "completed"]);
+
+            $arr['status'] = 1;
+            $arr['message'] = 'Order Completed Successfully!!';
+            $arr['data'] = true;
+
+            return response()->json($arr, 200);
+        } catch (\Exception $e) {
+            $arr['status']  = 0;
+            $arr['message'] = 'something went wrong';
+            $arr['data']    = NULL;
+        }
+        return response()->json($arr, 200);
+    }
+
+
+    public function complete_order_sms(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'order_id' => 'required',
+                'phone' => 'required',
+            ]);
+
+            if ($validator->fails()) {
+                $arr['status'] = 0;
+                $arr['message'] = $validator->errors()->first();
+                return response()->json($arr, 422);
+            }
+
+            $orderid = $request->order_id;
+            $userphone = $request->phone;
+
+
+            $otp = rand(1000, 9999);
+            // $users->otp = $otp;
+            // $users->save();
+
+
+            //send otp to user
+            //update order with otp
+            //if otp entered is correct, change status of 
+
+            $driverId = Auth::id();
+
+            $order = DB::table('orders')->where('id', $orderid)->where('status', '3')->where('driver_id', $driverId)->first();
+
+            if ($order == null) {
+                $arr['status'] = 0;
+                $arr['message'] = 'Order not found or already accepted';
+                return response()->json($arr, 200);
+            }
+
+            $this->sendSMSMessage(
                 "+234" . substr($userphone, -10),
                 "order-" . $orderid . " has been picked up successfully!! use this pin to complete your order: " . $otp
             );
- 
-             Orders::where('id', $orderid)->update(['otp' => "$otp"]);
- 
-             $arr['status'] = 1;
-             $arr['message'] = 'Order Completed Successfully!!';
-             $arr['data'] = true;
- 
-             return response()->json($arr, 200);
-         } catch (\Exception $e) {
-             $arr['status']  = 0;
-             $arr['message'] = 'something went wrong';
-             $arr['data']    = NULL;
-         }
-         return response()->json($arr, 200);
-     }
+
+            Orders::where('id', $orderid)->update(['otp' => "$otp"]);
+
+            $arr['status'] = 1;
+            $arr['message'] = 'Order Completed Successfully!!';
+            $arr['data'] = true;
+
+            return response()->json($arr, 200);
+        } catch (\Exception $e) {
+            $arr['status']  = 0;
+            $arr['message'] = 'something went wrong';
+            $arr['data']    = NULL;
+        }
+        return response()->json($arr, 200);
+    }
 
 
 
 
-     public function validate_order_details(Request $request)
-     {
-          try {
-             $validator = Validator::make($request->all(), [
-                 'order_id' => 'required',
-                 'otp' => 'required',
-             ]);
- 
-             if ($validator->fails()) {
-                 $arr['status'] = 0;
-                 $arr['message'] = $validator->errors()->first();
-                 return response()->json($arr, 422);
-             }
- 
-             $orderid = $request->order_id;
+    public function validate_order_details(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'order_id' => 'required',
+                'otp' => 'required',
+            ]);
+
+            if ($validator->fails()) {
+                $arr['status'] = 0;
+                $arr['message'] = $validator->errors()->first();
+                return response()->json($arr, 422);
+            }
+
+            $orderid = $request->order_id;
             //  $userphone = $request->phone;
 
 
             //  $otp = rand(1000, 9999);
-             // $users->otp = $otp;
-             // $users->save();
- 
+            // $users->otp = $otp;
+            // $users->save();
 
-             //send otp to user
-             //update order with otp
-             //if otp entered is correct, change status of 
 
-             $driverId = Auth::id();
- 
-             $order = DB::table('orders')->where('id', $orderid)->where('status', '3')->where('driver_id', $driverId)->first();
- 
-             if ($order == null) {
-                 $arr['status'] = 0;
-                 $arr['message'] = 'Order not found or already accepted';
-                 return response()->json($arr, 200);
-             }
+            //send otp to user
+            //update order with otp
+            //if otp entered is correct, change status of 
 
-              
+            $driverId = Auth::id();
+
+            $order = DB::table('orders')->where('id', $orderid)->where('driver_id', $driverId)->first();
+            // $order = DB::table('orders')->where('id', $orderid)->where('status', '3')->where('driver_id', $driverId)->first();
+
+            if ($order == null) {
+                $arr['status'] = 0;
+                $arr['message'] = 'Order not found or already accepted';
+                return response()->json($arr, 200);
+            }
+
+
             //  $this->sendSMSMessage(
             //     "+234" . substr($userphone, -10),
             //     "order-" . $orderid . " has been picked up successfully!! use this pin to complete your order: " . $otp
@@ -584,61 +891,63 @@ class DeliveryRiderController extends Controller
             }
 
 
-        $walletamount = DB::table('my_wallet')->where('user_id', $order->driver_id)->first();
+            $walletamount = DB::table('my_wallet')->where('user_id', $order->driver_id)->first();
 
-        Log::info("orderid : $order->driver_id");
+            Log::info("orderid : $order->driver_id");
 
-        $driveramount = (int)$walletamount->amount;
+            $driveramount = (int)$walletamount->amount;
 
-        Log::info("delivery charge : $order->delivery_charge");
-        
-        $net_earned_on_ride = (80 / 100) * $order->delivery_charge;
-        $newamount = $driveramount + $net_earned_on_ride;
-        
-        Log::info("newamounnt : $newamount");
+            Log::info("delivery charge : $order->delivery_charge");
 
-        
-        DB::table('my_wallet')->where('user_id', $order->driver_id)->update(['amount' => $newamount]);
-        
-       
- 
-        Orders::where('id', $orderid)->update(['status' => "4"]);
+            $net_earned_on_ride = (80 / 100) * $order->delivery_charge;
+            $newamount = $driveramount + $net_earned_on_ride;
+
+            Log::info("newamounnt : $newamount");
 
 
-      Log::info("orderid : $order->driver_id");
-
-
-     //  $this->addUserWallet($order->driver_id, $order->delivery_charge);
-
-
-             $arr['status'] = 1;
-             $arr['message'] = 'Order Completed Successfully!!';
-             $arr['data'] = true;
- 
-             return response()->json($arr, 200);
-         } catch (\Exception $e) {
-             $arr['status']  = 0;
-             $arr['message'] = 'something went wrong';
-             $arr['data']    = NULL;
-         }
-         return response()->json($arr, 200);
-     }
+            DB::table('my_wallet')->where('user_id', $order->driver_id)->update(['amount' => $newamount]);
 
 
 
-     public function addUserWallet($userId, $amount){
+            Orders::where('id', $orderid)->update(['status' => "4"]);
+
+            RideRequest::where('id', $order->ride_request_id)->update(['status' => "completed"]);
+
+
+            Log::info("orderid : $order->driver_id");
+
+
+            //  $this->addUserWallet($order->driver_id, $order->delivery_charge);
+
+
+            $arr['status'] = 1;
+            $arr['message'] = 'Order Completed Successfully!!';
+            $arr['data'] = true;
+
+            return response()->json($arr, 200);
+        } catch (\Exception $e) {
+            $arr['status']  = 0;
+            $arr['message'] = 'something went wrong';
+            $arr['data']    = NULL;
+        }
+        return response()->json($arr, 200);
+    }
+
+
+
+    public function addUserWallet($userId, $amount)
+    {
         $walletamount = DB::table('my_wallet')->where('user_id', $userId)->first();
         $driveramount = (int)$walletamount->amount;
         $net_earned_on_ride = (80 / 100) * $amount;
         $newamount = $driveramount + $net_earned_on_ride;
-        
+
         Log::info("newamounnt : $newamount");
 
-        
-        DB::table('my_wallet')->where('user_id', $userId)->update(['amount' => $newamount]);
 
+        DB::table('my_wallet')->where('user_id', $userId)->update(['amount' => $newamount]);
     }
-  
+
 
 
 
@@ -794,6 +1103,9 @@ class DeliveryRiderController extends Controller
         return response()->json($arr, 200);
     }
 
+
+
+
     function send_otp_for_product(Request $request)
     {
         $validate = Validator::make($request->all(), ['order_id' => 'required']);
@@ -883,6 +1195,31 @@ class DeliveryRiderController extends Controller
         return response()->json($arr, 200);
     }
 
+    // is_online
+    function on_off_online()
+    {
+        $userArr = User::where('id', Auth::id())->get()->first();
+        // get the lat long of the user
+
+        if ($userArr) {
+            $userArr->is_online  = $userArr->is_online == 1 ? 0 : 1;
+            $userArr->save();
+            // only show name email mobile profile status and is_online
+            $userArr = User::select('name', 'email', 'mobile', 'profile', 'status', 'is_online')->where('id', Auth::id())->get()->first();
+
+            $arr['status'] = 1;
+            $arr['message'] = "Online Status update successfully!";
+            $arr['data'] = $userArr;
+
+            // $arr['data'] = $userArr;
+        } else {
+            $arr['status'] = 0;
+            $arr['message'] = "user not found!";
+            $arr['data'] = NULL;
+        }
+        return response()->json($arr, 200);
+    }
+
 
     function on_off_status(Request $request)
     {
@@ -942,13 +1279,13 @@ class DeliveryRiderController extends Controller
     {
 
         $rule = [
-        'name' => 'required', 
-        'email' => 'required', 
-        'mobile' => 'required', 
-        // 'vehicle_type' => 'required', 
-        // 'vehicle_number' => 'required', 
-        // 'dl_number' => 'required',
-        //  'insurance_number' => 'required'
+            'name' => 'required',
+            'email' => 'required',
+            'mobile' => 'required',
+            // 'vehicle_type' => 'required', 
+            // 'vehicle_number' => 'required', 
+            // 'dl_number' => 'required',
+            //  'insurance_number' => 'required'
         ];
 
         $validator = Validator::make($request->all(), $rule);
@@ -1154,7 +1491,7 @@ class DeliveryRiderController extends Controller
         }
         return response()->json($arr, 200);
     }
-    
+
     public function contactus_driver()
     {
         try {
@@ -1180,8 +1517,11 @@ class DeliveryRiderController extends Controller
         // print_r('adfasd');die;
         try {
             $data = DB::table('orders')
-                ->select('orders.*', 'users.name as user_name',
-                 DB::raw('CONCAT("' . url('storage/shop_images') . '","/",stores.store_image)  as store_image'))
+                ->select(
+                    'orders.*',
+                    'users.name as user_name',
+                    DB::raw('CONCAT("' . url('storage/shop_images') . '","/",stores.store_image)  as store_image')
+                )
                 ->leftJoin('users', 'users.id', '=', 'orders.user_id')
                 ->leftJoin('stores', 'stores.id', '=', 'orders.shop_id')
                 ->where('orders.status', 1)
@@ -1305,7 +1645,9 @@ class DeliveryRiderController extends Controller
         $status = $request->status;
 
 
-        $order = Orders::where('order_id', $order_id)->where('status', 3)->first();
+
+        // $order = Orders::where('order_id', $order_id)->where('status', 3)->first();
+        $order = Orders::where('id', $order_id)->first();
 
         if (!$order) {
             $arr['status'] = 0;
@@ -1314,6 +1656,7 @@ class DeliveryRiderController extends Controller
             return response()->json($arr, 422);
         }
 
+        // dd($request->all(), $order);
         switch ($status) {
             case 1:
                 if ($order->otp != $request->otp) {
@@ -1325,6 +1668,9 @@ class DeliveryRiderController extends Controller
 
                 $order->status = 4;
                 $order->save();
+
+                RideRequest::where('id', $order->ride_request_id)->update(['status' => "completed"]);
+
 
                 // Notify Customer
                 $this->sendNotification(
@@ -1341,6 +1687,8 @@ class DeliveryRiderController extends Controller
                 $order->status = 5;
                 $order->save();
                 // TODO: Notify vendor
+                // update the ride request status
+                RideRequest::where('id', $order->ride_request_id)->update(['status' => "picking_up"]);
 
                 $arr['status'] = 1;
                 $arr['message'] = 'Order Picked Up Successfully!!';
@@ -1350,6 +1698,8 @@ class DeliveryRiderController extends Controller
                 $order->status = 6;
                 $order->otp = rand(1111, 9999);
                 $order->save();
+
+                RideRequest::where('id', $order->ride_request_id)->update(['status' => "in_progress"]);
 
                 // Notify Customer
                 $this->sendNotification(
@@ -1367,12 +1717,14 @@ class DeliveryRiderController extends Controller
                 $arr['message'] = 'Order Picked Up Successfully!!';
                 $arr['data'] =    $order;
                 break;
+
             default:
                 $arr['status'] = 0;
                 $arr['message'] = 'Something went wrong!!';
                 $arr['data'] = false;
                 break;
         }
+        return response()->json($arr, 200);
     }
 
 

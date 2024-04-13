@@ -56,6 +56,8 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::get('user_details', [AuthController::class, 'user_details']);
 
+    Route::get('user_detail', [AuthController::class, 'user_detail']);
+
     Route::get('referrals', [AuthController::class, 'referrals']);
 
     Route::get('referredUsersWithBookings', [AuthController::class, 'getReferredUsersWithBookedService']);
@@ -69,6 +71,12 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('search_product', [ApiController::class, 'search_product']);
 
     Route::post('near_by_store_list', [ApiController::class, 'near_by_store_list']);
+
+    Route::get('near-by-driver', [ApiController::class, 'get_drivers_list']);
+
+    Route::post('update-user-status', [ApiController::class, 'updateUserStatus']);
+
+
 
     Route::post('search_product_for_perticular_category', [ApiController::class, 'search_product_for_perticular_category']);
 
@@ -99,6 +107,14 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::post('place-order', [ApiController::class, 'place_order']);
 
+    Route::post('save-order-request', [ApiController::class, 'save_order_request']);
+
+    // get current order request
+    Route::get('current-ride-request', [ApiController::class, 'get_order_request']);
+
+    // update order request
+    Route::post('update-order-request/{id}', [ApiController::class, 'update_order_request']);
+
 
 
     Route::get('offer_list', [ApiController::class, 'offer_list']);
@@ -121,6 +137,11 @@ Route::group(['middleware' => 'auth:api'], function () {
     // Route::post('accept_order',[ApiController::class,'accept_order']);
 
     Route::any('my-orders', [ApiController::class, 'myOrders']);
+
+    // ride-request-detail?id=$orderId
+    Route::get('ride-request-detail', [ApiController::class, 'orderDetails']);
+
+    
 
     Route::any('products/my-orders', [ApiController::class, 'Orders']);
 

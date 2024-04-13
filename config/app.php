@@ -41,6 +41,9 @@ return [
 
     'debug' => (bool) env('APP_DEBUG', false),
 
+    'mqtt_unique_topic_name' => env('MQTT_UNIQUE_TOPIC_NAME', 'vensemartlogi'),
+
+
     /*
     |--------------------------------------------------------------------------
     | Application URL
