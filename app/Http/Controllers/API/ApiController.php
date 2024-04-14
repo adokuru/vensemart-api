@@ -880,14 +880,19 @@ class ApiController extends Controller
             $this->sendNotification(1105, "Order Placed", "Order Rider");
 
             // Check if a driver was found
-            if ($rider && $rider->status == 1) {
+            // if ($rider && $rider->status == 1) {
+            if ($response != null && $response->count() > 0) {
+                $rider = $response->first();
 
                 $this->contactRiderForDelivery($orderIdd, $user_id, $rider->id, $ride_data['start_address'], $ride_data['end_address']);
             } else {
-                $arr['status'] = 0;
-                $arr['message'] = 'Sorry!! No Rider Found';
-                $arr['data'] = NULL;
+                $this->contactRiderForDelivery($orderIdd, $user_id, 0, $ride_data['start_address'], $ride_data['end_address']);
             }
+            // } else {
+            //     $arr['status'] = 0;
+            //     $arr['message'] = 'Sorry!! No Rider Found';
+            //     $arr['data'] = NULL;
+            // }
 
             $order = DB::table('orders')->where('order_id', $orderIdd)->first();
 
