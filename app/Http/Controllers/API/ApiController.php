@@ -886,7 +886,12 @@ class ApiController extends Controller
 
                 $this->contactRiderForDelivery($orderIdd, $user_id, $rider->id, $ride_data['start_address'], $ride_data['end_address']);
             } else {
-                $this->contactRiderForDelivery($orderIdd, $user_id, 0, $ride_data['start_address'], $ride_data['end_address']);
+                $Corddata = [
+                    'lati' => $ride_data['start_latitude'],
+                    'longi' => $ride_data['start_longitude'],
+                ];
+
+                $this->contactRiderAndVendor($orderIdd, $user_id, $Corddata);
             }
             // } else {
             //     $arr['status'] = 0;
