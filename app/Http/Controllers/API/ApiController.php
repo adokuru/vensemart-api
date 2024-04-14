@@ -960,6 +960,10 @@ class ApiController extends Controller
                 $arr['message'] = 'Order Request Found Successfully';
                 $arr['data'] = $data;
                 return response()->json($data, 200);
+            } else if ($order_request == "cancelled") {
+                $arr['status'] = 0;
+                $arr['message'] = 'No Order Request Found';
+                $arr['data'] = NULL;
             } else {
                 $arr['status'] = 0;
                 $arr['message'] = 'No Order Request Found';
