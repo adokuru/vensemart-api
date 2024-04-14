@@ -799,16 +799,17 @@ class ApiController extends Controller
 
         // Call the get_drivers_list function and pass the new request
         $response = $this->get_nearby_list($req);
-        dd($req, $request->all(), $response);
+        // dd($req, $request->all(), $response);
+
 
         // Check if a driver was found
-        if ($response) {
-            $rider = $response->first();
-        } else {
-            $arr['status'] = 0;
-            $arr['message'] = 'Sorry!! No Rider Found';
-            $arr['data'] = NULL;
-        }
+        // if ($response != null && $response->count() > 0) {
+        //     $rider = $response->first();
+        // } else {
+        //     $arr['status'] = 0;
+        //     $arr['message'] = 'Sorry!! No Rider Found';
+        //     $arr['data'] = NULL;
+        // }
 
         DB::beginTransaction();
 
@@ -850,7 +851,7 @@ class ApiController extends Controller
         $order_data['invoice_no'] = $invoice_no;
         // $order_data['order_type'] = 2;
         $order_data['user_id'] = $user_id;
-        $order_data['driver_id'] = $rider->id ?? null;
+        $order_data['driver_id'] = $response->first()->id ?? null;
         $order_data['ride_request_id'] = $result2;
         $order_data['net_amount'] = $net_amount;
         $order_data['total_amount'] = $total_amount;
