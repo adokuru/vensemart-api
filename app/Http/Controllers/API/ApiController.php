@@ -851,7 +851,7 @@ class ApiController extends Controller
         $order_data['invoice_no'] = $invoice_no;
         // $order_data['order_type'] = 2;
         $order_data['user_id'] = $user_id;
-        $order_data['driver_id'] = $response->first()->id ?? null;
+        $order_data['driver_id'] = $response != null && $response->count() > 0 ? $response->first()->id : null;
         $order_data['ride_request_id'] = $result2;
         $order_data['net_amount'] = $net_amount;
         $order_data['total_amount'] = $total_amount;
