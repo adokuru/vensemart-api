@@ -912,7 +912,7 @@ class ApiController extends Controller
             $order_request = DB::table('orders as o')
                 ->select(
                     'o.*',
-                    'r.*',
+                    'r.* as ride_request',
                     'u.name as user_name',
                     'u.mobile as user_phone',
                     'u.email as user_email',
