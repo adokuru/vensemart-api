@@ -802,13 +802,13 @@ class ApiController extends Controller
             // dd($req, $request->all(), $response->first());
 
             // Check if a driver was found
-            // if ($response) {
-            $rider = $response->first();
-            // } else {
-            //     $arr['status'] = 0;
-            //     $arr['message'] = 'Sorry!! No Rider Found';
-            //     $arr['data'] = NULL;
-            // }
+            if ($response) {
+                $rider = $response->first();
+            } else {
+                $arr['status'] = 0;
+                $arr['message'] = 'Sorry!! No Rider Found';
+                $arr['data'] = NULL;
+            }
 
             DB::beginTransaction();
 
