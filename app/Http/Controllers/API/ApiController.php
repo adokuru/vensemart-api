@@ -779,138 +779,138 @@ class ApiController extends Controller
 
         $user_id = Auth::id();
 
-        // try {
-        if ($typevalidate->fails()) {
-            $arr['status'] = 0;
-            $arr['message'] = $typevalidate->errors()->first();
-            $arr['data'] = NULL;
-            return response()->json($arr, 500);
-        }
-
-        $data = $request->all();
-
-
-        $req = new Request([
-            "latitude" => $request->start_latitude,
-            "longitude" => $request->start_longitude,
-        ]);
-
-
-
-        // Call the get_drivers_list function and pass the new request
-        $response = $this->get_nearby_list($req);
-        // dd($req, $request->all(), $response->first());
-
-        // Check if a driver was found
-        if ($response) {
-            $rider = $response->first();
-        } else {
-            $arr['status'] = 0;
-            $arr['message'] = 'Sorry!! No Rider Found';
-            $arr['data'] = NULL;
-        }
-
-        DB::beginTransaction();
-
-        Log::info('This works here');
-
-        $invoice_no  =  rand(1000000000, 999999999999);
-        $total_amount = 0;
-        $net_amount = 1000;
-
-        $taxes = $net_amount * 7.5 / 100;
-
-        $total_amount = $net_amount + $request->delivery_charge + $taxes;
-
-
-        // save information for ride request
-        // $ride_data['rider_id'] = $user_id;
-        // $ride_data['driver_id'] = $rider->id;
-        $ride_data['start_latitude'] = $request->start_latitude;
-        $ride_data['start_longitude'] = $request->start_longitude;
-        $ride_data['start_address'] = $request->start_address;
-        $ride_data['end_latitude'] = $request->end_latitude;
-        $ride_data['end_longitude'] = $request->end_longitude;
-        $ride_data['end_address'] = $request->end_address;
-        $ride_data['is_ride_for_other'] = $request->is_ride_for_other ? 1 : 0;
-        $ride_data['status'] = "new_ride_requested";
-        // if request ride for other is 1
-        if ($request->is_ride_for_other == 1) {
-            $ride_data['other_rider_data'] = json_encode($request->other_rider_data);
-        }
-        $ride_data['ride_type'] = $request->ride_type;
-        $ride_data['item_type'] = $request->item_type;
-        $ride_data['item_categories'] = $request->item_categories;
-
-
-        $result2 = DB::table('ride_requests')->insertGetId($ride_data);
-        // dd($result2);
-
-
-        $order_data['invoice_no'] = $invoice_no;
-        // $order_data['order_type'] = 2;
-        $order_data['user_id'] = $user_id;
-        $order_data['driver_id'] = $rider->id;
-        $order_data['ride_request_id'] = $result2;
-        $order_data['net_amount'] = $net_amount;
-        $order_data['total_amount'] = $total_amount;
-        $order_data['taxes'] =  $taxes;
-        $order_data['delivery_charge'] = $request->delivery_charge;
-        $order_data['payment_type'] = $request->payment_type;
-        $order_data['payment_status'] = 1;
-        $order_data['status'] = 1;
-        $order_data['purchase_date'] = date('Y-m-d');
-        $order_data['order_id'] = "FM" . rand(10000, 99999);
-        $order_data['transaction_id'] = rand(1000000000, 999999999999);
-
-
-
-
-        $result1 = DB::table('orders')->insert($order_data);
-
-        if ($result1) {
-
-            DB::commit();
-            $orderIdd = $order_data['order_id'];
-
-
-            $data_noti = array('title' => "Order Delivery Request Placed", 'message' => "order placed successfully!  order  ID is  $orderIdd", 'user_id' => Auth::id());
-            $this->sendNotification(Auth::id(), "Order Placed", "Order Placed Successfully ");
-            $this->sendNotification(1105, "Order Placed", "Order Rider");
-
-            // Check if a driver was found
-            if ($rider && $rider->status == 1) {
-
-                $this->contactRiderForDelivery($orderIdd, $user_id, $rider->id, $ride_data['start_address'], $ride_data['end_address']);
-            } else {
+        try {
+            if ($typevalidate->fails()) {
                 $arr['status'] = 0;
-                $arr['message'] = 'Sorry!! No Rider Found';
+                $arr['message'] = $typevalidate->errors()->first();
                 $arr['data'] = NULL;
+                return response()->json($arr, 500);
             }
 
-            $order = DB::table('orders')->where('order_id', $orderIdd)->first();
+            $data = $request->all();
 
-            $arr['status'] = 1;
-            $arr['message'] = 'Ride Request Placed Successfully';
-            $arr['data'] = [
-                'order_id' => $invoice_no,
-                // rider details
-                'riderequest_id' => $order->id,
 
-            ];
+            $req = new Request([
+                "latitude" => $request->start_latitude,
+                "longitude" => $request->start_longitude,
+            ]);
 
-            return response()->json($arr, 200);
-        } else {
-            DB::rollback();
+
+
+            // Call the get_drivers_list function and pass the new request
+            $response = $this->get_nearby_list($req);
+            // dd($req, $request->all(), $response->first());
+
+            // Check if a driver was found
+            // if ($response) {
+            $rider = $response->first();
+            // } else {
+            //     $arr['status'] = 0;
+            //     $arr['message'] = 'Sorry!! No Rider Found';
+            //     $arr['data'] = NULL;
+            // }
+
+            DB::beginTransaction();
+
+            Log::info('This works here');
+
+            $invoice_no  =  rand(1000000000, 999999999999);
+            $total_amount = 0;
+            $net_amount = 1000;
+
+            $taxes = $net_amount * 7.5 / 100;
+
+            $total_amount = $net_amount + $request->delivery_charge + $taxes;
+
+
+            // save information for ride request
+            // $ride_data['rider_id'] = $user_id;
+            // $ride_data['driver_id'] = $rider->id;
+            $ride_data['start_latitude'] = $request->start_latitude;
+            $ride_data['start_longitude'] = $request->start_longitude;
+            $ride_data['start_address'] = $request->start_address;
+            $ride_data['end_latitude'] = $request->end_latitude;
+            $ride_data['end_longitude'] = $request->end_longitude;
+            $ride_data['end_address'] = $request->end_address;
+            $ride_data['is_ride_for_other'] = $request->is_ride_for_other ? 1 : 0;
+            $ride_data['status'] = "new_ride_requested";
+            // if request ride for other is 1
+            if ($request->is_ride_for_other == 1) {
+                $ride_data['other_rider_data'] = json_encode($request->other_rider_data);
+            }
+            $ride_data['ride_type'] = $request->ride_type;
+            $ride_data['item_type'] = $request->item_type;
+            $ride_data['item_categories'] = $request->item_categories;
+
+
+            $result2 = DB::table('ride_requests')->insertGetId($ride_data);
+            // dd($result2);
+
+
+            $order_data['invoice_no'] = $invoice_no;
+            // $order_data['order_type'] = 2;
+            $order_data['user_id'] = $user_id;
+            $order_data['driver_id'] = $rider->id ?? null;
+            $order_data['ride_request_id'] = $result2;
+            $order_data['net_amount'] = $net_amount;
+            $order_data['total_amount'] = $total_amount;
+            $order_data['taxes'] =  $taxes;
+            $order_data['delivery_charge'] = $request->delivery_charge;
+            $order_data['payment_type'] = $request->payment_type;
+            $order_data['payment_status'] = 1;
+            $order_data['status'] = 1;
+            $order_data['purchase_date'] = date('Y-m-d');
+            $order_data['order_id'] = "FM" . rand(10000, 99999);
+            $order_data['transaction_id'] = rand(1000000000, 999999999999);
+
+
+
+
+            $result1 = DB::table('orders')->insert($order_data);
+
+            if ($result1) {
+
+                DB::commit();
+                $orderIdd = $order_data['order_id'];
+
+
+                $data_noti = array('title' => "Order Delivery Request Placed", 'message' => "order placed successfully!  order  ID is  $orderIdd", 'user_id' => Auth::id());
+                $this->sendNotification(Auth::id(), "Order Placed", "Order Placed Successfully ");
+                $this->sendNotification(1105, "Order Placed", "Order Rider");
+
+                // Check if a driver was found
+                if ($rider && $rider->status == 1) {
+
+                    $this->contactRiderForDelivery($orderIdd, $user_id, $rider->id, $ride_data['start_address'], $ride_data['end_address']);
+                } else {
+                    $arr['status'] = 0;
+                    $arr['message'] = 'Sorry!! No Rider Found';
+                    $arr['data'] = NULL;
+                }
+
+                $order = DB::table('orders')->where('order_id', $orderIdd)->first();
+
+                $arr['status'] = 1;
+                $arr['message'] = 'Ride Request Placed Successfully';
+                $arr['data'] = [
+                    'order_id' => $invoice_no,
+                    // rider details
+                    'riderequest_id' => $order->id,
+
+                ];
+
+                return response()->json($arr, 200);
+            } else {
+                DB::rollback();
+                $arr['status'] = 0;
+                $arr['message'] = 'Sorry!! Something Went Wrong';
+                $arr['data'] = NULL;
+            }
+        } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'Sorry!! Something Went Wrong';
             $arr['data'] = NULL;
         }
-        // } catch (\Exception $e) {
-        //     $arr['status'] = 0;
-        //     $arr['message'] = 'Sorry!! Something Went Wrong';
-        //     $arr['data'] = NULL;
-        // }
 
         return response()->json($arr, 200);
     }
@@ -1086,122 +1086,122 @@ class ApiController extends Controller
     public function get_order_request()
     {
         $user_id = Auth::id();
-        // try {
-        // $order = DB::table('orders')->where('user_id', $user_id)->first();
+        try {
+            // $order = DB::table('orders')->where('user_id', $user_id)->first();
 
-        // dd($order);
+            // dd($order);
 
 
 
-        $order_request = DB::table('orders as o')
-            ->select(
-                'o.*',
-                'r.*',
-                'u.name as user_name',
-                'u.mobile as user_phone',
-                'u.email as user_email',
-                'u.profile as user_image',
-                'u.type as user_type',
-                'u.status as user_status',
-                'd.id as driver_id',
-                'd.location_lat as driver_lat',
-                'd.location_long as driver_long',
-                'd.name as driver_name',
-                'd.type as driver_type',
-                'd.mobile as driver_phone',
-                'd.status as driver_status',
-                'd.is_online as driver_online',
-                'd.created_at as driver_created_at',
-                'd.updated_at as driver_updated_at',
-                'd.email as driver_email',
-                'd.profile as driver_image',
-            )
-            ->join('ride_requests as r', 'r.id', 'o.ride_request_id')
-            ->join('users as u', 'u.id', 'o.user_id')
-            ->join('users as d', 'd.id', 'o.driver_id')
-            // ->where('o.driver_id', Auth::id())
-            // ->where('o.status', '3')->orWhere('o.status', '2')->orWhere('o.status', '5')->orWhere('o.status', '6')->orWhere('o.status', '4')
-            ->orderBy('o.created_at', 'desc') // Order by creation date in descending order
-            ->first();
+            $order_request = DB::table('orders as o')
+                ->select(
+                    'o.*',
+                    'r.*',
+                    'u.name as user_name',
+                    'u.mobile as user_phone',
+                    'u.email as user_email',
+                    'u.profile as user_image',
+                    'u.type as user_type',
+                    'u.status as user_status',
+                    'd.id as driver_id',
+                    'd.location_lat as driver_lat',
+                    'd.location_long as driver_long',
+                    'd.name as driver_name',
+                    'd.type as driver_type',
+                    'd.mobile as driver_phone',
+                    'd.status as driver_status',
+                    'd.is_online as driver_online',
+                    'd.created_at as driver_created_at',
+                    'd.updated_at as driver_updated_at',
+                    'd.email as driver_email',
+                    'd.profile as driver_image',
+                )
+                ->join('ride_requests as r', 'r.id', 'o.ride_request_id')
+                ->join('users as u', 'u.id', 'o.user_id')
+                ->join('users as d', 'd.id', 'o.driver_id')
+                // ->where('o.driver_id', Auth::id())
+                // ->where('o.status', '3')->orWhere('o.status', '2')->orWhere('o.status', '5')->orWhere('o.status', '6')->orWhere('o.status', '4')
+                ->orderBy('o.created_at', 'desc') // Order by creation date in descending order
+                ->first();
 
-        $driver = DB::table('users')->where('id', $order_request->driver_id)->where('type', 2)->first();
-        $vehicledetails = DB::table('vehicle_details')->where('user_id', $driver->id)->first();
-        $driver->vehicledetails = $vehicledetails;
+            $driver = DB::table('users')->where('id', $order_request->driver_id)->where('type', 2)->first();
+            $vehicledetails = DB::table('vehicle_details')->where('user_id', $driver->id)->first();
+            $driver->vehicledetails = $vehicledetails;
 
-        if ($order_request) {
-            $data = [
-                'id' => $order_request->id,
-                'display_name' => $order_request->user_name,
-                'email' => $order_request->user_email,
-                'user_type' => $order_request->user_type,
-                'profile_image' => $order_request->user_image,
-                'status' => $order_request->status,
-                'ride_request' => $order_request,
-                'on_ride_request' => $order_request,
-                'driver' => $driver,
-            ];
-            $arr['status'] = 1;
-            $arr['message'] = 'Order Request Found Successfully';
-            $arr['data'] = $data;
-            return response()->json($data, 200);
-        } else {
+            if ($order_request) {
+                $data = [
+                    'id' => $order_request->id,
+                    'display_name' => $order_request->user_name,
+                    'email' => $order_request->user_email,
+                    'user_type' => $order_request->user_type,
+                    'profile_image' => $order_request->user_image,
+                    'status' => $order_request->status,
+                    'ride_request' => $order_request,
+                    'on_ride_request' => $order_request,
+                    'driver' => $driver,
+                ];
+                $arr['status'] = 1;
+                $arr['message'] = 'Order Request Found Successfully';
+                $arr['data'] = $data;
+                return response()->json($data, 200);
+            } else {
+                $arr['status'] = 0;
+                $arr['message'] = 'No Order Request Found';
+                $arr['data'] = NULL;
+            }
+
+
+            // dd($order_request);
+
+
+            // if ($order_request->status != "new_ride_requested" || $order_request->status != "accepted" || $order_request->status != "on_the_way") {
+            //     $arr['status'] = 0;
+            //     $arr['message'] = 'No Order Request Found';
+            //     $arr['data'] = NULL;
+            // } else {
+
+            // generate otp for the order request
+
+
+            // $data = [
+            //     'id' => $order_request->id,
+            //     'display_name' => $order_request->user_name,
+            //     'email' => $order_request->user_email,
+            //     'user_type' => $order_request->user_type,
+            //     'profile_image' => $order_request->user_image,
+            //     'status' => $order_request->status,
+            //     'ride_request' => $order_request,
+            //     'on_ride_request' => $order_request,
+            //     'driver' => $driver,
+            // ];
+            // $arr['status'] = 1;
+            // $arr['message'] = 'Order Request Found Successfully';
+            // $arr['data'] = $data;
+            // // $arr['status'] = 1;
+            // // $arr['message'] = 'Order Request Found Successfully';
+            // // $arr['data'] = $data;
+            // return response()->json($data, 200);
+            // } else if ($order_request->status == "cancelled") {
+            //     $arr['status'] = 0;
+            //     $arr['message'] = 'Order Request Cancelled';
+            //     $arr['data'] = NULL;
+            // } else {
+            //     $arr['status'] = 0;
+            //     $arr['message'] = 'No Order Request Found';
+            //     $arr['data'] = NULL;
+            // }
+
+            // return response()->json($arr, 200);
+
+
+
+
+        } catch (\Exception $e) {
             $arr['status'] = 0;
-            $arr['message'] = 'No Order Request Found';
+            $arr['message'] = 'Sorry!! Something Went Wrong';
             $arr['data'] = NULL;
         }
-
-
-        // dd($order_request);
-
-
-        // if ($order_request->status != "new_ride_requested" || $order_request->status != "accepted" || $order_request->status != "on_the_way") {
-        //     $arr['status'] = 0;
-        //     $arr['message'] = 'No Order Request Found';
-        //     $arr['data'] = NULL;
-        // } else {
-
-        // generate otp for the order request
-
-
-        // $data = [
-        //     'id' => $order_request->id,
-        //     'display_name' => $order_request->user_name,
-        //     'email' => $order_request->user_email,
-        //     'user_type' => $order_request->user_type,
-        //     'profile_image' => $order_request->user_image,
-        //     'status' => $order_request->status,
-        //     'ride_request' => $order_request,
-        //     'on_ride_request' => $order_request,
-        //     'driver' => $driver,
-        // ];
-        // $arr['status'] = 1;
-        // $arr['message'] = 'Order Request Found Successfully';
-        // $arr['data'] = $data;
-        // // $arr['status'] = 1;
-        // // $arr['message'] = 'Order Request Found Successfully';
-        // // $arr['data'] = $data;
-        // return response()->json($data, 200);
-        // } else if ($order_request->status == "cancelled") {
-        //     $arr['status'] = 0;
-        //     $arr['message'] = 'Order Request Cancelled';
-        //     $arr['data'] = NULL;
-        // } else {
-        //     $arr['status'] = 0;
-        //     $arr['message'] = 'No Order Request Found';
-        //     $arr['data'] = NULL;
-        // }
-
         return response()->json($arr, 200);
-
-
-
-
-        // } catch (\Exception $e) {
-        //     $arr['status'] = 0;
-        //     $arr['message'] = 'Sorry!! Something Went Wrong';
-        //     $arr['data'] = NULL;
-        // }
-        // return response()->json($arr, 200);
     }
 
     // update order request
@@ -1273,59 +1273,59 @@ class ApiController extends Controller
             // ],
         ];
 
-        // try {
+        try {
 
-        // check if the request status is cancelled and cancel the ride request and order
-        if ($request->status == "cancelled") {
-            $ride_request->status = $request->status;
-            $ride_request->reason = $request->reason;
-            $ride_request->cancel_by = $request->cancel_by;
-            $ride_request->save();
+            // check if the request status is cancelled and cancel the ride request and order
+            if ($request->status == "cancelled") {
+                $ride_request->status = $request->status;
+                $ride_request->reason = $request->reason;
+                $ride_request->cancel_by = $request->cancel_by;
+                $ride_request->save();
 
-            // $orders->update(['status' => 5]);
+                // $orders->update(['status' => 5]);
 
-            $orders->status = 7;
-            $orders->save();
+                $orders->status = 7;
+                $orders->save();
 
-            $arr['status'] = 1;
-            $arr['message'] = 'Order Request Cancelled Successfully';
-            $arr['data'] = NULL;
-            return response()->json($arr, 200);
-        } else if ($orders->status == 3 && $ride_request->status == "accepted" || $orders->status == 5 && $ride_request->status == "picking_up" || $orders->status == 6 && $ride_request->status == "in_progress") {
-
-
-            // $history_data = [
-            //     'history_type'      => $order_request->status,
-            //     'ride_request_id'   => $id,
-            //     'ride_request'      => $ride_request,
-            // ];
-
-            // // $this->get_order_request();
-
-            // $this->saveRideHistory($history_data);
+                $arr['status'] = 1;
+                $arr['message'] = 'Order Request Cancelled Successfully';
+                $arr['data'] = NULL;
+                return response()->json($arr, 200);
+            } else if ($orders->status == 3 && $ride_request->status == "accepted" || $orders->status == 5 && $ride_request->status == "picking_up" || $orders->status == 6 && $ride_request->status == "in_progress") {
 
 
-            $arr['status'] = 1;
-            $arr['message'] = 'Order Request in Progress';
-            $arr['data'] = $data;
-            return response()->json($arr, 200);
-        } else if ($orders->status == 2 && $ride_request->status == "new_ride_requested") {
+                // $history_data = [
+                //     'history_type'      => $order_request->status,
+                //     'ride_request_id'   => $id,
+                //     'ride_request'      => $ride_request,
+                // ];
 
-            $arr['status'] = 1;
-            $arr['message'] = 'Order Awaiting Rider Acceptance';
-            $arr['data'] = $data;
-            return response()->json($arr, 200);
-        } else {
+                // // $this->get_order_request();
+
+                // $this->saveRideHistory($history_data);
+
+
+                $arr['status'] = 1;
+                $arr['message'] = 'Order Request in Progress';
+                $arr['data'] = $data;
+                return response()->json($arr, 200);
+            } else if ($orders->status == 2 && $ride_request->status == "new_ride_requested") {
+
+                $arr['status'] = 1;
+                $arr['message'] = 'Order Awaiting Rider Acceptance';
+                $arr['data'] = $data;
+                return response()->json($arr, 200);
+            } else {
+                $arr['status'] = 0;
+                $arr['message'] = 'Sorry!! Something Went Wrong';
+                $arr['data'] = NULL;
+                return response()->json($arr, 200);
+            }
+        } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'Sorry!! Something Went Wrong';
             $arr['data'] = NULL;
-            return response()->json($arr, 200);
         }
-        // } catch (\Exception $e) {
-        //     $arr['status'] = 0;
-        //     $arr['message'] = 'Sorry!! Something Went Wrong';
-        //     $arr['data'] = NULL;
-        // }
         // return response()->json($arr, 200);
     }
 
@@ -2030,8 +2030,10 @@ class ApiController extends Controller
                 $arr['status'] = 0;
                 $arr['message'] = "no data found";
                 $arr['data'] = NULL;
-                return response()->json($arr,
-                    200);
+                return response()->json(
+                    $arr,
+                    200
+                );
             }
             $product_details =  EshopPurchaseDetail::where('order_id', $orders->order_id)->get()->toArray();
             $orders->products = $product_details != [] ? $product_details : [];
