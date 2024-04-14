@@ -373,7 +373,7 @@ class Controller extends BaseController
     {
 
 
-        // try {
+        try {
 
             $customer = User::where('id', $customerID)->first();
 
@@ -527,10 +527,10 @@ class Controller extends BaseController
                 return $this->sendResponse('Rider requested successfully', $result);
             }
             throw new \Exception("No rider available");
-        // } catch (\Exception $e) {
-        //     Log::error($e);
-        //     throw new \Exception($e->getMessage());
-        // }
+        } catch (\Exception $e) {
+            Log::error($e);
+            throw new \Exception($e->getMessage());
+        }
     }
 
     public function requestRiderForDelivery($lat, $lng): array
@@ -582,7 +582,6 @@ class Controller extends BaseController
         $client = new Client();
         $res = $client->get($url);
         $data = json_decode($res->getBody(), true);
-        dd($data);
         $distance = $data ? $data["rows"][0]["elements"][0]["distance"]["value"] / 1000 : 1;
         return $distance;
     }
