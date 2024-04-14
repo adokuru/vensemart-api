@@ -885,7 +885,7 @@ class ApiController extends Controller
             $arr['message'] = 'Ride Request Placed Successfully';
             $arr['data'] = [
                 'order_id' => $invoice_no,
-                'riderequest_id' => $order->id,
+                'riderequest_id' => $order->order_id,
             ];
 
             return response()->json($arr, 200);
@@ -912,7 +912,7 @@ class ApiController extends Controller
             $order_request = DB::table('orders as o')
                 ->select(
                     'o.*',
-                    'r.* as ride_request',
+                    'r.*',
                     'u.name as user_name',
                     'u.mobile as user_phone',
                     'u.email as user_email',
@@ -1065,6 +1065,8 @@ class ApiController extends Controller
             ->join('ride_requests as r', 'r.id', 'o.ride_request_id')
             ->join('users as u', 'u.id', 'o.user_id')
             ->join('users as d', 'd.id', 'o.driver_id')
+            ->where('o.order_id', $id)
+
 
             ->orderBy('o.created_at', 'desc') // Order by creation date in descending order
             ->first();
