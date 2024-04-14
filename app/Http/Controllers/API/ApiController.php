@@ -799,7 +799,7 @@ class ApiController extends Controller
 
         // Call the get_drivers_list function and pass the new request
         $response = $this->get_nearby_list($req);
-        // dd($req, $request->all(), $response->first());
+        dd($req, $request->all(), $response->first());
 
         // Check if a driver was found
         if ($response) {
