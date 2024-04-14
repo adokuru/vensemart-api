@@ -1033,7 +1033,7 @@ class ApiController extends Controller
 
         // $orders = DB::table('orders')->where('id', $id)->first();
         // $ride_request = DB::table('ride_requests')->where('id', $orders->ride_request_id)->first();
-        $orders = Orders::find($id);
+        $orders = Orders::where('order_id', $id)->first();
         $ride_request = RideRequest::find($orders->ride_request_id);
 
         // dd($request->all(), $id, $orders, $ride_request);
