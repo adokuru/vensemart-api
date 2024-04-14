@@ -124,7 +124,8 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::any('get_subscription_plan', [ServiceProviderController::class, 'get_subscription_plan']);
 
 
-    Route::post('service-online-status', [NewRoutesController::class, 'service_online_status']);
+    Route::get('service-online-status', [NewRoutesController::class, 'service_online_status']);
+    // Route::post('service-online-status', [NewRoutesController::class, 'service_online_status']);
 
     Route::post('service-offline-status', [NewRoutesController::class, 'service_offline_status']);
 

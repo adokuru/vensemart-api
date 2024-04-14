@@ -7,6 +7,7 @@ use App\Mail\SendContactEmail;
 use App\Models\User;
 use App\Models\UserVerifiedInfo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 
@@ -39,17 +40,28 @@ class NewRoutesController extends Controller
     public function service_online_status(Request $request)
     {
         try {
-            $request->validate([
-                'number' => 'required|numeric',
-            ]);
+            // $request->validate([
+            //     // 'number' => 'required|numeric',
+            //     'id' => 'required',
+            // ]);
 
-            $users = User::where('mobile', $request->number)->first();
+            $id = Auth::id();
+
+            // $users = User::where('mobile', $request->number)->first();
+            $users = User::find($id);
 
             if ($users) {
-                $users->is_online = 1;
-                $users->status = 1;
-                $users->save();
-                return $this->sendResponse('User online status updated successfully', 200);
+                //    chec if user is_online is null or 0
+                if ($users->is_online == null || $users->is_online == 0) {
+                    $users->is_online = 1;
+                    $users->status = 1;
+                    $users->save();
+                    return $this->sendResponse('User online status updated successfully', 200);
+                } else {
+                    $users->is_online = 0;
+                    $users->save();
+                    return $this->sendResponse('User offline status updated successfully', 200);
+                }
             } else {
                 return $this->sendError('User not found', 404);
             }
@@ -61,11 +73,16 @@ class NewRoutesController extends Controller
     public function service_offline_status(Request $request)
     {
         try {
-            $request->validate([
-                'number' => 'required|numeric',
-            ]);
+            // $request->validate([
+            //     'id' => 'required',
+            //     // 'number' => 'required|numeric',
+            // ]);
 
-            $users = User::where('mobile', $request->number)->first();
+            $id = Auth::id();
+
+            // $users = User::where('mobile', $request->number)->first();
+            // $users = User::find($request->id);
+            $users = User::find($id);
 
             if ($users) {
                 $users->is_online = 0;
