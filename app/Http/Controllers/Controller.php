@@ -368,30 +368,22 @@ class Controller extends BaseController
         }
     }
 
-    // contact rider for delivery
 
-    public function contactRiderForDelivery($orderID, $customerID, $deliveryID, $start_address, $end_address,  $isCustomerDelivery = 0, $Corddata = [])
+    public function contactRiderForDelivery($orderID, $customerID, $start_address, $end_address, $lati, $longi,  $isCustomerDelivery = 0, $Corddata = [])
     {
 
 
         try {
 
-            // $orderDetails = \App\Models\EshopPurchaseDetail::where('order_id', $orderID)->first();
-
             $customer = User::where('id', $customerID)->first();
-
-            $deliveryRider = User::where('id', $deliveryID)->first();
 
             $order = Orders::where('order_id', $orderID)->first();
 
             if (!$order) throw new \Exception('Order not found');
 
-            // if (!$orderDetails) throw new \Exception('Order Details not found');
-
             if (!$customer) throw new \Exception('Customer not found');
 
-            if (!$deliveryRider) throw new \Exception('Delivery Rider not found');
-            // dd($deliveryRider->location_lat);
+
 
 
             $data = [
@@ -413,7 +405,10 @@ class Controller extends BaseController
             //     $riders =  $this->requestRiderForDelivery($vendor->lati, $vendor->longi);
 
             // } else {
-            $riders =  $this->requestRiderForDelivery($deliveryRider->location_lat, $deliveryRider->location_long);
+            // dd($lati, $longi);
+
+            $riders =  $this->requestRiderForDelivery($lati, $longi);
+            // $riders =  $this->requestRiderForDelivery($deliveryRider->location_lat, $deliveryRider->location_long);
             // }
             // if no rider is available
             if (!$riders) throw new \Exception('No Rider Available for this order');
@@ -537,7 +532,6 @@ class Controller extends BaseController
             throw new \Exception($e->getMessage());
         }
     }
-
 
     public function requestRiderForDelivery($lat, $lng): array
     {
