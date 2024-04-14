@@ -617,11 +617,11 @@ class Controller extends BaseController
     {
         $walletamount = DB::table('my_wallet')->where('user_id', $userId)->first();
         // if wallet amount is not found create a new wallet
-        dd($walletamount);
         if (!$walletamount) {
             DB::table('my_wallet')->insert(['user_id' => $userId, 'amount' => $amount]);
         }
         $driveramount = (int)$walletamount->amount;
+        dd($walletamount->amount, $amount, $driveramount);
         $net_earned_on_ride = (85 / 100) * 1500;
         $newamount = $driveramount + $net_earned_on_ride;
         DB::table('my_wallet')->where('user_id', $userId)->update(['amount' => $newamount]);
