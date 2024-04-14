@@ -871,7 +871,7 @@ class ApiController extends Controller
 
                 // Return success response
                 $arr['status'] = 0;
-                $arr['message'] = 'All riders are busy at the moment';
+                $arr['message'] = 'No Riders available at the moment';
                 $arr['data'] = NULL;
                 return response()->json($arr, 200);
             }
