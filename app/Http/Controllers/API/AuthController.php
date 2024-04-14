@@ -563,7 +563,6 @@ class AuthController extends Controller
                 $token = $user->createToken('Pontus')->accessToken;
                 User::where('id', $user->id)->update(['remember_token' => $token, 'api_token' => $token, 'device_id' => $request->device_id, 'device_type' => $request->device_type, 'device_name' => $request->device_name, 'device_token' => $request->device_token]);
                 $userArr = User::where('id', $user->id)->get()->first();
-                $userArr->v
                 if ($user) {
                     $arr['status'] = 1;
                     $arr['message'] = 'Success';
