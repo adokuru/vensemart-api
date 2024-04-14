@@ -909,109 +909,109 @@ class ApiController extends Controller
 
 
 
-            $order_request = DB::table('orders as o')
-                ->select(
-                    'o.*',
-                    'r.*',
-                    'u.name as user_name',
-                    'u.mobile as user_phone',
-                    'u.email as user_email',
-                    'u.profile as user_image',
-                    'u.type as user_type',
-                    'u.status as user_status',
-                    'd.id as driver_id',
-                    'd.location_lat as driver_lat',
-                    'd.location_long as driver_long',
-                    'd.name as driver_name',
-                    'd.type as driver_type',
-                    'd.mobile as driver_phone',
-                    'd.status as driver_status',
-                    'd.is_online as driver_online',
-                    'd.created_at as driver_created_at',
-                    'd.updated_at as driver_updated_at',
-                    'd.email as driver_email',
-                    'd.profile as driver_image',
-                )
-                ->join('ride_requests as r', 'r.id', 'o.ride_request_id')
-                ->join('users as u', 'u.id', 'o.user_id')
-                ->join('users as d', 'd.id', 'o.driver_id')
-                // ->where('o.driver_id', Auth::id())
-                ->where('o.status', '3')->orWhere('o.status', '2')->orWhere('o.status', '5')->orWhere('o.status', '6')->orWhere('o.status', '4')
-                ->orderBy('o.created_at', 'desc') // Order by creation date in descending order
-                ->first();
+        $order_request = DB::table('orders as o')
+            ->select(
+                'o.*',
+                'r.*',
+                'u.name as user_name',
+                'u.mobile as user_phone',
+                'u.email as user_email',
+                'u.profile as user_image',
+                'u.type as user_type',
+                'u.status as user_status',
+                'd.id as driver_id',
+                'd.location_lat as driver_lat',
+                'd.location_long as driver_long',
+                'd.name as driver_name',
+                'd.type as driver_type',
+                'd.mobile as driver_phone',
+                'd.status as driver_status',
+                'd.is_online as driver_online',
+                'd.created_at as driver_created_at',
+                'd.updated_at as driver_updated_at',
+                'd.email as driver_email',
+                'd.profile as driver_image',
+            )
+            ->join('ride_requests as r', 'r.id', 'o.ride_request_id')
+            ->join('users as u', 'u.id', 'o.user_id')
+            ->join('users as d', 'd.id', 'o.driver_id')
+            // ->where('o.driver_id', Auth::id())
+            ->where('o.status', '3')->orWhere('o.status', '2')->orWhere('o.status', '5')->orWhere('o.status', '6')->orWhere('o.status', '4')
+            ->orderBy('o.created_at', 'desc') // Order by creation date in descending order
+            ->first();
 
+
+        if ($order_request) {
             $driver = DB::table('users')->where('id', $order_request->driver_id)->where('type', 2)->first();
             $vehicledetails = DB::table('vehicle_details')->where('user_id', $driver->id)->first();
             $driver->vehicledetails = $vehicledetails;
-
-            if ($order_request) {
-                $data = [
-                    'id' => $order_request->id,
-                    'display_name' => $order_request->user_name,
-                    'email' => $order_request->user_email,
-                    'user_type' => $order_request->user_type,
-                    'profile_image' => $order_request->user_image,
-                    'status' => $order_request->status,
-                    'ride_request' => $order_request,
-                    'on_ride_request' => $order_request,
-                    'driver' => $driver,
-                ];
-                $arr['status'] = 1;
-                $arr['message'] = 'Order Request Found Successfully';
-                $arr['data'] = $data;
-                return response()->json($data, 200);
-            } else if ($order_request == "cancelled") {
-                $arr['status'] = 0;
-                $arr['message'] = 'No Order Request Found';
-                $arr['data'] = NULL;
-            } else {
-                $arr['status'] = 0;
-                $arr['message'] = 'No Order Request Found';
-                $arr['data'] = NULL;
-            }
+            $data = [
+                'id' => $order_request->id,
+                'display_name' => $order_request->user_name,
+                'email' => $order_request->user_email,
+                'user_type' => $order_request->user_type,
+                'profile_image' => $order_request->user_image,
+                'status' => $order_request->status,
+                'ride_request' => $order_request,
+                'on_ride_request' => $order_request,
+                'driver' => $driver,
+            ];
+            $arr['status'] = 1;
+            $arr['message'] = 'Order Request Found Successfully';
+            $arr['data'] = $data;
+            return response()->json($data, 200);
+        } else if ($order_request == "cancelled") {
+            $arr['status'] = 0;
+            $arr['message'] = 'No Order Request Found';
+            $arr['data'] = NULL;
+        } else {
+            $arr['status'] = 0;
+            $arr['message'] = 'No Order Request Found';
+            $arr['data'] = NULL;
+        }
 
 
-            // dd($order_request);
+        // dd($order_request);
 
 
-            // if ($order_request->status != "new_ride_requested" || $order_request->status != "accepted" || $order_request->status != "on_the_way") {
-            //     $arr['status'] = 0;
-            //     $arr['message'] = 'No Order Request Found';
-            //     $arr['data'] = NULL;
-            // } else {
+        // if ($order_request->status != "new_ride_requested" || $order_request->status != "accepted" || $order_request->status != "on_the_way") {
+        //     $arr['status'] = 0;
+        //     $arr['message'] = 'No Order Request Found';
+        //     $arr['data'] = NULL;
+        // } else {
 
-            // generate otp for the order request
+        // generate otp for the order request
 
 
-            // $data = [
-            //     'id' => $order_request->id,
-            //     'display_name' => $order_request->user_name,
-            //     'email' => $order_request->user_email,
-            //     'user_type' => $order_request->user_type,
-            //     'profile_image' => $order_request->user_image,
-            //     'status' => $order_request->status,
-            //     'ride_request' => $order_request,
-            //     'on_ride_request' => $order_request,
-            //     'driver' => $driver,
-            // ];
-            // $arr['status'] = 1;
-            // $arr['message'] = 'Order Request Found Successfully';
-            // $arr['data'] = $data;
-            // // $arr['status'] = 1;
-            // // $arr['message'] = 'Order Request Found Successfully';
-            // // $arr['data'] = $data;
-            // return response()->json($data, 200);
-            // } else if ($order_request->status == "cancelled") {
-            //     $arr['status'] = 0;
-            //     $arr['message'] = 'Order Request Cancelled';
-            //     $arr['data'] = NULL;
-            // } else {
-            //     $arr['status'] = 0;
-            //     $arr['message'] = 'No Order Request Found';
-            //     $arr['data'] = NULL;
-            // }
+        // $data = [
+        //     'id' => $order_request->id,
+        //     'display_name' => $order_request->user_name,
+        //     'email' => $order_request->user_email,
+        //     'user_type' => $order_request->user_type,
+        //     'profile_image' => $order_request->user_image,
+        //     'status' => $order_request->status,
+        //     'ride_request' => $order_request,
+        //     'on_ride_request' => $order_request,
+        //     'driver' => $driver,
+        // ];
+        // $arr['status'] = 1;
+        // $arr['message'] = 'Order Request Found Successfully';
+        // $arr['data'] = $data;
+        // // $arr['status'] = 1;
+        // // $arr['message'] = 'Order Request Found Successfully';
+        // // $arr['data'] = $data;
+        // return response()->json($data, 200);
+        // } else if ($order_request->status == "cancelled") {
+        //     $arr['status'] = 0;
+        //     $arr['message'] = 'Order Request Cancelled';
+        //     $arr['data'] = NULL;
+        // } else {
+        //     $arr['status'] = 0;
+        //     $arr['message'] = 'No Order Request Found';
+        //     $arr['data'] = NULL;
+        // }
 
-            // return response()->json($arr, 200);
+        // return response()->json($arr, 200);
 
 
 
@@ -1071,16 +1071,9 @@ class ApiController extends Controller
             ->orderBy('o.created_at', 'desc') // Order by creation date in descending order
             ->first();
 
-        $driver = DB::table('users')->where('id', $orders->driver_id)->where('type', 2)->first();
-        $vehicledetails = DB::table('vehicle_details')->where('user_id', $driver->id)->first();
-        $driver->vehicledetails = $vehicledetails;
 
 
 
-        $data = [
-            'on_ride_request' => $order_request,
-            'driver' => $driver,
-        ];
 
         try {
 
@@ -1101,6 +1094,15 @@ class ApiController extends Controller
                 $arr['data'] = NULL;
                 return response()->json($arr, 200);
             } else if ($orders->status == 3 && $ride_request->status == "accepted" || $orders->status == 5 && $ride_request->status == "picking_up" || $orders->status == 6 && $ride_request->status == "in_progress") {
+                $driver = DB::table('users')->where('id', $orders->driver_id)->where('type', 2)->first();
+                $vehicledetails = DB::table('vehicle_details')->where('user_id', $driver->id)->first();
+                $driver->vehicledetails = $vehicledetails;
+
+                $data = [
+                    'on_ride_request' => $order_request,
+                    'driver' => $driver,
+                ];
+
 
 
                 // $history_data = [
@@ -1119,6 +1121,15 @@ class ApiController extends Controller
                 $arr['data'] = $data;
                 return response()->json($arr, 200);
             } else if ($orders->status == 2 && $ride_request->status == "new_ride_requested") {
+                $driver = DB::table('users')->where('id', $orders->driver_id)->where('type', 2)->first();
+                $vehicledetails = DB::table('vehicle_details')->where('user_id', $driver->id)->first();
+                $driver->vehicledetails = $vehicledetails;
+
+                $data = [
+                    'on_ride_request' => $order_request,
+                    'driver' => $driver,
+                ];
+
 
                 $arr['status'] = 1;
                 $arr['message'] = 'Order Awaiting Rider Acceptance';
