@@ -521,7 +521,7 @@ class Controller extends BaseController
             Orders::where('order_id', $orderID)->update(['driver_id' => (int)$rider->id, 'status' => 2,]);
             // send notification to rider 
 
-            $this->addUserWalletForDelivery($rider->id, 1500);
+            // $this->addUserWalletForDelivery($rider->id, 1500);
 
             $this->sendNotification($rider->id, $data['title'], $data['body']);
             return $this->sendResponse('Rider requested successfully', $result);
@@ -613,15 +613,15 @@ class Controller extends BaseController
         return $vendor->id;
     }
 
-    public function addUserWalletForDelivery($userId, $amount)
-    {
-        $walletamount = DB::table('my_wallet')->where('user_id', $userId)->first();
-        $driveramount = (int)$walletamount->amount;
-        $net_earned_on_ride = (85 / 100) * $amount;
-        // dd($walletamount->amount, $driveramount, $net_earned_on_ride, $amount);
-        $newamount = $driveramount + $net_earned_on_ride;
-        DB::table('my_wallet')->where('user_id', $userId)->update(['amount' => $newamount]);
-    }
+    // public function addUserWalletForDelivery($userId, $amount)
+    // {
+    //     $walletamount = DB::table('my_wallet')->where('user_id', $userId)->first();
+    //     $driveramount = (int)$walletamount->amount;
+    //     $net_earned_on_ride = (85 / 100) * $amount;
+    //     // dd($walletamount->amount, $driveramount, $net_earned_on_ride, $amount);
+    //     $newamount = $driveramount + $net_earned_on_ride;
+    //     DB::table('my_wallet')->where('user_id', $userId)->update(['amount' => $newamount]);
+    // }
 
     public function addUserWallet($userId, $amount)
     {
