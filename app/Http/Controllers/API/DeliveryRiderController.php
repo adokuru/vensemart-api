@@ -547,7 +547,8 @@ class DeliveryRiderController extends Controller
             $orderid = $request->order_id;
             $driverId = Auth::id();
 
-            $order = DB::table('orders')->where('id', $orderid)->where('status', '2')->where('driver_id', $driverId)->first();
+            $order = DB::table('orders')->where('id', $orderid)->where('status', '2')->first();
+            // $order = DB::table('orders')->where('id', $orderid)->where('status', '2')->where('driver_id', $driverId)->first();
 
 
 
@@ -558,7 +559,7 @@ class DeliveryRiderController extends Controller
             }
 
             // if ride_request_id is not null, then update the status of the ride_request to 2
-            Orders::where('id', $orderid)->update(['status' => "3"]);
+            Orders::where('id', $orderid)->update(['status' => "3", 'driver_id' => $driverId]);
 
             if ($order->ride_request_id != null) {
                 DB::table('ride_requests')->where('id', $order->ride_request_id)->update(['status' => "accepted"]);
