@@ -620,6 +620,7 @@ class Controller extends BaseController
         if (!$walletamount) {
             DB::table('my_wallet')->insert(['user_id' => $userId, 'amount' => $amount]);
         }
+        dd($walletamount);
         $driveramount = (int)$walletamount->amount;
         $net_earned_on_ride = (85 / 100) * 1500;
         $newamount = $driveramount + $net_earned_on_ride;
