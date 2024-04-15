@@ -618,7 +618,7 @@ class Controller extends BaseController
         $walletamount = DB::table('my_wallet')->where('user_id', $userId)->first();
         $driveramount = (int)$walletamount->amount;
         $net_earned_on_ride = (85 / 100) * $amount;
-        dd($walletamount->amount, $driveramount, $net_earned_on_ride, $amount);
+        // dd($walletamount->amount, $driveramount, $net_earned_on_ride, $amount);
         $newamount = $driveramount + $net_earned_on_ride;
         DB::table('my_wallet')->where('user_id', $userId)->update(['amount' => $newamount]);
     }
