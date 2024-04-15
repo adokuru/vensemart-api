@@ -1101,8 +1101,10 @@ class ApiController extends Controller
             $arr['status'] = 0;
             $arr['message'] = 'Sorry!! Something Went Wrong';
             // $arr['data'] = NULL;
+
+            return response()->json($arr, 500);
         }
-        return response()->json($arr, 200);
+        // return response()->json($arr, 200);
     }
 
 
