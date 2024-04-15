@@ -758,7 +758,7 @@ class ApiController extends Controller
     // save order request
     public function save_order_request(Request $request)
     {
-        // try {
+        try {
             // Validate request data
             $validator = Validator::make($request->all(), [
                 // Add your validation rules here
@@ -884,20 +884,20 @@ class ApiController extends Controller
             $arr['status'] = 1;
             $arr['message'] = 'Ride Request Placed Successfully';
             $arr['data'] = [
-                'order_id' => $invoice_no,
-                'riderequest_id' => $order->order_id,
+                'order_id' => $order->id,
+                'riderequest_id' => $order->ride_request_id,
             ];
 
             return response()->json($arr, 200);
-        // } catch (\Exception $e) {
-        //     // Handle exceptions
-        //     Log::error('Error saving order request: ' . $e->getMessage());
-        //     return response()->json([
-        //         'status' => 0,
-        //         'message' => 'Sorry!! Something Went Wrong',
-        //         'data' => null,
-        //     ], 500);
-        // }
+        } catch (\Exception $e) {
+            // Handle exceptions
+            Log::error('Error saving order request: ' . $e->getMessage());
+            return response()->json([
+                'status' => 0,
+                'message' => 'Sorry!! Something Went Wrong',
+                // 'data' => null,
+            ], 500);
+        }
     }
 
 
@@ -906,9 +906,6 @@ class ApiController extends Controller
     {
         $user_id = Auth::id();
         try {
-
-
-
             $order_request = DB::table('orders as o')
                 ->select(
                     'o.*',
@@ -942,6 +939,7 @@ class ApiController extends Controller
 
 
             if ($order_request) {
+
                 $driver = DB::table('users')->where('id', $order_request->driver_id)->where('type', 2)->first();
                 $vehicledetails = DB::table('vehicle_details')->where('user_id', $driver->id)->first();
                 $driver->vehicledetails = $vehicledetails;
@@ -963,63 +961,12 @@ class ApiController extends Controller
             } else if ($order_request == "cancelled") {
                 $arr['status'] = 0;
                 $arr['message'] = 'No Order Request Found';
-                $arr['data'] = NULL;
-            } else {
-                $arr['status'] = 0;
-                $arr['message'] = 'No Order Request Found';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
             }
-
-
-            // dd($order_request);
-
-
-            // if ($order_request->status != "new_ride_requested" || $order_request->status != "accepted" || $order_request->status != "on_the_way") {
-            //     $arr['status'] = 0;
-            //     $arr['message'] = 'No Order Request Found';
-            //     $arr['data'] = NULL;
-            // } else {
-
-            // generate otp for the order request
-
-
-            // $data = [
-            //     'id' => $order_request->id,
-            //     'display_name' => $order_request->user_name,
-            //     'email' => $order_request->user_email,
-            //     'user_type' => $order_request->user_type,
-            //     'profile_image' => $order_request->user_image,
-            //     'status' => $order_request->status,
-            //     'ride_request' => $order_request,
-            //     'on_ride_request' => $order_request,
-            //     'driver' => $driver,
-            // ];
-            // $arr['status'] = 1;
-            // $arr['message'] = 'Order Request Found Successfully';
-            // $arr['data'] = $data;
-            // // $arr['status'] = 1;
-            // // $arr['message'] = 'Order Request Found Successfully';
-            // // $arr['data'] = $data;
-            // return response()->json($data, 200);
-            // } else if ($order_request->status == "cancelled") {
-            //     $arr['status'] = 0;
-            //     $arr['message'] = 'Order Request Cancelled';
-            //     $arr['data'] = NULL;
-            // } else {
-            //     $arr['status'] = 0;
-            //     $arr['message'] = 'No Order Request Found';
-            //     $arr['data'] = NULL;
-            // }
-
-            // return response()->json($arr, 200);
-
-
-
-
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'Sorry!! Something Went Wrong';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -1031,9 +978,12 @@ class ApiController extends Controller
 
         $user_id = Auth::id();
 
+        $data = $request->all();
+
         // $orders = DB::table('orders')->where('id', $id)->first();
         // $ride_request = DB::table('ride_requests')->where('id', $orders->ride_request_id)->first();
-        $orders = Orders::where('order_id', $id)->first();
+        $orders = Orders::find($id);
+
         $ride_request = RideRequest::find($orders->ride_request_id);
 
         // dd($request->all(), $id, $orders, $ride_request);
@@ -1065,15 +1015,11 @@ class ApiController extends Controller
             ->join('ride_requests as r', 'r.id', 'o.ride_request_id')
             ->join('users as u', 'u.id', 'o.user_id')
             ->join('users as d', 'd.id', 'o.driver_id')
-            ->where('o.order_id', $id)
+            ->where('o.id', $id)
 
 
             ->orderBy('o.created_at', 'desc') // Order by creation date in descending order
             ->first();
-
-
-
-
 
         try {
 
@@ -1086,12 +1032,19 @@ class ApiController extends Controller
 
                 // $orders->update(['status' => 5]);
 
-                $orders->status = 7;
-                $orders->save();
+                $cancel =
+                    $request->cancel_by == "auto" || $request->cancel_by == "user" ? 1 : 2;
+
+                $orders->update([
+                    'status' => 7,
+                    'cancel_reason' => $request->reason,
+                    'cancel_by' => $cancel,
+
+                ]);
 
                 $arr['status'] = 1;
                 $arr['message'] = 'Order Request Cancelled Successfully';
-                $arr['data'] = NULL;
+                // $arr['data'] = ;
                 return response()->json($arr, 200);
             } else if ($orders->status == 3 && $ride_request->status == "accepted" || $orders->status == 5 && $ride_request->status == "picking_up" || $orders->status == 6 && $ride_request->status == "in_progress") {
                 $driver = DB::table('users')->where('id', $orders->driver_id)->where('type', 2)->first();
@@ -1135,18 +1088,19 @@ class ApiController extends Controller
                 $arr['message'] = 'Order Awaiting Rider Acceptance';
                 $arr['data'] = $data;
                 return response()->json($arr, 200);
-            } else {
-                $arr['status'] = 0;
-                $arr['message'] = 'Sorry!! Something Went Wrong';
-                $arr['data'] = NULL;
-                return response()->json($arr, 200);
             }
+            //  else {
+            //     $arr['status'] = 0;
+            //     $arr['message'] = 'Sorry!! Something Went Wrong';
+            //     $arr['data'] = NULL;
+            //     return response()->json($arr, 200);
+            // }
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'Sorry!! Something Went Wrong';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
-        // return response()->json($arr, 200);
+        return response()->json($arr, 200);
     }
 
 
