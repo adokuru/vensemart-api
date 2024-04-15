@@ -935,7 +935,6 @@ class ApiController extends Controller
                 ->join('ride_requests as r', 'r.id', 'o.ride_request_id')
                 ->join('users as u', 'u.id', 'o.user_id')
                 ->join('users as d', 'd.id', 'o.driver_id')
-                ->where('o.user_id', Auth::id())
                 ->where('o.status', '3')->orWhere('o.status', '2')->orWhere('o.status', '5')->orWhere('o.status', '6')->orWhere('o.status', '4')
                 ->orderBy('o.created_at', 'desc') // Order by creation date in descending order
                 ->first();
