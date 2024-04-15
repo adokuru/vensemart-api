@@ -758,7 +758,7 @@ class ApiController extends Controller
     // save order request
     public function save_order_request(Request $request)
     {
-        try {
+        // try {
             // Validate request data
             $validator = Validator::make($request->all(), [
                 // Add your validation rules here
@@ -889,15 +889,15 @@ class ApiController extends Controller
             ];
 
             return response()->json($arr, 200);
-        } catch (\Exception $e) {
-            // Handle exceptions
-            Log::error('Error saving order request: ' . $e->getMessage());
-            return response()->json([
-                'status' => 0,
-                'message' => 'Sorry!! Something Went Wrong',
-                // 'data' => null,
-            ], 500);
-        }
+        // } catch (\Exception $e) {
+        //     // Handle exceptions
+        //     Log::error('Error saving order request: ' . $e->getMessage());
+        //     return response()->json([
+        //         'status' => 0,
+        //         'message' => 'Sorry!! Something Went Wrong',
+        //         // 'data' => null,
+        //     ], 500);
+        // }
     }
 
 
