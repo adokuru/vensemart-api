@@ -881,6 +881,9 @@ class ApiController extends Controller
         // Return success response
         $order = DB::table('orders')->where('order_id', $orderIdd)->first();
 
+        // update ride request table with order id
+        DB::table('ride_requests')->where('id', $result2)->update(['order_id' => $order->id]);
+
         $arr['status'] = 1;
         $arr['message'] = 'Ride Request Placed Successfully';
         $arr['data'] = [
@@ -1016,7 +1019,6 @@ class ApiController extends Controller
             ->join('users as u', 'u.id', 'o.user_id')
             ->join('users as d', 'd.id', 'o.driver_id')
             ->where('o.id', $id)
-            ->where('o.user_id', Auth::id())
 
 
 
@@ -1101,10 +1103,8 @@ class ApiController extends Controller
             $arr['status'] = 0;
             $arr['message'] = 'Sorry!! Something Went Wrong';
             // $arr['data'] = NULL;
-
-            return response()->json($arr, 500);
         }
-        // return response()->json($arr, 200);
+        return response()->json($arr, 200);
     }
 
 
