@@ -1307,7 +1307,7 @@ class AuthController extends Controller
             // $arr['data'] = NULL;
             return response()->json($arr, 500);
         }
-        return response()->json($arr, 500);
+        return response()->json($arr, 200);
     }
 
     public function get_location()
