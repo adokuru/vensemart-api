@@ -1273,7 +1273,7 @@ class AuthController extends Controller
             $arr['message'] = 'Validation failed';
             // $arr['data'] = NULL;
 
-            return response()->json($arr, 422);
+            return response()->json($arr, 200);
         }
 
         try {
@@ -1293,13 +1293,13 @@ class AuthController extends Controller
                     $arr['status'] = 0;
                     $arr['message'] = 'Try Again';
                     // $arr['data'] = NULL;
-                    return response()->json($arr, 422);
+                    return response()->json($arr, 200);
                 }
             } else {
                 $arr['status'] = 0;
                 $arr['message'] = 'Invalid old password';
                 // $arr['data'] = NULL;
-                return response()->json($arr, 422);
+                return response()->json($arr, 200);
             }
         } catch (\Exception $e) {
             $arr['status'] = 0;
