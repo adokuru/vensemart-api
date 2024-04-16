@@ -1287,7 +1287,7 @@ class AuthController extends Controller
 
                 if ($update) {
                     $arr['status'] = 1;
-                    $arr['message'] = 'Success';
+                    $arr['message'] = 'Password changed successfully';
                     // $arr['data'] = NULL;
                 } else {
                     $arr['status'] = 0;
