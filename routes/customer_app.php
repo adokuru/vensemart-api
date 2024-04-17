@@ -115,6 +115,11 @@ Route::group(['middleware' => 'auth:api'], function () {
     // update order request
     Route::post('update-order-request/{id}', [ApiController::class, 'update_order_request']);
 
+    // 
+    Route::get('wallet-detail', [ApiController::class, 'getWallatDetail']);
+    Route::post('save-wallet', [ApiController::class, 'saveWallet']);
+    Route::get('wallet-list', [ApiController::class, 'getList']);
+
 
 
     Route::get('offer_list', [ApiController::class, 'offer_list']);

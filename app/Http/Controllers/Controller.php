@@ -375,158 +375,158 @@ class Controller extends BaseController
 
         try {
 
-        $customer = User::where('id', $customerID)->first();
+            $customer = User::where('id', $customerID)->first();
 
-        $order = Orders::where('order_id', $orderID)->first();
+            $order = Orders::where('order_id', $orderID)->first();
 
-        if (!$order) throw new \Exception('Order not found');
+            if (!$order) throw new \Exception('Order not found');
 
-        if (!$customer) throw new \Exception('Customer not found');
-
-
+            if (!$customer) throw new \Exception('Customer not found');
 
 
-        $data = [
-            "title" => "Contact Rider",
-            "body" => "Customer " . $customer->name . " wants to contact you for order " . $order->order_id,
-        ];
 
-        // if ($isCustomerDelivery == 0) {
-        //     $vendorNotification = [
-        //         "title" => "Contact Vendor",
-        //         "body" => "A Customer " . $customer->name . " wants to contact you for order " . $orderDetails->order_id . ", a rider will contact you soon, please visit your order details for more information.",
-        //     ];
 
-        //     $product = \App\Models\Products::find($orderDetails->product_id);
+            $data = [
+                "title" => "Contact Rider",
+                "body" => "Customer " . $customer->name . " wants to contact you for order " . $order->order_id,
+            ];
 
-        //     if (!$product) return $this->sendError('Product not found', [], 422);
+            // if ($isCustomerDelivery == 0) {
+            //     $vendorNotification = [
+            //         "title" => "Contact Vendor",
+            //         "body" => "A Customer " . $customer->name . " wants to contact you for order " . $orderDetails->order_id . ", a rider will contact you soon, please visit your order details for more information.",
+            //     ];
 
-        //     $vendor = $this->getVendor($product->shop_id);
-        //     $riders =  $this->requestRiderForDelivery($vendor->lati, $vendor->longi);
+            //     $product = \App\Models\Products::find($orderDetails->product_id);
 
-        // } else {
-        // dd($lati, $longi);
+            //     if (!$product) return $this->sendError('Product not found', [], 422);
 
-        $riders =  $this->requestRiderForDelivery($lati, $longi);
-        // $riders =  $this->requestRiderForDelivery($deliveryRider->location_lat, $deliveryRider->location_long);
-        // }
-        // if no rider is available
-        if (!$riders) throw new \Exception('No Rider Available for this order');
+            //     $vendor = $this->getVendor($product->shop_id);
+            //     $riders =  $this->requestRiderForDelivery($vendor->lati, $vendor->longi);
 
-        // Create a database for delivery request status
-        $DeliveryRequestStatus1 = DeliveryRequestStatus::where('order_id', $order->id)->where('delivery_status', 0)->get();
+            // } else {
+            // dd($lati, $longi);
 
-        if ($DeliveryRequestStatus1->count() > 0) throw new \Exception('Rider already assigned');
+            $riders =  $this->requestRiderForDelivery($lati, $longi);
+            // $riders =  $this->requestRiderForDelivery($deliveryRider->location_lat, $deliveryRider->location_long);
+            // }
+            // if no rider is available
+            if (!$riders) throw new \Exception('No Rider Available for this order');
 
-        $DeliveryRequestStatus = DeliveryRequestStatus::where('order_id', $order->id)->where('delivery_status',  2)->get();
+            // Create a database for delivery request status
+            $DeliveryRequestStatus1 = DeliveryRequestStatus::where('order_id', $order->id)->where('delivery_status', 0)->get();
 
-        // Delivery Status for Delivery Request Status =  0 Pending, 1, Accepted, 2 Rejected
+            if ($DeliveryRequestStatus1->count() > 0) throw new \Exception('Rider already assigned');
 
-        if ($DeliveryRequestStatus->count() > 0) {
-            // get all riders that have gotten this request
-            $riderIDs = $DeliveryRequestStatus->pluck('driver_id')->toArray();
-            Log::info('269 - rider ids are ' . json_encode($riderIDs));
+            $DeliveryRequestStatus = DeliveryRequestStatus::where('order_id', $order->id)->where('delivery_status',  2)->get();
 
-            // find the rider that is not in the array without using whereNotIn
-            $rider = null;
+            // Delivery Status for Delivery Request Status =  0 Pending, 1, Accepted, 2 Rejected
 
-            foreach ($riders as $item) {
-                if (in_array($item['id'], $riderIDs)) {
-                    Log::info("276 - Bad Rider1: " . $item['id']);
-                    continue;
+            if ($DeliveryRequestStatus->count() > 0) {
+                // get all riders that have gotten this request
+                $riderIDs = $DeliveryRequestStatus->pluck('driver_id')->toArray();
+                Log::info('269 - rider ids are ' . json_encode($riderIDs));
+
+                // find the rider that is not in the array without using whereNotIn
+                $rider = null;
+
+                foreach ($riders as $item) {
+                    if (in_array($item['id'], $riderIDs)) {
+                        Log::info("276 - Bad Rider1: " . $item['id']);
+                        continue;
+                    }
+                    Log::info("279 - Rider1: " . $item);
+                    $rider = $item;
+                    break;
                 }
-                Log::info("279 - Rider1: " . $item);
-                $rider = $item;
-                break;
+
+                Log::info("280 - Rider1: " . $rider);
+                if (!$rider) return $this->sendError('No Rider Available for this order at the moment', [], 422);
+
+                $result = DeliveryRequestStatus::create([
+                    'order_id' => $order->id,
+                    'customer_id' => $customerID,
+                    // 'vendor_id' => $vendor->id,
+                    'delivery_address' =>  $end_address,
+                    'driver_id' => (int)$rider->id,
+                    'delivery_status' => 0,
+                ]);
+
+                Log::info('riderid ' . $rider->id);
+
+
+
+                $phone_Number = '+234' . substr($rider->mobile, -10);
+
+                $message = "Dear Rider, you have a new delivery, please check vensemart rider app for details. ";
+
+                $this->sendSMSMessage($rider->mobile, $message);
+
+                // send notification to rider 
+                $this->sendNotification($rider->id, "Order Request From Vensemart App", "You have been booked");
+                Log::info("rider phonne, $rider->mobile");
+
+                if ($rider->id == 0) throw new \Exception('No Rider Available for this order at the moment');
+                if ($rider->id == null) throw new \Exception('No Rider Available for this order at the moment 2');
+                // assign order to rider
+                Log::info("302 - Rider2: " . $rider->id);
+
+                Orders::where('order_id', $orderID)->update(['driver_id' => (int)$rider->id, 'status' => 2,]);
+
+
+                Log::info('riderid ' . $rider->id);
+                // send notification to rider 
+                $this->sendNotification($rider->id, $data['title'], $data['body']);
+
+                return $this->sendResponse('Rider requested successfully', $result);
             }
 
-            Log::info("280 - Rider1: " . $rider);
-            if (!$rider) return $this->sendError('No Rider Available for this order at the moment', [], 422);
-
-            $result = DeliveryRequestStatus::create([
-                'order_id' => $order->id,
-                'customer_id' => $customerID,
-                // 'vendor_id' => $vendor->id,
-                'delivery_address' =>  $end_address,
-                'driver_id' => (int)$rider->id,
-                'delivery_status' => 0,
-            ]);
-
-            Log::info('riderid ' . $rider->id);
+            if (!$riders) throw new \Exception('No Rider Available');
 
 
+            if (!$riders[0]) throw new \Exception('No Rider Available');
 
-            $phone_Number = '+234' . substr($rider->mobile, -10);
+            $rider = $riders[0];
 
-            $message = "Dear Rider, you have a new delivery, please check vensemart rider app for details. ";
+            if (!$rider) throw new \Exception('No Rider Available');
 
-            $this->sendSMSMessage($rider->mobile, $message);
+            if ($rider) {
+                $result = DeliveryRequestStatus::create([
+                    'order_id' => $order->id,
+                    'customer_id' => $customerID,
+                    // 'vendor_id' => $vendor->id,
+                    'delivery_address' => $end_address,
+                    'driver_id' => (int)$rider->id,
+                    'delivery_status' => 0,
+                ]);
+                // $this->sendSMSMessage("234" . substr($rider->mobile, -10), $data['body']);
 
-            // send notification to rider 
-            $this->sendNotification($rider->id, "Order Request From Vensemart App", "You have been booked");
-            Log::info("rider phonne, $rider->mobile");
+                // assign order to rider
+                Log::info("Rider1 here: " . $rider->mobile);
+                Log::info("Pickup Address: " . $start_address);
 
-            if ($rider->id == 0) throw new \Exception('No Rider Available for this order at the moment');
-            if ($rider->id == null) throw new \Exception('No Rider Available for this order at the moment 2');
-            // assign order to rider
-            Log::info("302 - Rider2: " . $rider->id);
+                // generate otp
+                // $otp = rand(1000, 9999);
 
-            Orders::where('order_id', $orderID)->update(['driver_id' => (int)$rider->id, 'status' => 2,]);
+                // $order = Orders::where('order_id', $orderID)->first();
+                // $order->otp = $otp;
+                // $order->save();
 
+                // $message = "Dear Rider, you have a new delivery, please check vensemart rider app for details. OTP is $otp";
 
-            Log::info('riderid ' . $rider->id);
-            // send notification to rider 
-            $this->sendNotification($rider->id, $data['title'], $data['body']);
-
-            return $this->sendResponse('Rider requested successfully', $result);
-        }
-
-        if (!$riders) throw new \Exception('No Rider Available');
-
-
-        if (!$riders[0]) throw new \Exception('No Rider Available');
-
-        $rider = $riders[0];
-
-        if (!$rider) throw new \Exception('No Rider Available');
-
-        if ($rider) {
-            $result = DeliveryRequestStatus::create([
-                'order_id' => $order->id,
-                'customer_id' => $customerID,
-                // 'vendor_id' => $vendor->id,
-                'delivery_address' => $end_address,
-                'driver_id' => (int)$rider->id,
-                'delivery_status' => 0,
-            ]);
-            // $this->sendSMSMessage("234" . substr($rider->mobile, -10), $data['body']);
-
-            // assign order to rider
-            Log::info("Rider1 here: " . $rider->mobile);
-            Log::info("Pickup Address: " . $start_address);
-
-            // generate otp
-            // $otp = rand(1000, 9999);
-
-            // $order = Orders::where('order_id', $orderID)->first();
-            // $order->otp = $otp;
-            // $order->save();
-
-            // $message = "Dear Rider, you have a new delivery, please check vensemart rider app for details. OTP is $otp";
-
-            // $this->sendSMSMessage("234" . substr($rider->mobile, -10), $message);
+                // $this->sendSMSMessage("234" . substr($rider->mobile, -10), $message);
 
 
 
-            Orders::where('order_id', $orderID)->update(['driver_id' => (int)$rider->id, 'status' => 2,]);
-            // send notification to rider 
+                Orders::where('order_id', $orderID)->update(['driver_id' => (int)$rider->id, 'status' => 2,]);
+                // send notification to rider 
 
-            // $this->addUserWalletForDelivery($rider->id, 1500);
+                // $this->addUserWallet($rider->id, 1500);
 
-            $this->sendNotification($rider->id, $data['title'], $data['body']);
-            return $this->sendResponse('Rider requested successfully', $result);
-        }
-        throw new \Exception("No rider available");
+                $this->sendNotification($rider->id, $data['title'], $data['body']);
+                return $this->sendResponse('Rider requested successfully', $result);
+            }
+            throw new \Exception("No rider available");
         } catch (\Exception $e) {
             Log::error($e);
             throw new \Exception($e->getMessage());

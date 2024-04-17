@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\VehicleDetails;
+use App\Models\WalletHistorys;
 use Carbon\Carbon;
 use App\Traits\SendNotification;
 use App\Traits\SendMessage;
@@ -873,11 +874,15 @@ class DeliveryRiderController extends Controller
             $order = DB::table('orders')->where('id', $orderid)->where('driver_id', $driverId)->first();
             // $order = DB::table('orders')->where('id', $orderid)->where('status', '3')->where('driver_id', $driverId)->first();
 
+            $user_id = $order->user_id;
+
             if ($order == null) {
                 $arr['status'] = 0;
                 $arr['message'] = 'Order not found or already accepted';
                 return response()->json($arr, 200);
             }
+
+            $this->addUserWallet($order->driver_id, 1500);
 
 
             //  $this->sendSMSMessage(
@@ -891,8 +896,9 @@ class DeliveryRiderController extends Controller
                 return response()->json($arr, 200);
             }
 
-
             $walletamount = DB::table('my_wallet')->where('user_id', $order->driver_id)->first();
+
+            $useramount = DB::table('my_wallet')->where('user_id', $user_id)->first();
 
             Log::info("orderid : $order->driver_id");
 
@@ -900,13 +906,57 @@ class DeliveryRiderController extends Controller
 
             Log::info("delivery charge : $order->delivery_charge");
 
-            $net_earned_on_ride = (80 / 100) * $order->delivery_charge;
+            $net_earned_on_ride = (80 / 100) * $order->delivery_charge + $order->net_amount;
             $newamount = $driveramount + $net_earned_on_ride;
 
             Log::info("newamounnt : $newamount");
 
+            $total_amount = $order->delivery_charge + $order->net_amount;
 
-            DB::table('my_wallet')->where('user_id', $order->driver_id)->update(['amount' => $newamount]);
+            // subtract from user wallet check if user has enough money to pay for delivery and if order payment type is wallet
+            // if not enough money, return error message
+            // if enough money, subtract from user wallet and add to driver wallet
+
+
+            $useramount = (int)$useramount->amount;
+
+            if ($order->payment_type == 1) {
+                if ($useramount < $total_amount) {
+                    $arr['status'] = 0;
+                    $arr['message'] = 'Customer has Insufficient funds in wallet to pay for delivery charge';
+                    return response()->json($arr, 200);
+                }
+
+                $newuseramount = $useramount - $total_amount;
+
+                Log::info("newuseramount : $newuseramount");
+
+                DB::table('my_wallet')->where('user_id', $order->driver_id)->update(['amount' => $newamount]);
+
+                $wallet_transaction = new WalletHistorys();
+                $wallet_transaction->user_id = $order->driver_id;
+                $wallet_transaction->amount = $net_earned_on_ride;
+                $wallet_transaction->status = 2;
+                $wallet_transaction->message = "Delivery Charge";
+                $wallet_transaction->save();
+
+
+                DB::table('my_wallet')->where('user_id', $user_id)->update(['amount' => $newuseramount]);
+
+                $wallet_transaction = new WalletHistorys();
+                $wallet_transaction->user_id = $user_id;
+                $wallet_transaction->amount = $net_earned_on_ride;
+                $wallet_transaction->status = 1;
+                $wallet_transaction->message = "Delivery Charge";
+                $wallet_transaction->save();
+            }
+
+
+            // Log::info("newuseramount : $newuseramount");
+
+            // DB::table('my_wallet')->where('user_id', $order->driver_id)->update(['amount' => $newamount]);
+
+            // DB::table('my_wallet')->where('user_id', $user_id)->update(['amount' => $newuseramount]);
 
 
 
@@ -940,7 +990,7 @@ class DeliveryRiderController extends Controller
     {
         $walletamount = DB::table('my_wallet')->where('user_id', $userId)->first();
         $driveramount = (int)$walletamount->amount;
-        $net_earned_on_ride = (80 / 100) * $amount;
+        $net_earned_on_ride = (85 / 100) * $amount;
         $newamount = $driveramount + $net_earned_on_ride;
 
         Log::info("newamounnt : $newamount");

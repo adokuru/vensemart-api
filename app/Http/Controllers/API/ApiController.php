@@ -14,8 +14,10 @@ use Carbon\Carbon;
 use App\Mail\SendOrderMail;
 use App\Models\Cart;
 use App\Models\EshopPurchaseDetail;
+use App\Models\MyWallet;
 use App\Models\Orders;
 use App\Models\RideRequest;
+use App\Models\WalletHistorys;
 use App\Traits\SendMessage;
 use Illuminate\Support\Facades\Log;
 
@@ -758,149 +760,152 @@ class ApiController extends Controller
     // save order request
     public function save_order_request(Request $request)
     {
-        // try {
-        // Validate request data
-        $validator = Validator::make($request->all(), [
-            // Add your validation rules here
-            // 'total_amount' => 'required',
-            'start_latitude' => 'required',
-            'start_longitude' => 'required',
-            'start_address' => 'required',
-            'end_latitude' => 'required',
-            'end_longitude' => 'required',
-            'end_address' => 'required',
-            'payment_type' => 'required',
-            // 'delivery_charge' => 'required',
-            "is_ride_for_other" => 'required',
-            "ride_type" => 'required',
-            'item_type' => 'required',
-            'item_categories' => 'required',
-        ]);
+        try {
+            // Validate request data
+            $validator = Validator::make($request->all(), [
+                // Add your validation rules here
+                // 'total_amount' => 'required',
+                'start_latitude' => 'required',
+                'start_longitude' => 'required',
+                'start_address' => 'required',
+                'end_latitude' => 'required',
+                'end_longitude' => 'required',
+                'end_address' => 'required',
+                'payment_type' => 'required',
+                // 'delivery_charge' => 'required',
+                "is_ride_for_other" => 'required',
+                "ride_type" => 'required',
+                'item_type' => 'required',
+                'item_categories' => 'required',
+            ]);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => 0,
-                'message' => $validator->errors()->first(),
-                'data' => null,
-            ], 500);
-        }
-
-        // Process order creation
-        $data = $request->all();
-
-        $user_id = Auth::id();
-
-        DB::beginTransaction();
-
-        Log::info('This works here');
-
-        $invoice_no  =  rand(1000000000, 999999999999);
-        $total_amount = 0;
-        $net_amount = 1000;
-
-        $taxes = $net_amount * 7.5 / 100;
-
-        $total_amount = $net_amount + $request->delivery_charge + $taxes;
-
-        $ride_data['start_latitude'] = $request->start_latitude;
-        $ride_data['start_longitude'] = $request->start_longitude;
-        $ride_data['start_address'] = $request->start_address;
-        $ride_data['end_latitude'] = $request->end_latitude;
-        $ride_data['end_longitude'] = $request->end_longitude;
-        $ride_data['end_address'] = $request->end_address;
-        $ride_data['is_ride_for_other'] = $request->is_ride_for_other ? 1 : 0;
-        $ride_data['status'] = "new_ride_requested";
-        // if request ride for other is 1
-        if ($request->is_ride_for_other == 1) {
-            $ride_data['other_rider_data'] = json_encode($request->other_rider_data);
-        }
-        $ride_data['ride_type'] = $request->ride_type;
-        $ride_data['item_type'] = $request->item_type;
-        $ride_data['item_categories'] = $request->item_categories;
-
-
-        $result2 = DB::table('ride_requests')->insertGetId($ride_data);
-
-        $order_data['invoice_no'] = $invoice_no;
-        // $order_data['order_type'] = 2;
-        $order_data['user_id'] = $user_id;
-        // $order_data['driver_id'] = $response != null && $response->count() > 0 ? $response->first()->id : null;
-        $order_data['ride_request_id'] = $result2;
-        $order_data['net_amount'] = $net_amount;
-        $order_data['total_amount'] = $total_amount;
-        $order_data['taxes'] =  $taxes;
-        $order_data['delivery_charge'] = $request->delivery_charge;
-        $order_data['payment_type'] = $request->payment_type;
-        $order_data['payment_status'] = 1;
-        $order_data['status'] = 1;
-        $order_data['purchase_date'] = date('Y-m-d');
-        $order_data['order_id'] = "FM" . rand(10000, 99999);
-        $order_data['transaction_id'] = rand(1000000000, 999999999999);
-
-        $result1 = DB::table('orders')->insert($order_data);
-
-        // send notification to nearby riders
-        $req = new Request([
-            "latitude" => $request->start_latitude,
-            "longitude" => $request->start_longitude,
-        ]);
-
-        $orderIdd = $order_data['order_id'];
-
-        $data_noti = array('title' => "Order Delivery Request Placed", 'message' => "order placed successfully!  order  ID is  $orderIdd", 'user_id' => Auth::id());
-        $this->sendNotification(Auth::id(), "Order Placed", "Order Placed Successfully ");
-        $this->sendNotification(1105, "Order Placed", "Order Rider");
-
-        // Call the get_drivers_list function and pass the new request
-        $response = $this->get_nearby_list($req);
-        if ($response->count() > 0) {
-            // notify nearby riders about the new ride request
-            foreach ($response as $rider) {
-                // $Corddata = [
-                //     'lati' => $ride_data['start_latitude'],
-                //     'longi' => $ride_data['start_longitude'],
-                // ];
-
-                $lati = $ride_data['start_latitude'];
-                $longi = $ride_data['start_longitude'];
-
-                $this->contactRiderForDelivery($orderIdd, $user_id, $ride_data['start_address'], $ride_data['end_address'], $lati, $longi);
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => 0,
+                    'message' => $validator->errors()->first(),
+                    'data' => null,
+                ], 500);
             }
-        } else {
-            Log::info('No nearby riders found');
+
+            // Process order creation
+            $data = $request->all();
+
+            $user_id = Auth::id();
+
+            DB::beginTransaction();
+
+            Log::info('This works here');
+
+            $invoice_no  =  rand(1000000000, 999999999999);
+            $total_amount = 0;
+            $net_amount = 1000;
+
+            $taxes = $net_amount * 7.5 / 100;
+
+            $total_amount = $net_amount + $request->delivery_charge + $taxes;
+
+
+
+            $ride_data['start_latitude'] = $request->start_latitude;
+            $ride_data['start_longitude'] = $request->start_longitude;
+            $ride_data['start_address'] = $request->start_address;
+            $ride_data['end_latitude'] = $request->end_latitude;
+            $ride_data['end_longitude'] = $request->end_longitude;
+            $ride_data['end_address'] = $request->end_address;
+            $ride_data['is_ride_for_other'] = $request->is_ride_for_other ? 1 : 0;
+            $ride_data['status'] = "new_ride_requested";
+            // if request ride for other is 1
+            if ($request->is_ride_for_other == 1) {
+                $ride_data['other_rider_data'] = json_encode($request->other_rider_data);
+            }
+            $ride_data['ride_type'] = $request->ride_type;
+            $ride_data['item_type'] = $request->item_type;
+            $ride_data['item_categories'] = $request->item_categories;
+
+
+            $result2 = DB::table('ride_requests')->insertGetId($ride_data);
+
+            $order_data['invoice_no'] = $invoice_no;
+            // $order_data['order_type'] = 2;
+            $order_data['user_id'] = $user_id;
+            // $order_data['driver_id'] = $response != null && $response->count() > 0 ? $response->first()->id : null;
+            $order_data['ride_request_id'] = $result2;
+            $order_data['net_amount'] = $net_amount;
+            $order_data['total_amount'] = $total_amount;
+            $order_data['taxes'] =  $taxes;
+            $order_data['delivery_charge'] = $request->delivery_charge;
+            $order_data['payment_type'] = $request->payment_type == "cash" ? 2 : 1;
+            $order_data['payment_status'] = 1;
+            $order_data['status'] = 1;
+            $order_data['purchase_date'] = date('Y-m-d');
+            $order_data['order_id'] = "FM" . rand(10000, 99999);
+            $order_data['transaction_id'] = rand(1000000000, 999999999999);
+
+            $result1 = DB::table('orders')->insert($order_data);
+
+            // send notification to nearby riders
+            $req = new Request([
+                "latitude" => $request->start_latitude,
+                "longitude" => $request->start_longitude,
+            ]);
+
+            $orderIdd = $order_data['order_id'];
+
+            $data_noti = array('title' => "Order Delivery Request Placed", 'message' => "order placed successfully!  order  ID is  $orderIdd", 'user_id' => Auth::id());
+            $this->sendNotification(Auth::id(), "Order Placed", "Order Placed Successfully ");
+            $this->sendNotification(1105, "Order Placed", "Order Rider");
+
+            // Call the get_drivers_list function and pass the new request
+            $response = $this->get_nearby_list($req);
+            if ($response->count() > 0) {
+                // notify nearby riders about the new ride request
+                foreach ($response as $rider) {
+                    // $Corddata = [
+                    //     'lati' => $ride_data['start_latitude'],
+                    //     'longi' => $ride_data['start_longitude'],
+                    // ];
+
+                    $lati = $ride_data['start_latitude'];
+                    $longi = $ride_data['start_longitude'];
+
+                    $this->contactRiderForDelivery($orderIdd, $user_id, $ride_data['start_address'], $ride_data['end_address'], $lati, $longi);
+                }
+            } else {
+                Log::info('No nearby riders found');
+
+                // Return success response
+                $arr['status'] = 0;
+                $arr['message'] = 'No Riders available at the moment';
+                $arr['data'] = NULL;
+                return response()->json($arr, 200);
+            }
+
+            DB::commit();
 
             // Return success response
-            $arr['status'] = 0;
-            $arr['message'] = 'No Riders available at the moment';
-            $arr['data'] = NULL;
+            $order = DB::table('orders')->where('order_id', $orderIdd)->first();
+
+            // update ride request table with order id
+            DB::table('ride_requests')->where('id', $result2)->update(['order_id' => $order->id]);
+
+            $arr['status'] = 1;
+            $arr['message'] = 'Ride Request Placed Successfully';
+            $arr['data'] = [
+                'order_id' => $order->id,
+                'riderequest_id' => $order->ride_request_id,
+            ];
+
             return response()->json($arr, 200);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            // Handle exceptions
+            Log::error('Error saving order request: ' . $e->getMessage());
+            return response()->json([
+                'status' => 0,
+                'message' => 'Sorry!! Something Went Wrong',
+                // 'data' => null,
+            ], 500);
         }
-
-        DB::commit();
-
-        // Return success response
-        $order = DB::table('orders')->where('order_id', $orderIdd)->first();
-
-        // update ride request table with order id
-        DB::table('ride_requests')->where('id', $result2)->update(['order_id' => $order->id]);
-
-        $arr['status'] = 1;
-        $arr['message'] = 'Ride Request Placed Successfully';
-        $arr['data'] = [
-            'order_id' => $order->id,
-            'riderequest_id' => $order->ride_request_id,
-        ];
-
-        return response()->json($arr, 200);
-        // } catch (\Exception $e) {
-        //     // Handle exceptions
-        //     Log::error('Error saving order request: ' . $e->getMessage());
-        //     return response()->json([
-        //         'status' => 0,
-        //         'message' => 'Sorry!! Something Went Wrong',
-        //         // 'data' => null,
-        //     ], 500);
-        // }
     }
 
 
@@ -1768,7 +1773,7 @@ class ApiController extends Controller
         return response()->json($arr, 200);
     }
     //My orders API
-    public function myOrders()
+    public function myOrders(Request $request)
     {
         try {
             // $orders = DB::table('orders as o')
@@ -1777,6 +1782,8 @@ class ApiController extends Controller
 
             //     ->where('o.user_id', Auth::id())->orderBy('o.id', 'desc')
             //     ->get();
+
+            // dd($request->status);
 
             $orders =
                 DB::table('orders as o')
@@ -1792,6 +1799,7 @@ class ApiController extends Controller
                     'rr.item_type as item_type',
                     'rr.item_categories as item_categories',
                     'rr.status as ride_status',
+                    'rr.order_id as order_id',
                     's.store_name',
                     's.address as store_address',
                     's.lati as store_latitude',
@@ -1807,7 +1815,10 @@ class ApiController extends Controller
                 ->leftJoin('stores as s', 's.id', 'o.shop_id')
                 ->leftJoin('users as ua', 'ua.id', 'o.user_id')
                 ->leftJoin('ride_requests as rr', 'rr.id', 'o.ride_request_id') // Join the ride_request table
-                ->where('o.user_id', Auth::id())->orderBy('o.id', 'desc')->get();
+                ->where('o.user_id', Auth::id())
+                ->where('o.status', '=', $request->status)
+
+                ->orderBy('o.id', 'desc')->get();
 
             foreach ($orders as $key => $val) {
                 $product_details =  EshopPurchaseDetail::where('order_id', $val->order_id)->get()->toArray();
@@ -1857,6 +1868,8 @@ class ApiController extends Controller
                     'rr.item_type as item_type',
                     'rr.item_categories as item_categories',
                     'rr.status as ride_status',
+                    'rr.order_id as order_id',
+
                     's.store_name',
                     's.address as store_address',
                     's.lati as store_latitude',
@@ -1894,7 +1907,7 @@ class ApiController extends Controller
                 $arr['message'] = "order details found successfully";
                 $arr['data'] = $orders;
             }
-            return response()->json($arr, 200);
+            return response()->json($orders, 200);
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = "something went wrong";
@@ -2744,4 +2757,121 @@ class ApiController extends Controller
         }
         return response()->json($arr, 200);
     }
+
+    // saveWallet
+    public function saveWallet(Request $request)
+    {
+        $userId = Auth::id();
+        $data = $request->all();
+        $data['user_id'] = $userId;
+
+        $wallet = MyWallet::firstOrCreate(['user_id' => $userId]);
+
+        if ($data['type'] == 'credit') {
+            $total_amount = $wallet->amount + $data['amount'];
+            $status = 2;
+        }
+
+        if ($data['type'] == 'debit') {
+            $total_amount = $wallet->amount - $data['amount'];
+            $status = 1;
+        }
+
+        $wallet->amount = $total_amount;
+
+        try {
+            DB::beginTransaction();
+
+            $wallet->save();
+
+            $type = $data['type'] == 'credit' ? 'Credited' : 'Debited';
+
+            $description = $data['amount'] . " has been " . $type . " to your wallet";
+
+
+            WalletHistorys::updateOrCreate(
+                ['id' => $request->id],
+                ['user_id' => $userId, 'status' => $status, 'reference' => $data['reference'], 'amount' => $total_amount, 'message' => $description,]
+            );
+
+            DB::commit();
+
+            $arr['status'] = 1;
+            $arr['message'] = 'Wallet Updated Successfully';
+            $arr['data'] = $wallet;
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            $arr['status'] = 0;
+            $arr['message'] = 'Sorry!! Something Went Wrong';
+            $arr['data'] = NULL;
+        }
+
+        return response()->json($arr, 200);
+    }
+
+    // get wallet detail
+    public function getWallatDetail()
+    {
+        try {
+            $userId = Auth::id();
+            $wallet_data = MyWallet::where('user_id', $userId)->first();
+
+            if (!$wallet_data) {
+                $wallet_data = MyWallet::create([
+                    'user_id' => $userId,
+                    'amount' => 0
+                ]);
+            } else {
+                $response = [
+                    'wallet_data' => $wallet_data,
+                    'wallet_history' => WalletHistorys::where('user_id', $userId)->get(),
+                    'total_amount' => $wallet_data->amount,
+
+                ];
+
+                $arr['status'] = 1;
+                $arr['message'] = 'Success';
+                $arr['data'] = $response;
+
+                return response()->json($response, 200);
+            }
+        } catch (\Exception $e) {
+            $arr['status'] = 0;
+            $arr['message'] = 'Sorry!! Something Went Wrong';
+            $arr['data'] = NULL;
+        }
+
+        return response()->json($arr, 200);
+    }
+
+    // public function total_earnings()
+    // {
+    //     $userId = Auth::id();
+    //     try {
+    //         $walletamount = DB::table('my_wallet')->where('user_id', $userId)->first();
+    //         if (!empty($walletamount)) {
+    //             $data['walletamount'] = $walletamount->amount;
+    //             $data['transactionhistory'] = DB::table('wallet_historys')->where('user_id', $userId)->get();
+
+
+    //             $arr['status'] = 1;
+    //             $arr['message'] = 'Success';
+    //             $arr['data'] = $data;
+    //         } else {
+    //             MyWallet::create([
+    //                 'user_id' => $userId,
+    //                 'amount' => 0
+    //             ]);
+    //             $arr['status'] = 0;
+    //             $arr['message'] = 'No Data Found';
+    //             $arr['data'] = NULL;
+    //         }
+    //     } catch (\Exception $e) {
+    //         $arr['status'] = 0;
+    //         $arr['message'] = 'Sorry!! Something Went Wrong';
+    //         $arr['data'] = NULL;
+    //     }
+    //     return response()->json($arr, 200);
+    // }
 }
