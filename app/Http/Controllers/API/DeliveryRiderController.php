@@ -548,23 +548,23 @@ class DeliveryRiderController extends Controller
             $orderid = $request->order_id;
             $driverId = Auth::id();
 
-            $order = DB::table('orders')->where('id', $orderid)->where('status', '2')->orWhere('status', 1)->first();
+            $order = DB::table('orders')->where('id', $orderid)->where('status', '2')->orWhere('status', '1')->first();
             // $order = DB::table('orders')->where('id', $orderid)->where('status', '2')->where('driver_id', $driverId)->first();
 
 
 
-            if ($order == null) {
-                $arr['status'] = 0;
-                $arr['message'] = 'Order not found or already accepted';
-                return response()->json($arr, 200);
-            }
+            // if ($order == null) {
+            //     $arr['status'] = 0;
+            //     $arr['message'] = 'Order not found or already accepted';
+            //     return response()->json($arr, 200);
+            // }
 
             // if ride_request_id is not null, then update the status of the ride_request to 2
             Orders::where('id', $orderid)->update(['status' => "3", 'driver_id' => $driverId]);
 
-            if ($order->ride_request_id != null) {
-                DB::table('ride_requests')->where('id', $order->ride_request_id)->update(['status' => "accepted", 'driver_id' => $driverId]);
-            }
+            // if ($order->ride_request_id != null) {
+            DB::table('ride_requests')->where('id', $order->ride_request_id)->update(['status' => "accepted", 'driver_id' => $driverId]);
+            // }
 
             // $order_request = DB::table('orders as o')
             //     ->select(
