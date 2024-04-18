@@ -977,7 +977,7 @@ class ApiController extends Controller
                 ->join('users as u', 'u.id', 'o.user_id')
                 ->join('users as d', 'd.id', 'o.driver_id')
                 ->where('r.rider_id', Auth::id())
-                ->where('r.driver_id', '!=', null)
+                ->where('r.driver_id', null)
                 ->whereNotIn('r.status', ['canceled', 'completed'])
                 ->first();
 
