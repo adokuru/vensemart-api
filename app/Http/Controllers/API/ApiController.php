@@ -978,8 +978,9 @@ class ApiController extends Controller
                 ->join('users as d', 'd.id', 'o.driver_id')
                 ->where('r.rider_id', Auth::id())
                 ->where('r.driver_id', '!=', null)
-                ->whereNotIn('status', ['canceled', 'completed'])
+                ->whereNotIn('r.status', ['canceled', 'completed'])
                 ->first();
+
             $on_ride_request =
                 DB::table('ride_requests as r')->select(
                     'o.*',
@@ -1008,7 +1009,7 @@ class ApiController extends Controller
                 ->join('users as d', 'd.id', 'o.driver_id')
                 ->where('r.rider_id', Auth::id())
                 ->where('r.driver_id', '!=', null)
-                ->whereNotIn('status', ['canceled'])
+                ->whereNotIn('r.status', ['canceled'])
                 ->first();
 
             dd($order_request, $ride_request, $on_ride_request);
