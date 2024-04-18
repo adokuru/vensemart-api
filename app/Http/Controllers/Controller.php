@@ -18,6 +18,7 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use OneSignal;
 
 
 class Controller extends BaseController
@@ -162,7 +163,7 @@ class Controller extends BaseController
             $token = $user->device_token;
 
 
-            \OneSignal::sendNotificationToUser($message, $token, $url = null, $data = null);
+            OneSignal::sendNotificationToUser($message, $token, $url = null, $data = null);
 
             /*********************End Notification*****************/
         } catch (\Exception $e) {
@@ -411,12 +412,13 @@ class Controller extends BaseController
             // $riders =  $this->requestRiderForDelivery($deliveryRider->location_lat, $deliveryRider->location_long);
             // }
             // if no rider is available
-            if (!$riders) throw new \Exception('No Rider Available for this order');
+            // if (!$riders) throw new \Exception('No Rider Available for this order');
+            if(!$riders) return $this->sendError('No Rider Available for this order at the moment', [], 400);
 
             // Create a database for delivery request status
             $DeliveryRequestStatus1 = DeliveryRequestStatus::where('order_id', $order->id)->where('delivery_status', 0)->get();
 
-            if ($DeliveryRequestStatus1->count() > 0) throw new \Exception('Rider already assigned');
+            if ($DeliveryRequestStatus1->count() > 0) return $this->sendError('Rider already assigned', [], 400);
 
             $DeliveryRequestStatus = DeliveryRequestStatus::where('order_id', $order->id)->where('delivery_status',  2)->get();
 
@@ -481,52 +483,33 @@ class Controller extends BaseController
                 return $this->sendResponse('Rider requested successfully', $result);
             }
 
-            if (!$riders) throw new \Exception('No Rider Available');
+            if (!$riders) return $this->sendError('No Rider Available for this order at the moment', [], 400);
 
+            // for each rider
+            foreach ($riders as $rider) {
+                if ($rider) {
+                    // $result = DeliveryRequestStatus::create([
+                    //     'order_id' => $order->id,
+                    //     'customer_id' => $customerID,
+                    //     // 'vendor_id' => $vendor->id,
+                    //     'delivery_address' =>  $end_address,
+                    //     'driver_id' => (int)$rider->id,
+                    //     'delivery_status' => 0,
+                    // ]);
+                    $this->sendSMSMessage("234" . substr($rider->mobile, -10), $data['body']);
 
-            if (!$riders[0]) throw new \Exception('No Rider Available');
+                    // Orders::where('order_id', $orderID)->update(['driver_id' => (int)$rider->id, 'status' => 2,]);
+                    // send notification to rider 
 
-            $rider = $riders[0];
+                    // $this->addUserWallet($rider->id, 1500);
 
-            if (!$rider) throw new \Exception('No Rider Available');
-
-            if ($rider) {
-                $result = DeliveryRequestStatus::create([
-                    'order_id' => $order->id,
-                    'customer_id' => $customerID,
-                    // 'vendor_id' => $vendor->id,
-                    'delivery_address' => $end_address,
-                    'driver_id' => (int)$rider->id,
-                    'delivery_status' => 0,
-                ]);
-                // $this->sendSMSMessage("234" . substr($rider->mobile, -10), $data['body']);
-
-                // assign order to rider
-                Log::info("Rider1 here: " . $rider->mobile);
-                Log::info("Pickup Address: " . $start_address);
-
-                // generate otp
-                // $otp = rand(1000, 9999);
-
-                // $order = Orders::where('order_id', $orderID)->first();
-                // $order->otp = $otp;
-                // $order->save();
-
-                // $message = "Dear Rider, you have a new delivery, please check vensemart rider app for details. OTP is $otp";
-
-                // $this->sendSMSMessage("234" . substr($rider->mobile, -10), $message);
-
-
-
-                Orders::where('order_id', $orderID)->update(['driver_id' => (int)$rider->id, 'status' => 2,]);
-                // send notification to rider 
-
-                // $this->addUserWallet($rider->id, 1500);
-
-                $this->sendNotification($rider->id, $data['title'], $data['body']);
-                return $this->sendResponse('Rider requested successfully', $result);
+                    $this->sendNotification($rider->id, $data['title'], $data['body']);
+                    return $this->sendResponse('Rider requested successfully', $order);
+                }
             }
-            throw new \Exception("No rider available");
+
+
+           
         } catch (\Exception $e) {
             Log::error($e);
             throw new \Exception($e->getMessage());

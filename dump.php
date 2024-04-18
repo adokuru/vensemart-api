@@ -503,5 +503,48 @@ function saveRideHistory($data)
         return response()->json($arr, 200);
     }
 
- 
 
+
+if (!$riders[0]) throw new \Exception('No Rider Available');
+
+$rider = $riders[0];
+
+if (!$rider) throw new \Exception('No Rider Available');
+
+if ($rider) {
+    // $result = DeliveryRequestStatus::create([
+    //     'order_id' => $order->id,
+    //     'customer_id' => $customerID,
+    //     // 'vendor_id' => $vendor->id,
+    //     'delivery_address' => $end_address,
+    //     'driver_id' => (int)$rider->id,
+    //     'delivery_status' => 0,
+    // ]);
+    // // $this->sendSMSMessage("234" . substr($rider->mobile, -10), $data['body']);
+
+    // // assign order to rider
+    // Log::info("Rider1 here: " . $rider->mobile);
+    // Log::info("Pickup Address: " . $start_address);
+
+    // generate otp
+    // $otp = rand(1000, 9999);
+
+    // $order = Orders::where('order_id', $orderID)->first();
+    // $order->otp = $otp;
+    // $order->save();
+
+    // $message = "Dear Rider, you have a new delivery, please check vensemart rider app for details. OTP is $otp";
+
+    // $this->sendSMSMessage("234" . substr($rider->mobile, -10), $message);
+
+
+
+    // Orders::where('order_id', $orderID)->update(['driver_id' => (int)$rider->id, 'status' => 2,]);
+    // send notification to rider 
+
+    // $this->addUserWallet($rider->id, 1500);
+
+    $this->sendNotification($rider->id, $data['title'], $data['body']);
+    return $this->sendResponse('Rider requested successfully', $result);
+}
+throw new \Exception("No rider available");

@@ -598,6 +598,8 @@ class DeliveryRiderController extends Controller
 
             // $this->saveRideHistory($history_data);
 
+            $this->sendNotification($order->user_id, 'Order Accepted', 'Your order has been accepted by the driver ');
+
 
 
             $arr['status'] = 1;
@@ -927,6 +929,7 @@ class DeliveryRiderController extends Controller
                     return response()->json($arr, 200);
                 }
 
+                // $newuseramount = $useramount - $total_amount;
                 $newuseramount = $useramount - $total_amount;
 
                 Log::info("newuseramount : $newuseramount");
@@ -1740,6 +1743,13 @@ class DeliveryRiderController extends Controller
                 // TODO: Notify vendor
                 // update the ride request status
                 RideRequest::where('id', $order->ride_request_id)->update(['status' => "picking_up"]);
+
+                // Notify Customer
+                $this->sendNotification(
+                    $order->user_id,
+                    'Picking Up Order!!',
+                    "order-" . $order->id . " is being picked up by the delivery agent!!"
+                );
 
                 $arr['status'] = 1;
                 $arr['message'] = 'Order Picked Up Successfully!!';

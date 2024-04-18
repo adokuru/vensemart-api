@@ -62,13 +62,13 @@ class ApiController extends Controller
             } else {
                 $arr['status'] = 0;
                 $arr['message'] = 'No data';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
             }
             return response()->json($arr, 200);
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'something went wrong';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
 
         return response()->json($arr, 200);
@@ -84,12 +84,12 @@ class ApiController extends Controller
         if ($get_notification) {
             $arr['status'] = 1;
             $arr['message'] = 'Success';
-            $arr['data'] = null;
+            // $arr['data'] = null;
             return response()->json($arr, 200);
         } else {
             $arr['status'] = 0;
             $arr['message'] = 'notification not found';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
             return response()->json($arr, 200);
         }
     }
@@ -150,19 +150,19 @@ class ApiController extends Controller
                 } else {
                     $arr['status'] = 0;
                     $arr['message'] = 'No data';
-                    $arr['data'] = NULL;
+                    // $arr['data'] = NULL;
                 }
                 return response()->json($arr, 200);
             } else {
                 $arr['status'] = 0;
                 $arr['message'] = 'Sorry, We don\'t deliver to this location yet. we are expanding stay with us!';
-                $arr['data'] = null;
+                // $arr['data'] = null;
                 return response()->json($arr, 200);
             }
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'something went wrong';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
 
         return response()->json($arr, 200);
@@ -199,7 +199,7 @@ class ApiController extends Controller
             if ($tranding_list == []) {
                 $arr['status'] = 0;
                 $arr['message'] = 'Sorry, No data found!';
-                $arr['data'] = null;
+                // $arr['data'] = null;
                 return response()->json($arr, 200);
             } else {
                 $arr['status'] = 1;
@@ -210,7 +210,7 @@ class ApiController extends Controller
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'Sorry!! Something Went Wrong';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
 
         return response()->json($arr, 200);
@@ -239,13 +239,13 @@ class ApiController extends Controller
             } else {
                 $arr['status'] = 0;
                 $arr['message'] = 'Sorry!! Shop not found!';
-                $arr['data'] = null;
+                // $arr['data'] = null;
             }
             return response()->json($arr, 200);
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'something went wrong';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
 
         return response()->json($arr, 200);
@@ -275,12 +275,12 @@ class ApiController extends Controller
             } else {
                 $arr['status'] = 0;
                 $arr['message'] = 'Sorry!! Shop not found!';
-                $arr['data'] = null;
+                // $arr['data'] = null;
             }
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'something went wrong';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
 
         return response()->json($arr, 200);
@@ -301,7 +301,7 @@ class ApiController extends Controller
             if ($product_list == []) {
                 $arr['status'] = 0;
                 $arr['message'] = 'Sorry, No data found!';
-                $arr['data'] = null;
+                // $arr['data'] = null;
                 return response()->json($arr, 200);
             } else {
                 $arr['status'] = 1;
@@ -312,7 +312,7 @@ class ApiController extends Controller
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'something went wrong';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
 
         return response()->json($arr, 200);
@@ -338,7 +338,7 @@ class ApiController extends Controller
             if ($product_details == "") {
                 $arr['status'] = 0;
                 $arr['message'] = 'Sorry, No data found!';
-                $arr['data'] = null;
+                // $arr['data'] = null;
                 return response()->json($arr, 200);
             } else {
 
@@ -381,7 +381,7 @@ class ApiController extends Controller
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'something went wrong';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
 
         return response()->json($arr, 200);
@@ -396,7 +396,7 @@ class ApiController extends Controller
 
                 $arr['status'] = 0;
                 $arr['message'] = 'Sorry! no data found';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
             } else {
                 foreach ($category_list as $val) {
                     $val->category_icon = $val->category_icon ? url('storage/category_icons') . '/' . $val->category_icon : '';
@@ -409,7 +409,7 @@ class ApiController extends Controller
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'something went wrong';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
 
         return response()->json($arr, 200);
@@ -422,7 +422,7 @@ class ApiController extends Controller
             if ($typevalidate->fails()) {
                 $arr['status'] = 0;
                 $arr['message'] = "Validation Failed";
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
 
                 return response()->json($arr, 200);
             }
@@ -430,7 +430,7 @@ class ApiController extends Controller
             if ($sub_category_list == []) {
                 $arr['status'] = 0;
                 $arr['message'] = 'Sorry! no data found';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
             } else {
                 foreach ($sub_category_list as $val) {
                     $val->image = $val->image ? url('storage/subcategory_images') . '/' . $val->image : '';
@@ -443,7 +443,7 @@ class ApiController extends Controller
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'something went wrong';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
 
         return response()->json($arr, 200);
@@ -457,7 +457,7 @@ class ApiController extends Controller
             if ($typevalidate->fails()) {
                 $arr['status'] = 0;
                 $arr['message'] = "Validation Failed";
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
 
                 return response()->json($arr, 200);
             }
@@ -465,7 +465,7 @@ class ApiController extends Controller
             if ($products_list == []) {
                 $arr['status'] = 0;
                 $arr['message'] = 'Sorry! no data found';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
             } else {
                 foreach ($products_list as $val) {
                     $val->imagename = $val->product_image;
@@ -479,7 +479,7 @@ class ApiController extends Controller
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'Sorry!! Something Went Wrong';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
 
         return response()->json($arr, 200);
@@ -500,7 +500,7 @@ class ApiController extends Controller
             if ($typevalidate->fails()) {
                 $arr['status'] = 0;
                 $arr['message'] = $typevalidate->errors()->first();
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
 
                 return response()->json($arr, 422);
             }
@@ -528,7 +528,7 @@ class ApiController extends Controller
                 DB::table('cart')->where('user_id', Auth::id())->where('product_id', $request->product_id)->delete();
                 $arr['status'] = 1;
                 $arr['message'] = 'add cart successfully.';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
                 return response()->json($arr, 200);
             }
 
@@ -541,7 +541,7 @@ class ApiController extends Controller
                 $check_cart->save();
                 $arr['status'] = 1;
                 $arr['message'] = 'add cart successfully.';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
                 return response()->json($arr, 200);
             } else {
 
@@ -550,12 +550,12 @@ class ApiController extends Controller
 
             $arr['status'] = 1;
             $arr['message'] = 'add cart successfully.';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
             return response()->json($arr, 200);
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = $e->getMessage();
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
             return response()->json($arr, 500);
         }
     }
@@ -573,7 +573,7 @@ class ApiController extends Controller
             if ($typevalidate->fails()) {
                 $arr['status'] = 0;
                 $arr['message'] = $typevalidate->errors()->first();
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
 
                 return response()->json($arr, 422);
             }
@@ -601,12 +601,12 @@ class ApiController extends Controller
 
             $arr['status'] = 1;
             $arr['message'] = 'Product reduced in cart successfully.';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
             return response()->json($arr, 200);
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = $e->getMessage();
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
             return response()->json($arr, 500);
         }
     }
@@ -623,7 +623,7 @@ class ApiController extends Controller
             if ($typevalidate->fails()) {
                 $arr['status'] = 0;
                 $arr['message'] = $typevalidate->errors()->first();
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
 
                 return response()->json($arr, 422);
             }
@@ -647,12 +647,12 @@ class ApiController extends Controller
 
             $arr['status'] = 1;
             $arr['message'] = 'Product qty increased in cart successfully.';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
             return response()->json($arr, 200);
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = $e->getMessage();
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
             return response()->json($arr, 500);
         }
     }
@@ -685,7 +685,7 @@ class ApiController extends Controller
             if ($cart_list == []) {
                 $arr['status'] = 0;
                 $arr['message'] = 'Cart is Empty';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
             } else {
                 $cart_details['subtotal'] = DB::table('cart')->where('user_id', $user_id)->sum('net_amount');
                 $cart_details['delivery_charge'] = "1500"; // TODO : Change it to dynamic
@@ -700,7 +700,7 @@ class ApiController extends Controller
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'Sorry!! Something Went Wrong';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -723,12 +723,12 @@ class ApiController extends Controller
             $cart->save();
             $arr['status'] = 1;
             $arr['message'] = 'Cart Updated Successfully';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
             return response()->json($arr, 200);
         } else {
             $arr['status'] = 0;
             $arr['message'] = 'Cart Not Found';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
             return response()->json($arr, 200);
         }
     }
@@ -748,12 +748,12 @@ class ApiController extends Controller
 
             $arr['status'] = 1;
             $arr['message'] = 'Cart Deleted Successfully';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
             return response()->json($arr, 200);
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'Sorry!! Something Went Wrong';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
     }
 
@@ -854,31 +854,31 @@ class ApiController extends Controller
             $data_noti = array('title' => "Order Delivery Request Placed", 'message' => "order placed successfully!  order  ID is  $orderIdd", 'user_id' => Auth::id());
             $this->sendNotification(Auth::id(), "Order Placed", "Order Placed Successfully ");
             $this->sendNotification(1105, "Order Placed", "Order Rider");
+            $lati = $ride_data['start_latitude'];
+            $longi = $ride_data['start_longitude'];
 
+            $this->contactRiderForDelivery($orderIdd, $user_id, $ride_data['start_address'], $ride_data['end_address'], $lati, $longi);
             // Call the get_drivers_list function and pass the new request
-            $response = $this->get_nearby_list($req);
-            if ($response->count() > 0) {
-                // notify nearby riders about the new ride request
-                foreach ($response as $rider) {
-                    // $Corddata = [
-                    //     'lati' => $ride_data['start_latitude'],
-                    //     'longi' => $ride_data['start_longitude'],
-                    // ];
+            // $response = $this->get_nearby_list($req);
+            // if ($response->count() > 0) {
+            //     // notify nearby riders about the new ride request
+            //     foreach ($response as $rider) {
+            //         // $Corddata = [
+            //         //     'lati' => $ride_data['start_latitude'],
+            //         //     'longi' => $ride_data['start_longitude'],
+            //         // ];
 
-                    $lati = $ride_data['start_latitude'];
-                    $longi = $ride_data['start_longitude'];
 
-                    $this->contactRiderForDelivery($orderIdd, $user_id, $ride_data['start_address'], $ride_data['end_address'], $lati, $longi);
-                }
-            } else {
-                Log::info('No nearby riders found');
+            //     }
+            // } else {
+            //     Log::info('No nearby riders found');
 
-                // Return success response
-                $arr['status'] = 0;
-                $arr['message'] = 'No Riders available at the moment';
-                $arr['data'] = NULL;
-                return response()->json($arr, 200);
-            }
+            //     // Return success response
+            //     $arr['status'] = 0;
+            //     $arr['message'] = 'No Riders available at the moment';
+                // $arr['data'] = NULL;
+            //     return response()->json($arr, 200);
+            // }
 
             DB::commit();
 
@@ -1051,6 +1051,26 @@ class ApiController extends Controller
 
                 ]);
 
+                // check if theres a driver assigned to the order
+                if ($orders->driver_id) {
+                    // send notification to the driver
+                    $this->sendNotification($orders->driver_id, "Order Cancelled", "Order Cancelled by " . $request->cancel_by);
+                }
+
+                // check if theres any other order request and cancel them
+                $pending_orders = DB::table('orders')->where('user_id', $user_id)
+                    ->where('status', 2)
+                    ->orWhere('status', 3)
+                    ->orWhere('status', 5)
+                    ->orWhere('status', 6)
+                    ->get();
+
+                foreach ($pending_orders as $order) {
+                    $order->update(['status' => 7]);
+                    $ride_request = DB::table('ride_requests')->where('id', $order->ride_request_id)->first();
+                    $ride_request->update(['status' => 'cancelled']);
+                }
+
                 $arr['status'] = 1;
                 $arr['message'] = 'Order Request Cancelled Successfully';
                 // $arr['data'] = ;
@@ -1101,7 +1121,7 @@ class ApiController extends Controller
             //  else {
             //     $arr['status'] = 0;
             //     $arr['message'] = 'Sorry!! Something Went Wrong';
-            //     $arr['data'] = NULL;
+                // $arr['data'] = NULL;
             //     return response()->json($arr, 200);
             // }
         } catch (\Exception $e) {
@@ -1153,7 +1173,7 @@ class ApiController extends Controller
             if ($typevalidate->fails()) {
                 $arr['status'] = 0;
                 $arr['message'] = $typevalidate->errors()->first();
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
                 return response()->json($arr, 500);
             }
 
@@ -1161,7 +1181,7 @@ class ApiController extends Controller
             if (count($cart_detail) ==  0) {
                 $arr['status'] = 0;
                 $arr['message'] = 'cart is empty';
-                $arr['data'] = null;
+                // $arr['data'] = null;
                 return response()->json($arr, 200);
             }
 
@@ -1236,7 +1256,7 @@ class ApiController extends Controller
                             DB::rollback();
                             $arr['status'] = 0;
                             $arr['message'] = 'Product ' . $product_details->product_name . ' qty is less then selected qty.';
-                            $arr['data'] = NULL;
+                            // $arr['data'] = NULL;
                             return response()->json($arr, 500);
                         }
                     }
@@ -1345,7 +1365,7 @@ class ApiController extends Controller
             if ($product_list == []) {
                 $arr['status'] = 0;
                 $arr['message'] = 'Sorry, No data found!';
-                $arr['data'] = null;
+                // $arr['data'] = null;
                 return response()->json($arr, 200);
             } else {
                 $arr['status'] = 1;
@@ -1356,7 +1376,7 @@ class ApiController extends Controller
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'something went wrong';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
 
         return response()->json($arr, 200);
@@ -1371,7 +1391,7 @@ class ApiController extends Controller
             if ($offer_list == []) {
                 $arr['status'] = 0;
                 $arr['message'] = 'Sorry, No data found!';
-                $arr['data'] = null;
+                // $arr['data'] = null;
                 return response()->json($arr, 200);
             } else {
                 $arr['status'] = 1;
@@ -1382,7 +1402,7 @@ class ApiController extends Controller
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'something went wrong';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
 
         return response()->json($arr, 200);
@@ -1400,7 +1420,7 @@ class ApiController extends Controller
             if ($coupon_list == []) {
                 $arr['status'] = 0;
                 $arr['message'] = 'No Coupons Found.';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
             } else {
                 $arr['status'] = 1;
                 $arr['message'] = 'coupon data found successfully.';
@@ -1410,7 +1430,7 @@ class ApiController extends Controller
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'something went wrong';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -1424,7 +1444,7 @@ class ApiController extends Controller
         if ($typevalidate->fails()) {
             $arr['status'] = 0;
             $arr['message'] = "Validation Failed";
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
             return response()->json($arr, 200);
         }
         try {
@@ -1437,7 +1457,7 @@ class ApiController extends Controller
             if (!$coupon_list) {
                 $arr['status'] = 0;
                 $arr['message'] = "Coupons not found";
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
                 return response()->json($arr, 200);
             }
 
@@ -1459,7 +1479,7 @@ class ApiController extends Controller
 
             $arr['status'] = 0;
             $arr['message'] = 'something went wrong..';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -1473,7 +1493,7 @@ class ApiController extends Controller
             if ($cancel_reason_question_list == []) {
                 $arr['status'] = 0;
                 $arr['message'] = 'Sorry, No data found!';
-                $arr['data'] = null;
+                // $arr['data'] = null;
                 return response()->json($arr, 200);
             } else {
                 $arr['status'] = 1;
@@ -1484,7 +1504,7 @@ class ApiController extends Controller
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'something went wrong';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
 
         return response()->json($arr, 200);
@@ -1504,7 +1524,7 @@ class ApiController extends Controller
             if ($typevalidate->fails()) {
                 $arr['status'] = 0;
                 $arr['message'] = "Validation Failed";
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
 
                 return response()->json($arr, 200);
             }
@@ -1520,12 +1540,12 @@ class ApiController extends Controller
             // }
             $arr['status'] = 1;
             $arr['message'] = "address add successfully";
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
             return response()->json($arr, 200);
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = "something went wrong";
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -1539,7 +1559,7 @@ class ApiController extends Controller
             if ($typevalidate->fails()) {
                 $arr['status'] = 0;
                 $arr['message'] = "Validation Failed";
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
 
                 return response()->json($arr, 200);
             }
@@ -1548,12 +1568,12 @@ class ApiController extends Controller
             DB::table('user_address')->where('id', $request->id)->update($address);
             $arr['status'] = 1;
             $arr['message'] = "address updated successfully";
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
             return response()->json($arr, 200);
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = "something went wrong";
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -1566,19 +1586,19 @@ class ApiController extends Controller
             if ($typevalidate->fails()) {
                 $arr['status'] = 0;
                 $arr['message'] = "Validation Failed";
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
 
                 return response()->json($arr, 200);
             }
             $delivery_address = DB::table('user_address')->where('user_id', Auth::id())->where('id', $request->id)->delete();
             $arr['status'] = 1;
             $arr['message'] = "address delete successfully";
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
             return response()->json($arr, 200);
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = "something went wrong";
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -1591,7 +1611,7 @@ class ApiController extends Controller
             if ($delivery_address == []) {
                 $arr['status'] = 0;
                 $arr['message'] = "no address found";
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
             } else {
                 $arr['status'] = 1;
                 $arr['message'] = "address found successfully";
@@ -1601,7 +1621,7 @@ class ApiController extends Controller
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = "something went wrong";
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -1614,7 +1634,7 @@ class ApiController extends Controller
         if (!$shop) {
             $arr['status'] = 0;
             $arr['message'] = "shop not found";
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
             return response()->json($arr, 200);
         }
 
@@ -1691,7 +1711,7 @@ class ApiController extends Controller
             if ($data == []) {
                 $arr['status'] = 0;
                 $arr['message'] = "no data found";
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
             } else {
                 $arr['status'] = 1;
                 $arr['message'] = "Data found successfully";
@@ -1701,7 +1721,7 @@ class ApiController extends Controller
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = "something went wrong";
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -1716,7 +1736,7 @@ class ApiController extends Controller
             if ($typevalidate->fails()) {
                 $arr['status'] = 0;
                 $arr['message'] = "Validation Failed";
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
 
                 return response()->json($arr, 200);
             }
@@ -1733,12 +1753,12 @@ class ApiController extends Controller
             }
             $arr['status'] = 1;
             $arr['message'] = "success";
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
             return response()->json($arr, 200);
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = "something went wrong";
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -1758,7 +1778,7 @@ class ApiController extends Controller
             if ($favourite_product == []) {
                 $arr['status'] = 0;
                 $arr['message'] = "no data found";
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
             } else {
                 $arr['status'] = 1;
                 $arr['message'] = "data found successfully";
@@ -1768,7 +1788,7 @@ class ApiController extends Controller
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = "something went wrong";
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -1829,7 +1849,7 @@ class ApiController extends Controller
             if ($order_list == []) {
                 $arr['status'] = 0;
                 $arr['message'] = "no data found";
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
             } else {
                 $arr['status'] = 1;
                 $arr['message'] = "order list found successfully";
@@ -1839,7 +1859,7 @@ class ApiController extends Controller
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = env('APP_DEBUG') ? $e->getMessage() : "something went wrong";
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -1852,7 +1872,7 @@ class ApiController extends Controller
             if ($validate->fails()) {
                 $arr['status'] = 0;
                 $arr['message'] = 'Validation Failed!!';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
                 return response()->json($arr, 200);
             }
             $orders = DB::table('orders as o')
@@ -1890,7 +1910,7 @@ class ApiController extends Controller
             if (!$orders) {
                 $arr['status'] = 0;
                 $arr['message'] = "no data found";
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
                 return response()->json(
                     $arr,
                     200
@@ -1901,7 +1921,7 @@ class ApiController extends Controller
             if (!$orders) {
                 $arr['status'] = 0;
                 $arr['message'] = "no data found";
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
             } else {
                 $arr['status'] = 1;
                 $arr['message'] = "order details found successfully";
@@ -1911,7 +1931,7 @@ class ApiController extends Controller
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = "something went wrong";
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -1941,7 +1961,7 @@ class ApiController extends Controller
             if ($order_list == []) {
                 $arr['status'] = 0;
                 $arr['message'] = "no data found";
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
             } else {
                 $arr['status'] = 1;
                 $arr['message'] = "order list found successfully";
@@ -1951,7 +1971,7 @@ class ApiController extends Controller
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = "something went wrong";
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -1964,7 +1984,7 @@ class ApiController extends Controller
             if ($validate->fails()) {
                 $arr['status'] = 0;
                 $arr['message'] = 'Validation Failed!!';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
                 return response()->json($arr, 200);
             }
             $orders = DB::table('orders as o')
@@ -1977,7 +1997,7 @@ class ApiController extends Controller
             if (!$orders) {
                 $arr['status'] = 0;
                 $arr['message'] = "no data found";
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
                 return response()->json($arr, 200);
             }
             $product_details =  DB::table('orders_details as od')
@@ -1993,7 +2013,7 @@ class ApiController extends Controller
             if (!$orders) {
                 $arr['status'] = 0;
                 $arr['message'] = "no data found";
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
             } else {
                 $arr['status'] = 1;
                 $arr['message'] = "order details found successfully";
@@ -2003,7 +2023,7 @@ class ApiController extends Controller
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = "something went wrong";
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -2041,13 +2061,13 @@ class ApiController extends Controller
                 DB::commit();
                 $arr['status'] = 1;
                 $arr['message'] = "order cancel successfully";
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
                 return response()->json($arr, 200);
             } catch (\Exception $e) {
                 DB::rollback();
                 $arr['status'] = 0;
                 $arr['message'] = 'something went wrong';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
                 return response()->json($arr, 200);
             }
         } catch (\Exception $e) {
@@ -2069,7 +2089,7 @@ class ApiController extends Controller
             if ($typevalidate->fails()) {
                 $arr['status'] = 0;
                 $arr['message'] = "Validation Failed";
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
                 return response()->json($arr, 200);
             }
             $user_id22 = Auth::id();
@@ -2153,7 +2173,7 @@ class ApiController extends Controller
                             DB::rollback();
                             $arr['status'] = 0;
                             $arr['message'] = 'Product ' . $product_details->product_name . ' qty is less then selected qty.';
-                            $arr['data'] = NULL;
+                            // $arr['data'] = NULL;
                             return response()->json($arr, 200);
                         }
                     }
@@ -2172,20 +2192,20 @@ class ApiController extends Controller
                     DB::rollback();
                     $arr['status'] = 0;
                     $arr['message'] = 'something went wrong';
-                    $arr['data'] = null;
+                    // $arr['data'] = null;
                     return response()->json($arr, 200);
                 }
             } else {
                 DB::rollback();
                 $arr['status'] = 0;
                 $arr['message'] = 'something went wrong';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
                 return response()->json($arr, 200);
             }
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = $e->getMessage();
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -2203,7 +2223,7 @@ class ApiController extends Controller
             if ($typevalidate->fails()) {
                 $arr['status'] = 0;
                 $arr['message'] = "Validation Failed";
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
                 return response()->json($arr, 200);
             }
             $get_id = DB::table('orders')->where('order_id', $request->order_id)->first();
@@ -2220,17 +2240,17 @@ class ApiController extends Controller
             if ($update_refund) {
                 $arr['status'] = 1;
                 $arr['message'] = "order refund success";
-                $arr['data'] = null;
+                // $arr['data'] = null;
             } else {
                 $arr['status'] = 0;
                 $arr['message'] = "something went wrong ...";
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
             }
             return response()->json($arr, 200);
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = "something went wrong";
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -2248,13 +2268,13 @@ class ApiController extends Controller
             } else {
                 $arr['status'] = 0;
                 $arr['message'] = "no data";
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
             }
             return response()->json($arr, 200);
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = $e->getMessage();
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -2270,13 +2290,13 @@ class ApiController extends Controller
             } else {
                 $arr['status'] = 0;
                 $arr['message'] = "no data";
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
             }
             return response()->json($arr, 200);
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = "something went wrong";
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -2296,12 +2316,12 @@ class ApiController extends Controller
             DB::table('user_query')->insert($query);
             $arr['status'] = 1;
             $arr['message'] = "query send successfully";
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
             return response()->json($arr, 200);
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = "something went wrong";
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -2313,7 +2333,7 @@ class ApiController extends Controller
             if ($subscription_plan == []) {
                 $arr['status'] = 0;
                 $arr['message'] = "no data";
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
             } else {
                 $arr['status'] = 1;
                 $arr['message'] = "subscription plan list found successfully.";
@@ -2322,7 +2342,7 @@ class ApiController extends Controller
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = "something went wrong";
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -2343,12 +2363,12 @@ class ApiController extends Controller
             DB::table('user_feedback')->insert($feedback);
             $arr['status'] = 1;
             $arr['message'] = "feedback send successfully";
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
             return response()->json($arr, 200);
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = "something went wrong";
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -2384,7 +2404,8 @@ class ApiController extends Controller
         } else {
             $arr['status'] = 0;
             $arr['message'] = "No driver found";
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
+            return response()->json($arr, 400);
         }
 
         return response()->json($arr, 200);
@@ -2400,7 +2421,7 @@ class ApiController extends Controller
         if ($user == "") {
             $arr['status'] = 0;
             $arr['message'] = "User not found";
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
             return response()->json($arr, 400);
         }
         if ($request->has('status')) {
@@ -2491,7 +2512,7 @@ class ApiController extends Controller
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'Sorry!! Something Went Wrong';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -2537,12 +2558,12 @@ class ApiController extends Controller
             } else {
                 $arr['status'] = 0;
                 $arr['message'] = 'No Data found';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
             }
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = $e->getMessage();
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -2570,12 +2591,12 @@ class ApiController extends Controller
             } else {
                 $arr['status'] = 0;
                 $arr['message'] = 'No Suggested Products Found';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
             }
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'Sorry!! Something Went Wrong';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -2613,7 +2634,7 @@ class ApiController extends Controller
             } else {
                 $arr['status'] = 0;
                 $arr['message'] = 'No Data Found';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
             }
             // foreach($orders as $key=>$val){
             //     $product_details =  DB::table('orders_details as od')
@@ -2646,7 +2667,7 @@ class ApiController extends Controller
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = $e->getMessage();    //"something went wrong";
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -2658,7 +2679,7 @@ class ApiController extends Controller
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'Sorry!! Something Went Wrong';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -2680,7 +2701,7 @@ class ApiController extends Controller
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'Sorry!! Something Went Wrong';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -2697,12 +2718,12 @@ class ApiController extends Controller
             } else {
                 $arr['status'] = 0;
                 $arr['message'] = 'No Data Found';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
             }
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'Sorry!! Something Went Wrong';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -2718,7 +2739,7 @@ class ApiController extends Controller
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'Sorry!! Something Went Wrong';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -2748,12 +2769,12 @@ class ApiController extends Controller
             } else {
                 $arr['status'] = 0;
                 $arr['message'] = 'No Data Found';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
             }
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = $e->getMessage();    //"something went wrong";
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -2804,7 +2825,7 @@ class ApiController extends Controller
 
             $arr['status'] = 0;
             $arr['message'] = 'Sorry!! Something Went Wrong';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
 
         return response()->json($arr, 200);
@@ -2839,7 +2860,7 @@ class ApiController extends Controller
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'Sorry!! Something Went Wrong';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
 
         return response()->json($arr, 200);
@@ -2865,12 +2886,12 @@ class ApiController extends Controller
     //             ]);
     //             $arr['status'] = 0;
     //             $arr['message'] = 'No Data Found';
-    //             $arr['data'] = NULL;
+                // $arr['data'] = NULL;
     //         }
     //     } catch (\Exception $e) {
     //         $arr['status'] = 0;
     //         $arr['message'] = 'Sorry!! Something Went Wrong';
-    //         $arr['data'] = NULL;
+            // $arr['data'] = NULL;
     //     }
     //     return response()->json($arr, 200);
     // }

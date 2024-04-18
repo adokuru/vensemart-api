@@ -37,7 +37,7 @@ class AuthController extends Controller
             if ($typevalidate->fails()) {
                 $arr['status'] = 0;
                 $arr['message'] = $typevalidate->errors()->first();
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
                 return response()->json($arr, 422);
             }
 
@@ -48,7 +48,7 @@ class AuthController extends Controller
             if (!$users) {
                 $arr['status'] = 0;
                 $arr['message'] = 'Phone number not found';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
                 return response()->json($arr, 422);
             }
 
@@ -67,12 +67,12 @@ class AuthController extends Controller
 
             $arr['status'] = 1;
             $arr['message'] = 'OTP sent successfully';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
             return response()->json($arr, 200);
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = $e->getMessage();
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
             return response()->json($arr, 500);
         }
     }
@@ -92,7 +92,7 @@ class AuthController extends Controller
             if ($typevalidate->fails()) {
                 $arr['status'] = 0;
                 $arr['message'] = $typevalidate->errors()->first();
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
                 return response()->json($arr, 422);
             }
 
@@ -106,7 +106,7 @@ class AuthController extends Controller
             if (!$users) {
                 $arr['status'] = 0;
                 $arr['message'] = 'Phone number not found';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
                 return response()->json($arr, 422);
             }
 
@@ -125,12 +125,12 @@ class AuthController extends Controller
 
             $arr['status'] = 1;
             $arr['message'] = 'OTP sent successfully';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
             return response()->json($arr, 200);
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = $e->getMessage();
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
             return response()->json($arr, 500);
         }
     }
@@ -149,7 +149,7 @@ class AuthController extends Controller
             if ($typevalidate->fails()) {
                 $arr['status'] = 0;
                 $arr['message'] = $typevalidate->errors()->first();
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
                 return response()->json($arr, 422);
             }
 
@@ -163,7 +163,7 @@ class AuthController extends Controller
             if (!$users) {
                 $arr['status'] = 0;
                 $arr['message'] = 'Phone number not found';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
                 return response()->json($arr, 422);
             }
 
@@ -182,12 +182,12 @@ class AuthController extends Controller
 
             $arr['status'] = 1;
             $arr['message'] = 'OTP sent successfully';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
             return response()->json($arr, 200);
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = $e->getMessage();
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
             return response()->json($arr, 500);
         }
     }
@@ -210,7 +210,7 @@ class AuthController extends Controller
         if ($typevalidate->fails()) {
             $arr['status'] = 0;
             $arr['message'] = $typevalidate->errors()->first();
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
             return response()->json($arr, 422);
         }
 
@@ -221,7 +221,7 @@ class AuthController extends Controller
         if (!$users) {
             $arr['status'] = 0;
             $arr['message'] = 'Phone number not found';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
             return response()->json($arr, 422);
         }
 
@@ -229,21 +229,21 @@ class AuthController extends Controller
         if ($users->otp != $request->code) {
             $arr['status'] = 0;
             $arr['message'] = 'Invalid OTP';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
             return response()->json($arr, 422);
         }
 
         if ($users->password == Hash::make($request->password)) {
             $arr['status'] = 0;
             $arr['message'] = 'New password cannot be the same as old password';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
             return response()->json($arr, 422);
         }
 
         if ($request->password != $request->confirm_password) {
             $arr['status'] = 0;
             $arr['message'] = 'Password and confirm password does not match';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
             return response()->json($arr, 422);
         }
 
@@ -253,7 +253,7 @@ class AuthController extends Controller
 
         $arr['status'] = 1;
         $arr['message'] = 'Password changed successfully';
-        $arr['data'] = NULL;
+        // $arr['data'] = NULL;
         return response()->json($arr, 200);
     }
 
@@ -269,7 +269,7 @@ class AuthController extends Controller
             if ($typevalidate->fails()) {
                 $arr['status'] = 0;
                 $arr['message'] = $typevalidate->errors()->first();
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
                 return response()->json($arr, 422);
             }
 
@@ -280,7 +280,7 @@ class AuthController extends Controller
             if (!$users) {
                 $arr['status'] = 0;
                 $arr['message'] = 'Phone number not found';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
                 return response()->json($arr, 422);
             }
 
@@ -288,19 +288,19 @@ class AuthController extends Controller
             if ($users->otp != $request->otp) {
                 $arr['status'] = 0;
                 $arr['message'] = 'Invalid OTP';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
                 return response()->json($arr, 422);
             }
 
 
             $arr['status'] = 1;
             $arr['message'] = "OTP verified successfully";
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
             return response()->json($arr, 200);
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = $e->getMessage();
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
             return response()->json($arr, 500);
         }
     }
@@ -326,7 +326,7 @@ class AuthController extends Controller
             if ($typevalidate->fails()) {
                 $arr['status'] = 0;
                 $arr['message'] = $typevalidate->errors()->first();
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
 
                 return response()->json($arr, 200);
             }
@@ -345,7 +345,7 @@ class AuthController extends Controller
             if ($users) {
                 $arr['status'] = 0;
                 $arr['message'] = 'E-mail id or Phone number already exist!!';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
                 return response()->json($arr, 200);
             }
             $data = $request->all();
@@ -442,7 +442,7 @@ class AuthController extends Controller
             if ($typevalidate->fails()) {
                 $arr['status'] = 0;
                 $arr['message'] = $typevalidate->errors()->first();
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
 
                 return response()->json($arr, 200);
             }
@@ -454,7 +454,7 @@ class AuthController extends Controller
             if ($users) {
                 $arr['status'] = 0;
                 $arr['message'] = 'E-mail id or Phone number already exist!!';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
                 return response()->json($arr, 200);
             }
 
@@ -503,12 +503,12 @@ class AuthController extends Controller
             } else {
                 $arr['status'] = 0;
                 $arr['message'] = 'Try Again';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
             }
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = $e->getMessage();
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -530,7 +530,7 @@ class AuthController extends Controller
             if ($typevalidate->fails()) {
                 $arr['status'] = 0;
                 $arr['message'] = $typevalidate->errors()->first();
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
 
                 return response()->json($arr, 200);
             }
@@ -545,7 +545,7 @@ class AuthController extends Controller
                 if (!Hash::check($request->password, $user->password)) {
                     $arr['status'] = 0;
                     $arr['message'] = 'Password is not matched';
-                    $arr['data'] = NULL;
+                    // $arr['data'] = NULL;
 
                     return response()->json($arr, 200);
                 }
@@ -570,19 +570,19 @@ class AuthController extends Controller
                 } else {
                     $arr['status'] = 0;
                     $arr['message'] = 'No user found';
-                    $arr['data'] = NULL;
+                    // $arr['data'] = NULL;
                 }
             } else {
                 $arr['status'] = 0;
                 $arr['message'] = 'No user found';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
 
                 return response()->json($arr, 200);
             }
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = "Something went wrong";
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -605,7 +605,7 @@ class AuthController extends Controller
             if ($typevalidate->fails()) {
                 $arr['status'] = 0;
                 $arr['message'] = $typevalidate->errors()->first();
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
 
                 return response()->json($arr, 200);
             }
@@ -620,7 +620,7 @@ class AuthController extends Controller
                 if (!Hash::check($request->password, $user->password)) {
                     $arr['status'] = 0;
                     $arr['message'] = 'Password is not matched';
-                    $arr['data'] = NULL;
+                    // $arr['data'] = NULL;
 
                     return response()->json($arr, 200);
                 }
@@ -659,7 +659,7 @@ class AuthController extends Controller
                 } else {
                     $arr['status'] = 0;
                     $arr['message'] = 'No user found';
-                    $arr['data'] = NULL;
+                    // $arr['data'] = NULL;
                 }
 
                 // $arr['status']=0;
@@ -670,14 +670,14 @@ class AuthController extends Controller
             } else {
                 $arr['status'] = 0;
                 $arr['message'] = 'No user found';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
 
                 return response()->json($arr, 200);
             }
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = "Something went wrong";
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -761,7 +761,7 @@ class AuthController extends Controller
             if (!$user_details) {
                 $arr['status'] = 0;
                 $arr['message'] = 'Username Not Exist.';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
                 return response()->json($arr, 200);
             }
             $otp = rand(1111, 9999);
@@ -790,7 +790,7 @@ class AuthController extends Controller
             if (!$sent) {
                 $arr['status'] = 0;
                 $arr['message'] = 'unable to sent otp.';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
 
                 return response()->json($arr, 200);
             }
@@ -804,7 +804,7 @@ class AuthController extends Controller
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'something went wrong.';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
 
             return response()->json($arr, 200);
         }
@@ -826,7 +826,7 @@ class AuthController extends Controller
             if (empty($user_exit)) {
                 $arr['status'] = 0;
                 $arr['message'] = 'username not valid..';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
                 return response()->json($arr, 200);
             }
             $otp = rand(1111, 9999);
@@ -858,7 +858,7 @@ class AuthController extends Controller
             if (!$sent) {
                 $arr['status'] = 0;
                 $arr['message'] = 'unable to sent otp.';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
 
                 return response()->json($arr, 200);
             }
@@ -872,7 +872,7 @@ class AuthController extends Controller
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'something went wrong.';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
 
             return response()->json($arr, 200);
         }
@@ -1111,7 +1111,7 @@ class AuthController extends Controller
         if ($validate->fails()) {
             $arr['status'] = 0;
             $arr['message'] = 'Validation failed';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
 
             return response()->json($arr, 200);
         }
@@ -1128,7 +1128,7 @@ class AuthController extends Controller
                 } else {
                     $arr['status'] = 0;
                     $arr['message'] = 'Profile image not uploaded!!';
-                    $arr['data'] = NULL;
+                    // $arr['data'] = NULL;
 
                     return response()->json($arr, 200);
                 }
@@ -1138,7 +1138,7 @@ class AuthController extends Controller
                 if ($email >= 1) {
                     $arr['status'] = 0;
                     $arr['message'] = 'Email already exist.!!';
-                    $arr['data'] = NULL;
+                    // $arr['data'] = NULL;
 
                     return response()->json($arr, 200);
                 }
@@ -1148,7 +1148,7 @@ class AuthController extends Controller
                 if ($email >= 1) {
                     $arr['status'] = 0;
                     $arr['message'] = 'Mobile already exist.!!';
-                    $arr['data'] = NULL;
+                    // $arr['data'] = NULL;
 
                     return response()->json($arr, 200);
                 }
@@ -1164,12 +1164,12 @@ class AuthController extends Controller
             } else {
                 $arr['status'] = 0;
                 $arr['message'] = 'Try Again';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
             }
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = $e->getMessage();
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
 
         return response()->json($arr, 200);
@@ -1211,7 +1211,7 @@ class AuthController extends Controller
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'Something went wrong';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -1253,7 +1253,7 @@ class AuthController extends Controller
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'Something went wrong';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -1322,14 +1322,14 @@ class AuthController extends Controller
             } else {
                 $arr['status'] = 0;
                 $arr['message'] = 'User not found';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
                 return response()->json($arr, 404);
             }
         } catch (\Exception $e) {
 
             $arr['status'] = 0;
             $arr['message'] = 'something went wrong';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
 
             return response()->json($arr, 500);
         }
@@ -1349,7 +1349,7 @@ class AuthController extends Controller
         if ($validate->fails()) {
             $arr['status'] = 0;
             $arr['message'] = $validate->errors()->first();
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
             return response()->json($arr, 422);
         }
 
@@ -1358,18 +1358,18 @@ class AuthController extends Controller
             if ($user) {
                 $arr['status'] = 1;
                 $arr['message'] = 'Success';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
                 return response()->json($arr, 200);
             } else {
                 $arr['status'] = 0;
                 $arr['message'] = 'Try Again';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
                 return response()->json($arr, 404);
             }
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'something went wrong';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
             return response()->json($arr, 500);
         }
     }
@@ -1389,7 +1389,7 @@ class AuthController extends Controller
         //     if ($validate->fails()) {
         //         $arr['status'] = 0;
         //         $arr['message'] = $validate->errors()->first();
-        //         $arr['data'] = NULL;
+                $arr['data'] = NULL;
         //         return response()->json($arr, 422);
         //     }
 
@@ -1409,13 +1409,13 @@ class AuthController extends Controller
             } else {
                 $arr['status'] = 0;
                 $arr['message'] = 'Try Again';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
                 return response()->json($arr, 404);
             }
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'something went wrong';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
             return response()->json($arr, 500);
         }
     }
@@ -1441,13 +1441,13 @@ class AuthController extends Controller
             } else {
                 $arr['status'] = 'Try Again';
                 $arr['message'] = 'Try Again';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
                 return response()->json($arr, 404);
             }
         } catch (\Exception $e) {
             $arr['status'] = 'something went wrong';
             $arr['message'] = 'something went wrong';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
             return response()->json($arr, 500);
         }
     }
@@ -1489,13 +1489,13 @@ class AuthController extends Controller
             } else {
                 $arr['status'] = 'Try Again';
                 $arr['message'] = 'Try Again';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
                 return response()->json($arr, 404);
             }
         } catch (\Exception $e) {
             $arr['status'] = 'something went wrong';
             $arr['message'] = 'something went wrong';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
             return response()->json($arr, 500);
         }
     }
@@ -1533,7 +1533,7 @@ class AuthController extends Controller
         } catch (\Exception $e) {
             $arr['status'] = 'Error';
             $arr['message'] = $e->getMessage();
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
             return response()->json($arr, 500);
         }
     }
