@@ -941,19 +941,27 @@ class ApiController extends Controller
                 ->join('users as u', 'u.id', 'o.user_id')
                 ->join('users as d', 'd.id', 'o.driver_id')
                 ->where('o.user_id', Auth::id())
+
                 // ->whereIn('o.status', ['1', '2', '3', '4', '5', '6'])
                 // ->whe
 
                 ->where('o.status', '3')->orWhere('o.status', '2')->orWhere('o.status', '5')->orWhere('o.status', '6')->orWhere('o.status', '4')->orWhere('o.status', '1')
-                ->orderBy('o.created_at', 'desc') // Order by creation date in descending order
+                ->orderBy('o.created_at', 'asc') // Order by creation date in descending order
+                // ->orderBy('o.created_at', 'desc') // Order by creation date in descending order
                 ->first();
 
 
             if ($order_request) {
 
                 $driver = DB::table('users')->where('id', $order_request->driver_id)->where('type', 2)->first();
-                $vehicledetails = DB::table('vehicle_details')->where('user_id', $driver->id)->first();
-                $driver->vehicledetails = $vehicledetails;
+                if ($driver) {
+                    $vehicledetails = DB::table('vehicle_details')->where('user_id', $driver->id)->first();
+                    $driver->vehicledetails = $vehicledetails;
+                } else {
+                    $driver = null;
+                }
+                // $vehicledetails = DB::table('vehicle_details')->where('user_id', $driver->id)->first();
+                // $driver->vehicledetails = $vehicledetails;
                 $data = [
                     'id' => $order_request->id,
                     'display_name' => $order_request->user_name,

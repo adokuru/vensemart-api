@@ -413,7 +413,7 @@ class Controller extends BaseController
             // }
             // if no rider is available
             // if (!$riders) throw new \Exception('No Rider Available for this order');
-            if(!$riders) return $this->sendError('No Rider Available for this order at the moment', [], 400);
+            if (!$riders) return $this->sendError('No Rider Available for this order at the moment', [], 400);
 
             // Create a database for delivery request status
             $DeliveryRequestStatus1 = DeliveryRequestStatus::where('order_id', $order->id)->where('delivery_status', 0)->get();
@@ -499,6 +499,7 @@ class Controller extends BaseController
                     $this->sendSMSMessage("234" . substr($rider->mobile, -10), $data['body']);
 
                     // Orders::where('order_id', $orderID)->update(['driver_id' => (int)$rider->id, 'status' => 2,]);
+                    // Orders::where('order_id', $orderID)->update(['status' => 2,]);
                     // send notification to rider 
 
                     // $this->addUserWallet($rider->id, 1500);
@@ -507,9 +508,6 @@ class Controller extends BaseController
                     return $this->sendResponse('Rider requested successfully', $order);
                 }
             }
-
-
-           
         } catch (\Exception $e) {
             Log::error($e);
             throw new \Exception($e->getMessage());
