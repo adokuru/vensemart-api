@@ -1069,11 +1069,11 @@ class ApiController extends Controller
 
         $data = $request->all();
 
-        // $orders = DB::table('orders')->where('id', $id)->first();
-        // $ride_request = DB::table('ride_requests')->where('id', $orders->ride_request_id)->first();
-        $orders = Orders::find($id);
+        $orders = DB::table('orders')->where('id', $id)->first();
+        $ride_request = DB::table('ride_requests')->where('id', $orders->ride_request_id)->first();
+        // $orders = Orders::find($id);
 
-        $ride_request = RideRequest::find($orders->ride_request_id);
+        // $ride_request = RideRequest::find($orders->ride_request_id);
 
         // dd($request->all(), $id, $orders, $ride_request);
         // $order = DB::table('orders')->where('id', $id)->first();
@@ -1105,9 +1105,6 @@ class ApiController extends Controller
             ->join('users as u', 'u.id', 'o.user_id')
             ->join('users as d', 'd.id', 'o.driver_id')
             ->where('o.id', $id)
-
-
-
             ->orderBy('o.created_at', 'desc') // Order by creation date in descending order
             ->first();
 
