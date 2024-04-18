@@ -886,7 +886,7 @@ class ApiController extends Controller
             $order = DB::table('orders')->where('order_id', $orderIdd)->first();
 
             // update ride request table with order id
-            DB::table('ride_requests')->where('id', $result2)->update(['order_id' => $order->id]);
+            DB::table('ride_requests')->where('id', $result2)->update(['order_id' => $order->id, 'rider_id' => $user_id]);
 
             $arr['status'] = 1;
             $arr['message'] = 'Ride Request Placed Successfully';
@@ -946,9 +946,75 @@ class ApiController extends Controller
                 // ->whe
 
                 ->where('o.status', '3')->orWhere('o.status', '2')->orWhere('o.status', '5')->orWhere('o.status', '6')->orWhere('o.status', '4')->orWhere('o.status', '1')
-                ->orderBy('o.created_at', 'asc') // Order by creation date in descending order
-                // ->orderBy('o.created_at', 'desc') // Order by creation date in descending order
+                ->orderBy('o.created_at', 'desc') // Order by creation date in descending order
                 ->first();
+
+
+            $ride_request =
+                DB::table('ride_requests')->select(
+                    'o.*',
+                    'r.*',
+                    'u.name as user_name',
+                    'u.mobile as user_phone',
+                    'u.email as user_email',
+                    'u.profile as user_image',
+                    'u.type as user_type',
+                    'u.status as user_status',
+                    'd.id as driver_id',
+                    'd.location_lat as driver_lat',
+                    'd.location_long as driver_long',
+                    'd.name as driver_name',
+                    'd.type as driver_type',
+                    'd.mobile as driver_phone',
+                    'd.status as driver_status',
+                    'd.is_online as driver_online',
+                    'd.created_at as driver_created_at',
+                    'd.updated_at as driver_updated_at',
+                    'd.email as driver_email',
+                    'd.profile as driver_image',
+                )
+                ->join('orders as o', 'o.id', 'o.order_id')
+                ->join('users as u', 'u.id', 'o.user_id')
+                ->join('users as d', 'd.id', 'o.driver_id')
+                ->where('r.rider_id', Auth::id())
+                ->where('r.driver_id', '!=', null)
+                ->whereNotIn('status', ['canceled', 'completed'])
+                ->first();
+            $on_ride_request =
+                DB::table('ride_requests')->select(
+                    'o.*',
+                    'r.*',
+                    'u.name as user_name',
+                    'u.mobile as user_phone',
+                    'u.email as user_email',
+                    'u.profile as user_image',
+                    'u.type as user_type',
+                    'u.status as user_status',
+                    'd.id as driver_id',
+                    'd.location_lat as driver_lat',
+                    'd.location_long as driver_long',
+                    'd.name as driver_name',
+                    'd.type as driver_type',
+                    'd.mobile as driver_phone',
+                    'd.status as driver_status',
+                    'd.is_online as driver_online',
+                    'd.created_at as driver_created_at',
+                    'd.updated_at as driver_updated_at',
+                    'd.email as driver_email',
+                    'd.profile as driver_image',
+                )
+                ->join('orders as o', 'o.id', 'o.order_id')
+                ->join('users as u', 'u.id', 'o.user_id')
+                ->join('users as d', 'd.id', 'o.driver_id')
+                ->where('r.rider_id', Auth::id())
+                ->where('r.driver_id', '!=', null)
+                ->whereNotIn('status', ['canceled'])
+                ->first();
+
+            dd($order_request, $ride_request, $on_ride_request);
+
+
+
 
 
             if ($order_request) {
