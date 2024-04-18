@@ -811,8 +811,8 @@ class ApiController extends Controller
                     return response()->json([
                         'status' => 0,
                         'message' => 'Insufficient Balance',
-                        'data' => null,
-                    ], 500);
+                        // 'data' => null,
+                    ], 200);
                 }
             }
 
