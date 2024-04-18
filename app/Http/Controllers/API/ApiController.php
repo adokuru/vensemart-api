@@ -974,7 +974,7 @@ class ApiController extends Controller
                 // ->join('users as d', 'd.id', 'o.driver_id')
                 ->where('r.rider_id', Auth::id())
                 ->where('r.driver_id', null)
-                ->whereNotIn('r.status', ['canceled', 'completed'])
+                ->whereNotIn('r.status', ['cancelled', 'completed'])
                 ->orderBy('r.created_at', 'desc') // Order by creation date in descending order
                 ->first();
 
@@ -1006,7 +1006,7 @@ class ApiController extends Controller
                 ->join('users as d', 'd.id', 'o.driver_id')
                 ->where('r.rider_id', Auth::id())
                 ->where('r.driver_id', '!=', null)
-                ->whereNotIn('r.status', ['canceled'])
+                ->whereNotIn('r.status', ['cancelled'])
                 ->first();
 
             $user = DB::table('users')->where('id', $user_id)->first();
@@ -1090,7 +1090,7 @@ class ApiController extends Controller
             // ->join('users as d', 'd.id', 'o.driver_id')
             ->where('r.rider_id', Auth::id())
             ->where('r.driver_id', null)
-            ->whereNotIn('r.status', ['canceled', 'completed'])
+            ->whereNotIn('r.status', ['cancelled', 'completed'])
             ->orderBy('r.created_at', 'desc') // Order by creation date in descending order
             ->first();
 
@@ -1122,7 +1122,7 @@ class ApiController extends Controller
             ->join('users as d', 'd.id', 'o.driver_id')
             ->where('r.rider_id', Auth::id())
             ->where('r.driver_id', '!=', null)
-            ->whereNotIn('r.status', ['canceled'])
+            ->whereNotIn('r.status', ['cancelled'])
             ->first();
 
 
