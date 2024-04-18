@@ -347,7 +347,7 @@ class DeliveryRiderController extends Controller
                 ->leftJoin('users as ua', 'ua.id', 'o.user_id')
                 ->leftJoin('ride_requests as rr', 'rr.id', 'o.ride_request_id') // Join the ride_request table
                 // ->where('o.driver_id', Auth::id())
-                ->whereNotIn('r.status', ['cancelled', 'completed'])
+                ->whereNotIn('rr.status', ['cancelled', 'completed'])
 
                 ->whereIn('o.status', ['1', '2', '3']) // Use whereIn to check for multiple statuses
                 ->get();
