@@ -1054,9 +1054,9 @@ class ApiController extends Controller
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'Sorry!! Something Went Wrong';
+            return response()->json($arr, 400);
             // $arr['data'] = NULL;
         }
-        return response()->json($arr, 200);
     }
 
     // update order request
