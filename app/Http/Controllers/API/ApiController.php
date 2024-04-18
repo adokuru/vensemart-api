@@ -876,7 +876,7 @@ class ApiController extends Controller
             //     // Return success response
             //     $arr['status'] = 0;
             //     $arr['message'] = 'No Riders available at the moment';
-                // $arr['data'] = NULL;
+            // $arr['data'] = NULL;
             //     return response()->json($arr, 200);
             // }
 
@@ -941,8 +941,10 @@ class ApiController extends Controller
                 ->join('users as u', 'u.id', 'o.user_id')
                 ->join('users as d', 'd.id', 'o.driver_id')
                 ->where('o.user_id', Auth::id())
-                 ->whereIn('o.status', ['1', '2', '3', '4', '5', '6'])
-                // ->where('o.status', '3')->orWhere('o.status', '2')->orWhere('o.status', '5')->orWhere('o.status', '6')->orWhere('o.status', '4')
+                // ->whereIn('o.status', ['1', '2', '3', '4', '5', '6'])
+                // ->whe
+
+                ->where('o.status', '3')->orWhere('o.status', '2')->orWhere('o.status', '5')->orWhere('o.status', '6')->orWhere('o.status', '4')->orWhere('o.status', '1')
                 ->orderBy('o.created_at', 'desc') // Order by creation date in descending order
                 ->first();
 
@@ -1122,7 +1124,7 @@ class ApiController extends Controller
             //  else {
             //     $arr['status'] = 0;
             //     $arr['message'] = 'Sorry!! Something Went Wrong';
-                // $arr['data'] = NULL;
+            // $arr['data'] = NULL;
             //     return response()->json($arr, 200);
             // }
         } catch (\Exception $e) {
@@ -2887,12 +2889,12 @@ class ApiController extends Controller
     //             ]);
     //             $arr['status'] = 0;
     //             $arr['message'] = 'No Data Found';
-                // $arr['data'] = NULL;
+    // $arr['data'] = NULL;
     //         }
     //     } catch (\Exception $e) {
     //         $arr['status'] = 0;
     //         $arr['message'] = 'Sorry!! Something Went Wrong';
-            // $arr['data'] = NULL;
+    // $arr['data'] = NULL;
     //     }
     //     return response()->json($arr, 200);
     // }
