@@ -913,7 +913,7 @@ class ApiController extends Controller
     public function get_order_request()
     {
         $user_id = Auth::id();
-        try {
+        // try {
             $order_request = DB::table('orders as o')
                 ->select(
                     'o.*',
@@ -1048,11 +1048,11 @@ class ApiController extends Controller
                 $arr['message'] = 'No Order Request Found';
                 // $arr['data'] = NULL;
             }
-        } catch (\Exception $e) {
-            $arr['status'] = 0;
-            $arr['message'] = 'Sorry!! Something Went Wrong';
-            // $arr['data'] = NULL;
-        }
+        // } catch (\Exception $e) {
+        //     $arr['status'] = 0;
+        //     $arr['message'] = 'Sorry!! Something Went Wrong';
+        //     // $arr['data'] = NULL;
+        // }
         return response()->json($arr, 200);
     }
 

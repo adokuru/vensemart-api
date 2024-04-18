@@ -563,7 +563,7 @@ class DeliveryRiderController extends Controller
             Orders::where('id', $orderid)->update(['status' => "3", 'driver_id' => $driverId]);
 
             if ($order->ride_request_id != null) {
-                DB::table('ride_requests')->where('id', $order->ride_request_id)->update(['status' => "accepted"]);
+                DB::table('ride_requests')->where('id', $order->ride_request_id)->update(['status' => "accepted", 'driver_id' => $driverId]);
             }
 
             // $order_request = DB::table('orders as o')
