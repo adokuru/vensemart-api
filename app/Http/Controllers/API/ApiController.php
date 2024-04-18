@@ -976,7 +976,6 @@ class ApiController extends Controller
                 ->where('r.driver_id', null)
                 ->whereNotIn('r.status', ['canceled', 'completed'])
                 ->orderBy('r.created_at', 'desc') // Order by creation date in descending order
-
                 ->first();
 
             $on_ride_request =
@@ -1076,16 +1075,36 @@ class ApiController extends Controller
         // $ride_request = RideRequest::find($orders->ride_request_id);
 
         // dd($request->all(), $id, $orders, $ride_request);
-        // $order = DB::table('orders')->where('id', $id)->first();
-        // $ride_request = DB::table('ride_requests')->where('id', $order->ride_request_id)->get();
-        $order_request = DB::table('orders as o')
-            ->select(
+        $ride_request =
+            DB::table('ride_requests as r')->select(
                 'o.*',
                 'r.*',
                 'u.name as user_name',
                 'u.mobile as user_phone',
                 'u.email as user_email',
-                'u.id as user_id',
+                'u.profile as user_image',
+                'u.type as user_type',
+                'u.status as user_status',
+                         )
+            ->join('orders as o', 'o.id', 'r.order_id')
+            ->join('users as u', 'u.id', 'o.user_id')
+            // ->join('users as d', 'd.id', 'o.driver_id')
+            ->where('r.rider_id', Auth::id())
+            ->where('r.driver_id', null)
+            ->whereNotIn('r.status', ['canceled', 'completed'])
+            ->orderBy('r.created_at', 'desc') // Order by creation date in descending order
+            ->first();
+       
+        $on_ride_request =
+            DB::table('ride_requests as r')->select(
+                'o.*',
+                'r.*',
+                'u.name as user_name',
+                'u.mobile as user_phone',
+                'u.email as user_email',
+                'u.profile as user_image',
+                'u.type as user_type',
+                'u.status as user_status',
                 'd.id as driver_id',
                 'd.location_lat as driver_lat',
                 'd.location_long as driver_long',
@@ -1098,135 +1117,146 @@ class ApiController extends Controller
                 'd.updated_at as driver_updated_at',
                 'd.email as driver_email',
                 'd.profile as driver_image',
-
-
             )
-            ->join('ride_requests as r', 'r.id', 'o.ride_request_id')
+            ->join('orders as o', 'o.id', 'r.order_id')
             ->join('users as u', 'u.id', 'o.user_id')
             ->join('users as d', 'd.id', 'o.driver_id')
-            ->where('o.id', $id)
-            ->orderBy('o.created_at', 'desc') // Order by creation date in descending order
+            ->where('r.rider_id', Auth::id())
+            ->where('r.driver_id', '!=', null)
+            ->whereNotIn('r.status', ['canceled'])
             ->first();
 
-        try {
+        // try {
 
-            // check if the request status is cancelled and cancel the ride request and order
-            if ($request->status == "cancelled") {
-                $ride_request->status = $request->status;
-                $ride_request->reason = $request->reason;
-                $ride_request->cancel_by = $request->cancel_by;
-                $ride_request->save();
+        // check if the request status is cancelled and cancel the ride request and order
+        if ($request->status == "cancelled") {
+            $ride_request->status = $request->status;
+            $ride_request->reason = $request->reason;
+            $ride_request->cancel_by = $request->cancel_by;
+            $ride_request->save();
 
-                // $orders->update(['status' => 5]);
+            // $orders->update(['status' => 5]);
 
-                $cancel =
-                    $request->cancel_by == "auto" || $request->cancel_by == "user" ? 1 : 2;
+            $cancel =
+                $request->cancel_by == "auto" || $request->cancel_by == "user" ? 1 : 2;
 
-                $orders->update([
-                    'status' => 7,
-                    'cancel_reason' => $request->reason,
-                    'cancel_by' => $cancel,
+            $orders->update([
+                'status' => 7,
+                'cancel_reason' => $request->reason,
+                'cancel_by' => $cancel,
 
-                ]);
+            ]);
 
-                // check if theres a driver assigned to the order
-                if ($orders->driver_id) {
-                    // send notification to the driver
-                    $this->sendNotification($orders->driver_id, "Order Cancelled", "Order Cancelled by " . $request->cancel_by);
-                }
-
-                // check if theres any other order request and cancel them
-                $pending_orders = DB::table('orders')->where('user_id', $user_id)
-                    ->where('status', 2)
-                    ->orWhere('status', 3)
-                    ->orWhere('status', 1)
-                    ->orWhere('status', 5)
-                    ->orWhere('status', 6)
-                    ->get();
-                if ($pending_orders->count() > 0) {
-                    foreach ($pending_orders as $order) {
-                        // dd($order);
-                        // $ride_request = DB::table('ride_requests')->where('id', $order->ride_request_id)->first();
-                        $ride_request = RideRequest::find($order->ride_request_id);
-                        // dd($ride_request);
-                        $ride_request->status = "cancelled";
-                        $ride_request->reason = $request->reason;
-                        $ride_request->cancel_by = $request->cancel_by;
-
-                        $ride_request->save();
-
-                        $order = Orders::find($order->id);
-                        $order->status = 7;
-                        $order->cancel_reason = $request->reason;
-                        $order->cancel_by = $cancel;
-                        $order->save();
-                        // $order->status = 7;
-                        // $order->cancel_reason = $request->reason;
-                        // $order->cancel_by = $cancel;
-                        // $order->save();
-                        // $order->update(['status' => 7]);
-                    }
-                }
-
-                $arr['status'] = 1;
-                $arr['message'] = 'Order Request Cancelled Successfully';
-                // $arr['data'] = ;
-                return response()->json($arr, 200);
-            } else if ($orders->status == 3 && $ride_request->status == "accepted" || $orders->status == 5 && $ride_request->status == "picking_up" || $orders->status == 6 && $ride_request->status == "in_progress") {
-                $driver = DB::table('users')->where('id', $orders->driver_id)->where('type', 2)->first();
-                $vehicledetails = DB::table('vehicle_details')->where('user_id', $driver->id)->first();
-                $driver->vehicledetails = $vehicledetails;
-
-                $data = [
-                    'on_ride_request' => $order_request,
-                    'driver' => $driver,
-                ];
-
-
-
-                // $history_data = [
-                //     'history_type'      => $order_request->status,
-                //     'ride_request_id'   => $id,
-                //     'ride_request'      => $ride_request,
-                // ];
-
-                // // $this->get_order_request();
-
-                // $this->saveRideHistory($history_data);
-
-
-                $arr['status'] = 1;
-                $arr['message'] = 'Order Request in Progress';
-                $arr['data'] = $data;
-                return response()->json($arr, 200);
-            } else if ($orders->status == 2 && $ride_request->status == "new_ride_requested") {
-                $driver = DB::table('users')->where('id', $orders->driver_id)->where('type', 2)->first();
-                $vehicledetails = DB::table('vehicle_details')->where('user_id', $driver->id)->first();
-                $driver->vehicledetails = $vehicledetails;
-
-                $data = [
-                    'on_ride_request' => $order_request,
-                    'driver' => $driver,
-                ];
-
-
-                $arr['status'] = 1;
-                $arr['message'] = 'Order Awaiting Rider Acceptance';
-                $arr['data'] = $data;
-                return response()->json($arr, 200);
+            // check if theres a driver assigned to the order
+            if ($orders->driver_id) {
+                // send notification to the driver
+                $this->sendNotification($orders->driver_id, "Order Cancelled", "Order Cancelled by " . $request->cancel_by);
             }
-            //  else {
-            //     $arr['status'] = 0;
-            //     $arr['message'] = 'Sorry!! Something Went Wrong';
-            // $arr['data'] = NULL;
-            //     return response()->json($arr, 200);
-            // }
-        } catch (\Exception $e) {
-            $arr['status'] = 0;
-            $arr['message'] = 'Sorry!! Something Went Wrong';
-            // $arr['data'] = NULL;
+
+            // check if theres any other order request and cancel them
+            $pending_orders = DB::table('orders')->where('user_id', $user_id)
+                ->where('status', 2)
+                ->orWhere('status', 3)
+                ->orWhere('status', 1)
+                ->orWhere('status', 5)
+                ->orWhere('status', 6)
+                ->get();
+            if ($pending_orders->count() > 0) {
+                foreach ($pending_orders as $order) {
+                    // dd($order);
+                    // $ride_request = DB::table('ride_requests')->where('id', $order->ride_request_id)->first();
+                    $ride_request = RideRequest::find($order->ride_request_id);
+                    // dd($ride_request);
+                    $ride_request->status = "cancelled";
+                    $ride_request->reason = $request->reason;
+                    $ride_request->cancel_by = $request->cancel_by;
+
+                    $ride_request->save();
+
+                    $order = Orders::find($order->id);
+                    $order->status = 7;
+                    $order->cancel_reason = $request->reason;
+                    $order->cancel_by = $cancel;
+                    $order->save();
+                    // $order->status = 7;
+                    // $order->cancel_reason = $request->reason;
+                    // $order->cancel_by = $cancel;
+                    // $order->save();
+                    // $order->update(['status' => 7]);
+                }
+            }
+
+            $arr['status'] = 1;
+            $arr['message'] = 'Order Request Cancelled Successfully';
+            // $arr['data'] = ;
+            return response()->json($arr, 200);
+        } else if ($orders->status == 3 && $ride_request->status == "accepted" || $orders->status == 5 && $ride_request->status == "picking_up" || $orders->status == 6 && $ride_request->status == "in_progress") {
+
+            $driver = User::find($ride_request->driver_id);
+            // dd($driver);
+            if ($driver) {
+                $vehicledetails = DB::table('vehicle_details')->where('user_id', $driver->id)->first();
+                $driver->vehicledetails = $vehicledetails;
+            } else {
+                $driver = null;
+            }
+
+            $data = [
+                'on_ride_request' => $on_ride_request,
+                'driver' => $driver,
+            ];
+
+
+
+            // $history_data = [
+            //     'history_type'      => $order_request->status,
+            //     'ride_request_id'   => $id,
+            //     'ride_request'      => $ride_request,
+            // ];
+
+            // // $this->get_order_request();
+
+            // $this->saveRideHistory($history_data);
+
+
+            $arr['status'] = 1;
+            $arr['message'] = 'Order Request in Progress';
+            $arr['data'] = $data;
+            return response()->json($arr, 200);
+        } else if ($orders->status == 2 && $ride_request->status == "new_ride_requested") {
+
+            $driver = User::find($ride_request->driver_id);
+            // dd($driver);
+            if ($driver) {
+                $vehicledetails = DB::table('vehicle_details')->where('user_id', $driver->id)->first();
+                $driver->vehicledetails = $vehicledetails;
+            } else {
+                $driver = null;
+            }
+
+            $data = [
+                'on_ride_request' => $ride_request,
+                'driver' => $driver,
+            ];
+
+
+            $arr['status'] = 1;
+            $arr['message'] = 'Order Awaiting Rider Acceptance';
+            $arr['data'] = $data;
+            return response()->json($arr, 200);
         }
-        return response()->json($arr, 200);
+        //  else {
+        //     $arr['status'] = 0;
+        //     $arr['message'] = 'Sorry!! Something Went Wrong';
+        // $arr['data'] = NULL;
+        //     return response()->json($arr, 200);
+        // }
+        // } catch (\Exception $e) {
+        //     $arr['status'] = 0;
+        //     $arr['message'] = 'Sorry!! Something Went Wrong';
+        //     // $arr['data'] = NULL;
+        //     return response()->json($arr, 400);
+        // }
     }
 
 
