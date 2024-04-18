@@ -951,7 +951,7 @@ class ApiController extends Controller
 
 
             $ride_request =
-                DB::table('ride_requests')->select(
+                DB::table('ride_requests as r')->select(
                     'o.*',
                     'r.*',
                     'u.name as user_name',
@@ -981,7 +981,7 @@ class ApiController extends Controller
                 ->whereNotIn('status', ['canceled', 'completed'])
                 ->first();
             $on_ride_request =
-                DB::table('ride_requests')->select(
+                DB::table('ride_requests as r')->select(
                     'o.*',
                     'r.*',
                     'u.name as user_name',
