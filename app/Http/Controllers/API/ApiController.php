@@ -804,6 +804,16 @@ class ApiController extends Controller
 
             $total_amount = $net_amount + $request->delivery_charge + $taxes;
 
+            $my_wallet = MyWallet::where('user_id', $user_id)->first();
+
+            if ($my_wallet->balance < $total_amount) {
+                return response()->json([
+                    'status' => 0,
+                    'message' => 'Insufficient Balance for this transaction. Please top up your wallet and try again. or select cash payment.',
+                    // 'data' => null,
+                ], 400);
+            }
+
 
 
             $ride_data['start_latitude'] = $request->start_latitude;
@@ -913,152 +923,145 @@ class ApiController extends Controller
     public function get_order_request()
     {
         $user_id = Auth::id();
-        try {
-            // $order_request = DB::table('orders as o')
-            //     ->select(
-            //         'o.*',
-            //         'r.*',
-            //         'u.name as user_name',
-            //         'u.mobile as user_phone',
-            //         'u.email as user_email',
-            //         'u.profile as user_image',
-            //         'u.type as user_type',
-            //         'u.status as user_status',
-            //         // 'd.id as driver_id',
-            //         // 'd.location_lat as driver_lat',
-            //         // 'd.location_long as driver_long',
-            //         // 'd.name as driver_name',
-            //         // 'd.type as driver_type',
-            //         // 'd.mobile as driver_phone',
-            //         // 'd.status as driver_status',
-            //         // 'd.is_online as driver_online',
-            //         // 'd.created_at as driver_created_at',
-            //         // 'd.updated_at as driver_updated_at',
-            //         // 'd.email as driver_email',
-            //         // 'd.profile as driver_image',
-            //     )
-            //     ->join('ride_requests as r', 'r.id', 'o.ride_request_id')
-            //     ->join('users as u', 'u.id', 'o.user_id')
-            //     // ->join('users as d', 'd.id', 'o.driver_id')
-            //     ->where('o.user_id', Auth::id())
-            //     ->where('o.status', '1')->orWhere('o.status', '2')->orWhere('o.status', '3')->orWhere('o.status', '5')->orWhere('o.status', '6')->orWhere('o.status', '4')
-            //     ->orderBy('o.created_at', 'desc') // Order by creation date in descending order
-            //     ->first();
+        // try {
+        // $order_request = DB::table('orders as o')
+        //     ->select(
+        //         'o.*',
+        //         'r.*',
+        //         'u.name as user_name',
+        //         'u.mobile as user_phone',
+        //         'u.email as user_email',
+        //         'u.profile as user_image',
+        //         'u.type as user_type',
+        //         'u.status as user_status',
+        //         // 'd.id as driver_id',
+        //         // 'd.location_lat as driver_lat',
+        //         // 'd.location_long as driver_long',
+        //         // 'd.name as driver_name',
+        //         // 'd.type as driver_type',
+        //         // 'd.mobile as driver_phone',
+        //         // 'd.status as driver_status',
+        //         // 'd.is_online as driver_online',
+        //         // 'd.created_at as driver_created_at',
+        //         // 'd.updated_at as driver_updated_at',
+        //         // 'd.email as driver_email',
+        //         // 'd.profile as driver_image',
+        //     )
+        //     ->join('ride_requests as r', 'r.id', 'o.ride_request_id')
+        //     ->join('users as u', 'u.id', 'o.user_id')
+        //     // ->join('users as d', 'd.id', 'o.driver_id')
+        //     ->where('o.user_id', Auth::id())
+        //     ->where('o.status', '1')->orWhere('o.status', '2')->orWhere('o.status', '3')->orWhere('o.status', '5')->orWhere('o.status', '6')->orWhere('o.status', '4')
+        //     ->orderBy('o.created_at', 'desc') // Order by creation date in descending order
+        //     ->first();
 
 
-            $ride_request =
-                DB::table('ride_requests as r')->select(
-                    'o.*',
-                    'r.*',
-                    'u.name as user_name',
-                    'u.mobile as user_phone',
-                    'u.email as user_email',
-                    'u.profile as user_image',
-                    'u.type as user_type',
-                    'u.status as user_status',
-                    // 'd.id as driver_id',
-                    // 'd.location_lat as driver_lat',
-                    // 'd.location_long as driver_long',
-                    // 'd.name as driver_name',
-                    // 'd.type as driver_type',
-                    // 'd.mobile as driver_phone',
-                    // 'd.status as driver_status',
-                    // 'd.is_online as driver_online',
-                    // 'd.created_at as driver_created_at',
-                    // 'd.updated_at as driver_updated_at',
-                    // 'd.email as driver_email',
-                    // 'd.profile as driver_image',
-                )
-                ->join('orders as o', 'o.id', 'r.order_id')
-                ->join('users as u', 'u.id', 'o.user_id')
-                // ->join('users as d', 'd.id', 'o.driver_id')
-                ->where('r.rider_id', Auth::id())
-                ->where('r.driver_id', null)
-                ->whereNotIn('r.status', ['cancelled', 'completed'])
-                ->orderBy('r.created_at', 'desc') // Order by creation date in descending order
-                ->first();
+        $ride_request =
+            DB::table('ride_requests as r')->select(
+                'o.*',
+                'r.*',
+                'u.name as user_name',
+                'u.mobile as user_phone',
+                'u.email as user_email',
+                'u.profile as user_image',
+                'u.type as user_type',
+                'u.status as user_status',
+                // 'd.id as driver_id',
+                // 'd.location_lat as driver_lat',
+                // 'd.location_long as driver_long',
+                // 'd.name as driver_name',
+                // 'd.type as driver_type',
+                // 'd.mobile as driver_phone',
+                // 'd.status as driver_status',
+                // 'd.is_online as driver_online',
+                // 'd.created_at as driver_created_at',
+                // 'd.updated_at as driver_updated_at',
+                // 'd.email as driver_email',
+                // 'd.profile as driver_image',
+            )
+            ->join('orders as o', 'o.id', 'r.order_id')
+            ->join('users as u', 'u.id', 'o.user_id')
+            // ->join('users as d', 'd.id', 'o.driver_id')
+            ->where('r.rider_id', Auth::id())
+            ->where('r.driver_id', null)
+            ->whereNotIn('r.status', ['cancelled', 'completed'])
+            ->orderBy('r.created_at', 'desc') // Order by creation date in descending order
+            ->first();
 
-            $on_ride_request =
-                DB::table('ride_requests as r')->select(
-                    'o.*',
-                    'r.*',
-                    'u.name as user_name',
-                    'u.mobile as user_phone',
-                    'u.email as user_email',
-                    'u.profile as user_image',
-                    'u.type as user_type',
-                    'u.status as user_status',
-                    'd.id as driver_id',
-                    'd.location_lat as driver_lat',
-                    'd.location_long as driver_long',
-                    'd.name as driver_name',
-                    'd.type as driver_type',
-                    'd.mobile as driver_phone',
-                    'd.status as driver_status',
-                    'd.is_online as driver_online',
-                    'd.created_at as driver_created_at',
-                    'd.updated_at as driver_updated_at',
-                    'd.email as driver_email',
-                    'd.profile as driver_image',
-                )
-                ->join('orders as o', 'o.id', 'r.order_id')
-                ->join('users as u', 'u.id', 'o.user_id')
-                ->join('users as d', 'd.id', 'o.driver_id')
-                ->where('r.rider_id', Auth::id())
-                ->where('r.driver_id', '!=', null)
-                ->whereNotIn('r.status', ['cancelled'])
-                ->first();
+        $on_ride_request =
+            DB::table('ride_requests as r')->select(
+                'o.*',
+                'r.*',
+                'u.name as user_name',
+                'u.mobile as user_phone',
+                'u.email as user_email',
+                'u.profile as user_image',
+                'u.type as user_type',
+                'u.status as user_status',
 
-            $user = DB::table('users')->where('id', $user_id)->first();
+            )
+            ->join('orders as o', 'o.id', 'r.order_id')
+            ->join('users as u', 'u.id', 'o.user_id')
+            ->join('users as d', 'd.id', 'o.driver_id')
+            ->where('r.rider_id', Auth::id())
+            ->where('r.driver_id', '!=', null)
+            ->whereNotIn('r.status', ['cancelled'])
+            ->first();
 
-            // dd($ride_request, $on_ride_request);
+        $user = DB::table('users')->where('id', $user_id)->first();
+
+        // dd($ride_request, $on_ride_request);
 
 
 
 
 
-            // if ($order_request) {
+        // if ($order_request) {
+        if ($on_ride_request != null) {
 
-            $driver = User::find($ride_request->driver_id);
-            // dd($driver);
+            $driver = User::find($on_ride_request->driver_id);
             if ($driver) {
                 $vehicledetails = DB::table('vehicle_details')->where('user_id', $driver->id)->first();
                 $driver->vehicledetails = $vehicledetails;
             } else {
                 $driver = null;
             }
-            // $vehicledetails = DB::table('vehicle_details')->where('user_id', $driver->id)->first();
-            // $driver->vehicledetails = $vehicledetails;
-            $data = [
-                'id' => $user->id,
-                'display_name' => $user->name,
-                'email' => $user->email,
-                'user_type' => $user->type,
-                'profile_image' => $user->profile,
-                'status' => $ride_request != null ? $ride_request->status : $on_ride_request->status,
-                // 'status' => $order_request->status,
-                'ride_request' => $ride_request,
-                'on_ride_request' => $on_ride_request,
-                'driver' => $driver,
-            ];
-            $arr['status'] = 1;
-            $arr['message'] = 'Order Request Found Successfully';
-            $arr['data'] = $data;
-
-            return response()->json($data, 200);
-
-            // } else if ($on_ride_request) {
-            // else if ($order_request == "cancelled") {
-            //     $arr['status'] = 0;
-            //     $arr['message'] = 'No Order Request Found';
-            //     // $arr['data'] = NULL;
-            // }
-        } catch (\Exception $e) {
-            $arr['status'] = 0;
-            $arr['message'] = 'Sorry!! Something Went Wrong';
-            return response()->json($arr, 400);
-            // $arr['data'] = NULL;
+        } else {
+            $driver = null;
         }
+
+        // $vehicledetails = DB::table('vehicle_details')->where('user_id', $driver->id)->first();
+        // $driver->vehicledetails = $vehicledetails;
+        $data = [
+            'id' => $user->id,
+            'display_name' => $user->name,
+            'email' => $user->email,
+            'user_type' => $user->type,
+            'profile_image' => $user->profile,
+            'status' => $ride_request != null ? $ride_request->status : $on_ride_request->status,
+            // 'status' => $order_request->status,
+            'ride_request' => $ride_request,
+            'on_ride_request' => $on_ride_request,
+            'driver' => $driver,
+        ];
+        $arr['status'] = 1;
+        $arr['message'] = 'Order Request Found Successfully';
+        $arr['data'] = $data;
+
+        return response()->json($data, 200);
+
+        // } else if ($on_ride_request) {
+        // else if ($order_request == "cancelled") {
+        //     $arr['status'] = 0;
+        //     $arr['message'] = 'No Order Request Found';
+        //     // $arr['data'] = NULL;
+        // }
+        // } catch (\Exception $e) {
+        //     $arr['status'] = 0;
+        //     $arr['message'] = 'Order Request Not Found or something went wrong';
+        //     return response()->json($arr, 400);
+        //     // $arr['data'] = NULL;
+        // }
     }
 
     // update order request

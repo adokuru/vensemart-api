@@ -313,6 +313,7 @@ class DeliveryRiderController extends Controller
         }
         return response()->json($arr, 200);
     }
+
     //Pending Order API
     public function pending_order()
     {
@@ -331,6 +332,7 @@ class DeliveryRiderController extends Controller
                     'rr.ride_type as ride_type',
                     'rr.item_type as item_type',
                     'rr.item_categories as item_categories',
+                    'rr.status as ride_status',
                     's.store_name',
                     's.address as store_address',
                     's.lati as store_latitude',
@@ -341,15 +343,15 @@ class DeliveryRiderController extends Controller
                     'ua.mobile as delivery_mobile',
                     DB::raw("CASE WHEN rr.is_ride_for_other = 1 THEN TRIM(BOTH '\"' FROM JSON_EXTRACT(rr.other_rider_data, '$.name')) ELSE NULL END AS other_rider_name"),
                     DB::raw("CASE WHEN rr.is_ride_for_other = 1 THEN TRIM(BOTH '\"' FROM JSON_EXTRACT(rr.other_rider_data, '$.phone_number')) ELSE NULL END AS other_rider_phone_number")
-
                 )
                 ->leftJoin('stores as s', 's.id', 'o.shop_id')
                 ->leftJoin('users as ua', 'ua.id', 'o.user_id')
                 ->leftJoin('ride_requests as rr', 'rr.id', 'o.ride_request_id') // Join the ride_request table
                 // ->where('o.driver_id', Auth::id())
-                ->whereNotIn('rr.status', ['cancelled', 'completed'])
-
-                ->whereIn('o.status', ['1', '2', '3']) // Use whereIn to check for multiple statuses
+                ->where('o.status', '2')
+                ->orWhere('o.status', '1')
+                ->orWhereNotIn('rr.status', ['cancelled', 'completed'])
+                // Use whereIn to check for multiple statuses
                 ->get();
 
 
@@ -553,7 +555,6 @@ class DeliveryRiderController extends Controller
             $order = DB::table('orders')->where('id', $orderid)->where('status', '2')->orWhere('status', '1')->first();
             // $order = DB::table('orders')->where('id', $orderid)->where('status', '2')->where('driver_id', $driverId)->first();
 
-            $orderDriver = DB::table('orders')->where('id', $orderid)->where('driver_id', $driverId)->first();
 
             // if ($order) {
             //     $arr['status'] = 0;
@@ -561,7 +562,7 @@ class DeliveryRiderController extends Controller
             //     return response()->json($arr, 200);
             // }
             // check if the order is already accepted by another driver
-            if ($orderDriver == null) {
+            if ($order->driver_id != null) {
                 $arr['status'] = 0;
                 $arr['message'] = 'Order already accepted by another driver';
                 return response()->json($arr, 200);
