@@ -1068,11 +1068,11 @@ class ApiController extends Controller
 
         $data = $request->all();
 
-        $orders = DB::table('orders')->where('id', $id)->first();
-        $ride_request = DB::table('ride_requests')->where('id', $orders->ride_request_id)->first();
-        // $orders = Orders::find($id);
+        // $orders = DB::table('orders')->where('id', $id)->first();
+        // $ride_request = DB::table('ride_requests')->where('id', $orders->ride_request_id)->first();
+        $orders = Orders::find($id);
 
-        // $ride_request = RideRequest::find($orders->ride_request_id);
+        $ride_request = RideRequest::find($orders->ride_request_id);
 
         // dd($request->all(), $id, $orders, $ride_request);
         $ride_request =
@@ -1085,7 +1085,7 @@ class ApiController extends Controller
                 'u.profile as user_image',
                 'u.type as user_type',
                 'u.status as user_status',
-                         )
+            )
             ->join('orders as o', 'o.id', 'r.order_id')
             ->join('users as u', 'u.id', 'o.user_id')
             // ->join('users as d', 'd.id', 'o.driver_id')
@@ -1094,7 +1094,7 @@ class ApiController extends Controller
             ->whereNotIn('r.status', ['canceled', 'completed'])
             ->orderBy('r.created_at', 'desc') // Order by creation date in descending order
             ->first();
-       
+
         $on_ride_request =
             DB::table('ride_requests as r')->select(
                 'o.*',
@@ -1206,19 +1206,6 @@ class ApiController extends Controller
                 'driver' => $driver,
             ];
 
-
-
-            // $history_data = [
-            //     'history_type'      => $order_request->status,
-            //     'ride_request_id'   => $id,
-            //     'ride_request'      => $ride_request,
-            // ];
-
-            // // $this->get_order_request();
-
-            // $this->saveRideHistory($history_data);
-
-
             $arr['status'] = 1;
             $arr['message'] = 'Order Request in Progress';
             $arr['data'] = $data;
@@ -1239,7 +1226,6 @@ class ApiController extends Controller
                 'driver' => $driver,
             ];
 
-
             $arr['status'] = 1;
             $arr['message'] = 'Order Awaiting Rider Acceptance';
             $arr['data'] = $data;
@@ -1248,7 +1234,7 @@ class ApiController extends Controller
         //  else {
         //     $arr['status'] = 0;
         //     $arr['message'] = 'Sorry!! Something Went Wrong';
-        // $arr['data'] = NULL;
+        // // $arr['data'] = NULL;
         //     return response()->json($arr, 200);
         // }
         // } catch (\Exception $e) {
