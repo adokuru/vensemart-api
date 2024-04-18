@@ -229,7 +229,7 @@ class DeliveryRiderController extends Controller
             $total_earning = DB::table('my_wallet')->where('user_id', Auth::id())->sum('amount');
             $availibility = DB::table('users')->where('id', Auth::id())->where('status', '1')->first();
             $is_online = DB::table('users')->where('id', Auth::id())->where('is_online', '1')->first();
-            $pending_order = DB::table('orders')->where('driver_id', Auth::id())->where('status', '2')->count();
+            $pending_order = DB::table('orders')->where('driver_id', Auth::id())->where('status', '2')->orWhere('status', '1')->count();
             $completed_order = DB::table('orders')->where('driver_id', Auth::id())->where('status', '4')->count();
             $today_order = DB::table('orders as o')
                 ->select('o.*', 's.store_name', 's.address as store_address', 'ua.type as address_type', 'ua.address as delivery_address', DB::raw('CONCAT("' . url('storage/shop_images') . '","/",s.store_image)  as store_image'))
@@ -347,7 +347,7 @@ class DeliveryRiderController extends Controller
                 ->leftJoin('users as ua', 'ua.id', 'o.user_id')
                 ->leftJoin('ride_requests as rr', 'rr.id', 'o.ride_request_id') // Join the ride_request table
                 // ->where('o.driver_id', Auth::id())
-                ->whereIn('o.status', ['2', '3']) // Use whereIn to check for multiple statuses
+                ->whereIn('o.status', ['1', '2', '3']) // Use whereIn to check for multiple statuses
                 ->get();
 
 
