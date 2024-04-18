@@ -347,6 +347,8 @@ class DeliveryRiderController extends Controller
                 ->leftJoin('users as ua', 'ua.id', 'o.user_id')
                 ->leftJoin('ride_requests as rr', 'rr.id', 'o.ride_request_id') // Join the ride_request table
                 // ->where('o.driver_id', Auth::id())
+                ->whereNotIn('r.status', ['cancelled', 'completed'])
+
                 ->whereIn('o.status', ['1', '2', '3']) // Use whereIn to check for multiple statuses
                 ->get();
 
@@ -551,7 +553,7 @@ class DeliveryRiderController extends Controller
             $order = DB::table('orders')->where('id', $orderid)->where('status', '2')->orWhere('status', '1')->first();
             // $order = DB::table('orders')->where('id', $orderid)->where('status', '2')->where('driver_id', $driverId)->first();
 
-
+            $orderDriver = DB::table('orders')->where('id', $orderid)->where('driver_id', $driverId)->first();
 
             // if ($order) {
             //     $arr['status'] = 0;
@@ -559,7 +561,7 @@ class DeliveryRiderController extends Controller
             //     return response()->json($arr, 200);
             // }
             // check if the order is already accepted by another driver
-            if ($order->status == 3) {
+            if ($orderDriver == null) {
                 $arr['status'] = 0;
                 $arr['message'] = 'Order already accepted by another driver';
                 return response()->json($arr, 200);
