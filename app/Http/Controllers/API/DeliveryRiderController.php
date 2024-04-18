@@ -553,11 +553,17 @@ class DeliveryRiderController extends Controller
 
 
 
-            // if ($order == null) {
+            // if ($order) {
             //     $arr['status'] = 0;
             //     $arr['message'] = 'Order not found or already accepted';
             //     return response()->json($arr, 200);
             // }
+            // check if the order is already accepted by another driver
+            if ($order->status == 3) {
+                $arr['status'] = 0;
+                $arr['message'] = 'Order already accepted by another driver';
+                return response()->json($arr, 200);
+            }
 
             // if ride_request_id is not null, then update the status of the ride_request to 2
             Orders::where('id', $orderid)->update(['status' => "3", 'driver_id' => $driverId]);
