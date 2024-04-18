@@ -1068,11 +1068,11 @@ class ApiController extends Controller
 
         $data = $request->all();
 
-        $orders = DB::table('orders')->where('id', $id)->first();
-        $ride_request = DB::table('ride_requests')->where('id', $orders->ride_request_id)->first();
-        // $orders = Orders::find($id);
+        // $orders = DB::table('orders')->where('id', $id)->first();
+        // $ride_request = DB::table('ride_requests')->where('id', $orders->ride_request_id)->first();
+        $orders = Orders::find($id);
 
-        // $ride_request = RideRequest::find($orders->ride_request_id);
+        $ride_request = RideRequest::find($orders->ride_request_id);
 
         $rride_request =
             DB::table('ride_requests as r')->select(
@@ -1126,7 +1126,6 @@ class ApiController extends Controller
             ->first();
 
 
-        // dd($request->all(), $id, $orders, $ride_request, $on_ride_request, $rride_request);
 
         try {
 
@@ -1212,7 +1211,7 @@ class ApiController extends Controller
                 $arr['message'] = 'Order Request in Progress';
                 $arr['data'] = $data;
                 return response()->json($arr, 200);
-            } else if ($orders->status == 2 && $ride_request->status == "new_ride_requested") {
+            } else if ($orders->status == 2 || $orders->status == 1 && $ride_request->status == "new_ride_requested") {
 
                 $driver = User::find($ride_request->driver_id);
                 // dd($driver);
