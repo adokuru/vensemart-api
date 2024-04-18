@@ -1068,11 +1068,11 @@ class ApiController extends Controller
 
         $data = $request->all();
 
-        // $orders = DB::table('orders')->where('id', $id)->first();
-        // $ride_request = DB::table('ride_requests')->where('id', $orders->ride_request_id)->first();
-        $orders = Orders::find($id);
+        $orders = DB::table('orders')->where('id', $id)->first();
+        $ride_request = DB::table('ride_requests')->where('id', $orders->ride_request_id)->first();
+        // $orders = Orders::find($id);
 
-        $ride_request = RideRequest::find($orders->ride_request_id);
+        // $ride_request = RideRequest::find($orders->ride_request_id);
 
         // dd($request->all(), $id, $orders, $ride_request);
         $ride_request =
@@ -1130,11 +1130,19 @@ class ApiController extends Controller
 
         // check if the request status is cancelled and cancel the ride request and order
         if ($request->status == "cancelled") {
-            $ride_request->status = $request->status;
-            $ride_request->reason = $request->reason;
-            $ride_request->cancel_by = $request->cancel_by;
-            $ride_request->save();
+            // $ride_request->status = $request->status;
+            // $ride_request->reason = $request->reason;
+            // $ride_request->cancel_by = $request->cancel_by;
+            // $ride_request->save();
 
+            $ride_request->update(
+                [
+                    'status' => $request->status,
+                    'reason' => $request->reason,
+                    'cancel_by' => $request->cancel_by,
+                ]
+
+            );
             // $orders->update(['status' => 5]);
 
             $cancel =
