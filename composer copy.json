@@ -10,14 +10,13 @@
     "require": {
         "php": "^8.1",
         "aloha/twilio": "^5.0",
-        "benwilkins/laravel-fcm-notification": "dev-master",
-        "berkayk/onesignal-laravel": "^1.10",
+        // "berkayk/onesignal-laravel": "^1.0",composer.json
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "intervention/image": "^2.7",
         "jenssegers/agent": "^2.6",
         "kreait/laravel-firebase": "^5.0",
-        "laravel-notification-channels/onesignal": "^2.4",
+        "ladumor/one-signal": "1.0.0",
         "laravel/framework": "^9.0",
         "laravel/passport": "^10.3",
         "laravel/sanctum": "^2.11",

@@ -9,6 +9,8 @@ Route::post('rider/register', [DeliveryRiderController::class, 'delivery_rider_r
 Route::post('rider/login', [DeliveryRiderController::class, 'login']);
 
 
+
+
 Route::group([
     'namespace' => 'Rider',
     'prefix' => 'rider',
@@ -17,6 +19,8 @@ Route::group([
     //Delivery Rider Route
     Route::post('onBoardRider', [DeliveryRiderController::class, 'onBoardRider']);
     Route::get('home', [DeliveryRiderController::class, 'dhome']);
+
+    Route::get('send_test_notification', [DeliveryRiderController::class, 'send_test_notification']);
 
     Route::get('all-orders', [DeliveryRiderController::class, 'all_orders']);
     Route::get('pending-orders', [DeliveryRiderController::class, 'pending_order']);

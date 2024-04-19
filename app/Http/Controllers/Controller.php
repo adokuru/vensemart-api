@@ -18,7 +18,8 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use OneSignal;
+// use OneSignal;
+use Ladumor\OneSignal\OneSignal;
 
 
 class Controller extends BaseController
@@ -162,8 +163,26 @@ class Controller extends BaseController
 
             $token = $user->device_token;
 
+            $params = [];
+            $params['include_player_ids'] = [$token];
+            $params['headings'] = ['en' => $title];
+            $params['contents'] = ['en' => $message];
+            $params['data'] = $data;
 
-            OneSignal::sendNotificationToUser($message, $token, $url = null, $data = null);
+
+            // $test =  \OneSignal::sendPush($fields, $message);
+
+
+            $test = \OneSignal::sendNotificationCustom($params);
+
+            // OneSignal::sendNotification(
+            //     $data['title'],
+            //     $data['body'],
+            //     $token,
+            //     $url = null,
+            //     $data = null,
+            // );
+            // OneSignal::sendNotificationToUser($message, $token, $url = null, $data = null);
 
             /*********************End Notification*****************/
         } catch (\Exception $e) {
@@ -389,7 +408,8 @@ class Controller extends BaseController
 
             $data = [
                 "title" => "Contact Rider",
-                "body" => "Customer " . $customer->name . " wants to contact you for order " . $order->order_id,
+                "body" => "Customer " . $customer->name . " requested a delivery for pickup " . $order->order_id,
+                // "body" => "Customer " . $customer->name . " wants to contact you for order " . $order->order_id,
             ];
 
             // if ($isCustomerDelivery == 0) {

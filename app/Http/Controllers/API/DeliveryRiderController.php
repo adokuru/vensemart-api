@@ -16,12 +16,15 @@ use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\VehicleDetails;
 use App\Models\WalletHistorys;
+use App\Notifications\RideNotification;
 use Carbon\Carbon;
 use App\Traits\SendNotification;
 use App\Traits\SendMessage;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use OneSignal;
+// use Ladumor\OneSignal\OneSignal;
 
 class DeliveryRiderController extends Controller
 {
@@ -33,6 +36,56 @@ class DeliveryRiderController extends Controller
     {
         $data = array('title' => 'test', 'message' => 'this is', 'user_id' => 71);
         $this->send_to_user($data);
+    }
+
+    // @send_test_notification
+    public function send_test_notification(Request $request)
+    {
+        $id = Auth::id();
+        $user = User::find($id);
+      
+        $notification_data = [
+            'id'   => $user->id,
+            'type' => "New ride request",
+            'subject' => 'New Ride Requested',
+            'message' => 'New Ride Requested',
+            'page' => 'ride_request',
+        ];
+
+        $fields['include_player_ids'] = [$user->device_token];
+        $title = 'New Ride Requested';
+        $message = 'hey!! this is test push.!';
+
+        $params = [];
+        $params['include_player_ids'] = [$user->device_token];
+        $params['headings'] = ['en' => $title];
+        $params['contents'] = ['en' => $message];
+        $params['data'] = $notification_data;
+
+
+        // $test =  \OneSignal::sendPush($fields, $message);
+
+
+        $test = \OneSignal::sendNotificationCustom($params);
+        // $test = \OneSignal::sendNotificationToUser(
+        //     $notification_data['subject'],
+        //     $notification_data['message'],
+        //     $user->device_token,
+        //     $url = null,
+        //     $data = null,
+        // );
+        dd('Notification sent successfully!', $test, $notification_data, $user);
+        // $test = $user->notify(new RideNotification($notification_data['type'], $notification_data));
+
+        // dd('Notification sent successfully!', $test, $notification_data, $user);
+
+
+
+        // $fields['include_player_ids'] = [$user->device_token];
+        // $message = 'hey!! this is test push.!';
+
+        // OneSignal::sendPush($fields, $message);
+        // $this->send_to_user($data);
     }
 
 
@@ -1033,7 +1086,7 @@ class DeliveryRiderController extends Controller
             $orderid = $request->order_id;
             $driverId = Auth::id();
 
-            $order = DB::table('orders')->where('id', $orderid)->where('status', '2')->where('driver_id', $driverId)->first();
+            $order = DB::table('orders')->where('id', $orderid)->where('driver_id', $driverId)->where('status', '2')->orWhere('status', '1')->first();
 
             if ($order == null) {
                 $arr['status'] = 0;
