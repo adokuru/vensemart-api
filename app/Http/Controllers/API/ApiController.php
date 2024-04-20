@@ -1240,9 +1240,9 @@ class ApiController extends Controller
                 }
 
                 // if driver is null or not assigned to the order
-                if ($driver == null) {
-                    $this->contactRiderForDelivery($orders->order_id, $user_id, $ride_request->start_address, $ride_request->end_address, $ride_request->start_latitude, $ride_request->start_longitude);
-                }
+                // if ($driver == null) {
+                $this->contactRiderForDelivery($orders->order_id, $user_id, $ride_request->start_address, $ride_request->end_address, $ride_request->start_latitude, $ride_request->start_longitude);
+                // }
 
                 $data = [
                     'on_ride_request' => $rride_request,
