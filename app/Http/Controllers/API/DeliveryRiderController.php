@@ -23,7 +23,7 @@ use App\Traits\SendMessage;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
-use OneSignal;
+// use OneSignal;
 // use Ladumor\OneSignal\OneSignal;
 
 class DeliveryRiderController extends Controller
