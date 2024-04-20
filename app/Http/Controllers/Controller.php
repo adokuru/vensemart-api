@@ -160,6 +160,8 @@ class Controller extends BaseController
 
             $user = User::find($userID);
 
+
+
             if (!$user->device_token) return;
 
             $token = $user->device_token;
@@ -176,7 +178,7 @@ class Controller extends BaseController
 
             $test =  OneSignal::sendPush($fields, $message);
 
-            dd($test);
+            dd($test, $fields, $message, $user);
 
 
             // $test = \OneSignal::sendNotificationCustom($params);
