@@ -177,7 +177,7 @@ class Controller extends BaseController
             // OneSignal::sendPush($fields, $message);
 
             // $test =  OneSignal::sendPush($fields, $message);
-            \OneSignal::sendNotificationCustom($params);
+           $test =  \OneSignal::sendNotificationCustom($params);
 
             dd($test, $fields, $message, $user);
 
