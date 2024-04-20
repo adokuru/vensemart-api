@@ -166,22 +166,22 @@ class Controller extends BaseController
 
             $token = $user->device_token;
 
-            // $params = [];
-            // $params['include_player_ids'] = [$token];
-            // $params['headings'] = ['en' => $title];
-            // $params['contents'] = ['en' => $message];
-            // $params['data'] = $data;
+            $params = [];
+            $params['include_player_ids'] = [$token];
+            $params['headings'] = ['en' => $title];
+            $params['contents'] = ['en' => $message];
+            $params['data'] = $data;
 
             $fields['include_player_ids'] = [$token];
 
             // OneSignal::sendPush($fields, $message);
 
-            $test =  OneSignal::sendPush($fields, $message);
+            // $test =  OneSignal::sendPush($fields, $message);
+            $test = \OneSignal::sendNotificationCustom($params);
 
             dd($test, $fields, $message, $user);
 
 
-            // $test = \OneSignal::sendNotificationCustom($params);
 
             // OneSignal::sendNotification(
             //     $data['title'],
