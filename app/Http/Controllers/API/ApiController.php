@@ -864,9 +864,9 @@ class ApiController extends Controller
 
             $orderIdd = $order_data['order_id'];
 
-            $data_noti = array('title' => "Order Delivery Request Placed", 'message' => "order placed successfully!  order  ID is  $orderIdd", 'user_id' => Auth::id());
-            $this->sendNotification(Auth::id(), "Order Placed", "Order Placed Successfully ");
-            $this->sendNotification(1105, "Order Placed", "Order Rider");
+            // $data_noti = array('title' => "Order Delivery Request Placed", 'message' => "order placed successfully!  order  ID is  $orderIdd", 'user_id' => Auth::id());
+            // $this->sendNotification(Auth::id(), "Order Placed", "Order Placed Successfully ");
+            // $this->sendNotification(1105, "Order Placed", "Order Rider");
             $lati = $ride_data['start_latitude'];
             $longi = $ride_data['start_longitude'];
 

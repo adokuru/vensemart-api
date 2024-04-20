@@ -16,7 +16,6 @@
         "intervention/image": "^2.7",
         "jenssegers/agent": "^2.6",
         "kreait/laravel-firebase": "^5.0",
-        "ladumor/one-signal": "^1.0",
         "laravel/framework": "^9.0",
         "laravel/passport": "^10.3",
         "laravel/sanctum": "^2.11",

@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 // use OneSignal;
-use Ladumor\OneSignal\OneSignal;
+// use Ladumor\OneSignal\OneSignal;
 
 
 
@@ -176,14 +176,14 @@ class Controller extends BaseController
 
             // OneSignal::sendPush($fields, $message);
 
-            $test =  OneSignal::sendPush($fields, $message);
-            // $test = \OneSignal::sendNotificationCustom($params);
+            // $test =  OneSignal::sendPush($fields, $message);
+            $test = \OneSignal::sendNotificationCustom($params);
 
             dd($test, $fields, $message, $user);
 
 
 
-            // OneSignal::sendNotification(
+            // \OneSignal::sendNotification(
             //     $data['title'],
             //     $data['body'],
             //     $token,

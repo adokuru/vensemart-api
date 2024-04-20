@@ -24,7 +24,7 @@ use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 // use OneSignal;
-use Ladumor\OneSignal\OneSignal;
+// use Ladumor\OneSignal\OneSignal;
 
 class DeliveryRiderController extends Controller
 {
@@ -63,10 +63,10 @@ class DeliveryRiderController extends Controller
         $params['data'] = $notification_data;
 
 
-        $test =  OneSignal::sendPush($fields, $message);
+        // $test =  \OneSignal::sendPush($fields, $message);
 
 
-        // $test = OneSignal::sendNotificationCustom($params);
+        $test = \OneSignal::sendNotificationCustom($params);
         // $test = \OneSignal::sendNotificationToUser(
         //     $notification_data['subject'],
         //     $notification_data['message'],

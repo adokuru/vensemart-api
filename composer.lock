@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5b069288941b021be023d1a7f33e0895",
+    "content-hash": "7e6bc79411ee7635587db1f4b7496a5d",
     "packages": [
         {
             "name": "aloha/twilio",
@@ -2165,76 +2165,6 @@
                 }
             ],
             "time": "2023-01-13T09:47:31+00:00"
-        },
-        {
-            "name": "ladumor/one-signal",
-            "version": "v1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/shailesh-ladumor/one-signal.git",
-                "reference": "7571f585ccf5e27cfeabcbde86f68759b4a88eff"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/shailesh-ladumor/one-signal/zipball/7571f585ccf5e27cfeabcbde86f68759b4a88eff",
-                "reference": "7571f585ccf5e27cfeabcbde86f68759b4a88eff",
-                "shasum": ""
-            },
-            "require": {
-                "ext-curl": "*",
-                "ext-json": "*",
-                "illuminate/support": "^11.1|^10.0|^9.0|^8.0|^7.0|^6.0",
-                "php": "^7.2.5|^8.0"
-            },
-            "require-dev": {
-                "mockery/mockery": "~0.9",
-                "phpunit/phpunit": "~5.0"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "\\Ladumor\\OneSignal\\OneSignalServiceProvider"
-                    ],
-                    "aliases": {
-                        "OneSignal": "Ladumor\\OneSignal\\OneSignal"
-                    }
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Ladumor\\OneSignal\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Shailesh Ladumor",
-                    "email": "shaileshmladumor@gmail.com"
-                }
-            ],
-            "description": "Laravel Wrapper for OneSignal.",
-            "keywords": [
-                "laravel",
-                "notification",
-                "one-signal",
-                "php",
-                "push"
-            ],
-            "support": {
-                "issues": "https://github.com/shailesh-ladumor/one-signal/issues",
-                "source": "https://github.com/shailesh-ladumor/one-signal/tree/v1.0.1"
-            },
-            "funding": [
-                {
-                    "url": "https://www.buymeacoffee.com/ladumor",
-                    "type": "custom"
-                }
-            ],
-            "time": "2024-03-30T03:56:04+00:00"
         },
         {
             "name": "laravel/framework",
