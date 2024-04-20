@@ -1175,12 +1175,21 @@ class ApiController extends Controller
                         // dd($order);
                         // $ride_request = DB::table('ride_requests')->where('id', $order->ride_request_id)->first();
                         $ride_request = RideRequest::find($order->ride_request_id);
-                        // dd($ride_request);
-                        $ride_request->status = "cancelled";
-                        $ride_request->reason = $request->reason;
-                        $ride_request->cancel_by = $request->cancel_by;
 
-                        $ride_request->save();
+                        // dd($ride_request);
+                        if ($ride_request != null) {
+
+                            $ride_request->status = "cancelled";
+                            $ride_request->reason = $request->reason;
+                            $ride_request->cancel_by = $request->cancel_by;
+
+                            $ride_request->save();
+                        }
+
+                        // if ($order->driver_id) {
+                        //     // send notification to the driver
+                        //     $this->sendNotification($order->driver_id, "Order Cancelled", "Order Cancelled by " . $request->cancel_by);
+                        // }
 
                         $order = Orders::find($order->id);
                         $order->status = 7;
