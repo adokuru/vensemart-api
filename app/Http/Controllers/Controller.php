@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 // use OneSignal;
+use Ladumor\OneSignal\OneSignal;
+
 
 
 class Controller extends BaseController
@@ -168,11 +170,14 @@ class Controller extends BaseController
             $params['contents'] = ['en' => $message];
             $params['data'] = $data;
 
+            $fields['include_player_ids'] = [$token];
+
+            OneSignal::sendPush($fields, $message);
 
             // $test =  \OneSignal::sendPush($fields, $message);
 
 
-            $test = \OneSignal::sendNotificationCustom($params);
+            // $test = \OneSignal::sendNotificationCustom($params);
 
             // OneSignal::sendNotification(
             //     $data['title'],
