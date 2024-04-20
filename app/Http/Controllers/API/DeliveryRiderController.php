@@ -77,7 +77,7 @@ class DeliveryRiderController extends Controller
         dd('Notification sent successfully!', $test, $notification_data, $user);
         // $test = $user->notify(new RideNotification($notification_data['type'], $notification_data));
 
-        // dd('Notification sent successfully!', $test, $notification_data, $user);
+        // dd('Notification sent successfully!', $test, $notification_data, $user);\
 
 
 

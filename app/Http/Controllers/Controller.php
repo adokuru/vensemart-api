@@ -19,7 +19,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 // use OneSignal;
-use Ladumor\OneSignal\OneSignal;
 
 
 class Controller extends BaseController
