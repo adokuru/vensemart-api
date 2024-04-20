@@ -494,6 +494,7 @@ class Controller extends BaseController
 
                 // send notification to rider 
                 $this->sendNotification($rider->id, "Order Request From Vensemart App", "You have been booked");
+                dd($rider);
                 Log::info("rider phonne, $rider->mobile");
 
                 if ($rider->id == 0) throw new \Exception('No Rider Available for this order at the moment');
