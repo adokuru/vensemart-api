@@ -608,6 +608,8 @@ class DeliveryRiderController extends Controller
             $order = DB::table('orders')->where('id', $orderid)->where('status', '2')->orWhere('status', '1')->first();
             // $order = DB::table('orders')->where('id', $orderid)->where('status', '2')->where('driver_id', $driverId)->first();
 
+            dd($order);
+
 
             // if ($order) {
             //     $arr['status'] = 0;
@@ -625,10 +627,7 @@ class DeliveryRiderController extends Controller
 
                 RideRequest::where('order_id', $orderid)->update(['status' => "accepted", 'driver_id' => $driverId]);
 
-
                 $this->sendNotification($order->user_id, 'Order Accepted', 'Your order has been accepted by the driver ');
-
-
 
                 $arr['status'] = 1;
                 $arr['message'] = 'Order Accepted Successfully!!';
