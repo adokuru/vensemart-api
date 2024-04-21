@@ -613,10 +613,6 @@ class DeliveryRiderController extends Controller
 
 
             if ($order) {
-                $arr['status'] = 0;
-                $arr['message'] = 'Order already accepted by another driver';
-                return response()->json($arr, 200);
-            } else {
                 // if ride_request_id is not null, then update the status of the ride_request to 2
                 Orders::where('id', $orderid)->update(['status' => "3", 'driver_id' => $driverId]);
 
@@ -628,6 +624,11 @@ class DeliveryRiderController extends Controller
                 $arr['message'] = 'Order Accepted Successfully!!';
                 $arr['data'] = true;
 
+                return response()->json($arr, 200);
+            } else {
+
+                $arr['status'] = 0;
+                $arr['message'] = 'Order already accepted by another driver';
                 return response()->json($arr, 200);
             }
 
