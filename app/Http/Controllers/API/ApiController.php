@@ -1017,6 +1017,9 @@ class ApiController extends Controller
             ->where('r.rider_id', Auth::id())
             ->where('r.driver_id', null)
             ->whereNotIn('r.status', ['cancelled', 'completed'])
+            ->where('r.is_rider_rated', false)
+            // ->orderBy('o.created_at', 'desc') // Order by creation date in descending order
+
             // ->orderBy('r.created_at', 'desc') // Order by creation date in descending order
             ->first();
 
@@ -1037,12 +1040,14 @@ class ApiController extends Controller
             ->where('r.rider_id', Auth::id())
             ->where('r.driver_id', '!=', null)
             ->whereNotIn('r.status', ['cancelled'])
+            ->where('r.is_rider_rated', false)
+
             // ->orderBy('r.created_at', 'desc') // Order by creation date in descending order
             ->first();
 
         $user = DB::table('users')->where('id', $user_id)->first();
 
-        // dd($ride_request, $on_ride_request);
+        dd($ride_request, $on_ride_request);
 
         // if ($order_request) {
         if ($on_ride_request != null) {
@@ -1069,7 +1074,7 @@ class ApiController extends Controller
             'status' => $user->status == 1 ? "Active" : "Inactive",
             // 'status' => $ride_request != null ? $ride_request->status : $on_ride_request->status,
             'ride_request' => isset($ride_request) ? $ride_request : null,
-            'on_ride_request' => isset($on_ride_request) ? $on_ride_request : null,
+            'on_ride_request' => isset($on_ride_request) && $on_ride_request->is_rider_rated == 0 ? $on_ride_request : null,
             'driver' => isset($driver) ? $driver : null,
             // 'ride_request' => $ride_request,
             // 'on_ride_request' => $on_ride_request,

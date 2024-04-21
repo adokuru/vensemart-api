@@ -921,7 +921,7 @@ class DeliveryRiderController extends Controller
 
             Orders::where('id', $orderid)->update(['status' => "4"]);
 
-            RideRequest::where('id', $order->ride_request_id)->update(['status' => "completed"]);
+            RideRequest::where('id', $order->ride_request_id)->update(['status' => "completed", 'is_rider_rated' => 1]);
 
 
             Log::info("orderid : $order->driver_id");
