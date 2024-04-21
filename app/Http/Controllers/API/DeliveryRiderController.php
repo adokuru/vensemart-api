@@ -400,12 +400,24 @@ class DeliveryRiderController extends Controller
                 ->leftJoin('stores as s', 's.id', 'o.shop_id')
                 ->leftJoin('users as ua', 'ua.id', 'o.user_id')
                 ->leftJoin('ride_requests as rr', 'rr.id', 'o.ride_request_id') // Join the ride_request table
+                ->where(function ($query) {
+                    // if the driver_id is null, then the order is not assigned to any driver
+                    $query->whereNull('o.driver_id')
+                        ->orWhere('o.driver_id', Auth::id());
+                })
                 // ->where('o.driver_id', Auth::id())
-                ->where('o.status', '2')
-                ->orWhere('o.status', '1')
-                ->orWhereNotIn('rr.status', ['cancelled', 'completed'])
+                ->where(function ($query) {
+                    $query->where('o.status', '1')
+                        ->orWhere('o.status', '2');
+                })->where(function ($query) {
+                    $query->whereNull('rr.status') // Exclude order if ride_request is null
+                        ->orWhereNotIn('rr.status', ['cancelled', 'completed']); // Exclude if ride_request status is cancelled or completed
+                })
+                // ->orWhereNotIn('rr.status', ['cancelled', 'completed'])
                 // Use whereIn to check for multiple statuses
                 ->get();
+
+
 
 
 
