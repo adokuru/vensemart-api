@@ -877,30 +877,60 @@ class ApiController extends Controller
             // $this->contactRiderForDelivery($orderIdd, $user_id, $ride_data['start_address'], $ride_data['end_address'], $lati, $longi);
             // Call the get_drivers_list function and pass the new request
 
-            $response = $this->get_nearby_list($req);
+            // $response = $this->get_nearby_list($req);
             $rid = $this->requestRiderForDelivery($lati, $longi);
-            dd($response, $rid);
-            if ($response->count() > 0) {
-                //     // notify nearby riders about the new ride request
-                foreach ($response as $rider) {
-                    $rider = User::where('id', $rider->id)->first();
-                    dd($rider->id);
-                    $data = [
-                        "title" => "New Ride Request",
-                        "body" => "Customer " . $user->name . " requested a delivery for pickup order no " . $order->order_id,
-                        // "body" => "Customer " . $customer->name . " wants to contact you for order " . $order->order_id,
-                    ];
-                    $this->sendNotification($rider->id, $data['title'], $data['body']);
-                }
-            } else {
-                Log::info('No nearby riders found');
+            // dd($response, $rid);
 
-                // Return success response
+            if (!rid) {
                 $arr['status'] = 0;
                 $arr['message'] = 'No Riders available at the moment';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
+
                 return response()->json($arr, 200);
             }
+
+            // notify nearby riders about the new ride request
+            foreach ($rid as $rider) {
+                $rider = User::where('id', $rider->id)->first();
+                dd($rider->id);
+                $data = [
+                    "title" => "New Ride Request",
+                    "body" => "Customer " . $user->name . " requested a delivery for pickup order no " . $order->order_id,
+                    // "body" => "Customer " . $customer->name . " wants to contact you for order " . $order->order_id,
+                ];
+                $this->sendNotification($rider->id, $data['title'], $data['body']);
+            }
+            // } else {
+            //     Log::info('No nearby riders found');
+
+            //     // Return success response
+            //     $arr['status'] = 0;
+            //     $arr['message'] = 'No Riders available at the moment';
+            //     $arr['data'] = NULL;
+            //     return response()->json($arr, 200);
+            // }
+
+            // if ($rid->count() > 0) {
+            //     //     // notify nearby riders about the new ride request
+            //     foreach ($rid as $rider) {
+            //         $rider = User::where('id', $rider->id)->first();
+            //         dd($rider->id);
+            //         $data = [
+            //             "title" => "New Ride Request",
+            //             "body" => "Customer " . $user->name . " requested a delivery for pickup order no " . $order->order_id,
+            //             // "body" => "Customer " . $customer->name . " wants to contact you for order " . $order->order_id,
+            //         ];
+            //         $this->sendNotification($rider->id, $data['title'], $data['body']);
+            //     }
+            // } else {
+            //     Log::info('No nearby riders found');
+
+            //     // Return success response
+            //     $arr['status'] = 0;
+            //     $arr['message'] = 'No Riders available at the moment';
+            //     $arr['data'] = NULL;
+            //     return response()->json($arr, 200);
+            // }
 
 
             // Return success response
