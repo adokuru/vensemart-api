@@ -619,12 +619,24 @@ class DeliveryRiderController extends Controller
                 $arr['status'] = 0;
                 $arr['message'] = 'Order already accepted by another driver';
                 return response()->json($arr, 200);
+            } else {
+                // if ride_request_id is not null, then update the status of the ride_request to 2
+                Orders::where('id', $orderid)->update(['status' => "3", 'driver_id' => $driverId]);
+
+                RideRequest::where('order_id', $orderid)->update(['status' => "accepted", 'driver_id' => $driverId]);
+
+
+                $this->sendNotification($order->user_id, 'Order Accepted', 'Your order has been accepted by the driver ');
+
+
+
+                $arr['status'] = 1;
+                $arr['message'] = 'Order Accepted Successfully!!';
+                $arr['data'] = true;
+
+                return response()->json($arr, 200);
             }
 
-            // if ride_request_id is not null, then update the status of the ride_request to 2
-            Orders::where('id', $orderid)->update(['status' => "3", 'driver_id' => $driverId]);
-
-            RideRequest::where('order_id', $orderid)->update(['status' => "accepted", 'driver_id' => $driverId]);
 
             // $this->sendNotification($order->user_id, 'Order Accepted', 'Your order has been accepted by the driver ');
 
@@ -664,21 +676,12 @@ class DeliveryRiderController extends Controller
 
             // $this->saveRideHistory($history_data);
 
-            $this->sendNotification($order->user_id, 'Order Accepted', 'Your order has been accepted by the driver ');
-
-
-
-            $arr['status'] = 1;
-            $arr['message'] = 'Order Accepted Successfully!!';
-            $arr['data'] = true;
-
-            return response()->json($arr, 200);
         } catch (\Exception $e) {
             $arr['status']  = 0;
             $arr['message'] = 'something went wrong';
-            $arr['data']    = NULL;
+            // $arr['data']    = NULL;
+            return response()->json($arr, 200);
         }
-        return response()->json($arr, 200);
     }
 
 
@@ -980,7 +983,7 @@ class DeliveryRiderController extends Controller
                 $arr['message'] = 'Order already accepted by another driver';
                 return response()->json($arr, 200);
             }
-            
+
 
 
             DeliveryRequestStatus::where('order_id', $orderid)->where('driver_id', $driverId)->update(['delivery_status' => "2"]);
