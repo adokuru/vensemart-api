@@ -900,14 +900,6 @@ class ApiController extends Controller
                         // "body" => "Customer " . $customer->name . " wants to contact you for order " . $order->order_id,
                     ];
                     $this->sendNotification($rider->id, $data['title'], $data['body']);
-                } else {
-                    Log::info('No nearby riders found');
-
-                    // Return success response
-                    $arr['status'] = 0;
-                    $arr['message'] = 'No Riders available at the moment';
-                    $arr['data'] = NULL;
-                    return response()->json($arr, 200);
                 }
             }
             // } else {
