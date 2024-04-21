@@ -764,7 +764,7 @@ class ApiController extends Controller
             // Validate request data
             $validator = Validator::make($request->all(), [
                 // Add your validation rules here
-                // 'total_amount' => 'required',
+                'total_amount' => 'required',
                 'start_latitude' => 'required',
                 'start_longitude' => 'required',
                 'start_address' => 'required',
@@ -797,12 +797,12 @@ class ApiController extends Controller
             Log::info('This works here');
 
             $invoice_no  =  rand(1000000000, 999999999999);
-            $total_amount = 0;
-            $net_amount = 1000;
+            $total_amount = $request->total_amount;
+            // $net_amount = 1000;
 
-            $taxes = $net_amount * 7.5 / 100;
+            // $taxes = $net_amount * 7.5 / 100;
 
-            $total_amount = $net_amount + $request->delivery_charge + $taxes;
+            // $total_amount = $net_amount + $request->delivery_charge + $taxes;
 
             $my_wallet = MyWallet::where('user_id', $user_id)->first();
 
@@ -843,9 +843,9 @@ class ApiController extends Controller
             $order_data['user_id'] = $user_id;
             // $order_data['driver_id'] = $response != null && $response->count() > 0 ? $response->first()->id : null;
             $order_data['ride_request_id'] = $result2;
-            $order_data['net_amount'] = $net_amount;
+            $order_data['net_amount'] = $total_amount;
             $order_data['total_amount'] = $total_amount;
-            $order_data['taxes'] =  $taxes;
+            $order_data['taxes'] =  $total_amount * 7.5 / 100;
             $order_data['delivery_charge'] = $request->delivery_charge;
             $order_data['payment_type'] = $request->payment_type == "cash" ? 2 : 1;
             $order_data['payment_status'] = 1;

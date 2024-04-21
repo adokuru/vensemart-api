@@ -989,11 +989,11 @@ class DeliveryRiderController extends Controller
             $useramount = (int)$useramount->amount;
 
             if ($order->payment_type == 1) {
-                if ($useramount < $total_amount) {
-                    $arr['status'] = 0;
-                    $arr['message'] = 'Customer has Insufficient funds in wallet to pay for delivery charge';
-                    return response()->json($arr, 200);
-                }
+                // if ($useramount < $total_amount) {
+                //     $arr['status'] = 0;
+                //     $arr['message'] = 'Customer has Insufficient funds in wallet to pay for delivery charge';
+                //     return response()->json($arr, 200);
+                // }
 
                 // $newuseramount = $useramount - $total_amount;
                 $newuseramount = $useramount - $total_amount;
