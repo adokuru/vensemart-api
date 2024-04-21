@@ -863,6 +863,8 @@ class ApiController extends Controller
             ]);
 
             $orderIdd = $order_data['order_id'];
+            $order = DB::table('orders')->where('order_id', $orderIdd)->first();
+
 
             // $data_noti = array('title' => "Order Delivery Request Placed", 'message' => "order placed successfully!  order  ID is  $orderIdd", 'user_id' => Auth::id());
             // $this->sendNotification(Auth::id(), "Order Placed", "Order Placed Successfully ");
@@ -870,37 +872,40 @@ class ApiController extends Controller
             $lati = $ride_data['start_latitude'];
             $longi = $ride_data['start_longitude'];
 
-            $this->contactRiderForDelivery($orderIdd, $user_id, $ride_data['start_address'], $ride_data['end_address'], $lati, $longi);
+            $user = User::where('id', $user_id)->first();
+
+            // $this->contactRiderForDelivery($orderIdd, $user_id, $ride_data['start_address'], $ride_data['end_address'], $lati, $longi);
             // Call the get_drivers_list function and pass the new request
-            // $response = $this->get_nearby_list($req);
-            // if ($response->count() > 0) {
-            //     // notify nearby riders about the new ride request
-            //     foreach ($response as $rider) {
-            //         // $Corddata = [
-            //         //     'lati' => $ride_data['start_latitude'],
-            //         //     'longi' => $ride_data['start_longitude'],
-            //         // ];
+            $response = $this->get_nearby_list($req);
+            if ($response->count() > 0) {
+                //     // notify nearby riders about the new ride request
+                foreach ($response as $rider) {
+                    $rider = User::where('id', $rider->id)->first();
+                    dd($rider->id);
+                    $data = [
+                        "title" => "New Ride Request",
+                        "body" => "Customer " . $user->name . " requested a delivery for pickup order no " . $order->order_id,
+                        // "body" => "Customer " . $customer->name . " wants to contact you for order " . $order->order_id,
+                    ];
+                    $this->sendNotification($rider->id, $data['title'], $data['body']);
+                }
+            } else {
+                Log::info('No nearby riders found');
 
+                // Return success response
+                $arr['status'] = 0;
+                $arr['message'] = 'No Riders available at the moment';
+                $arr['data'] = NULL;
+                return response()->json($arr, 200);
+            }
 
-            //     }
-            // } else {
-            //     Log::info('No nearby riders found');
-
-            //     // Return success response
-            //     $arr['status'] = 0;
-            //     $arr['message'] = 'No Riders available at the moment';
-            // $arr['data'] = NULL;
-            //     return response()->json($arr, 200);
-            // }
-
-            DB::commit();
 
             // Return success response
-            $order = DB::table('orders')->where('order_id', $orderIdd)->first();
 
             // update ride request table with order id
             DB::table('ride_requests')->where('id', $result2)->update(['order_id' => $order->id, 'rider_id' => $user_id]);
 
+            DB::commit();
             $arr['status'] = 1;
             $arr['message'] = 'Ride Request Placed Successfully';
             $arr['data'] = [
@@ -1243,7 +1248,7 @@ class ApiController extends Controller
                 // if ($driver == null) {
                 //  $this->contactRiderForDelivery($orders->order_id, $user_id, $ride_request->start_address, $ride_request->end_address, $ride_request->start_latitude, $ride_request->start_longitude);
                 // }
-                
+
 
                 $data = [
                     'on_ride_request' => $rride_request,
