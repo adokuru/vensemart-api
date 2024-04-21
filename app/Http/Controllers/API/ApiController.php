@@ -807,10 +807,10 @@ class ApiController extends Controller
             $my_wallet = MyWallet::where('user_id', $user_id)->first();
 
             if ($request->payment_type == "wallet") {
-                if ($my_wallet->balance < $total_amount) {
+                if ($my_wallet->amount < $total_amount) {
                     return response()->json([
                         'status' => 0,
-                        'message' => 'Insufficient Balance',
+                        'message' => 'Insufficient Balance. Your Pickup and Delivery Charge is ' . $total_amount . ' and your wallet balance is ' . $my_wallet->amount . ' Please add money to your wallet to continue. or select the cash payment.',
                         // 'data' => null,
                     ], 200);
                 }
