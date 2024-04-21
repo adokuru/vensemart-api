@@ -881,7 +881,7 @@ class ApiController extends Controller
             $rid = $this->requestRiderForDelivery($lati, $longi);
             // dd($response, $rid);
 
-            if (!rid) {
+            if (!$rid) {
                 $arr['status'] = 0;
                 $arr['message'] = 'No Riders available at the moment';
                 // $arr['data'] = NULL;
