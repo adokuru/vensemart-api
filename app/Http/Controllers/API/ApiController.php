@@ -1042,7 +1042,7 @@ class ApiController extends Controller
 
         $user = DB::table('users')->where('id', $user_id)->first();
 
-        dd($ride_request, $on_ride_request);
+        // dd($ride_request, $on_ride_request);
 
         // if ($order_request) {
         if ($on_ride_request != null) {
