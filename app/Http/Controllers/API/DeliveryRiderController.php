@@ -43,7 +43,7 @@ class DeliveryRiderController extends Controller
     {
         $id = Auth::id();
         $user = User::find($id);
-      
+
         $notification_data = [
             'id'   => $user->id,
             'type' => "New ride request",
@@ -626,6 +626,8 @@ class DeliveryRiderController extends Controller
 
             RideRequest::where('order_id', $orderid)->update(['status' => "accepted", 'driver_id' => $driverId]);
 
+            // $this->sendNotification($order->user_id, 'Order Accepted', 'Your order has been accepted by the driver ');
+
             // if ($order->ride_request_id != null) {
             // DB::table('ride_requests')->where('id', $order->ride_request_id)->update(['status' => "accepted", 'driver_id' => $driverId]);
             // }
@@ -1099,6 +1101,8 @@ class DeliveryRiderController extends Controller
             Orders::where('id', $orderid)->update(['status' => "7", 'driver_id' => null]);
 
             $this->contactRiderAndVendor($order->order_id, $order->user_id);
+
+            $this->sendNotification($order->user_id, 'Order Rejected', 'Your order has been rejected by the driver ');
 
             $arr['status'] = 1;
             $arr['message'] = 'Order Rejected Successfully!!';
@@ -1973,6 +1977,10 @@ class DeliveryRiderController extends Controller
             'device_token' => 'required',
             'username' => 'required',
             'password' => 'required',
+            'location' => 'required',
+            'location_lat' => 'required',
+            'location_long' => 'required',
+            // 'state' => 'required'
         ]);
         try {
             if ($typevalidate->fails()) {
@@ -2008,6 +2016,10 @@ class DeliveryRiderController extends Controller
             $data['device_type'] = $request->device_type;
             $data['device_name'] = $request->device_name;
             $data['device_token'] = $request->device_token;
+            $data['location'] = $request->location;
+            $data['location_lat'] = $request->location_lat;
+            $data['location_long'] = $request->location_long;
+            // $data['state'] = $request->state;
 
             if (strpos($request->username, '@')) {
                 $data['email'] = $request->username;
@@ -2017,7 +2029,7 @@ class DeliveryRiderController extends Controller
 
             $token = $user->createToken('Pontus')->accessToken;
 
-            User::where('id', $user->id)->update(['remember_token' => $token, 'api_token' => $token, 'device_id' => $request->device_id, 'device_type' => $request->device_type, 'device_name' => $request->device_name, 'device_token' => $request->device_token]);
+            User::where('id', $user->id)->update(['remember_token' => $token, 'api_token' => $token, 'device_id' => $request->device_id, 'device_type' => $request->device_type, 'device_name' => $request->device_name, 'device_token' => $request->device_token, 'location' => $request->location, 'location_lat' => $request->location_lat, 'location_long' => $request->location_long]);
 
             $userArr = User::where('id', $user->id)->get()->first();
 
