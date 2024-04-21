@@ -682,128 +682,6 @@ class DeliveryRiderController extends Controller
     }
 
 
-    function saveRideHistory($data)
-    {
-        // dd($data);
-        $user_type = auth()->user()->user_type;
-        $data['datetime'] = date('Y-m-d H:i:s');
-        $mqtt_event = 'test_connection';
-        $history_data = [];
-        $sendTo = [];
-
-        // $ride_request_id = $data['ride_request']->rid;
-        $ride_request = RideRequest::find($data['ride_request']->ride_request_id);
-        switch ($data['history_type']) {
-            case 'new_ride_requested':
-                // $data['history_message'] = __('message.ride.new_ride_requested');
-                // $history_data = [
-                //     'rider_id' => $ride_request->rider_id,
-                //     'rider_name' => optional($ride_request->rider)->display_name ?? '',
-                // ];
-                $data['history_message'] = "New Ride Requested";
-                $history_data = [
-                    'rider_id' => $data['ride_request']->driver_id,
-                    // 'rider_name' => optional($data['ride_request']->rider)->display_name ?? '',
-                ];
-                $sendTo = [];
-                break;
-
-            case 'no_drivers_available':
-                # code...
-                break;
-            case 'accepted':
-                $data['history_message'] = "Ride Accepted";
-                $history_data = [
-                    'driver_id' => $data['ride_request']->driver_id,
-                    // 'driver_name' => optional($data['ride_request']->driver)->display_name ?? '',
-                ];
-                $mqtt_event = 'ride_request_status';
-                // $sendTo = removeValueFromArray(['admin', 'rider'], $user_type);
-                break;
-
-
-                // ride is in progress from the start to the end location
-            case 'in_progress':
-                $data['history_message'] = "Ride in Progress";
-                $history_data = [
-                    'driver_id' => $data['ride_request']->driver_id,
-                    // 'driver_name' => optional($data['ride_request']->driver)->display_name ?? '',
-                ];
-                $mqtt_event = 'ride_request_status';
-                // $sendTo = removeValueFromArray(['admin', 'rider'], $user_type);
-                break;
-
-            case 'canceled':
-                $data['history_message'] = __('message.ride.canceled');
-
-                if ($ride_request->cancel_by == 'auto') {
-                    $history_data = [
-                        'cancel_by' => $ride_request->cancel_by,
-                        'rider_id' => $ride_request->rider_id,
-                        // 'rider_name' => optional($ride_request->rider)->display_name ?? '',
-                    ];
-                }
-
-
-
-                if ($ride_request->cancel_by == 'driver') {
-                    $data['history_message'] = __('message.ride.driver_canceled');
-                    $history_data = [
-                        'cancel_by' => $ride_request->cancel_by,
-                        'driver_id' => $ride_request->driver_id,
-                        // 'driver_name' => optional($ride_request->driver)->display_name ?? '',
-                    ];
-                }
-
-                $mqtt_event = 'ride_request_status';
-                // $sendTo = removeValueFromArray(['admin', 'rider', 'driver'], $user_type);
-                break;
-
-            case 'driver_canceled':
-                $data['history_message'] = __('message.ride.driver_canceled');
-                $history_data = [
-                    'driver_id' => $ride_request->driver_id,
-                    // 'driver_name' => optional($ride_request->driver)->display_name ?? '',
-                ];
-                $mqtt_event = 'ride_request_status';
-                // $sendTo = removeValueFromArray(['admin', 'rider'], $user_type);
-                break;
-
-            default:
-                # code...
-                break;
-        }
-
-        $data['history_data'] = json_encode($history_data);
-
-
-
-        // if (count($sendTo) > 0) {
-
-
-        $notify_data = new \stdClass();
-        $notify_data->success = true;
-        $notify_data->success_type = $data['history_type'];
-        $notify_data->success_message = $data['history_message'];
-
-        // dd($data);
-
-
-        // if ($user != null) {
-        // dd($mqtt_event . '_' . $data['ride_request']->driver_id, json_encode($notify_data));
-
-
-        if ($data['history_type'] != 'new_ride_requested') {
-            dispatch(new NotifyViaMqtt($mqtt_event . '_' . $data['ride_request']->driver_id, json_encode($notify_data)));
-        }
-
-
-
-
-        // }
-
-    }
-
 
     //complete without otp
     public function complete_order_noOtp(Request $request)
@@ -1088,13 +966,22 @@ class DeliveryRiderController extends Controller
             $orderid = $request->order_id;
             $driverId = Auth::id();
 
-            $order = DB::table('orders')->where('id', $orderid)->where('driver_id', $driverId)->where('status', '2')->orWhere('status', '1')->first();
+            // $order = DB::table('orders')->where('id', $orderid)->where('driver_id', $driverId)->where('status', '2')->orWhere('status', '1')->first();
+            $order = DB::table('orders')->where('id', $orderid)->where('status', '2')->orWhere('status', '1')->first();
 
-            if ($order == null) {
+
+            // if ($order == null) {
+            //     $arr['status'] = 0;
+            //     $arr['message'] = 'Order not found or already accepted';
+            //     return response()->json($arr, 200);
+            // }
+            if ($order->driver_id != null) {
                 $arr['status'] = 0;
-                $arr['message'] = 'Order not found or already accepted';
+                $arr['message'] = 'Order already accepted by another driver';
                 return response()->json($arr, 200);
             }
+            
+
 
             DeliveryRequestStatus::where('order_id', $orderid)->where('driver_id', $driverId)->update(['delivery_status' => "2"]);
 
