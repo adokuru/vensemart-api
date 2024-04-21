@@ -967,34 +967,35 @@ class DeliveryRiderController extends Controller
             $driverId = Auth::id();
 
             // $order = DB::table('orders')->where('id', $orderid)->where('driver_id', $driverId)->where('status', '2')->orWhere('status', '1')->first();
-            $order = DB::table('orders')->where('id', $orderid)->where('status', '2')->orWhere('status', '1')->first();
+            $order = DB::table('orders')->where('id', $orderid)
+                ->whereIn('status', ['1', '2'])->first();
 
 
-            // if ($order == null) {
-            //     $arr['status'] = 0;
-            //     $arr['message'] = 'Order not found or already accepted';
-            //     return response()->json($arr, 200);
-            // }
-            if ($order->driver_id != null) {
+            if ($order) {
+                DeliveryRequestStatus::where('order_id', $orderid)->where('driver_id', $driverId)->update(['delivery_status' => "2"]);
+
+                Orders::where('id', $orderid)->update(['status' => "7", 'driver_id' => null]);
+
+                $this->contactRiderAndVendor($order->order_id, $order->user_id);
+
+                $this->sendNotification($order->user_id, 'Order Rejected', 'Your order has been rejected by the driver ');
+
+                $arr['status'] = 1;
+                $arr['message'] = 'Order Rejected Successfully!!';
+                $arr['data'] = true;
+                return response()->json($arr, 200);
+            } else {
                 $arr['status'] = 0;
-                $arr['message'] = 'Order already accepted by another driver';
+                $arr['message'] = 'Order not found or already accepted';
                 return response()->json($arr, 200);
             }
+            // if ($order->driver_id != null) {
+            //     $arr['status'] = 0;
+            //     $arr['message'] = 'Order already accepted by another driver';
+            //     return response()->json($arr, 200);
+            // }
 
 
-
-            DeliveryRequestStatus::where('order_id', $orderid)->where('driver_id', $driverId)->update(['delivery_status' => "2"]);
-
-            Orders::where('id', $orderid)->update(['status' => "7", 'driver_id' => null]);
-
-            $this->contactRiderAndVendor($order->order_id, $order->user_id);
-
-            $this->sendNotification($order->user_id, 'Order Rejected', 'Your order has been rejected by the driver ');
-
-            $arr['status'] = 1;
-            $arr['message'] = 'Order Rejected Successfully!!';
-            $arr['data'] = true;
-            return response()->json($arr, 200);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());
