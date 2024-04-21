@@ -889,10 +889,13 @@ class ApiController extends Controller
                 return response()->json($arr, 200);
             }
 
+            // total riders availabl
+            dd(array_sum($rid));
+
             // notify nearby riders about the new ride request
             foreach ($rid as $rider) {
                 $rider = User::where('id', $rider->id)->first();
-                dd($rider);
+                // dd($rider);
                 if ($rider->is_online == 1 && $rider->status == 1) {
                     // dd($rider->id);
                     $data = [
