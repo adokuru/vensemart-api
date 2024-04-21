@@ -892,7 +892,7 @@ class ApiController extends Controller
             // notify nearby riders about the new ride request
             foreach ($rid as $rider) {
                 $rider = User::where('id', $rider->id)->first();
-                dd($rider->id);
+                // dd($rider->id);
                 $data = [
                     "title" => "New Ride Request",
                     "body" => "Customer " . $user->name . " requested a delivery for pickup order no " . $order->order_id,
