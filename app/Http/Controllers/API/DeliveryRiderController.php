@@ -609,6 +609,8 @@ class DeliveryRiderController extends Controller
             $order = Orders::where('id', $orderid)->where('status', '1')->get();
             // $order = DB::table('orders')->where('id', $orderid)->where('status', '2')->where('driver_id', $driverId)->first();
 
+            dd($orderid, $order);
+
             dd($orderid, $order->driver_id, $order->status, $order->id, $order->user_id, $order->ride_request_id, $order);
 
 
