@@ -890,7 +890,7 @@ class ApiController extends Controller
             }
 
             // total riders availabl
-            dd(array_sum($rid));
+            dd(array_sum($rid), $rid);
 
             // notify nearby riders about the new ride request
             foreach ($rid as $rider) {
