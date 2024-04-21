@@ -1017,7 +1017,7 @@ class ApiController extends Controller
             ->where('r.rider_id', Auth::id())
             ->where('r.driver_id', null)
             ->whereNotIn('r.status', ['cancelled', 'completed'])
-            ->orderBy('r.created_at', 'desc') // Order by creation date in descending order
+            // ->orderBy('r.created_at', 'desc') // Order by creation date in descending order
             ->first();
 
         $on_ride_request =
@@ -1037,7 +1037,7 @@ class ApiController extends Controller
             ->where('r.rider_id', Auth::id())
             ->where('r.driver_id', '!=', null)
             ->whereNotIn('r.status', ['cancelled'])
-            ->orderBy('r.created_at', 'desc') // Order by creation date in descending order
+            // ->orderBy('r.created_at', 'desc') // Order by creation date in descending order
             ->first();
 
         $user = DB::table('users')->where('id', $user_id)->first();
@@ -1068,9 +1068,12 @@ class ApiController extends Controller
             'profile_image' => $user->profile,
             'status' => $user->status == 1 ? "Active" : "Inactive",
             // 'status' => $ride_request != null ? $ride_request->status : $on_ride_request->status,
-            'ride_request' => $ride_request,
-            'on_ride_request' => $on_ride_request,
-            'driver' => $driver,
+            'ride_request' => isset($ride_request) ? new $ride_request : null,
+            'on_ride_request' => isset($on_ride_request) ? new $on_ride_request : null,
+            'driver' => isset($driver) ? new $driver : null,
+            // 'ride_request' => $ride_request,
+            // 'on_ride_request' => $on_ride_request,
+            // 'driver' => $driver,
         ];
         $arr['status'] = 1;
         $arr['message'] = 'Order Request Found Successfully';
