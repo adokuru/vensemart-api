@@ -1030,7 +1030,6 @@ class ApiController extends Controller
                 'u.profile as user_image',
                 'u.type as user_type',
                 'u.status as user_status',
-
             )
             ->join('orders as o', 'o.id', 'r.order_id')
             ->join('users as u', 'u.id', 'o.user_id')
