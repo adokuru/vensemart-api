@@ -892,13 +892,23 @@ class ApiController extends Controller
             // notify nearby riders about the new ride request
             foreach ($rid as $rider) {
                 $rider = User::where('id', $rider->id)->first();
-                // dd($rider->id);
-                $data = [
-                    "title" => "New Ride Request",
-                    "body" => "Customer " . $user->name . " requested a delivery for pickup order no " . $order->order_id,
-                    // "body" => "Customer " . $customer->name . " wants to contact you for order " . $order->order_id,
-                ];
-                $this->sendNotification($rider->id, $data['title'], $data['body']);
+                if ($rider->is_online == 1 && $rider->status == 1) {
+                    // dd($rider->id);
+                    $data = [
+                        "title" => "New Ride Request",
+                        "body" => "Customer " . $user->name . " requested a delivery for pickup order no " . $order->order_id,
+                        // "body" => "Customer " . $customer->name . " wants to contact you for order " . $order->order_id,
+                    ];
+                    $this->sendNotification($rider->id, $data['title'], $data['body']);
+                } else {
+                    Log::info('No nearby riders found');
+
+                    // Return success response
+                    $arr['status'] = 0;
+                    $arr['message'] = 'No Riders available at the moment';
+                    $arr['data'] = NULL;
+                    return response()->json($arr, 200);
+                }
             }
             // } else {
             //     Log::info('No nearby riders found');
