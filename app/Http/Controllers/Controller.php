@@ -177,9 +177,9 @@ class Controller extends BaseController
             // OneSignal::sendPush($fields, $message);
 
             // $test =  OneSignal::sendPush($fields, $message);
-           $test =  \OneSignal::sendNotificationCustom($params);
+            $test =  \OneSignal::sendNotificationCustom($params);
 
-            dd($test, $fields, $message, $user);
+            // dd($test, $fields, $message, $user);
 
 
 
@@ -415,7 +415,7 @@ class Controller extends BaseController
 
 
             $data = [
-                "title" => "Contact Rider",
+                "title" => "Rider Request",
                 "body" => "Customer " . $customer->name . " requested a delivery for pickup " . $order->order_id,
                 // "body" => "Customer " . $customer->name . " wants to contact you for order " . $order->order_id,
             ];
