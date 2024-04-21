@@ -952,7 +952,7 @@ class DeliveryRiderController extends Controller
 
     public function reject_order(Request $request)
     {
-        // try {
+        try {
             $validator = Validator::make($request->all(), [
                 'order_id' => 'required',
             ]);
@@ -979,7 +979,7 @@ class DeliveryRiderController extends Controller
 
                 Orders::where('id', $orderid)->update(['status' => "7", 'driver_id' => null]);
 
-                $this->contactRiderAndVendor($order->order_id, $order->user_id);
+                // $this->contactRiderAndVendor($order->order_id, $order->user_id);
 
                 $this->sendNotification($order->user_id, 'Order Rejected', 'Your order has been rejected by the driver ');
 
@@ -999,12 +999,14 @@ class DeliveryRiderController extends Controller
             // }
 
 
-        // } catch (\Exception $e) {
-        //     $arr['status']  = 0;
-        //     $arr['message'] = 'something went wrong';
-        //     $arr['data']    = NULL;
-        // }
-        // return response()->json($arr, 200);
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            Log::error($e->getTraceAsString());
+            $arr['status']  = 0;
+            $arr['message'] = 'something went wrong';
+            $arr['data']    = NULL;
+        }
+        return response()->json($arr, 200);
     }
 
 
