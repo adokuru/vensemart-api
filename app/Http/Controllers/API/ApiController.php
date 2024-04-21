@@ -892,6 +892,7 @@ class ApiController extends Controller
             // notify nearby riders about the new ride request
             foreach ($rid as $rider) {
                 $rider = User::where('id', $rider->id)->first();
+                dd($rider);
                 if ($rider->is_online == 1 && $rider->status == 1) {
                     // dd($rider->id);
                     $data = [
