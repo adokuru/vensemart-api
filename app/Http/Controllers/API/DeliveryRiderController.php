@@ -971,7 +971,7 @@ class DeliveryRiderController extends Controller
                 ->whereIn('status', ['1', '2'])
                 ->first();
 
-            dd($order, $orderid, $driverId);
+            // dd($order, $orderid, $driverId);
 
 
             if ($order) {
