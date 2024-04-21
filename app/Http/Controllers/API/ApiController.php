@@ -879,9 +879,9 @@ class ApiController extends Controller
 
             $rid = $this->get_nearby_list($req);
             // $rid = $this->requestRiderForDelivery($lati, $longi);
-            dd($rid);
+            // dd($rid);
 
-            if (!$rid) {
+            if ($rid->count() == 0) {
                 $arr['status'] = 0;
                 $arr['message'] = 'No Riders available at the moment';
                 // $arr['data'] = NULL;
