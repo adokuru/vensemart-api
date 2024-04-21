@@ -1033,7 +1033,7 @@ class ApiController extends Controller
             )
             ->join('orders as o', 'o.id', 'r.order_id')
             ->join('users as u', 'u.id', 'o.user_id')
-            ->join('users as d', 'd.id', 'o.driver_id')
+            // ->join('users as d', 'd.id', 'o.driver_id')
             ->where('r.rider_id', Auth::id())
             ->where('r.driver_id', '!=', null)
             ->whereNotIn('r.status', ['cancelled'])
@@ -1041,7 +1041,7 @@ class ApiController extends Controller
 
         $user = DB::table('users')->where('id', $user_id)->first();
 
-        // dd($ride_request, $on_ride_request);
+        dd($ride_request, $on_ride_request);
 
         // if ($order_request) {
         if ($on_ride_request != null) {
