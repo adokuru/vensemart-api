@@ -516,7 +516,7 @@ class Controller extends BaseController
 
             // for each rider
             foreach ($riders as $rider) {
-                if ($rider) {
+                if ($rider->is_online == 1 && $rider->status == 1) {
                     // $result = DeliveryRequestStatus::create([
                     //     'order_id' => $order->id,
                     //     'customer_id' => $customerID,
