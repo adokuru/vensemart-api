@@ -989,7 +989,7 @@ class DeliveryRiderController extends Controller
                 return response()->json($arr, 200);
             } else {
                 $arr['status'] = 0;
-                $arr['message'] = 'Order not found or already accepted';
+                $arr['message'] = 'Order not found or already rejected';
                 return response()->json($arr, 200);
             }
             // if ($order->driver_id != null) {
