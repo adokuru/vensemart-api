@@ -591,7 +591,7 @@ class DeliveryRiderController extends Controller
     //Accept order API
     public function accept_order(Request $request)
     {
-        try {
+        // try {
             $validator = Validator::make($request->all(), [
                 'order_id' => 'required',
             ]);
@@ -676,12 +676,12 @@ class DeliveryRiderController extends Controller
 
             // $this->saveRideHistory($history_data);
 
-        } catch (\Exception $e) {
-            $arr['status']  = 0;
-            $arr['message'] = 'something went wrong';
-            // $arr['data']    = NULL;
-            return response()->json($arr, 200);
-        }
+        // } catch (\Exception $e) {
+        //     $arr['status']  = 0;
+        //     $arr['message'] = 'something went wrong';
+        //     // $arr['data']    = NULL;
+        //     return response()->json($arr, 200);
+        // }
     }
 
 
