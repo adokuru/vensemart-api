@@ -876,7 +876,10 @@ class ApiController extends Controller
 
             // $this->contactRiderForDelivery($orderIdd, $user_id, $ride_data['start_address'], $ride_data['end_address'], $lati, $longi);
             // Call the get_drivers_list function and pass the new request
+
             $response = $this->get_nearby_list($req);
+            $rid = $this->requestRiderForDelivery($lati, $longi);
+            dd($response, $rid);
             if ($response->count() > 0) {
                 //     // notify nearby riders about the new ride request
                 foreach ($response as $rider) {
