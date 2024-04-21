@@ -591,7 +591,7 @@ class DeliveryRiderController extends Controller
     //Accept order API
     public function accept_order(Request $request)
     {
-        // try {
+        try {
             $validator = Validator::make($request->all(), [
                 'order_id' => 'required',
             ]);
@@ -609,18 +609,8 @@ class DeliveryRiderController extends Controller
             $order = Orders::where('id', $orderid)->where('status', ['1', '2'])->get();
             // $order = DB::table('orders')->where('id', $orderid)->where('status', '2')->where('driver_id', $driverId)->first();
 
-            dd($orderid, $order);
 
-            dd($orderid, $order->driver_id, $order->status, $order->id, $order->user_id, $order->ride_request_id, $order);
-
-
-            // if ($order) {
-            //     $arr['status'] = 0;
-            //     $arr['message'] = 'Order not found or already accepted';
-            //     return response()->json($arr, 200);
-            // }
-            // check if the order is already accepted by another driver
-            if ($order->driver_id != null) {
+            if ($order) {
                 $arr['status'] = 0;
                 $arr['message'] = 'Order already accepted by another driver';
                 return response()->json($arr, 200);
@@ -678,12 +668,12 @@ class DeliveryRiderController extends Controller
 
             // $this->saveRideHistory($history_data);
 
-        // } catch (\Exception $e) {
-        //     $arr['status']  = 0;
-        //     $arr['message'] = 'something went wrong';
-        //     // $arr['data']    = NULL;
-        //     return response()->json($arr, 200);
-        // }
+        } catch (\Exception $e) {
+            $arr['status']  = 0;
+            $arr['message'] = 'something went wrong';
+            // $arr['data']    = NULL;
+            return response()->json($arr, 200);
+        }
     }
 
 
