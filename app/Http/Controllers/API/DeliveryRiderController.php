@@ -970,6 +970,8 @@ class DeliveryRiderController extends Controller
             $order = DB::table('orders')->where('id', $orderid)
                 ->whereIn('status', ['1', '2'])->first();
 
+            dd($order, $orderid, $driverId);
+
 
             if ($order) {
                 DeliveryRequestStatus::where('order_id', $orderid)->where('driver_id', $driverId)->update(['delivery_status' => "2"]);
