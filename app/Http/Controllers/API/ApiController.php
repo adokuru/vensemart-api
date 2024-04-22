@@ -1223,7 +1223,7 @@ class ApiController extends Controller
                 $arr['message'] = 'Order Request Cancelled Successfully';
                 // $arr['data'] = ;
                 return response()->json($arr, 200);
-            } else if ($request->status == "rateride") {
+            } else if ($request->status == "rateride" && $ride_request->status == "completed") {
                 $ride_request->is_rider_rated = true;
                 $ride_request->save();
 
