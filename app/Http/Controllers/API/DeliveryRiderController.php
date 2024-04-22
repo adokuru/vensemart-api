@@ -404,6 +404,7 @@ class DeliveryRiderController extends Controller
                 // ->where('o.driver_id', Auth::id())
                 ->where(function ($query) {
                     $query->where('o.status', '1')
+                        ->orWhere('o.status', '3')
 
                         ->orWhere('o.status', '2');
                 })
