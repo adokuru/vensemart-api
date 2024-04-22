@@ -1225,7 +1225,7 @@ class ApiController extends Controller
                 // $arr['data'] = ;
                 return response()->json($arr, 200);
             } else if ($request->status == "rateride" && $ride_request->status == "completed") {
-                $ride_request->is_rider_rated = true;
+                $ride_request->is_rider_rated = 1;
                 $ride_request->save();
 
                 $arr['status'] = 1;
