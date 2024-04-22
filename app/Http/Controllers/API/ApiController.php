@@ -1017,10 +1017,11 @@ class ApiController extends Controller
             ->where('r.rider_id', Auth::id())
             ->where('r.driver_id', null)
             ->whereNotIn('r.status', ['cancelled', 'completed'])
+            ->where('o.status', '1')->orWhere('o.status', '2')
             ->where('r.is_rider_rated', false)
             // ->orderBy('o.created_at', 'desc') // Order by creation date in descending order
 
-            // ->orderBy('r.created_at', 'desc') // Order by creation date in descending order
+            ->orderBy('r.created_at', 'desc') // Order by creation date in descending order
             ->first();
 
         $on_ride_request =
@@ -1041,8 +1042,7 @@ class ApiController extends Controller
             ->where('r.driver_id', '!=', null)
             ->whereNotIn('r.status', ['cancelled'])
             ->where('r.is_rider_rated', false)
-
-            // ->orderBy('r.created_at', 'desc') // Order by creation date in descending order
+            ->orderBy('r.created_at', 'desc') // Order by creation date in descending order
             ->first();
 
         $user = DB::table('users')->where('id', $user_id)->first();
