@@ -623,7 +623,7 @@ class DeliveryRiderController extends Controller
                 ->first();
             // $order = DB::table('orders')->where('id', $orderid)->where('status', '2')->where('driver_id', $driverId)->first();
 
-            // dd($order, $orderid, $driverId);
+            dd($order, $orderid, $driverId);
 
 
             if ($order) {
