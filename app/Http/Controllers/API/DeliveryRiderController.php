@@ -303,7 +303,7 @@ class DeliveryRiderController extends Controller
         } catch (\Exception $e) {
             $arr['status']  = 0;
             $arr['message'] = 'something went wrong';
-            // $arr['data']    = NULL;
+            $arr['data']    = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -362,7 +362,7 @@ class DeliveryRiderController extends Controller
         } catch (\Exception $e) {
             $arr['status']  = 0;
             $arr['message'] = 'something went wrong';
-            // $arr['data']    = NULL;
+            $arr['data']    = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -454,7 +454,7 @@ class DeliveryRiderController extends Controller
         } catch (\Exception $e) {
             $arr['status']  = 0;
             $arr['message'] = 'something went wrong';
-            // $arr['data']    = NULL;
+            $arr['data']    = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -522,7 +522,7 @@ class DeliveryRiderController extends Controller
         } catch (\Exception $e) {
             $arr['status']  = 0;
             $arr['message'] = 'something went wrong';
-            // $arr['data']    = NULL;
+            $arr['data']    = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -596,7 +596,7 @@ class DeliveryRiderController extends Controller
         } catch (\Exception $e) {
             $arr['status']  = 0;
             $arr['message'] = 'something went wrong';
-            // $arr['data']    = NULL;
+            $arr['data']    = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -623,7 +623,7 @@ class DeliveryRiderController extends Controller
                 ->first();
             // $order = DB::table('orders')->where('id', $orderid)->where('status', '2')->where('driver_id', $driverId)->first();
 
-            dd($order, $orderid, $driverId);
+            // dd($order, $orderid, $driverId);
 
 
             if ($order) {
@@ -636,13 +636,15 @@ class DeliveryRiderController extends Controller
 
                 $arr['status'] = 1;
                 $arr['message'] = 'Order Accepted Successfully!!';
-                $arr['data'] = true;
-
+                $arr['data'] = [
+                    'booking_id' => $order->id,
+                    'status' => $order->status,
+                ];
                 return response()->json($arr, 200);
             } else {
 
                 $arr['status'] = 0;
-                $arr['message'] = 'Order already accepted by another driver';
+                $arr['message'] = 'Order already accepted or not found';
                 return response()->json($arr, 200);
             }
 
@@ -688,7 +690,7 @@ class DeliveryRiderController extends Controller
         } catch (\Exception $e) {
             $arr['status']  = 0;
             $arr['message'] = 'something went wrong';
-            $arr['data']    = NULL;
+            // $arr['data']    = NULL;
             return response()->json($arr, 200);
         }
     }
@@ -734,7 +736,7 @@ class DeliveryRiderController extends Controller
         } catch (\Exception $e) {
             $arr['status']  = 0;
             $arr['message'] = 'something went wrong';
-            // $arr['data']    = NULL;
+            $arr['data']    = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -792,7 +794,7 @@ class DeliveryRiderController extends Controller
         } catch (\Exception $e) {
             $arr['status']  = 0;
             $arr['message'] = 'something went wrong';
-            // $arr['data']    = NULL;
+            $arr['data']    = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -938,7 +940,7 @@ class DeliveryRiderController extends Controller
         } catch (\Exception $e) {
             $arr['status']  = 0;
             $arr['message'] = 'something went wrong';
-            // $arr['data']    = NULL;
+            $arr['data']    = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -1016,7 +1018,7 @@ class DeliveryRiderController extends Controller
             Log::error($e->getTraceAsString());
             $arr['status']  = 0;
             $arr['message'] = 'something went wrong';
-            $arr['data']    = NULL;
+            // $arr['data']    = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -1043,7 +1045,7 @@ class DeliveryRiderController extends Controller
         } catch (\Exception $e) {
             $arr['status']  = 0;
             $arr['message'] = 'something went wrong';
-            // $arr['data']    = NULL;
+            $arr['data']    = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -1065,7 +1067,7 @@ class DeliveryRiderController extends Controller
         } catch (\Exception $e) {
             $arr['status']  = 0;
             $arr['message'] = 'something went wrong';
-            // $arr['data']    = NULL;
+            $arr['data']    = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -1085,7 +1087,7 @@ class DeliveryRiderController extends Controller
             if ($validator->fails()) {
                 $arr['status']  = 0;
                 $arr['message'] = "Validation Failed";
-                // $arr['data']    = NULL;
+                $arr['data']    = NULL;
                 return response()->json($arr, 200);
             }
             $vehicle_details = $request->all();
@@ -1119,11 +1121,11 @@ class DeliveryRiderController extends Controller
             DB::table('vehicle_details')->insert($vehicle_details);
             $arr['status']  = 1;
             $arr['message'] = "Vehicle registration successfully";
-            // $arr['data']    = NULL;
+            $arr['data']    = NULL;
         } catch (\Exception $e) {
             $arr['status']  = 0;
             $arr['message'] = "something went wrong";
-            // $arr['data']    = NULL;
+            $arr['data']    = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -1294,7 +1296,7 @@ class DeliveryRiderController extends Controller
         } else {
             $arr['status']  = 0;
             $arr['message'] = 'something went wrong';
-            // $arr['data']    = NULL;
+            $arr['data']    = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -1826,7 +1828,7 @@ class DeliveryRiderController extends Controller
         if ($validator->fails()) {
             $arr['status']  = 0;
             $arr['message'] = "Validation Failed";
-            // $arr['data']    = NULL;
+            $arr['data']    = NULL;
             return response()->json($arr, 200);
         }
 
