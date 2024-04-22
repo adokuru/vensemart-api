@@ -1223,7 +1223,17 @@ class ApiController extends Controller
                 $arr['message'] = 'Order Request Cancelled Successfully';
                 // $arr['data'] = ;
                 return response()->json($arr, 200);
-            } else if ($orders->status == 3 && $ride_request->status == "accepted" || $orders->status == 5 && $ride_request->status == "picking_up" || $orders->status == 6 && $ride_request->status == "in_progress") {
+            } else if ($request->status == "rateride") {
+                $ride_request->is_rider_rated = true;
+                $ride_request->save();
+
+                $arr['status'] = 1;
+                $arr['message'] = 'Ride Request Completed Successfully';
+                // $arr['data'] = ;
+                return response()->json($arr, 200);
+            }
+            
+            else if ($orders->status == 3 && $ride_request->status == "accepted" || $orders->status == 5 && $ride_request->status == "picking_up" || $orders->status == 6 && $ride_request->status == "in_progress") {
 
                 $driver = User::find($ride_request->driver_id);
                 // dd($driver);

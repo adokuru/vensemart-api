@@ -923,7 +923,7 @@ class DeliveryRiderController extends Controller
 
             Orders::where('id', $orderid)->update(['status' => "4"]);
 
-            RideRequest::where('id', $order->ride_request_id)->update(['status' => "completed", 'is_rider_rated' => 1]);
+            RideRequest::where('id', $order->ride_request_id)->update(['status' => "completed", ]);
 
 
             Log::info("orderid : $order->driver_id");
@@ -992,6 +992,8 @@ class DeliveryRiderController extends Controller
                 DeliveryRequestStatus::where('order_id', $orderid)->where('driver_id', $driverId)->update(['delivery_status' => "2"]);
 
                 Orders::where('id', $orderid)->update(['status' => "7", 'driver_id' => null]);
+
+                RideRequest::where('order_id', $orderid)->update(['status' => "cancelled", 'driver_id' => null]);
 
                 // $this->contactRiderAndVendor($order->order_id, $order->user_id);
 
