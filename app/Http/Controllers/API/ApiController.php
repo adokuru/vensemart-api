@@ -1154,6 +1154,8 @@ class ApiController extends Controller
             ->orderBy('r.created_at', 'desc') // Order by creation date in descending order
             ->first();
 
+            // dd($request)
+
 
 
         try {
@@ -1224,7 +1226,7 @@ class ApiController extends Controller
                 $arr['message'] = 'Order Request Cancelled Successfully';
                 // $arr['data'] = ;
                 return response()->json($arr, 200);
-            } else if ($request->status == "rateride" && $ride_request->status == "completed") {
+            } else if ($request->status == "riderated" && $ride_request->status == "completed") {
                 $ride_request->is_rider_rated = 1;
                 $ride_request->save();
 
