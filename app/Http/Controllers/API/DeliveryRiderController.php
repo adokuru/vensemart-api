@@ -1677,7 +1677,7 @@ class DeliveryRiderController extends Controller
         if (!$order) {
             $arr['status'] = 0;
             $arr['message'] = 'Invalid Order ID!!';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
             return response()->json($arr, 422);
         }
 
@@ -1687,7 +1687,7 @@ class DeliveryRiderController extends Controller
                 if ($order->otp != $request->otp) {
                     $arr['status'] = 0;
                     $arr['message'] = 'Invalid OTP!!';
-                    $arr['data'] = NULL;
+                    // $arr['data'] = NULL;
                     return response()->json($arr, 422);
                 }
 
@@ -1753,7 +1753,7 @@ class DeliveryRiderController extends Controller
             default:
                 $arr['status'] = 0;
                 $arr['message'] = 'Something went wrong!!';
-                $arr['data'] = false;
+                // $arr['data'] = false;
                 break;
         }
         return response()->json($arr, 200);
