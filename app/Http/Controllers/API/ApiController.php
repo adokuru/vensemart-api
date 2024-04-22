@@ -1151,6 +1151,7 @@ class ApiController extends Controller
             ->where('r.rider_id', Auth::id())
             ->where('r.driver_id', '!=', null)
             ->whereNotIn('r.status', ['cancelled'])
+            ->orderBy('r.created_at', 'desc') // Order by creation date in descending order
             ->first();
 
 
@@ -1231,9 +1232,7 @@ class ApiController extends Controller
                 $arr['message'] = 'Ride Request Completed Successfully';
                 // $arr['data'] = ;
                 return response()->json($arr, 200);
-            }
-            
-            else if ($orders->status == 3 && $ride_request->status == "accepted" || $orders->status == 5 && $ride_request->status == "picking_up" || $orders->status == 6 && $ride_request->status == "in_progress") {
+            } else if ($orders->status == 3 && $ride_request->status == "accepted" || $orders->status == 5 && $ride_request->status == "picking_up" || $orders->status == 6 && $ride_request->status == "in_progress") {
 
                 $driver = User::find($ride_request->driver_id);
                 // dd($driver);
