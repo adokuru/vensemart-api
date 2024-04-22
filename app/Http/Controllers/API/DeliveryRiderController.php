@@ -394,25 +394,20 @@ class DeliveryRiderController extends Controller
                     'ua.location_lat as delivery_latitude',
                     'ua.location_long as delivery_longitude',
                     'ua.mobile as delivery_mobile',
+                    DB::raw("CASE WHEN o.driver_id = " . Auth::id() . " THEN 1 ELSE 0 END AS show_for_current_driver"),
                     DB::raw("CASE WHEN rr.is_ride_for_other = 1 THEN TRIM(BOTH '\"' FROM JSON_EXTRACT(rr.other_rider_data, '$.name')) ELSE NULL END AS other_rider_name"),
                     DB::raw("CASE WHEN rr.is_ride_for_other = 1 THEN TRIM(BOTH '\"' FROM JSON_EXTRACT(rr.other_rider_data, '$.phone_number')) ELSE NULL END AS other_rider_phone_number")
                 )
                 ->leftJoin('stores as s', 's.id', 'o.shop_id')
                 ->leftJoin('users as ua', 'ua.id', 'o.user_id')
                 ->leftJoin('ride_requests as rr', 'rr.id', 'o.ride_request_id') // Join the ride_request table
-                ->where(function ($query) {
-                    // if the driver_id is null, then the order is not assigned to any driver
-                    $query->whereNull('o.driver_id')
-                        ->orWhere('o.driver_id', Auth::id());
-                })
                 // ->where('o.driver_id', Auth::id())
                 ->where(function ($query) {
                     $query->where('o.status', '1')
+
                         ->orWhere('o.status', '2');
-                })->where(function ($query) {
-                    $query->whereNull('rr.status') // Exclude order if ride_request is null
-                        ->orWhereNotIn('rr.status', ['cancelled', 'completed']); // Exclude if ride_request status is cancelled or completed
                 })
+                ->orderBy('show_for_current_driver', 'DESC') // Prioritize orders for the current driver
                 // ->orWhereNotIn('rr.status', ['cancelled', 'completed'])
                 // Use whereIn to check for multiple statuses
                 ->get();
@@ -923,7 +918,7 @@ class DeliveryRiderController extends Controller
 
             Orders::where('id', $orderid)->update(['status' => "4"]);
 
-            RideRequest::where('id', $order->ride_request_id)->update(['status' => "completed", ]);
+            RideRequest::where('id', $order->ride_request_id)->update(['status' => "completed",]);
 
 
             Log::info("orderid : $order->driver_id");
