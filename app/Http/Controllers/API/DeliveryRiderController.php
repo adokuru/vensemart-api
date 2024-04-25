@@ -860,14 +860,18 @@ class DeliveryRiderController extends Controller
 
             $driveramount = (int)$walletamount->amount;
 
-            Log::info("delivery charge : $order->delivery_charge");
+            $c_driveramount = (int)$walletamount->c_amount;
+
 
             $net_earned_on_ride = (80 / 100) * $order->delivery_charge + $order->net_amount;
             $newamount = $driveramount + $net_earned_on_ride;
 
-            Log::info("newamounnt : $newamount");
+            // for c_driveramount its based on if the user paid with cash 20 percent of the  charge is added to the driver wallet
+            $c_net_earned_on_ride = (20 / 100) * $order->total_amount;
+            $c_newamount = $c_driveramount + $c_net_earned_on_ride;
 
-            $total_amount = $order->delivery_charge + $order->net_amount;
+
+            // $total_amount = $order->delivery_charge + $order->net_amount;
 
             // subtract from user wallet check if user has enough money to pay for delivery and if order payment type is wallet
             // if not enough money, return error message
@@ -884,7 +888,7 @@ class DeliveryRiderController extends Controller
                 // }
 
                 // $newuseramount = $useramount - $total_amount;
-                $newuseramount = $useramount - $total_amount;
+                $newuseramount = $useramount - $order->total_amount;
 
                 Log::info("newuseramount : $newuseramount");
 
@@ -904,6 +908,18 @@ class DeliveryRiderController extends Controller
                 $wallet_transaction->user_id = $user_id;
                 $wallet_transaction->amount = $net_earned_on_ride;
                 $wallet_transaction->status = 1;
+                $wallet_transaction->message = "Delivery Charge";
+                $wallet_transaction->save();
+            } else if ($order->payment_type == 2) {
+                $newuseramount = $useramount - $order->total_amount;
+
+
+                DB::table('my_wallet')->where('user_id', $order->driver_id)->update(['c_amount' => $c_newamount]);
+
+                $wallet_transaction = new WalletHistorys();
+                $wallet_transaction->user_id = $order->driver_id;
+                $wallet_transaction->amount = $c_net_earned_on_ride;
+                $wallet_transaction->status = 2;
                 $wallet_transaction->message = "Delivery Charge";
                 $wallet_transaction->save();
             }
@@ -1473,6 +1489,7 @@ class DeliveryRiderController extends Controller
             $walletamount = DB::table('my_wallet')->where('user_id', $userId)->first();
             if (!empty($walletamount)) {
                 $data['walletamount'] = $walletamount->amount;
+                $data['c_walletamount'] = $walletamount->c_amount;
                 $data['transactionhistory'] = DB::table('wallet_historys')->where('user_id', $userId)->get();
 
 
