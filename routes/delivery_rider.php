@@ -63,6 +63,11 @@ Route::group([
     Route::post('complete_order_sms', [DeliveryRiderController::class, 'complete_order_sms']);
     Route::post('validate_order_details', [DeliveryRiderController::class, 'validate_order_details']);
 
+    Route::any('my-orders',
+        [DeliveryRiderController::class, 'myOrders']
+    );
+
+
 
     Route::get('get_notification', [DeliveryRiderController::class, 'get_notification']);
 

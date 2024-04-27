@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Jobs\NotifyViaMqtt;
 use App\Models\DeliveryRequestStatus;
+use App\Models\EshopPurchaseDetail;
 use App\Models\MyWallet;
 use App\Models\Orders;
 use App\Models\RideRequest;
@@ -1617,6 +1618,9 @@ class DeliveryRiderController extends Controller
         return response()->json($arr, 200);
     }
 
+
+
+
     public function send_otp_to_delivery(Request $request)
     {
         try {
@@ -1761,6 +1765,15 @@ class DeliveryRiderController extends Controller
                     "+234" . substr($order->user->mobile, -10),
                     "order-" . $order->id . " has been picked up successfully!! use this pin to complete your order: " . $order->otp
                 );
+
+                // if is_ride_other == 1 then notify the other user get the phone number of the other user FROM {"name":"Bobby Dan","phone_number":"089122901982"}
+                if ($order->is_ride_for_other == 1) {
+                    $other_user = json_decode($order->other_user);
+                    $this->sendSMSMessage(
+                        "+234" . substr($other_user->phone_number, -10),
+                        "order-" . $order->id . " has been picked up successfully!! use this pin to complete your order: " . $order->otp
+                    );
+                }
 
                 $arr['status'] = 1;
                 $arr['message'] = 'Order Picked Up Successfully!!';
@@ -2040,6 +2053,141 @@ class DeliveryRiderController extends Controller
             $arr['data'] = NULL;
         }
 
+        return response()->json($arr, 200);
+    }
+
+    //My orders API
+    public function myOrders(Request $request)
+    {
+        try {
+
+            $orders =
+                DB::table('orders as o')
+                ->select(
+                    'o.*',
+                    'rr.start_address as ride_start_address',
+                    'rr.end_address as ride_end_address',
+                    'rr.start_latitude as ride_start_latitude',
+                    'rr.start_longitude as ride_start_longitude',
+                    'rr.end_latitude as ride_delivery_latitude',
+                    'rr.end_longitude as ride_delivery_longitude',
+                    'rr.ride_type as ride_type',
+                    'rr.item_type as item_type',
+                    'rr.item_categories as item_categories',
+                    'rr.status as ride_status',
+                    'rr.order_id as order_id',
+                    's.store_name',
+                    's.address as store_address',
+                    's.lati as store_latitude',
+                    's.longi as store_longitude',
+                    'ua.location as delivery_address',
+                    'ua.location_lat as delivery_latitude',
+                    'ua.location_long as delivery_longitude',
+                    'ua.mobile as delivery_mobile',
+                    DB::raw("CASE WHEN rr.is_ride_for_other = 1 THEN TRIM(BOTH '\"' FROM JSON_EXTRACT(rr.other_rider_data, '$.name')) ELSE NULL END AS other_rider_name"),
+                    DB::raw("CASE WHEN rr.is_ride_for_other = 1 THEN TRIM(BOTH '\"' FROM JSON_EXTRACT(rr.other_rider_data, '$.phone_number')) ELSE NULL END AS other_rider_phone_number")
+
+                )
+                ->leftJoin('stores as s', 's.id', 'o.shop_id')
+                ->leftJoin('users as ua', 'ua.id', 'o.user_id')
+                ->leftJoin('ride_requests as rr', 'rr.id', 'o.ride_request_id') // Join the ride_request table
+                ->where('o.driver_id', Auth::id())
+                ->where('o.status', '=', $request->status)
+
+                ->orderBy('o.id', 'desc')->get();
+
+            foreach ($orders as $key => $val) {
+                $product_details =  EshopPurchaseDetail::where('order_id', $val->order_id)->get()->toArray();
+                $val->products = $product_details != [] ? $product_details : [];
+            }
+
+            $order_list = $orders->toArray();
+            if ($order_list == []) {
+                $arr['status'] = 0;
+                $arr['message'] = "no data found";
+                // $arr['data'] = NULL;
+            } else {
+                $arr['status'] = 1;
+                $arr['message'] = "order list found successfully";
+                $arr['data'] = $order_list;
+            }
+            return response()->json($arr, 200);
+        } catch (\Exception $e) {
+            $arr['status'] = 0;
+            $arr['message'] = env('APP_DEBUG') ? $e->getMessage() : "something went wrong";
+            // $arr['data'] = NULL;
+        }
+        return response()->json($arr, 200);
+    }
+
+    // orderDetails
+    public function orderDetails(Request $request)
+    {
+        $validate = Validator::make($request->all(), ['order_id' => 'required']);
+        try {
+            if ($validate->fails()) {
+                $arr['status'] = 0;
+                $arr['message'] = 'Validation Failed!!';
+                // $arr['data'] = NULL;
+                return response()->json($arr, 200);
+            }
+            $orders = DB::table('orders as o')
+            ->select(
+                'o.*',
+                'rr.start_address as ride_start_address',
+                'rr.end_address as ride_end_address',
+                'rr.start_latitude as ride_start_latitude',
+                'rr.start_longitude as ride_start_longitude',
+                'rr.end_latitude as ride_delivery_latitude',
+                'rr.end_longitude as ride_delivery_longitude',
+                'rr.ride_type as ride_type',
+                'rr.item_type as item_type',
+                'rr.item_categories as item_categories',
+                'rr.status as ride_status',
+                'rr.order_id as order_id',
+                's.store_name',
+                's.address as store_address',
+                's.lati as store_latitude',
+                's.longi as store_longitude',
+                'ua.location as delivery_address',
+                'ua.location_lat as delivery_latitude',
+                'ua.location_long as delivery_longitude',
+                'ua.mobile as delivery_mobile',
+                DB::raw("CASE WHEN rr.is_ride_for_other = 1 THEN TRIM(BOTH '\"' FROM JSON_EXTRACT(rr.other_rider_data, '$.name')) ELSE NULL END AS other_rider_name"),
+                DB::raw("CASE WHEN rr.is_ride_for_other = 1 THEN TRIM(BOTH '\"' FROM JSON_EXTRACT(rr.other_rider_data, '$.phone_number')) ELSE NULL END AS other_rider_phone_number")
+            )
+                ->leftJoin('stores as s', 's.id', 'o.shop_id')
+                ->leftJoin('users as ua', 'ua.id', 'o.user_id')
+                ->leftJoin('ride_requests as rr', 'rr.id', 'o.ride_request_id') // Join the ride_request table
+                ->where('o.driver_id', Auth::id())
+                ->where('o.id', $request->order_id)->first();
+
+            if (!$orders) {
+                $arr['status'] = 0;
+                $arr['message'] = "no data found";
+                // $arr['data'] = NULL;
+                return response()->json(
+                    $arr,
+                    200
+                );
+            }
+            $product_details =  EshopPurchaseDetail::where('order_id', $orders->order_id)->get()->toArray();
+            $orders->products = $product_details != [] ? $product_details : [];
+            if (!$orders) {
+                $arr['status'] = 0;
+                $arr['message'] = "no data found";
+                // $arr['data'] = NULL;
+            } else {
+                $arr['status'] = 1;
+                $arr['message'] = "order details found successfully";
+                $arr['data'] = $orders;
+            }
+            return response()->json($orders, 200);
+        } catch (\Exception $e) {
+            $arr['status'] = 0;
+            $arr['message'] = "something went wrong";
+            // $arr['data'] = NULL;
+        }
         return response()->json($arr, 200);
     }
 }

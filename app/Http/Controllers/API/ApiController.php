@@ -900,7 +900,14 @@ class ApiController extends Controller
                         "body" => "Customer " . $user->name . " requested a delivery for pickup order no " . $order->order_id,
                         // "body" => "Customer " . $customer->name . " wants to contact you for order " . $order->order_id,
                     ];
-                    $this->sendNotification($rider->id, $data['title'], $data['body']);
+                    // check if rider is currently on ride
+                    $check = DB::table('orders')->where('driver_id', $rider->id)->where('status', [3, 5, 6])->first();
+
+                    if (!$check) {
+                        $this->sendNotification($rider->id, $data['title'], $data['body']);
+                    }
+
+                    // $this->sendNotification($rider->id, $data['title'], $data['body']);
                 }
             }
             // } else {
@@ -1154,7 +1161,7 @@ class ApiController extends Controller
             ->orderBy('r.created_at', 'desc') // Order by creation date in descending order
             ->first();
 
-            // dd($request)
+        // dd($request)
 
 
 
@@ -2048,7 +2055,6 @@ class ApiController extends Controller
                     'rr.item_categories as item_categories',
                     'rr.status as ride_status',
                     'rr.order_id as order_id',
-
                     's.store_name',
                     's.address as store_address',
                     's.lati as store_latitude',
