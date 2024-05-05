@@ -817,6 +817,8 @@ class DeliveryRiderController extends Controller
             //  $userphone = $request->phone;
 
 
+
+
             //  $otp = rand(1000, 9999);
             // $users->otp = $otp;
             // $users->save();
@@ -1712,6 +1714,77 @@ class DeliveryRiderController extends Controller
                     return response()->json($arr, 422);
                 }
 
+                $walletamount = DB::table('my_wallet')->where('user_id', $order->driver_id)->first();
+
+                $useramount = DB::table('my_wallet')->where('user_id', $order->user_id)->first();
+
+                $driveramount = (int)$walletamount->amount;
+
+                $c_driveramount = (int)$walletamount->c_amount;
+
+
+                $net_earned_on_ride = (80 / 100) * $order->delivery_charge + $order->net_amount;
+                $newamount = $driveramount + $net_earned_on_ride;
+
+                // for c_driveramount its based on if the user paid with cash 20 percent of the  charge is added to the driver wallet
+                $c_net_earned_on_ride = (20 / 100) * $order->total_amount;
+                $c_newamount = $c_driveramount + $c_net_earned_on_ride;
+
+
+                // $total_amount = $order->delivery_charge + $order->net_amount;
+
+                // subtract from user wallet check if user has enough money to pay for delivery and if order payment type is wallet
+                // if not enough money, return error message
+                // if enough money, subtract from user wallet and add to driver wallet
+
+
+                $useramount = (int)$useramount->amount;
+
+                if ($order->payment_type == 1) {
+                    // if ($useramount < $total_amount) {
+                    //     $arr['status'] = 0;
+                    //     $arr['message'] = 'Customer has Insufficient funds in wallet to pay for delivery charge';
+                    //     return response()->json($arr, 200);
+                    // }
+
+                    // $newuseramount = $useramount - $total_amount;
+                    $newuseramount = $useramount - $order->total_amount;
+
+                    Log::info("newuseramount : $newuseramount");
+
+                    DB::table('my_wallet')->where('user_id', $order->driver_id)->update(['amount' => $newamount]);
+
+                    $wallet_transaction = new WalletHistorys();
+                    $wallet_transaction->user_id = $order->driver_id;
+                    $wallet_transaction->amount = $net_earned_on_ride;
+                    $wallet_transaction->status = 2;
+                    $wallet_transaction->message = "Delivery Charge";
+                    $wallet_transaction->save();
+
+
+                    DB::table('my_wallet')->where('user_id', $user_id)->update(['amount' => $newuseramount]);
+
+                    $wallet_transaction = new WalletHistorys();
+                    $wallet_transaction->user_id = $user_id;
+                    $wallet_transaction->amount = $net_earned_on_ride;
+                    $wallet_transaction->status = 1;
+                    $wallet_transaction->message = "Delivery Charge";
+                    $wallet_transaction->save();
+                } else if ($order->payment_type == 2) {
+                    $newuseramount = $useramount - $order->total_amount;
+
+
+                    DB::table('my_wallet')->where('user_id', $order->driver_id)->update(['c_amount' => $c_newamount]);
+
+                    $wallet_transaction = new WalletHistorys();
+                    $wallet_transaction->user_id = $order->driver_id;
+                    $wallet_transaction->amount = $c_net_earned_on_ride;
+                    $wallet_transaction->status = 2;
+                    $wallet_transaction->message = "Delivery Charge";
+                    $wallet_transaction->save();
+                }
+
+
                 $order->status = 4;
                 $order->save();
 
@@ -2132,30 +2205,30 @@ class DeliveryRiderController extends Controller
                 return response()->json($arr, 200);
             }
             $orders = DB::table('orders as o')
-            ->select(
-                'o.*',
-                'rr.start_address as ride_start_address',
-                'rr.end_address as ride_end_address',
-                'rr.start_latitude as ride_start_latitude',
-                'rr.start_longitude as ride_start_longitude',
-                'rr.end_latitude as ride_delivery_latitude',
-                'rr.end_longitude as ride_delivery_longitude',
-                'rr.ride_type as ride_type',
-                'rr.item_type as item_type',
-                'rr.item_categories as item_categories',
-                'rr.status as ride_status',
-                'rr.order_id as order_id',
-                's.store_name',
-                's.address as store_address',
-                's.lati as store_latitude',
-                's.longi as store_longitude',
-                'ua.location as delivery_address',
-                'ua.location_lat as delivery_latitude',
-                'ua.location_long as delivery_longitude',
-                'ua.mobile as delivery_mobile',
-                DB::raw("CASE WHEN rr.is_ride_for_other = 1 THEN TRIM(BOTH '\"' FROM JSON_EXTRACT(rr.other_rider_data, '$.name')) ELSE NULL END AS other_rider_name"),
-                DB::raw("CASE WHEN rr.is_ride_for_other = 1 THEN TRIM(BOTH '\"' FROM JSON_EXTRACT(rr.other_rider_data, '$.phone_number')) ELSE NULL END AS other_rider_phone_number")
-            )
+                ->select(
+                    'o.*',
+                    'rr.start_address as ride_start_address',
+                    'rr.end_address as ride_end_address',
+                    'rr.start_latitude as ride_start_latitude',
+                    'rr.start_longitude as ride_start_longitude',
+                    'rr.end_latitude as ride_delivery_latitude',
+                    'rr.end_longitude as ride_delivery_longitude',
+                    'rr.ride_type as ride_type',
+                    'rr.item_type as item_type',
+                    'rr.item_categories as item_categories',
+                    'rr.status as ride_status',
+                    'rr.order_id as order_id',
+                    's.store_name',
+                    's.address as store_address',
+                    's.lati as store_latitude',
+                    's.longi as store_longitude',
+                    'ua.location as delivery_address',
+                    'ua.location_lat as delivery_latitude',
+                    'ua.location_long as delivery_longitude',
+                    'ua.mobile as delivery_mobile',
+                    DB::raw("CASE WHEN rr.is_ride_for_other = 1 THEN TRIM(BOTH '\"' FROM JSON_EXTRACT(rr.other_rider_data, '$.name')) ELSE NULL END AS other_rider_name"),
+                    DB::raw("CASE WHEN rr.is_ride_for_other = 1 THEN TRIM(BOTH '\"' FROM JSON_EXTRACT(rr.other_rider_data, '$.phone_number')) ELSE NULL END AS other_rider_phone_number")
+                )
                 ->leftJoin('stores as s', 's.id', 'o.shop_id')
                 ->leftJoin('users as ua', 'ua.id', 'o.user_id')
                 ->leftJoin('ride_requests as rr', 'rr.id', 'o.ride_request_id') // Join the ride_request table
