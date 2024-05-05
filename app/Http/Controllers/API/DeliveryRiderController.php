@@ -1466,21 +1466,21 @@ class DeliveryRiderController extends Controller
                     DB::table('my_wallet')->where('user_id', $id)->update(['amount' => $newamount]);
                     $arr['status'] = 1;
                     $arr['message'] = 'Request is Sent to the Admin Successfully!!';
-                    $arr['data'] = true;
+                    // $arr['data'] = true;
                 } else {
                     $arr['status'] = 0;
                     $arr['message'] = 'Sorry!! You did not have insufficent balance';
-                    $arr['data'] = NULL;
+                    // $arr['data'] = NULL;
                 }
             } else {
                 $arr['status'] = 0;
                 $arr['message'] = 'Sorry!! You did not have balance in your wallet';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
             }
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'Sorry!! Something Went Wrong';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
     }
