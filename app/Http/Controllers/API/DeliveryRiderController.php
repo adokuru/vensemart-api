@@ -778,10 +778,14 @@ class DeliveryRiderController extends Controller
             }
 
             if ($ride_request->is_ride_for_other == 1) {
-                $other_user = json_decode($ride_request->other_rider_data);
+                // $jsonData = '{"name":"James","phone_number":"7030625895"}';
+                $other_user = json_decode($ride_request->other_rider_data, true);
+
+                $phoneNumber = $other_user['phone_number'];
+                // $other_user = json_decode($ride_request->other_rider_data);
                 // dd($other_user->phone_number);
                 $this->sendSMSMessage(
-                    "+234" . substr($other_user->phone_number, -10),
+                    "+234" . substr($phoneNumber, -10),
                     "order-" . $order->id . " has been picked up successfully!! use this pin to complete your order: " . $order->otp
                 );
             } else {
@@ -1857,10 +1861,14 @@ class DeliveryRiderController extends Controller
 
                 // if is_ride_other == 1 then notify the other user get the phone number of the other user FROM {"name":"Bobby Dan","phone_number":"089122901982"}
                 if ($ride_request->is_ride_for_other == 1) {
-                    $other_user = json_decode($ride_request->other_rider_data);
+                    // $jsonData = '{"name":"James","phone_number":"7030625895"}';
+                    $other_user = json_decode($ride_request->other_rider_data, true);
+
+                    $phoneNumber = $other_user['phone_number'];
+                    // $other_user = json_decode($ride_request->other_rider_data);
                     // dd($other_user->phone_number);
                     $this->sendSMSMessage(
-                        "234" . substr($other_user->phone_number, -10),
+                        "+234" . substr($phoneNumber, -10),
                         "order-" . $order->id . " has been picked up successfully!! use this pin to complete your order: " . $order->otp
                     );
                 }
