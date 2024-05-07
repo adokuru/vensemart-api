@@ -1862,12 +1862,13 @@ class DeliveryRiderController extends Controller
                 // if is_ride_other == 1 then notify the other user get the phone number of the other user FROM {"name":"Bobby Dan","phone_number":"089122901982"}
                 if ($ride_request->is_ride_for_other == 1) {
                     // $jsonData = '{"name":"James","phone_number":"7030625895"}';
-                    var_dump($ride_request->other_rider_data);
-                    $other_user = json_decode($ride_request->other_rider_data, true);
+                    // var_dump($ride_request->other_rider_data);
+                    // $other_user = json_decode($ride_request->other_rider_data, true);
 
-                    var_dump($other_user);
+                    // var_dump($other_user);
+                    $other_user = $ride_request->other_rider_data['phone_number'];
 
-                    $phoneNumber = $other_user['phone_number'];
+                    $phoneNumber = $other_user;
                     // $other_user = json_decode($ride_request->other_rider_data);
                     // dd($other_user->phone_number);
                     $this->sendSMSMessage(
