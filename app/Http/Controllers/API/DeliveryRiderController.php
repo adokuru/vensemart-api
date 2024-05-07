@@ -768,7 +768,8 @@ class DeliveryRiderController extends Controller
 
             $driverId = Auth::id();
 
-            $order = DB::table('orders')->where('id', $orderid)->where('status', '3')->where('driver_id', $driverId)->first();
+            $order = DB::table('orders')->where('id', $orderid)->where('driver_id', $driverId)->first();
+            $ride_request = DB::table('ride_requests')->where('order_id', $orderid)->first();
 
             if ($order == null) {
                 $arr['status'] = 0;
@@ -776,15 +777,29 @@ class DeliveryRiderController extends Controller
                 return response()->json($arr, 200);
             }
 
-            $this->sendSMSMessage(
-                "+234" . substr($userphone, -10),
-                "order-" . $orderid . " has been picked up successfully!! use this pin to complete your order: " . $otp
-            );
+            if ($ride_request->is_ride_for_other == 1) {
+                $other_user = json_decode($ride_request->other_rider_data);
+                // dd($other_user->phone_number);
+                $this->sendSMSMessage(
+                    "+234" . substr($other_user->phone_number, -10),
+                    "order-" . $order->id . " has been picked up successfully!! use this pin to complete your order: " . $order->otp
+                );
+            } else {
+                $this->sendSMSMessage(
+                    "+234" . substr($userphone, -10),
+                    "order-" . $orderid . " has been picked up successfully!! use this pin to complete your order: " . $otp
+                );
+            }
 
-            Orders::where('id', $orderid)->update(['otp' => "$otp"]);
+            // $this->sendSMSMessage(
+            //     "+234" . substr($userphone, -10),
+            //     "order-" . $orderid . " has been picked up successfully!! use this pin to complete your order: " . $otp
+            // );
+
+            // Orders::where('id', $orderid)->update(['otp' => "$otp"]);
 
             $arr['status'] = 1;
-            $arr['message'] = 'Order Completed Successfully!!';
+            $arr['message'] = 'Order Otp Sent Successfully!!';
             $arr['data'] = true;
 
             return response()->json($arr, 200);
@@ -1835,17 +1850,17 @@ class DeliveryRiderController extends Controller
                 $phone_number = "234" . substr($order->user->mobile, -10);
                 $message = "order-" . $order->id . " has been picked up successfully!! use this pin to complete your order: " . $order->otp;
 
-                $this->sendSMSMessage(
-                    $phone_number,
-                    $message
-                );
+                // $this->sendSMSMessage(
+                //     $phone_number,
+                //     $message
+                // );
 
                 // if is_ride_other == 1 then notify the other user get the phone number of the other user FROM {"name":"Bobby Dan","phone_number":"089122901982"}
                 if ($ride_request->is_ride_for_other == 1) {
                     $other_user = json_decode($ride_request->other_rider_data);
                     // dd($other_user->phone_number);
                     $this->sendSMSMessage(
-                        "+234" . substr($other_user->phone_number, -10),
+                        "234" . substr($other_user->phone_number, -10),
                         "order-" . $order->id . " has been picked up successfully!! use this pin to complete your order: " . $order->otp
                     );
                 }
