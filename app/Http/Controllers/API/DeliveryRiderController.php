@@ -757,7 +757,7 @@ class DeliveryRiderController extends Controller
             $userphone = $request->phone;
 
 
-            $otp = rand(1000, 9999);
+            // $otp = rand(1000, 9999);
             // $users->otp = $otp;
             // $users->save();
 
@@ -786,6 +786,7 @@ class DeliveryRiderController extends Controller
                 $other_user = $ride_request->other_rider_data['phone_number'];
 
                 $phoneNumber = $other_user;
+                // dd($phoneNumber);
                 // $other_user = json_decode($ride_request->other_rider_data);
                 // dd($other_user->phone_number);
                 $this->sendSMSMessage(
@@ -795,7 +796,7 @@ class DeliveryRiderController extends Controller
             } else {
                 $this->sendSMSMessage(
                     "+234" . substr($userphone, -10),
-                    "order-" . $orderid . " has been picked up successfully!! use this pin to complete your order: " . $otp
+                    "order-" . $orderid . " has been picked up successfully!! use this pin to complete your order: " . $order->otp
                 );
             }
 
@@ -1757,6 +1758,13 @@ class DeliveryRiderController extends Controller
                 $c_net_earned_on_ride = (20 / 100) * $order->total_amount;
                 $c_newamount = $c_driveramount + $c_net_earned_on_ride;
 
+                if (!$useramount) {
+                    MyWallet::create([
+                        'user_id' => $order->user_id,
+                        'amount' => 0
+                    ]);
+                    $useramount = DB::table('my_wallet')->where('user_id', $order->user_id)->first();
+                }
 
 
                 $useramount = (int)$useramount->amount;
@@ -1882,7 +1890,7 @@ class DeliveryRiderController extends Controller
                 }
 
                 $arr['status'] = 1;
-                $arr['message'] = 'Order Picked Up Successfully!!';
+                $arr['message'] = 'Order In Progress';
                 $arr['data'] =    $order;
                 break;
 
