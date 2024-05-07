@@ -1863,6 +1863,9 @@ class DeliveryRiderController extends Controller
                 if ($ride_request->is_ride_for_other == 1) {
                     // $jsonData = '{"name":"James","phone_number":"7030625895"}';
                     $other_user = json_decode($ride_request->other_rider_data, true);
+                    <?php 
+                    var_dump($other_user);
+                    ?>
 
                     $phoneNumber = $other_user['phone_number'];
                     // $other_user = json_decode($ride_request->other_rider_data);
