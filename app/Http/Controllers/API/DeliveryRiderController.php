@@ -1694,15 +1694,19 @@ class DeliveryRiderController extends Controller
 
 
 
+
+
         // $order = Orders::where('order_id', $order_id)->where('status', 3)->first();
         $order = Orders::where('id', $order_id)->first();
+        $ride_request = RideRequest::where('order_id', $order_id)->first();
 
         if (!$order) {
             $arr['status'] = 0;
-            $arr['message'] = 'Invalid Order ID!!';
-            // $arr['data'] = NULL;
-            return response()->json($arr, 422);
+            $arr['message'] = 'Order not found';
+            $arr['data'] = NULL;
+            return response()->json($arr, 200);
         }
+
 
         // dd($request->all(), $order);
         switch ($status) {
@@ -1731,12 +1735,6 @@ class DeliveryRiderController extends Controller
                 $c_newamount = $c_driveramount + $c_net_earned_on_ride;
 
 
-                // $total_amount = $order->delivery_charge + $order->net_amount;
-
-                // subtract from user wallet check if user has enough money to pay for delivery and if order payment type is wallet
-                // if not enough money, return error message
-                // if enough money, subtract from user wallet and add to driver wallet
-
 
                 $useramount = (int)$useramount->amount;
 
@@ -1762,10 +1760,10 @@ class DeliveryRiderController extends Controller
                     $wallet_transaction->save();
 
 
-                    DB::table('my_wallet')->where('user_id', $user_id)->update(['amount' => $newuseramount]);
+                    DB::table('my_wallet')->where('user_id', $order->user_id)->update(['amount' => $newuseramount]);
 
                     $wallet_transaction = new WalletHistorys();
-                    $wallet_transaction->user_id = $user_id;
+                    $wallet_transaction->user_id = $order->user_id;
                     $wallet_transaction->amount = $net_earned_on_ride;
                     $wallet_transaction->status = 1;
                     $wallet_transaction->message = "Delivery Charge";
@@ -1834,14 +1832,18 @@ class DeliveryRiderController extends Controller
                     "order-" . $order->id . " has been picked up successfully!! and on its way to you!!"
                 );
 
+                $phone_number = "234" . substr($order->user->mobile, -10);
+                $message = "order-" . $order->id . " has been picked up successfully!! use this pin to complete your order: " . $order->otp;
+
                 $this->sendSMSMessage(
-                    "+234" . substr($order->user->mobile, -10),
-                    "order-" . $order->id . " has been picked up successfully!! use this pin to complete your order: " . $order->otp
+                    $phone_number,
+                    $message
                 );
 
                 // if is_ride_other == 1 then notify the other user get the phone number of the other user FROM {"name":"Bobby Dan","phone_number":"089122901982"}
-                if ($order->is_ride_for_other == 1) {
+                if ($ride_request->is_ride_for_other == 1) {
                     $other_user = json_decode($order->other_user);
+                    // dd($other_user->phone_number);
                     $this->sendSMSMessage(
                         "+234" . substr($other_user->phone_number, -10),
                         "order-" . $order->id . " has been picked up successfully!! use this pin to complete your order: " . $order->otp
