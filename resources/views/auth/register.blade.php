@@ -18,117 +18,124 @@
 
 <body class="nk-body bg-white npc-general pg-auth">
     @livewireStyles
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 
-<style>#google_translate_element,.skiptranslate{display:none;}body{top:0!important;}</style>
-<div id="google_translate_element"></div>
-<script>
+    <style>
+        #google_translate_element,
+        .skiptranslate {
+            display: none;
+        }
 
-const userLocale =
-  navigator.languages && navigator.languages.length
-    ? navigator.languages[0]
-    : navigator.language;
+        body {
+            top: 0 !important;
+        }
+    </style>
+    <div id="google_translate_element"></div>
+    <script>
+        const userLocale =
+            navigator.languages && navigator.languages.length ?
+            navigator.languages[0] :
+            navigator.language;
 
-console.log(userLocale); // 👉️ "en-US"
+        console.log(userLocale); // 👉️ "en-US"
 
-// 👇️ ["en-US", "en", "de"]
-console.log(navigator.languages);
-
-
-
-
-if (userLocale.includes('en')) {
-  var included = 'en'
-
-} else if (userLocale.includes('fr')) {
-  var included = 'fr'
-} else if (userLocale.includes('es')) {
-  var included = 'es'
-} else if (userLocale.includes('it')) {
-  var included = 'it'
-} else if (userLocale.includes('pt')) {
-  var included = 'pt'
-} else if (userLocale.includes('de')) {
-  var included = 'de'
-}else if (userLocale.includes('ar')) {
-  var included = 'ar'
-}else if (userLocale.includes('id')) {
-  var included = 'id'
-}else if (userLocale.includes('sl')) {
-  var included = 'sl'
-} else {
- var included = 'en'
-}
+        // 👇️ ["en-US", "en", "de"]
+        console.log(navigator.languages);
 
 
-$.ajax({ 
-    url: "http://ajaxhttpheaders.appspot.com", 
-    dataType: 'jsonp', 
-    success: function(headers) {
-        language = headers['Accept-Language'];
-        alert(headers['Accept-Language']);
-        if (language.includes('en')) {
-  var included = 'fr'
 
-} else if (language.includes('fr')) {
-  var included = 'fr'
-} else if (language.includes('es')) {
-  var included = 'es'
-} else if (language.includes('it')) {
-  var included = 'it'
-} else if (language.includes('pt')) {
-  var included = 'pt'
-} else if (language.includes('de')) {
-  var included = 'de'
-}else if (language.includes('ar')) {
-  var included = 'ar'
-}else if (language.includes('id')) {
-  var included = 'id'
-}else if (language.includes('sl')) {
-  var included = 'sl'
-} else {
- var included = 'en'
-}
+
+        if (userLocale.includes('en')) {
+            var included = 'en'
+
+        } else if (userLocale.includes('fr')) {
+            var included = 'fr'
+        } else if (userLocale.includes('es')) {
+            var included = 'es'
+        } else if (userLocale.includes('it')) {
+            var included = 'it'
+        } else if (userLocale.includes('pt')) {
+            var included = 'pt'
+        } else if (userLocale.includes('de')) {
+            var included = 'de'
+        } else if (userLocale.includes('ar')) {
+            var included = 'ar'
+        } else if (userLocale.includes('id')) {
+            var included = 'id'
+        } else if (userLocale.includes('sl')) {
+            var included = 'sl'
+        } else {
+            var included = 'en'
+        }
+
+
+        $.ajax({
+            url: "http://ajaxhttpheaders.appspot.com",
+            dataType: 'jsonp',
+            success: function(headers) {
+                language = headers['Accept-Language'];
+                alert(headers['Accept-Language']);
+                if (language.includes('en')) {
+                    var included = 'fr'
+
+                } else if (language.includes('fr')) {
+                    var included = 'fr'
+                } else if (language.includes('es')) {
+                    var included = 'es'
+                } else if (language.includes('it')) {
+                    var included = 'it'
+                } else if (language.includes('pt')) {
+                    var included = 'pt'
+                } else if (language.includes('de')) {
+                    var included = 'de'
+                } else if (language.includes('ar')) {
+                    var included = 'ar'
+                } else if (language.includes('id')) {
+                    var included = 'id'
+                } else if (language.includes('sl')) {
+                    var included = 'sl'
+                } else {
+                    var included = 'en'
+                }
+
+                function googleTranslateElementInit() {
+                    new google.translate.TranslateElement({
+                        pageLanguage: 'en',
+                        includedLanguages: included,
+                        autoDisplay: false
+                    }, 'google_translate_element');
+                    var a = document.querySelector("#google_translate_element select");
+                    a.selectedIndex = 1;
+                    a.dispatchEvent(new Event('change'));
+                }
+
+
+            }
+        });
+
+
         function googleTranslateElementInit() {
-        new google.translate.TranslateElement({
-            pageLanguage: 'en', 
-            includedLanguages: included, 
-            autoDisplay: false
-        }, 'google_translate_element');
-        var a = document.querySelector("#google_translate_element select");
-        a.selectedIndex=1;
-        a.dispatchEvent(new Event('change'));
-    }
-    
-   
-    }
-});
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: included,
+                autoDisplay: false
+            }, 'google_translate_element');
+            var a = document.querySelector("#google_translate_element select");
+            a.selectedIndex = 1;
+            a.dispatchEvent(new Event('change'));
+        }
+    </script>
+    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 
-    function googleTranslateElementInit() {
-        new google.translate.TranslateElement({
-            pageLanguage: 'en', 
-            includedLanguages: included, 
-            autoDisplay: false
-        }, 'google_translate_element');
-        var a = document.querySelector("#google_translate_element select");
-        a.selectedIndex=1;
-        a.dispatchEvent(new Event('change'));
-    }
-    
-   
-    
-
-</script>
-<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
-   
-   <style>
-       a.dropdown-toggle.dropdown-indicator.has-indicator.nav-link{
-           visibility:hidden;
-       }
-   </style>
+    <style>
+        a.dropdown-toggle.dropdown-indicator.has-indicator.nav-link {
+            visibility: hidden;
+        }
+    </style>
     <div class="nk-app-root">
         <!-- main @s -->
         <div class="nk-main ">
@@ -139,11 +146,14 @@ $.ajax({
                     <div class="nk-block nk-block-middle nk-auth-body wide-xs">
                         <div class="brand-logo pb-4 text-center">
                             <a href="https://vensemart.com" class="logo-link">
-                                <img class="logo-light logo-img logo-img-lg" src="https://vensemart.com/assets/images/logo.png" alt="logo">
-                                <img class="logo-dark logo-img logo-img-lg" src="https://vensemart.com/assets/images/logo.png" srcset="https://vensemart.com/assets/images/logo.png" alt="logo-dark">
+                                <img class="logo-light logo-img logo-img-lg"
+                                    src="https://www.vensemart.com/assets/images/logo.png" alt="logo">
+                                <img class="logo-dark logo-img logo-img-lg"
+                                    src="https://www.vensemart.com/assets/images/logo.png"
+                                    srcset="https://www.vensemart.com/assets/images/logo.png" alt="logo-dark">
                             </a>
                         </div>
-                        
+
                         <div class="card card-bordered">
                             <div class="card-inner card-inner-lg">
                                 <div class="nk-block-head">
@@ -154,108 +164,121 @@ $.ajax({
                                         </div>
                                     </div>
                                 </div>
-                                
-                                @if($errors->any())
-    <div class="alert alert-danger">
-        <p><strong>Opps Something went wrong</strong></p>
-        <ul>
-        @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-        @endforeach
-        </ul>
-    </div>
-@endif
 
-@if(session('success'))
-    <div class="alert alert-success">{{session('success')}}</div>
-@endif
+                                @if ($errors->any())
+                                    <div class="alert alert-danger">
+                                        <p><strong>Opps Something went wrong</strong></p>
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
 
-@if(session('error'))
-    <div class="alert alert-danger">{{session('error')}}</div>
-@endif
+                                @if (session('success'))
+                                    <div class="alert alert-success">{{ session('success') }}</div>
+                                @endif
+
+                                @if (session('error'))
+                                    <div class="alert alert-danger">{{ session('error') }}</div>
+                                @endif
                                 <form method="POST" action="{{ route('register') }}">
                                     @csrf
                                     <div class="form-group">
                                         <label class="form-label" for="name">Name</label>
                                         <div class="form-control-wrap">
-                                            <input type="text" name="name" class="form-control form-control-lg" id="name" placeholder="Enter your name" value="{{ old('name') }}">
+                                            <input type="text" name="name" class="form-control form-control-lg"
+                                                id="name" placeholder="Enter your name"
+                                                value="{{ old('name') }}">
                                         </div>
                                         @error('name')
-            @csrf
-              <span class="invalid-feedback" role="alert">
-                <strong>{{ $message }}</strong>
-              </span>
-            @enderror
+                                            @csrf
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label" for="email">Email </label>
                                         <div class="form-control-wrap">
-                                            <input type="text" name="email" class="form-control form-control-lg" id="email" placeholder="Enter your email address or username" value="{{ old('email') }}">
+                                            <input type="text" name="email" class="form-control form-control-lg"
+                                                id="email" placeholder="Enter your email address or username"
+                                                value="{{ old('email') }}">
                                         </div>
                                         @error('email')
-            @csrf
-              <span class="invalid-feedback" role="alert">
-                <strong>{{ $message }}</strong>
-              </span>
-            @enderror
+                                            @csrf
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label" for="password">Password</label>
                                         <div class="form-control-wrap">
-                                            <a href="#" class="form-icon form-icon-right passcode-switch lg" data-target="password">
+                                            <a href="#" class="form-icon form-icon-right passcode-switch lg"
+                                                data-target="password">
                                                 <em class="passcode-icon icon-show icon ni ni-eye"></em>
                                                 <em class="passcode-icon icon-hide icon ni ni-eye-off"></em>
                                             </a>
-                                            <input type="password" name="password" class="form-control form-control-lg" id="password" placeholder="Enter your passcode" value="{{ old('password') }}">
+                                            <input type="password" name="password" class="form-control form-control-lg"
+                                                id="password" placeholder="Enter your passcode"
+                                                value="{{ old('password') }}">
                                         </div>
                                         @error('password')
-            @csrf
-              <span class="invalid-feedback" role="alert">
-                <strong>{{ $message }}</strong>
-              </span>
-            @enderror
+                                            @csrf
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
 
 
                                     <div class="form-group">
                                         @csrf
-                                        <label class="form-label" for="password_confirmation">Password confirmation</label>
+                                        <label class="form-label" for="password_confirmation">Password
+                                            confirmation</label>
                                         <div class="form-control-wrap">
-                                            <a href="#" class="form-icon form-icon-right passcode-switch lg" data-target="password_confirmation">
+                                            <a href="#" class="form-icon form-icon-right passcode-switch lg"
+                                                data-target="password_confirmation">
                                                 <em class="passcode-icon icon-show icon ni ni-eye"></em>
                                                 <em class="passcode-icon icon-hide icon ni ni-eye-off"></em>
                                             </a>
-                                            <input type="password" name="password_confirmation"  class="form-control form-control-lg" id="password_confirmation" placeholder="Enter your passcode" value="{{ old('password_confirmation') }}">
+                                            <input type="password" name="password_confirmation"
+                                                class="form-control form-control-lg" id="password_confirmation"
+                                                placeholder="Enter your passcode"
+                                                value="{{ old('password_confirmation') }}">
                                         </div>
                                         @error('password_confirmation')
-            @csrf
-              <span class="invalid-feedback" role="alert">
-                <strong>{{ $message }}</strong>
-              </span>
-            @enderror
+                                            @csrf
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
-                                    
-                                    
-                                    
-                                    
+
+
+
+
                                     <!--phone no-->
-                                    
+
                                     <div class="form-group">
-                                                                <label class="form-label" for="phone_no">Phone number</label>
-                                                                <small>enter phone no e.g (555) 555-1234</small>
-                                                                <div class="form-control-wrap">
-                                                                    <input type="text" class="form-control" id="phone_no" name="phone_no">
-                                                                </div>
-                                                            </div>
-                                                            
-                                                            <!--phone no ends-->
-                                    
+                                        <label class="form-label" for="phone_no">Phone number</label>
+                                        <small>enter phone no e.g (555) 555-1234</small>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control" id="phone_no"
+                                                name="phone_no">
+                                        </div>
+                                    </div>
+
+                                    <!--phone no ends-->
+
                                     <div class="form-group">
-                                                                <label class="form-label" for="full-name">Country</label>
-                                                                <div class="form-control-wrap">
-                                                                <select class="custom-select" id="inputGroupSelect03" name="country">
-                                                                    <option selected>Choose...</option>
-                                                                       <!-- <option value="Afghanistan">Afghanistan</option>
+                                        <label class="form-label" for="full-name">Country</label>
+                                        <div class="form-control-wrap">
+                                            <select class="custom-select" id="inputGroupSelect03" name="country">
+                                                <option selected>Choose...</option>
+                                                <!-- <option value="Afghanistan">Afghanistan</option>
 <option value="Albania">Albania</option>
 <option value="Algeria">Algeria</option>
 <option value="American Samoa">American Samoa</option>
@@ -412,8 +435,8 @@ $.ajax({
 <option value="New Zealand">New Zealand</option>
 <option value="Nicaragua">Nicaragua</option>
 <option value="Niger">Niger</option> -->
-<option value="Nigeria">Nigeria</option>
-<!-- <option value="Niue">Niue</option>
+                                                <option value="Nigeria">Nigeria</option>
+                                                <!-- <option value="Niue">Niue</option>
 <option value="Norfolk Island">Norfolk Island</option>
 <option value="Northern Mariana Islands">Northern Mariana Islands</option>
 <option value="Norway">Norway</option>
@@ -434,12 +457,12 @@ $.ajax({
 <option value="Romania">Romania</option>
 <option value="Russia">Russian Federation</option>
 <option value="Rwanda">Rwanda</option>
-<option value="Saint Kitts and Nevis">Saint Kitts and Nevis</option> 
+<option value="Saint Kitts and Nevis">Saint Kitts and Nevis</option>
 <option value="Saint LUCIA">Saint LUCIA</option>
 <option value="Saint Vincent">Saint Vincent and the Grenadines</option>
 <option value="Samoa">Samoa</option>
 <option value="San Marino">San Marino</option>
-<option value="Sao Tome and Principe">Sao Tome and Principe</option> 
+<option value="Sao Tome and Principe">Sao Tome and Principe</option>
 <option value="Saudi Arabia">Saudi Arabia</option>
 <option value="Senegal">Senegal</option>
 <option value="Seychelles">Seychelles</option>
@@ -494,18 +517,18 @@ $.ajax({
 <option value="Serbia">Serbia</option>
 <option value="Zambia">Zambia</option>
 <option value="Zimbabwe">Zimbabwe</option> -->
-                                                                </select>
-                                                                </div>
-                                                </div>
+                                            </select>
+                                        </div>
+                                    </div>
 
 
-                                                  
+
                                     <div class="form-group">
-                                                                <label class="form-label" for="full-name">State</label>
-                                                                <div class="form-control-wrap">
-                                                                <select class="custom-select" id="inputGroupSelect03" name="state">
-                                                                    <option selected>Choose...</option>
-                                                                       <!-- <option value="Afghanistan">Afghanistan</option>
+                                        <label class="form-label" for="full-name">State</label>
+                                        <div class="form-control-wrap">
+                                            <select class="custom-select" id="inputGroupSelect03" name="state">
+                                                <option selected>Choose...</option>
+                                                <!-- <option value="Afghanistan">Afghanistan</option>
 <option value="Albania">Albania</option>
 <option value="Algeria">Algeria</option>
 <option value="American Samoa">American Samoa</option>
@@ -662,8 +685,8 @@ $.ajax({
 <option value="New Zealand">New Zealand</option>
 <option value="Nicaragua">Nicaragua</option>
 <option value="Niger">Niger</option> -->
-<option value="FCT">F.C.T</option>
-<!-- <option value="Niue">Niue</option>
+                                                <option value="FCT">F.C.T</option>
+                                                <!-- <option value="Niue">Niue</option>
 <option value="Norfolk Island">Norfolk Island</option>
 <option value="Northern Mariana Islands">Northern Mariana Islands</option>
 <option value="Norway">Norway</option>
@@ -684,12 +707,12 @@ $.ajax({
 <option value="Romania">Romania</option>
 <option value="Russia">Russian Federation</option>
 <option value="Rwanda">Rwanda</option>
-<option value="Saint Kitts and Nevis">Saint Kitts and Nevis</option> 
+<option value="Saint Kitts and Nevis">Saint Kitts and Nevis</option>
 <option value="Saint LUCIA">Saint LUCIA</option>
 <option value="Saint Vincent">Saint Vincent and the Grenadines</option>
 <option value="Samoa">Samoa</option>
 <option value="San Marino">San Marino</option>
-<option value="Sao Tome and Principe">Sao Tome and Principe</option> 
+<option value="Sao Tome and Principe">Sao Tome and Principe</option>
 <option value="Saudi Arabia">Saudi Arabia</option>
 <option value="Senegal">Senegal</option>
 <option value="Seychelles">Seychelles</option>
@@ -744,40 +767,46 @@ $.ajax({
 <option value="Serbia">Serbia</option>
 <option value="Zambia">Zambia</option>
 <option value="Zimbabwe">Zimbabwe</option> -->
-                                                                </select>
-                                                                </div>
-                                                </div>
-                                    
-                                    
-                                    
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+
                                     <div class="form-group">
-                                                                <label class="form-label" for="find_us">How did you find us?</label>
-                                                                <div class="form-control-wrap">
-                                                                    <input type="text" class="form-control" id="full-name" name="find_us">
-                                                                </div>
-                                                            </div>
-                                    
-                                                                         
+                                        <label class="form-label" for="find_us">How did you find us?</label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control" id="full-name"
+                                                name="find_us">
+                                        </div>
+                                    </div>
+
+
                                     <div class="form-group">
                                         <div class="custom-control custom-control-xs custom-checkbox">
                                             <input type="checkbox" class="custom-control-input" id="checkbox">
-                                            <label class="custom-control-label" for="checkbox">I agree to vensemart <a href="https://vensemart.com/terms-conditions.php" target="_blank">Terms and Conditions</a>  <a href="https://vensemart.com/terms-conditions.php"> </a></label>
+                                            <label class="custom-control-label" for="checkbox">I agree to vensemart <a
+                                                    href="https://vensemart.com/terms-conditions.php"
+                                                    target="_blank">Terms and Conditions</a> <a
+                                                    href="https://vensemart.com/terms-conditions.php"> </a></label>
                                         </div>
                                     </div>
                                     @csrf
-                                    
-                                    
-                                    
 
-                                    
-                                    
-                                    
+
+
+
+
+
+
                                     <div class="form-group">
-                                        <button type="submit" class="btn btn-lg btn-primary btn-block">Register</button>
+                                        <button type="submit"
+                                            class="btn btn-lg btn-primary btn-block">Register</button>
                                     </div>
                                     @csrf
                                 </form>
-                                <div class="form-note-s2 text-center pt-4"> Already have an account? <a href="login"><strong>Sign in instead</strong></a>
+                                <div class="form-note-s2 text-center pt-4"> Already have an account? <a
+                                        href="login"><strong>Sign in instead</strong></a>
                                 </div>
                                 <!--<div class="text-center pt-4 pb-3">-->
                                 <!--    <h6 class="overline-title overline-title-sap"><span>OR</span></h6>-->
@@ -803,7 +832,7 @@ $.ajax({
                                         <li class="nav-item">
                                             <a class="nav-link" href="#">Help</a>
                                         </li>
-<!--                                         
+                                        <!--
                                         <li class="nav-item dropup">
                                             <a class="dropdown-toggle dropdown-indicator has-indicator nav-link" data-toggle="dropdown" data-offset="0,10"><span>English</span></a>
                                             <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
@@ -980,26 +1009,62 @@ $.ajax({
         </div><!-- .modla-dialog -->
     </div><!-- .modal -->
     <!-- <script src="//code.tidio.co/asmwujszbggxibmhytylweozfqgv5ywe.js" async></script> -->
-    <!--<script type="text/javascript">-->
-    <!--    (function () {-->
-    <!--        var options = {-->
-                <!--whatsapp: "+1(417)393-8105", // WhatsApp number-->
-                <!--call_to_action: "Message us", // Call to action-->
-                <!--position: "left", // Position may be 'right' or 'left'-->
-    <!--        };-->
-    <!--        var proto = document.location.protocol, host = "getbutton.io", url = proto + "//static." + host;-->
-    <!--        var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = url + '/widget-send-button/js/init.js';-->
-    <!--        s.onload = function () { WhWidgetSendButton.init(host, proto, options); };-->
-    <!--        var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);-->
-    <!--    })();-->
-    <!--</script>-->
-    
+    <!--<script type="text/javascript">
+        -- >
+        <
+        !--(function() {
+            -- >
+            <
+            !--
+            var options = {
+                -- >
+                <
+                !--whatsapp: "+1(417)393-8105", // WhatsApp number-->
+                <
+                !--call_to_action: "Message us", // Call to action-->
+                <
+                !--position: "left", // Position may be 'right' or 'left'-->
+                <
+                !--
+            };
+            -- >
+            <
+            !--
+            var proto = document.location.protocol,
+                host = "getbutton.io",
+                url = proto + "//static." + host;
+            -- >
+            <
+            !--
+            var s = document.createElement('script');
+            s.type = 'text/javascript';
+            s.async = true;
+            s.src = url + '/widget-send-button/js/init.js';
+            -- >
+            <
+            !--s.onload = function() {
+                WhWidgetSendButton.init(host, proto, options);
+            };
+            -- >
+            <
+            !--
+            var x = document.getElementsByTagName('script')[0];
+            x.parentNode.insertBefore(s, x);
+            -- >
+            <
+            !--
+        })();
+        -- >
+        <
+        !--
+    </script>-->
+
     <style>
         .sc-1au8ryl-0 {
-            visibility:hidden;
+            visibility: hidden;
         }
     </style>
 
-@livewireScripts
+    @livewireScripts
 
 </html>

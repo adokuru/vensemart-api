@@ -14,18 +14,16 @@
     <!-- StyleSheets  -->
     <link rel="stylesheet" href="{{ asset('nk5/assets/css/dashlite.css?ver=2.9.1') }}">
     <link id="skin-default" rel="stylesheet" href="{{ asset('nk5/assets/css/theme.css?ver=2.9.1') }}">
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     @livewireStyles
     <style>
-.toast-top-center {
-top: 12px;
-margin: 0 auto;
-left: 50%;
-}
-
-
-
+        .toast-top-center {
+            top: 12px;
+            margin: 0 auto;
+            left: 50%;
+        }
     </style>
 
 </head>
@@ -39,13 +37,20 @@ left: 50%;
                 <div class="nk-sidebar-element nk-sidebar-head">
                     <div class="nk-sidebar-brand">
                         <a href="/index" class="logo-link nk-sidebar-logo">
-                            <img class="logo-light logo-img" src="{{ asset('https://vensemart.com/assets/images/logo.png') }}" srcset="{{ asset('https://vensemart.com/assets/images/logo.png 2x') }}" alt="logo">
-                            <img class="logo-dark logo-img" src="{{ asset('https://vensemart.com/assets/images/logo.png') }}" srcset="{{ asset('https://vensemart.com/assets/images/logo.png 2x') }}" alt="logo-dark">
+                            <img class="logo-light logo-img"
+                                src="{{ asset('https://www.vensemart.com/assets/images/logo.png') }}"
+                                srcset="{{ asset('https://www.vensemart.com/assets/images/logo.png 2x') }}"
+                                alt="logo">
+                            <img class="logo-dark logo-img"
+                                src="{{ asset('https://www.vensemart.com/assets/images/logo.png') }}"
+                                srcset="{{ asset('https://www.vensemart.com/assets/images/logo.png 2x') }}"
+                                alt="logo-dark">
                             Inc.
                         </a>
                     </div>
                     <div class="nk-menu-trigger mr-n2">
-                        <a href="#" class="nk-nav-toggle nk-quick-nav-icon d-xl-none" data-target="sidebarMenu"><em class="icon ni ni-arrow-left"></em></a>
+                        <a href="#" class="nk-nav-toggle nk-quick-nav-icon d-xl-none"
+                            data-target="sidebarMenu"><em class="icon ni ni-arrow-left"></em></a>
                     </div>
                 </div><!-- .nk-sidebar-element -->
                 <div class="nk-sidebar-element">
@@ -54,20 +59,24 @@ left: 50%;
                             <div class="nk-sidebar-widget d-none d-xl-block">
                                 <div class="user-account-info between-center">
                                     <div class="user-account-main">
-                                        <h6 class="overline-title-alt">Hi, {{ auth()->user()->first_name }}<br/> Available Balance</h6>
-                                        <div class="user-balance">0 <small class="currency currency-btc">NGN</small></div>
-                                       
+                                        <h6 class="overline-title-alt">Hi, {{ auth()->user()->first_name }}<br />
+                                            Available Balance</h6>
+                                        <div class="user-balance">0 <small class="currency currency-btc">NGN</small>
+                                        </div>
+
                                     </div>
-                                    <a href="#" class="btn btn-white btn-icon btn-light"><em class="icon ni ni-line-chart"></em></a>
+                                    <a href="#" class="btn btn-white btn-icon btn-light"><em
+                                            class="icon ni ni-line-chart"></em></a>
                                 </div>
                                 <ul class="user-account-data gy-1">
-                                    
+
                                     <li>
                                         <div class="user-account-label">
                                             <span class="sub-text">Total Orders</span>
                                         </div>
                                         <div class="user-account-value">
-                                            <span class="sub-text"> <span class="currency currency-btc">NGN</span></span>
+                                            <span class="sub-text"> <span
+                                                    class="currency currency-btc">NGN</span></span>
                                         </div>
                                     </li>
                                 </ul>
@@ -100,11 +109,11 @@ left: 50%;
                                         <div class="user-account-main">
                                             <h6 class="overline-title-alt">Available Balance</h6>
                                             <div class="user-balance"> <small class="currency currency-btc">NGN</small></div> -->
-                                            <!--<div class="user-balance-alt">18,934.84 <span class="currency currency-btc">BTC</span></div>-->
-                                        <!-- </div>
+                                <!--<div class="user-balance-alt">18,934.84 <span class="currency currency-btc">BTC</span></div>-->
+                                <!-- </div>
                                         <a href="#" class="btn btn-icon btn-light"><em class="icon ni ni-line-chart"></em></a>
                                     </div> -->
-                                    <!-- <ul class="user-account-data">
+                                <!-- <ul class="user-account-data">
                                        
                                         <li>
                                             <div class="user-account-label">
@@ -115,18 +124,18 @@ left: 50%;
                                             </div>
                                         </li>
                                     </ul> -->
-                                    <!-- <ul class="user-account-links"> -->
-                                        <!--<li><a href="#" class="link"><span>Withdraw Funds</span> <em class="icon ni ni-wallet-out"></em></a></li>-->
-                                        <!--<li><a href="/deposit-create" class="link"><span>Deposit Funds</span> <em class="icon ni ni-wallet-in"></em></a></li>-->
-                                    <!-- </ul> -->
-                                    <!-- <ul class="link-list"> -->
-                                        <!-- <li><a href="/profile"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li> -->
-                                        <!-- <li><a href="/profile-security"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li> -->
-                                        <!-- <li><a href="/profile-activity"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li> -->
-                                    <!-- </ul> -->
-                                    <!-- <ul class="link-list"> -->
-                                        <!-- <li><a href="/logout"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li> -->
-                                    <!-- </ul> -->
+                                <!-- <ul class="user-account-links"> -->
+                                <!--<li><a href="#" class="link"><span>Withdraw Funds</span> <em class="icon ni ni-wallet-out"></em></a></li>-->
+                                <!--<li><a href="/deposit-create" class="link"><span>Deposit Funds</span> <em class="icon ni ni-wallet-in"></em></a></li>-->
+                                <!-- </ul> -->
+                                <!-- <ul class="link-list"> -->
+                                <!-- <li><a href="/profile"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li> -->
+                                <!-- <li><a href="/profile-security"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li> -->
+                                <!-- <li><a href="/profile-activity"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li> -->
+                                <!-- </ul> -->
+                                <!-- <ul class="link-list"> -->
+                                <!-- <li><a href="/logout"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li> -->
+                                <!-- </ul> -->
                                 <!-- </div> -->
                             </div><!-- .nk-sidebar-widget -->
                             <div class="nk-sidebar-menu">
@@ -142,7 +151,7 @@ left: 50%;
                                         </a>
                                     </li>
 
-                                   
+
                                     <!-- <li class="nk-menu-item">
                                         <a href="/wallets" class="nk-menu-link">
                                             <span class="nk-menu-icon"><em class="icon ni ni-wallet-alt"></em></span>
@@ -163,10 +172,10 @@ left: 50%;
                                     </li> -->
 
 
-                                   
 
 
-                    
+
+
                                     <!--<li class="nk-menu-item">-->
                                     <!--    <a href="/deposit-history" class="nk-menu-link">-->
                                     <!--        <span class="nk-menu-icon"><em class="icon ni ni-wallet-in"></em></span>-->
@@ -181,15 +190,15 @@ left: 50%;
                                     <!--    </a>-->
                                     <!--</li>-->
 
-                                   
+
 
 
                                     <li class="nk-menu-heading">
                                         <h6 class="overline-title">Product & Orders</h6>
                                     </li>
 
-                                    
-                                    
+
+
                                     <li class="nk-menu-item">
                                         <a href="/collectors" class="nk-menu-link">
                                             <span class="nk-menu-icon"><em class="icon ni ni-plus"></em></span>
@@ -213,7 +222,8 @@ left: 50%;
 
                                     <li class="nk-menu-item">
                                         <a href="/orders-list" class="nk-menu-link">
-                                            <span class="nk-menu-icon"><em class="icon ni ni-cc-alt2-fill"></em></span>
+                                            <span class="nk-menu-icon"><em
+                                                    class="icon ni ni-cc-alt2-fill"></em></span>
                                             <span class="nk-menu-text">Orders</span>
                                         </a>
                                     </li>
@@ -224,7 +234,7 @@ left: 50%;
                                     </li> -->
 
 
-                                    
+
 
                                     <li class="nk-menu-heading">
                                         <h6 class="overline-title">Vendor Details & Store Details</h6>
@@ -256,7 +266,7 @@ left: 50%;
                                     <!-- <li class="nk-menu-heading">
                                         <h6 class="overline-title">Bank Details & Withdrawal</h6>
                                     </li> -->
-<!-- 
+                                    <!--
                                     <li class="nk-menu-item">
                                         <a href="/dup" class="nk-menu-link">
                                             <span class="nk-menu-icon"><em class="icon ni  ni-tranx"></em></span>
@@ -274,14 +284,14 @@ left: 50%;
 
 
 
-                                    
+
 
 
                                     <!-- <li class="nk-menu-heading">
                                         <h6 class="overline-title">Orders</h6>
                                     </li> -->
 
-<!-- 
+                                    <!--
                                     <li class="nk-menu-item">
                                         <a href="/portfolio" class="nk-menu-link">
                                             <span class="nk-menu-icon"><em class="icon ni  ni-tranx"></em></span>
@@ -289,10 +299,10 @@ left: 50%;
                                         </a>
                                     </li> -->
 
-                                    
 
 
-                                   
+
+
 
                                     <!-- <li class="nk-menu-item has-sub">
                                     <a href="/cr-coin" class="nk-menu-link nk-menu-toggle">
@@ -317,24 +327,24 @@ left: 50%;
                                         </li> -->
 
 
-                                        <!-- <li class="nk-menu-item">
+                                    <!-- <li class="nk-menu-item">
                                             <a href="crypto1-project-list" class="nk-menu-link"><span class="nk-menu-text">Mining List</span></a>
                                         </li> -->
                                     <!-- </ul> -->
                                     <!-- .nk-menu-sub -->
-                                <!-- </li> -->
-                                <!-- .nk-menu-item -->
+                                    <!-- </li> -->
+                                    <!-- .nk-menu-item -->
 
-                                <!-- <li class="nk-menu-item">
+                                    <!-- <li class="nk-menu-item">
                                         <a href="/profile" class="nk-menu-link">
                                             <span class="nk-menu-icon"><em class="icon ni ni-account-setting"></em></span>
                                             <span class="nk-menu-text">My Profile</span>
                                         </a>
                                 </li> -->
 
-                               
 
-<!-- 
+
+                                    <!--
                                     <li class="nk-menu-heading">
                                         <h6 class="overline-title">CopyTrading</h6>
                                     </li>
@@ -382,7 +392,7 @@ left: 50%;
                                             <span class="nk-menu-text">Chats</span>
                                         </a>
                                     </li> -->
-                                    
+
                                     <!-- <li class="nk-menu-item has-sub">
                                         <a href="#" class="nk-menu-link nk-menu-toggle">
                                             <span class="nk-menu-icon"><em class="icon ni ni-files"></em></span>
@@ -398,99 +408,105 @@ left: 50%;
                                             <li class="nk-menu-item">
                                                 <a href="/kyc-form" class="nk-menu-link"><span class="nk-menu-text">KYC - Application Form</span></a>
                                             </li> -->
-                                        <!-- </ul> -->
-                                        <!-- .nk-menu-sub -->
+                                    <!-- </ul> -->
+                                    <!-- .nk-menu-sub -->
                                     <!-- </li> -->
                                     <!-- .nk-menu-item -->
-                                    
-                                    @if(auth()->user()->email == 'kuddlesteps@gmail.com')
 
-
-                                    <li class="nk-menu-heading">
-                                        <h6 class="overline-title">Admin</h6>
-                                    </li>
-
-
-                                    <li class="nk-menu-item has-sub">
-                                    <a href="/cr-stock" class="nk-menu-link nk-menu-toggle">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-user-list-fill"></em></span>
-                                        <span class="nk-menu-text">Manage Users</span>
-                                    </a>
-                                    <ul class="nk-menu-sub">
-                                        <li class="nk-menu-item">
-                                            <a href="/users" class="nk-menu-link"><span class="nk-menu-text">User Information & Balance</span></a>
+                                    @if (auth()->user()->email == 'kuddlesteps@gmail.com')
+                                        <li class="nk-menu-heading">
+                                            <h6 class="overline-title">Admin</h6>
                                         </li>
 
-                                        <!--<li class="nk-menu-item">-->
-                                        <!--    <a href="/deposits" class="nk-menu-link"><span class="nk-menu-text">Manage Deposits</span></a>-->
-                                        <!--</li>-->
-                                        
-                                        <!-- <li class="nk-menu-item">-->
-                                        <!--    <a href="/withdrawals" class="nk-menu-link"><span class="nk-menu-text">Manage Withdrawals</span></a>-->
-                                        <!--</li>-->
-                                        <!-- <li class="nk-menu-item">
+
+                                        <li class="nk-menu-item has-sub">
+                                            <a href="/cr-stock" class="nk-menu-link nk-menu-toggle">
+                                                <span class="nk-menu-icon"><em
+                                                        class="icon ni ni-user-list-fill"></em></span>
+                                                <span class="nk-menu-text">Manage Users</span>
+                                            </a>
+                                            <ul class="nk-menu-sub">
+                                                <li class="nk-menu-item">
+                                                    <a href="/users" class="nk-menu-link"><span
+                                                            class="nk-menu-text">User Information & Balance</span></a>
+                                                </li>
+
+                                                <!--<li class="nk-menu-item">-->
+                                                <!--    <a href="/deposits" class="nk-menu-link"><span class="nk-menu-text">Manage Deposits</span></a>-->
+                                                <!--</li>-->
+
+                                                <!-- <li class="nk-menu-item">-->
+                                                <!--    <a href="/withdrawals" class="nk-menu-link"><span class="nk-menu-text">Manage Withdrawals</span></a>-->
+                                                <!--</li>-->
+                                                <!-- <li class="nk-menu-item">
                                             <a href="crypto1-project-list" class="nk-menu-link"><span class="nk-menu-text">Mining List</span></a>
                                         </li> -->
-                                    </ul><!-- .nk-menu-sub -->
-                                </li><!-- .nk-menu-item -->
+                                            </ul><!-- .nk-menu-sub -->
+                                        </li><!-- .nk-menu-item -->
 
 
-                                    <li class="nk-menu-item has-sub">
-                                    <a href="/cr-stock" class="nk-menu-link nk-menu-toggle">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-opt-alt-fill"></em></span>
-                                        <span class="nk-menu-text">Manage Copytrades</span>
-                                    </a>
-                                    <ul class="nk-menu-sub">
-                                        <li class="nk-menu-item">
-                                            <a href="/cr-stock" class="nk-menu-link"><span class="nk-menu-text">Create  Trader</span></a>
-                                        </li>
+                                        <li class="nk-menu-item has-sub">
+                                            <a href="/cr-stock" class="nk-menu-link nk-menu-toggle">
+                                                <span class="nk-menu-icon"><em
+                                                        class="icon ni ni-opt-alt-fill"></em></span>
+                                                <span class="nk-menu-text">Manage Copytrades</span>
+                                            </a>
+                                            <ul class="nk-menu-sub">
+                                                <li class="nk-menu-item">
+                                                    <a href="/cr-stock" class="nk-menu-link"><span
+                                                            class="nk-menu-text">Create Trader</span></a>
+                                                </li>
 
-                                        <li class="nk-menu-item">
-                                            <a href="/admin-stocks" class="nk-menu-link"><span class="nk-menu-text">Manage Traders</span></a>
-                                        </li>
-                                        
-                                         <li class="nk-menu-item">
-                                            <a href="/admin-stock-investments" class="nk-menu-link"><span class="nk-menu-text">User  Copytrades</span></a>
-                                        </li>
-                                        <!-- <li class="nk-menu-item">
+                                                <li class="nk-menu-item">
+                                                    <a href="/admin-stocks" class="nk-menu-link"><span
+                                                            class="nk-menu-text">Manage Traders</span></a>
+                                                </li>
+
+                                                <li class="nk-menu-item">
+                                                    <a href="/admin-stock-investments" class="nk-menu-link"><span
+                                                            class="nk-menu-text">User Copytrades</span></a>
+                                                </li>
+                                                <!-- <li class="nk-menu-item">
                                             <a href="crypto1-project-list" class="nk-menu-link"><span class="nk-menu-text">Mining List</span></a>
                                         </li> -->
-                                    </ul><!-- .nk-menu-sub -->
-                                </li><!-- .nk-menu-item -->
-
-                                    
+                                            </ul><!-- .nk-menu-sub -->
+                                        </li><!-- .nk-menu-item -->
 
 
 
-                                <li class="nk-menu-item has-sub">
-                                    <a href="/cr-coin" class="nk-menu-link nk-menu-toggle">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-repeat-v"></em></span>
-                                        <span class="nk-menu-text">Manage Profits</span>
-                                    </a>
-                                    <ul class="nk-menu-sub">
-                                        <li class="nk-menu-item">
-                                            <a href="/nw-profit" class="nk-menu-link"><span class="nk-menu-text">Create Profit Entry</span></a>
-                                        </li>
 
-                                        <li class="nk-menu-item">
-                                            <a href="/profit" class="nk-menu-link"><span class="nk-menu-text">Manage Profit entry</span></a>
-                                        </li>
-                                        
-                                         <!-- <li class="nk-menu-item">
+
+                                        <li class="nk-menu-item has-sub">
+                                            <a href="/cr-coin" class="nk-menu-link nk-menu-toggle">
+                                                <span class="nk-menu-icon"><em
+                                                        class="icon ni ni-repeat-v"></em></span>
+                                                <span class="nk-menu-text">Manage Profits</span>
+                                            </a>
+                                            <ul class="nk-menu-sub">
+                                                <li class="nk-menu-item">
+                                                    <a href="/nw-profit" class="nk-menu-link"><span
+                                                            class="nk-menu-text">Create Profit Entry</span></a>
+                                                </li>
+
+                                                <li class="nk-menu-item">
+                                                    <a href="/profit" class="nk-menu-link"><span
+                                                            class="nk-menu-text">Manage Profit entry</span></a>
+                                                </li>
+
+                                                <!-- <li class="nk-menu-item">
                                             <a href="/admin-coin-investments" class="nk-menu-link"><span class="nk-menu-text">User Crypto Copytrades</span></a>
                                         </li> -->
-                                        <!-- <li class="nk-menu-item">
+                                                <!-- <li class="nk-menu-item">
                                             <a href="crypto1-project-list" class="nk-menu-link"><span class="nk-menu-text">Mining List</span></a>
                                         </li> -->
-                                    </ul><!-- .nk-menu-sub -->
-                                </li><!-- .nk-menu-item -->
-                                
-                                @endif
-                                
+                                            </ul><!-- .nk-menu-sub -->
+                                        </li><!-- .nk-menu-item -->
+                                    @endif
 
 
 
-                                <!-- <li class="nk-menu-item has-sub">
+
+                                    <!-- <li class="nk-menu-item has-sub">
                                     <a href="/cr-nft" class="nk-menu-link nk-menu-toggle">
                                         <span class="nk-menu-icon"><em class="icon ni ni-img-fill"></em></span>
                                         <span class="nk-menu-text">Manage Nft Copytrades</span>
@@ -507,18 +523,18 @@ left: 50%;
                                          <li class="nk-menu-item">
                                             <a href="/admin-nft-investments" class="nk-menu-link"><span class="nk-menu-text">User Nft Copytrades</span></a>
                                         </li> -->
-                                        <!-- <li class="nk-menu-item">
+                                    <!-- <li class="nk-menu-item">
                                             <a href="crypto1-project-list" class="nk-menu-link"><span class="nk-menu-text">Mining List</span></a>
                                         </li> -->
                                     <!-- </ul> -->
                                     <!-- .nk-menu-sub -->
-                                <!-- </li> -->
-                                <!-- .nk-menu-item -->
-                                
+                                    <!-- </li> -->
+                                    <!-- .nk-menu-item -->
 
 
 
-                                <!-- <li class="nk-menu-item has-sub">
+
+                                    <!-- <li class="nk-menu-item has-sub">
                                     <a href="/cr-coin" class="nk-menu-link nk-menu-toggle">
                                         <span class="nk-menu-icon"><em class="icon ni ni-opt-dot-fill"></em></span>
                                         <span class="nk-menu-text">Manage Plan Copytrades</span>
@@ -535,19 +551,19 @@ left: 50%;
                                          <li class="nk-menu-item">
                                             <a href="/admin-plan-investments" class="nk-menu-link"><span class="nk-menu-text">User Plan Copytrades</span></a>
                                         </li> -->
-                                        <!-- <li class="nk-menu-item">
+                                    <!-- <li class="nk-menu-item">
                                             <a href="crypto1-project-list" class="nk-menu-link"><span class="nk-menu-text">Mining List</span></a>
                                         </li> -->
                                     <!-- </ul> -->
                                     <!-- .nk-menu-sub -->
-                                <!-- </li> -->
-                                <!-- .nk-menu-item -->
-                                
+                                    <!-- </li> -->
+                                    <!-- .nk-menu-item -->
 
 
 
 
-                                
+
+
 
 
 
@@ -618,7 +634,8 @@ left: 50%;
                                     </li>
                                     <li class="nk-menu-item ml-auto">
                                         <div class="dropup">
-                                            <a href="#" class="nk-menu-link dropdown-indicator has-indicator" data-toggle="dropdown" data-offset="0,10">
+                                            <a href="#" class="nk-menu-link dropdown-indicator has-indicator"
+                                                data-toggle="dropdown" data-offset="0,10">
                                                 <span class="nk-menu-icon"><em class="icon ni ni-globe"></em></span>
                                                 <span class="nk-menu-text">English</span>
                                             </a>
@@ -666,12 +683,19 @@ left: 50%;
                     <div class="container-fluid">
                         <div class="nk-header-wrap">
                             <div class="nk-menu-trigger d-xl-none ml-n1">
-                                <a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a>
+                                <a href="#" class="nk-nav-toggle nk-quick-nav-icon"
+                                    data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a>
                             </div>
                             <div class="nk-header-brand d-xl-none">
                                 <a href="/index" class="logo-link">
-                                    <img class="logo-light logo-img" src="{{ asset('https://vensemart.com/assets/images/logo.png') }}" srcset="{{ asset('https://vensemart.com/assets/images/logo.png 2x') }}" alt="logo">
-                                    <img class="logo-dark logo-img" src="{{ asset('https://vensemart.com/assets/images/logo.png') }}" srcset="{{ asset('https://vensemart.com/assets/images/logo.png 2x') }}" alt="logo-dark"></a>
+                                    <img class="logo-light logo-img"
+                                        src="{{ asset('https://www.vensemart.com/assets/images/logo.png') }}"
+                                        srcset="{{ asset('https://www.vensemart.com/assets/images/logo.png 2x') }}"
+                                        alt="logo">
+                                    <img class="logo-dark logo-img"
+                                        src="{{ asset('https://www.vensemart.com/assets/images/logo.png') }}"
+                                        srcset="{{ asset('https://www.vensemart.com/assets/images/logo.png 2x') }}"
+                                        alt="logo-dark"></a>
                             </div>
                             <div class="nk-header-news d-none d-xl-block">
                                 <div class="nk-news-list">
@@ -680,7 +704,8 @@ left: 50%;
                                             <em class="icon ni ni-card-view"></em>
                                         </div>
                                         <div class="nk-news-text">
-                                            <p>Do you know the latest update of 2022? <span> A overview of our is now available on YouTube</span></p>
+                                            <p>Do you know the latest update of 2022? <span> A overview of our is now
+                                                    available on YouTube</span></p>
                                             <em class="icon ni ni-external"></em>
                                         </div>
                                     </a>
@@ -692,36 +717,31 @@ left: 50%;
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                             <div class="user-toggle">
 
-                                            @if(auth()->user()->image == 'Abuja')
-
-                                            <div class="user-avatar sm">
-                                                    <em class="icon ni ni-user-alt"></em>
-                                                </div>
-
+                                                @if (auth()->user()->image == 'Abuja')
+                                                    <div class="user-avatar sm">
+                                                        <em class="icon ni ni-user-alt"></em>
+                                                    </div>
                                                 @else
+                                                    <div class="user-avatar sm">
+                                                        <img width="50" height="35"
+                                                            src="{{ asset('/storage/vendor_images/' . auth()->user()->image) }}" />
 
-                                                <div class="user-avatar sm">
-                                                <img width="50" height="35" src="{{ asset('/storage/vendor_images/'.auth()->user()->image )  
-                                            
-                                            
-                                        }}" /> 
-                                            
-                                                </div>
-
-
-                                           
-                                            @endif
+                                                    </div>
+                                                @endif
                                                 <div class="user-info d-none d-md-block">
                                                     <div class="user-status user-status-verified">active</div>
-                                                    <div class="user-name dropdown-indicator">{{ auth()->user()->name }}</div>
+                                                    <div class="user-name dropdown-indicator">
+                                                        {{ auth()->user()->name }}</div>
                                                 </div>
                                             </div>
                                         </a>
-                                        <div class="dropdown-menu dropdown-menu-md dropdown-menu-right dropdown-menu-s1">
+                                        <div
+                                            class="dropdown-menu dropdown-menu-md dropdown-menu-right dropdown-menu-s1">
                                             <div class="dropdown-inner user-card-wrap bg-lighter d-none d-md-block">
                                                 <div class="user-card">
                                                     <div class="user-avatar">
-                                                        <span> <img width="50" height="35" src="{{ asset('/storage/vendor_images/'.auth()->user()->image ) }}" /></span>
+                                                        <span> <img width="50" height="35"
+                                                                src="{{ asset('/storage/vendor_images/' . auth()->user()->image) }}" /></span>
                                                     </div>
                                                     <div class="user-info">
                                                         <span class="lead-text">{{ auth()->user()->name }} </span>
@@ -731,26 +751,33 @@ left: 50%;
                                             </div>
                                             <div class="dropdown-inner user-account-info">
                                                 <h6 class="overline-title-alt"> Available balance</h6>
-                                                <div class="user-balance"> <small class="currency currency-btc">NGN</small></div>
+                                                <div class="user-balance"> <small
+                                                        class="currency currency-btc">NGN</small></div>
                                                 <!--<div class="user-balance-sub">Locked <span>0.344939 <span class="currency currency-btc">BTC</span></span></div>-->
                                                 <!--<a href=/deposit-create class="link"><span>Deposit Funds</span> <em class="icon ni ni-wallet-out"></em></a>-->
                                             </div>
                                             <div class="dropdown-inner">
                                                 <ul class="link-list">
-                                                    <li><a href="/profile"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
+                                                    <li><a href="/profile"><em
+                                                                class="icon ni ni-user-alt"></em><span>View
+                                                                Profile</span></a></li>
                                                     <!-- <li><a href="/profile-security"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li> -->
-                                                
-                                                    <li><a class="dark-switch" href="#"><em class="icon ni ni-moon"></em><span>Dark Mode</span></a></li>
+
+                                                    <li><a class="dark-switch" href="#"><em
+                                                                class="icon ni ni-moon"></em><span>Dark Mode</span></a>
+                                                    </li>
                                                 </ul>
                                             </div>
                                             <div class="dropdown-inner">
                                                 <ul class="link-list">
-                                                    <li><a href="/logout"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
+                                                    <li><a href="/logout"><em
+                                                                class="icon ni ni-signout"></em><span>Sign
+                                                                out</span></a></li>
                                                 </ul>
                                             </div>
                                         </div>
                                     </li>
-                                    
+
                                 </ul>
                             </div>
                         </div>
@@ -764,7 +791,8 @@ left: 50%;
                 <div class="nk-footer nk-footer-fluid">
                     <div class="container-fluid">
                         <div class="nk-footer-wrap">
-                            <div class="nk-footer-copyright"> &copy; 2017 vensemart.com <a href="vensemart.com">International Ltd</a>
+                            <div class="nk-footer-copyright"> &copy; 2017 vensemart.com <a
+                                    href="vensemart.com">International Ltd</a>
                             </div>
                             <div class="nk-footer-links">
                                 <ul class="nav nav-sm">
@@ -787,47 +815,43 @@ left: 50%;
     @livewireScripts
 
 
-    
+
     <script>
-  @if(Session::has('message'))
-  
-  toastr.options =
-  {
-    "closeButton" : true,
-    "positionClass": "toast-bottom-right",
-    "progressBar" : true
-  }
-  
-      toastr.success("{{ session('message') }}");
-  @endif
+        @if (Session::has('message'))
 
-  @if(Session::has('error'))
-  toastr.options =
-  {
-    "closeButton" : true,
-    "progressBar" : true
-  }
-      toastr.error("{{ session('error') }}");
-  @endif
+            toastr.options = {
+                "closeButton": true,
+                "positionClass": "toast-bottom-right",
+                "progressBar": true
+            }
 
-  @if(Session::has('info'))
-  toastr.options =
-  {
-    "closeButton" : true,
-    "progressBar" : true
-  }
-      toastr.info("{{ session('info') }}");
-  @endif
+            toastr.success("{{ session('message') }}");
+        @endif
 
-  @if(Session::has('warning'))
-  toastr.options =
-  {
-    "closeButton" : true,
-    "progressBar" : true
-  }
-      toastr.warning("{{ session('warning') }}");
-  @endif
-</script>
+        @if (Session::has('error'))
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true
+            }
+            toastr.error("{{ session('error') }}");
+        @endif
+
+        @if (Session::has('info'))
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true
+            }
+            toastr.info("{{ session('info') }}");
+        @endif
+
+        @if (Session::has('warning'))
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true
+            }
+            toastr.warning("{{ session('warning') }}");
+        @endif
+    </script>
 
     <!-- <script src="//code.tidio.co/l8uhyte13onqzs7vhh3t11jwzxtkqri3.js" async></script> -->
     <script src="{{ asset('nk5/assets/js/bundle.js?ver=2.9.1') }}"></script>
@@ -835,4 +859,5 @@ left: 50%;
     <script src="{{ asset('nk5/assets/js/charts/chart-crypto.js?ver=2.9.1') }}"></script>
 </body>
 @livewireScripts
+
 </html>
