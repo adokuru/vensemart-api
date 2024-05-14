@@ -462,12 +462,23 @@ class AdminController extends Controller
        <?php
 }
 
-    public function delete_driver($key)
+    public function delete_driver($id)
     {
-        DB::table('users')->where('id', $key)->delete();
+        DB::table('users')->where('id', $id)->delete();
+        ?>
+       <script>
+           alert('User Deleted Successfully!!');
+           window.location.href="<?php echo url('admin/manageexisting_drivers'); ?>";
+       </script>
+       <?php
+}
 
-        return redirect()->route('admin.manageexisting_drivers')->with('success', 'Driver deleted successfully');
-    }
+// public function delete_driver($key)
+// {
+//     DB::table('users')->where('id', $key)->delete();
+
+//     return redirect()->route('admin.manageexisting_drivers')->with('success', 'Driver deleted successfully');
+// }
 
     public function deleteserviceprovider($id)
     {

@@ -55,7 +55,7 @@
                                             </td>
                                             <td>
 
-                                                <a href="{{ url('admin/existing-driver/delete') . '/' . $val->id }}"><i
+                                                <a href="{{ url('admin/new-driver/delete') . '/' . $val->id }}"><i
                                                         class="fas fa-trash"></i></a>
                                             </td>
                                         </tr>
