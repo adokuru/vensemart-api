@@ -468,7 +468,7 @@ class AdminController extends Controller
         ?>
        <script>
            alert('User Deleted Successfully!!');
-           window.location.href="<?php echo url('admin/managenew_drivers'); ?>";
+           window.location.href="<?php echo url('admin/manageexisting_drivers'); ?>";
        </script>
        <?php
 }
