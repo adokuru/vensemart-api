@@ -467,7 +467,7 @@ class AdminController extends Controller
         DB::table('users')->where('id', $id)->delete();
         ?>
        <script>
-           alert('User Deleted Successfully!!');
+           alert('Driver Deleted Successfully!!');
            window.location.href="<?php echo url('admin/manageexisting_drivers'); ?>";
        </script>
        <?php
