@@ -122,13 +122,17 @@
                 if (result == "yes") {
                     $.ajax({
                         url: "{{ url('admin/existing_driver/delete') }}",
-                        method: 'GET',
+                        method: 'POST', // or 'DELETE' if you're deleting
                         data: {
-                            id: id
+                            id: id,
+                            _token: '{{ csrf_token() }}'
                         },
                         dataType: 'json',
                         success: function(data) {
-
+                            // Handle success
+                        },
+                        error: function(xhr, status, error) {
+                            // Handle errors
                         }
                     });
                 }
