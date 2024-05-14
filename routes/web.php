@@ -1,15 +1,14 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-
-use Illuminate\Support\Facades\Session;
-use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\AdminController;
-use App\Models\Stores;
-use App\Models\Products;
+use App\Http\Controllers\Admin\AuthController;
 use App\Models\Orders;
+use App\Models\Products;
+use App\Models\Stores;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use Jenssegers\Agent\Facades\Agent;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,18 +18,16 @@ use Jenssegers\Agent\Facades\Agent;
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
-
+ */
 
 Route::get('/test', function () {
     return "Vensemart Version 1.0";
 });
 
-
 Route::get('/', function () {
     $store = Stores::where('franchise_id', auth()->user()->user_id)->first();
 
-    $storeId =  $store->id;
+    $storeId = $store->id;
 
     $productsCount = Products::where('shop_id', $store->id)->count();
 
@@ -38,7 +35,6 @@ Route::get('/', function () {
 
     $salesCount = Orders::where('shop_id', $store->id)->where('status', 4)->count();
     $pendingCount = Orders::where('shop_id', $store->id)->where('status', 3)->count();
-
 
     return view(
         'nk1/index',
@@ -72,16 +68,12 @@ Route::get('/product-form', function () {
     return view('outer_files/product-form');
 });
 
-
-
 // Route::post('submit', [UploadController::class, 'submit']);
 
 Route::get('/product', function () {
 
     return view('outer_files/uploadfile');
 });
-
-
 
 Route::get('/api/ref', function (Request $request) {
     $referralCode = $request->query('ref');
@@ -124,22 +116,17 @@ Route::get('/api/ref', function (Request $request) {
     }
 });
 
-
-
 Route::get('/dashboard', function () {
     return view('outer_files/dup');
 })->middleware(['auth', 'verified'])->name('dashboard');
-
 
 Route::get('/markets', function () {
     return view('outer_files/markets');
 })->middleware(['auth', 'verified'])->name('markets');
 
-
 Route::get('/collectors', function () {
     return view('outer_files/collectors');
 })->middleware(['auth', 'verified'])->name('collectors');
-
 
 Route::get('/edit-product', function () {
     return view('outer_files/product-edit');
@@ -149,31 +136,24 @@ Route::get('/duplicate', function () {
     return view('outer_files/duplicate');
 })->middleware(['auth', 'verified'])->name('duplicate');
 
-
 Route::get('/product-details', function () {
     return view('nk1/product-list');
 })->middleware(['auth', 'verified'])->name('product-details');
-
 
 Route::get('/orders-list', function () {
 
     return view('nk1/orders');
 })->middleware(['auth', 'verified'])->name('orders');
 
-
-
 Route::get('/dup', function () {
     return view('outer_files/dup');
 })->middleware(['auth', 'verified'])->name('dup');
 
-
-
 Route::get('/index', function () {
-
 
     $store = Stores::where('franchise_id', auth()->user()->user_id)->first();
 
-    $storeId =  $store->id;
+    $storeId = $store->id;
 
     $productsCount = Products::where('shop_id', $store->id)->count();
 
@@ -181,7 +161,6 @@ Route::get('/index', function () {
 
     $salesCount = Orders::where('shop_id', $store->id)->where('status', 4)->count();
     $pendingCount = Orders::where('shop_id', $store->id)->where('status', 3)->count();
-
 
     return view(
         'nk1/index',
@@ -197,7 +176,6 @@ Route::get('/index', function () {
 Route::get('/duppp', function () {
     return view('outer_files/dupppp');
 })->middleware(['auth', 'verified'])->name('duppp');
-
 
 Route::get('/bank', function () {
     return view('outer_files/bank');
@@ -215,8 +193,6 @@ Route::get('/records', function () {
     return view('outer_files/records');
 })->middleware(['auth', 'verified'])->name('records');
 
-
-
 Route::middleware('auth')->group(function () {
 
     Route::get(
@@ -228,16 +204,12 @@ Route::middleware('auth')->group(function () {
         }
     );
 
-
     // Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-
 Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
-
-
 
 Route::match(['get', 'post'], '/admin', [AuthController::class, 'login']);
 // Route::match(['get', 'post'], '/login', [AuthController::class, 'login']);
@@ -266,13 +238,11 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
     Route::post('verify_vendor', [AdminController::class, 'verify_vendor']);
     Route::get('existingvendor/delete/{key}', [AdminController::class, 'existingvendordelete']);
 
-
     /***************************** Stores***************************************/
     Route::get('manage_store', [AdminController::class, 'stores_list'])->name('stores_list');
     Route::get('edit-store/{id}', [AdminController::class, 'edit_store']);
     Route::post('verify_store', [AdminController::class, 'verify_store']);
     Route::get('existingvendor/delete/{key}', [AdminController::class, 'existingstoredelete']);
-
 
     /***************************** Banks***************************************/
     Route::get('manage_bank', [AdminController::class, 'banks_list'])->name('banks_list');
@@ -286,7 +256,6 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
     Route::post('verify_product', [AdminController::class, 'verify_product']);
     Route::get('existingproduct/delete/{key}', [AdminController::class, 'existingproductdelete']);
 
-
     /*****************************Manage New User***********************************/
     Route::get('managenew_user', [AdminController::class, 'managenew_user']);
     Route::any('new-user/edit/{key}', [AdminController::class, 'managenew_edit']);
@@ -297,6 +266,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
     Route::get('managenew_drivers', [AdminController::class, 'managenew_drivers']);
     Route::get('new-driver/view/{key}', [AdminController::class, 'viewnew_driver']);
     Route::any('addnew_driver', [AdminController::class, 'addnew_driver']);
+    Route::get('existing-driver/delete/{id}', [AdminController::class, 'delete_driver'])->name('existing-driver.delete');
+
     /*************************************End Manage New Drivers**************************/
 
     /********************************Manage Existing Drivers*****************************/
@@ -311,10 +282,6 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
 
     Route::get('exist_serviceprovider/existingserviceprovider_delete/{key}', [AdminController::class, 'deleteserviceprovider']);
 
-
-
-
-
     /**************************End Existing Service Provider***************************/
 
     /**********************New Service Provider*******************************/
@@ -328,7 +295,6 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
     Route::any('contactus/update', [AdminController::class, 'contactus_update']);
     /********************************End Manage CMS***********************/
 
-
     /*********************Manage Rejected Driver List************************/
     Route::get('managerejected_driverlist', [AdminController::class, 'managerejected_driverlist']);
     Route::get('rejected_drivers/change_status_of_rejecteddriver', [AdminController::class, 'change_status_of_rejecteddriver']);
@@ -336,14 +302,12 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
     Route::get('rejected_driver/delete/{key}', [AdminController::class, 'rejected_driver_delete']);
     /*************************End Manage Rejected Driver List***************/
 
-
     /*****************************Manage Rejected Service Provider***********************/
     Route::get('managerejectedservice_providerlist', [AdminController::class, 'managerejectedservice_providerlist']);
     Route::get('rejectedservice_provider/change_status_of_rejectedserviceprovider', [AdminController::class, 'change_status_of_rejectedserviceprovider']);
     Route::any('managerejectedservice_provider/view/{key}', [AdminController::class, 'managerejectedservice_provider_view']);
     Route::get('managerejectedservice_provider/delete/{key}', [AdminController::class, 'managerejectedservice_provider_delete']);
     /*********************************End Manage Rejected Service Provider****************/
-
 
     /************************Manage Category**************************/
     Route::get('managecategory/listing', [AdminController::class, 'managecategory']);
@@ -365,14 +329,11 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
     Route::any('order/in_process/edit/{key}', [AdminController::class, 'managependingordersedit']);
     /*********************************End Manage Orders************************/
 
-
     /***************************Manage Completed Orders************************/
     Route::get('order/completed_orders/listing', [AdminController::class, 'managecompeletedordreslisting']);
     Route::any('order/completed_orders/view_orders/{key}', [AdminController::class, 'managecompletedvieworders']);
     Route::any('order/completed_orders/editorders/{key}', [AdminController::class, 'managecomplete_editorders']);
     /***************************End Manage Completed Orders**********************/
-
-
 
     /*********************************Manage Pending Service Orders*****************************/
     Route::get('serviceorder/in-process/listing', [AdminController::class, 'managependingserviceorderslisting']);
@@ -380,15 +341,11 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
     Route::any('serviceorder/in_process/edit/{key}', [AdminController::class, 'managependingserviceordersedit']);
     /*********************************End Manage Service Orders************************/
 
-
     /***************************Manage Completed Service Orders************************/
     Route::get('serviceorder/completed_serviceorders/listing', [AdminController::class, 'managecompletedserviceorderslisting']);
     Route::any('order/completed_orders/view_orders/{key}', [AdminController::class, 'managecompletedvieworders']);
     Route::any('order/completed_orders/editorders/{key}', [AdminController::class, 'managecomplete_editorders']);
     /***************************End Manage Completed Service Orders**********************/
-
-
-
 
     /***************************Manage Cancelled Service Orders************************/
     Route::get('serviceorder/cancelled_serviceorders/listing', [AdminController::class, 'managecancelledserviceorderslisting']);
@@ -406,7 +363,6 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
     Route::any('manageservice_category/edit/{key}', [AdminController::class, 'manageservicecategory_edit']);
     Route::get('manageservice_category/delete/{key}', [AdminController::class, 'manageservicecategory_delete']);
     /**************************End Manage Service Provider Category**************/
-
 
     /**************************Manage Withdrawl Request****************************/
     Route::get('managewithdrawl_request/listing', [AdminController::class, 'managewithdrawlrequest_listing']);
