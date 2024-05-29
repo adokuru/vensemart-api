@@ -102,7 +102,7 @@ class DeliveryRiderController extends Controller
             if ($typevalidate->fails()) {
                 $arr['status'] = 0;
                 $arr['message'] = "Validation Failed";
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
 
                 return response()->json($arr, 403);
             }
@@ -118,7 +118,7 @@ class DeliveryRiderController extends Controller
                 } else {
                     $arr['status'] = 0;
                     $arr['message'] = 'Vehicle image not uploaded!!';
-                    $arr['data'] = NULL;
+                    // $arr['data'] = NULL;
 
                     return response()->json($arr, 200);
                 }
@@ -163,7 +163,7 @@ class DeliveryRiderController extends Controller
             if ($typevalidate->fails()) {
                 $arr['status'] = 0;
                 $arr['message'] = "Validation Failed";
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
 
                 return response()->json($arr, 200);
             }
@@ -176,7 +176,7 @@ class DeliveryRiderController extends Controller
             if ($users) {
                 $arr['status'] = 0;
                 $arr['message'] = 'E-mail id or Phone number already exist!!';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
                 return response()->json($arr, 200);
             }
 
@@ -226,7 +226,7 @@ class DeliveryRiderController extends Controller
                         } else {
                             $arr['status'] = 0;
                             $arr['message'] = 'DL image not uploaded!!';
-                            $arr['data'] = NULL;
+                            // $arr['data'] = NULL;
 
                             return response()->json($arr, 200);
                         }
@@ -239,7 +239,7 @@ class DeliveryRiderController extends Controller
                         } else {
                             $arr['status'] = 0;
                             $arr['message'] = 'Insurance image not uploaded!!';
-                            $arr['data'] = NULL;
+                            // $arr['data'] = NULL;
 
                             return response()->json($arr, 200);
                         }
@@ -255,14 +255,14 @@ class DeliveryRiderController extends Controller
                 } else {
                     $arr['status'] = 0;
                     $arr['message'] = 'Try Again';
-                    $arr['data'] = NULL;
+                    // $arr['data'] = NULL;
                 }
                 return response()->json($arr, 200);
             } catch (\Exception $e) {
                 DB::rollback();
                 $arr['status'] = 0;
                 $arr['message'] = 'something went wrong';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
                 return response()->json($arr, 200);
             }
         } catch (\Exception $e) {
@@ -353,7 +353,7 @@ class DeliveryRiderController extends Controller
             if ($all_order == []) {
                 $arr['status'] = 0;
                 $arr['message'] = 'No data.';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
             } else {
                 $arr['status'] = 1;
                 $arr['message'] = 'Success';
@@ -441,7 +441,7 @@ class DeliveryRiderController extends Controller
             if ($pending_order == []) {
                 $arr['status'] = 0;
                 $arr['message'] = 'No data.';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
             } else {
                 $arr['status'] = 1;
                 $arr['message'] = 'Success';
@@ -509,7 +509,7 @@ class DeliveryRiderController extends Controller
             if ($cancel_order == []) {
                 $arr['status'] = 0;
                 $arr['message'] = 'No data.';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
             } else {
                 $arr['status'] = 1;
                 $arr['message'] = 'Success';
@@ -583,7 +583,7 @@ class DeliveryRiderController extends Controller
             if ($complete_order == []) {
                 $arr['status'] = 0;
                 $arr['message'] = 'No data.';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
             } else {
                 $arr['status'] = 1;
                 $arr['message'] = 'Success';
@@ -1076,7 +1076,7 @@ class DeliveryRiderController extends Controller
             if ($accept_order == []) {
                 $arr['status'] = 0;
                 $arr['message'] = 'No data.';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
             } else {
                 $arr['status'] = 1;
                 $arr['message'] = 'Success';
@@ -1140,7 +1140,7 @@ class DeliveryRiderController extends Controller
                 } else {
                     $arr['status'] = 0;
                     $arr['message'] = 'DL image not uploaded!!';
-                    $arr['data'] = NULL;
+                    // $arr['data'] = NULL;
 
                     return response()->json($arr, 200);
                 }
@@ -1153,7 +1153,7 @@ class DeliveryRiderController extends Controller
                 } else {
                     $arr['status'] = 0;
                     $arr['message'] = 'Aadhar image not uploaded!!';
-                    $arr['data'] = NULL;
+                    // $arr['data'] = NULL;
 
                     return response()->json($arr, 200);
                 }
@@ -1218,7 +1218,7 @@ class DeliveryRiderController extends Controller
             if ($validate->fails()) {
                 $arr['status'] = 0;
                 $arr['message'] = 'Validation Failed!!';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
                 return response()->json($arr, 200);
             }
             $orders = DB::table('orders as o')
@@ -1232,7 +1232,7 @@ class DeliveryRiderController extends Controller
             if (!$orders) {
                 $arr['status'] = 0;
                 $arr['message'] = "no data found";
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
                 return response()->json($arr, 200);
             }
             $product_details =  DB::table('eshop_purchase_detail as od')
@@ -1248,7 +1248,7 @@ class DeliveryRiderController extends Controller
             if (!$orders) {
                 $arr['status'] = 0;
                 $arr['message'] = "no data found";
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
             } else {
                 $arr['status'] = 1;
                 $arr['message'] = "order details found successfully";
@@ -1391,7 +1391,7 @@ class DeliveryRiderController extends Controller
             } else {
                 $arr['status'] = 0;
                 $arr['message'] = 'Profile image not uploaded!!';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
 
                 return response()->json($arr, 200);
             }
@@ -1402,7 +1402,7 @@ class DeliveryRiderController extends Controller
             if ($email >= 1) {
                 $arr['status'] = 0;
                 $arr['message'] = 'Email already exist.!!';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
 
                 return response()->json($arr, 200);
             }
@@ -1412,7 +1412,7 @@ class DeliveryRiderController extends Controller
             if ($mobile >= 1) {
                 $arr['status'] = 0;
                 $arr['message'] = 'Mobile already exist.!!';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
 
                 return response()->json($arr, 200);
             }
@@ -1472,7 +1472,7 @@ class DeliveryRiderController extends Controller
             if (empty($bank)) {
                 $arr['status'] = 0;
                 $arr['message'] = 'Please add your bank details first';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
                 return response()->json($arr, 403);
             }
 
@@ -1530,7 +1530,7 @@ class DeliveryRiderController extends Controller
                 ]);
                 $arr['status'] = 0;
                 $arr['message'] = 'No Data Found';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
             }
         } catch (\Exception $e) {
             $arr['status'] = 0;
@@ -1551,7 +1551,7 @@ class DeliveryRiderController extends Controller
             } else {
                 $arr['status'] = 0;
                 $arr['message'] = 'No Data Found';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
             }
         } catch (\Exception $e) {
             $arr['status'] = 0;
@@ -1572,7 +1572,7 @@ class DeliveryRiderController extends Controller
             } else {
                 $arr['status'] = 0;
                 $arr['message'] = 'No Data Found';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
             }
         } catch (\Exception $e) {
             $arr['status'] = 0;
@@ -1603,7 +1603,7 @@ class DeliveryRiderController extends Controller
             } else {
                 $arr['status'] = 0;
                 $arr['message'] = 'No Data found';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
             }
         } catch (\Exception $e) {
             $arr['status'] = 0;
@@ -1685,7 +1685,7 @@ class DeliveryRiderController extends Controller
             if (!$sent) {
                 $arr['status'] = 0;
                 $arr['message'] = 'unable to sent otp.';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
 
                 return response()->json($arr, 200);
             }
@@ -2033,7 +2033,7 @@ class DeliveryRiderController extends Controller
             if ($typevalidate->fails()) {
                 $arr['status'] = 0;
                 $arr['message'] = $typevalidate->errors()->first();
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
 
                 return response()->json($arr, 200);
             }
@@ -2046,14 +2046,14 @@ class DeliveryRiderController extends Controller
             if (empty($user)) {
                 $arr['status'] = 0;
                 $arr['message'] = 'No user found';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
 
                 return response()->json($arr, 200);
             }
             if (!Hash::check($request->password, $user->password)) {
                 $arr['status'] = 0;
                 $arr['message'] = 'Password is not matched';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
 
                 return response()->json($arr, 200);
             }
@@ -2087,7 +2087,7 @@ class DeliveryRiderController extends Controller
             } else {
                 $arr['status'] = 0;
                 $arr['message'] = 'No user found';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
             }
         } catch (\Exception $e) {
             $arr['status'] = 0;
@@ -2121,7 +2121,7 @@ class DeliveryRiderController extends Controller
                 } else {
                     $arr['status'] = 0;
                     $arr['message'] = 'Profile image not uploaded!!';
-                    $arr['data'] = NULL;
+                    // $arr['data'] = NULL;
 
                     return response()->json($arr, 500);
                 }
@@ -2131,7 +2131,7 @@ class DeliveryRiderController extends Controller
                 if ($email >= 1) {
                     $arr['status'] = 0;
                     $arr['message'] = 'Email already exist.!!';
-                    $arr['data'] = NULL;
+                    // $arr['data'] = NULL;
 
                     return response()->json($arr, 500);
                 }
@@ -2141,7 +2141,7 @@ class DeliveryRiderController extends Controller
                 if ($email >= 1) {
                     $arr['status'] = 0;
                     $arr['message'] = 'Mobile already exist.!!';
-                    $arr['data'] = NULL;
+                    // $arr['data'] = NULL;
 
                     return response()->json($arr, 500);
                 }
@@ -2157,7 +2157,7 @@ class DeliveryRiderController extends Controller
             } else {
                 $arr['status'] = 0;
                 $arr['message'] = 'Try Again';
-                $arr['data'] = NULL;
+                // $arr['data'] = NULL;
             }
 
             return response()->json($arr, 200);

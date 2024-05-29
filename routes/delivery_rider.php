@@ -9,8 +9,6 @@ Route::post('rider/register', [DeliveryRiderController::class, 'delivery_rider_r
 Route::post('rider/login', [DeliveryRiderController::class, 'login']);
 
 
-
-
 Route::group([
     'namespace' => 'Rider',
     'prefix' => 'rider',
