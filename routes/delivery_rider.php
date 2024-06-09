@@ -39,6 +39,12 @@ Route::group([
 
     Route::post('on_off_status', [DeliveryRiderController::class, 'on_off_status']);
 
+    // get current order request
+    Route::get('current-ride-request', [DeliveryRiderController::class, 'get_order_request']);
+
+    // update order request
+    Route::post('update-order-request/{id}', [DeliveryRiderController::class, 'update_order_request']);
+
 
     Route::post('on_off_online', [DeliveryRiderController::class, 'on_off_online']);
 

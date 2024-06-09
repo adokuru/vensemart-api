@@ -138,7 +138,7 @@ class DeliveryRiderController extends Controller
         } catch (Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = $e->getMessage();
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
 
             return response()->json($arr, 500);
         }
@@ -268,7 +268,7 @@ class DeliveryRiderController extends Controller
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = "Something went wrong";
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -304,7 +304,7 @@ class DeliveryRiderController extends Controller
         } catch (\Exception $e) {
             $arr['status']  = 0;
             $arr['message'] = 'something went wrong';
-            $arr['data']    = NULL;
+            // $arr['data']    = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -363,7 +363,7 @@ class DeliveryRiderController extends Controller
         } catch (\Exception $e) {
             $arr['status']  = 0;
             $arr['message'] = 'something went wrong';
-            $arr['data']    = NULL;
+            // $arr['data']    = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -451,7 +451,7 @@ class DeliveryRiderController extends Controller
         } catch (\Exception $e) {
             $arr['status']  = 0;
             $arr['message'] = 'something went wrong';
-            $arr['data']    = NULL;
+            // $arr['data']    = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -519,7 +519,7 @@ class DeliveryRiderController extends Controller
         } catch (\Exception $e) {
             $arr['status']  = 0;
             $arr['message'] = 'something went wrong';
-            $arr['data']    = NULL;
+            // $arr['data']    = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -593,7 +593,7 @@ class DeliveryRiderController extends Controller
         } catch (\Exception $e) {
             $arr['status']  = 0;
             $arr['message'] = 'something went wrong';
-            $arr['data']    = NULL;
+            // $arr['data']    = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -687,7 +687,7 @@ class DeliveryRiderController extends Controller
         } catch (\Exception $e) {
             $arr['status']  = 0;
             $arr['message'] = 'something went wrong';
-            // $arr['data']    = NULL;
+            $arr['data']    = NULL;
             return response()->json($arr, 200);
         }
     }
@@ -733,7 +733,7 @@ class DeliveryRiderController extends Controller
         } catch (\Exception $e) {
             $arr['status']  = 0;
             $arr['message'] = 'something went wrong';
-            $arr['data']    = NULL;
+            // $arr['data']    = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -815,7 +815,7 @@ class DeliveryRiderController extends Controller
         } catch (\Exception $e) {
             $arr['status']  = 0;
             $arr['message'] = 'something went wrong';
-            $arr['data']    = NULL;
+            // $arr['data']    = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -979,7 +979,7 @@ class DeliveryRiderController extends Controller
         } catch (\Exception $e) {
             $arr['status']  = 0;
             $arr['message'] = 'something went wrong';
-            $arr['data']    = NULL;
+            // $arr['data']    = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -1059,7 +1059,7 @@ class DeliveryRiderController extends Controller
             Log::error($e->getTraceAsString());
             $arr['status']  = 0;
             $arr['message'] = 'something went wrong';
-            // $arr['data']    = NULL;
+            $arr['data']    = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -1086,7 +1086,7 @@ class DeliveryRiderController extends Controller
         } catch (\Exception $e) {
             $arr['status']  = 0;
             $arr['message'] = 'something went wrong';
-            $arr['data']    = NULL;
+            // $arr['data']    = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -1108,7 +1108,7 @@ class DeliveryRiderController extends Controller
         } catch (\Exception $e) {
             $arr['status']  = 0;
             $arr['message'] = 'something went wrong';
-            $arr['data']    = NULL;
+            // $arr['data']    = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -1128,7 +1128,7 @@ class DeliveryRiderController extends Controller
             if ($validator->fails()) {
                 $arr['status']  = 0;
                 $arr['message'] = "Validation Failed";
-                $arr['data']    = NULL;
+                // $arr['data']    = NULL;
                 return response()->json($arr, 200);
             }
             $vehicle_details = $request->all();
@@ -1162,11 +1162,11 @@ class DeliveryRiderController extends Controller
             DB::table('vehicle_details')->insert($vehicle_details);
             $arr['status']  = 1;
             $arr['message'] = "Vehicle registration successfully";
-            $arr['data']    = NULL;
+            // $arr['data']    = NULL;
         } catch (\Exception $e) {
             $arr['status']  = 0;
             $arr['message'] = "something went wrong";
-            $arr['data']    = NULL;
+            // $arr['data']    = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -1181,7 +1181,7 @@ class DeliveryRiderController extends Controller
         if ($validate->fails()) {
             $arr['status'] = 0;
             $arr['message'] = 'Validation Failed!!';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
             return response()->json($arr, 200);
         }
 
@@ -1205,7 +1205,7 @@ class DeliveryRiderController extends Controller
         } else {
             $arr['status'] = 0;
             $arr['message'] = 'Order not found!';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
             return response()->json($arr, 200);
         }
     }
@@ -1258,7 +1258,7 @@ class DeliveryRiderController extends Controller
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = "something went wrong";
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -1283,7 +1283,7 @@ class DeliveryRiderController extends Controller
         } else {
             $arr['status'] = 0;
             $arr['message'] = "user not found!";
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -1302,7 +1302,7 @@ class DeliveryRiderController extends Controller
         } else {
             $arr['status'] = 0;
             $arr['message'] = "user not found!";
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -1337,7 +1337,7 @@ class DeliveryRiderController extends Controller
         } else {
             $arr['status']  = 0;
             $arr['message'] = 'something went wrong';
-            $arr['data']    = NULL;
+            // $arr['data']    = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -1360,7 +1360,7 @@ class DeliveryRiderController extends Controller
         if ($validator->fails()) {
             $arr['status'] = 0;
             $arr['message'] = 'Validation failed';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
             return response()->json($arr, 200);
         }
         $id  = Auth::id();
@@ -1369,7 +1369,7 @@ class DeliveryRiderController extends Controller
         if ($user->type != 2) {
             $arr['status'] = 0;
             $arr['message'] = 'User Type failed';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
 
             return response()->json($arr, 200);
         }
@@ -1441,7 +1441,7 @@ class DeliveryRiderController extends Controller
         } else {
             $arr['status'] = 0;
             $arr['message'] = 'Try Again';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         // }
         // catch(\Exception $e)
@@ -1535,7 +1535,7 @@ class DeliveryRiderController extends Controller
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'Sorry!! Something Went Wrong';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -1556,7 +1556,7 @@ class DeliveryRiderController extends Controller
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'Sorry!! Something Went Wrong';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -1577,7 +1577,7 @@ class DeliveryRiderController extends Controller
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'Sorry!! Something Went Wrong';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -1608,7 +1608,7 @@ class DeliveryRiderController extends Controller
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = $e->getMessage();
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -1639,7 +1639,7 @@ class DeliveryRiderController extends Controller
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'Sorry!! Something Went Wrong';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -1699,7 +1699,7 @@ class DeliveryRiderController extends Controller
         } catch (Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = 'something went wrong.';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
 
             return response()->json($arr, 200);
         }
@@ -1727,7 +1727,7 @@ class DeliveryRiderController extends Controller
         if (!$order) {
             $arr['status'] = 0;
             $arr['message'] = 'Order not found';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
             return response()->json($arr, 200);
         }
 
@@ -1846,6 +1846,24 @@ class DeliveryRiderController extends Controller
                 );
 
                 $arr['status'] = 1;
+                $arr['message'] = 'Order Pick Up in Progress!!';
+                $arr['data'] =    $order;
+                break;
+            case 6:
+                $order->status = 5;
+                $order->save();
+                // TODO: Notify vendor
+                // update the ride request status
+                RideRequest::where('id', $order->ride_request_id)->update(['status' => "pick_up"]);
+
+                // Notify Customer
+                $this->sendNotification(
+                    $order->user_id,
+                    'Order Picked up!!',
+                    "order-" . $order->id . " has been picked up and in progress"
+                );
+
+                $arr['status'] = 1;
                 $arr['message'] = 'Order Picked Up Successfully!!';
                 $arr['data'] =    $order;
                 break;
@@ -1929,7 +1947,7 @@ class DeliveryRiderController extends Controller
         if (1) {
             $arr['status'] = 1;
             $arr['message'] = 'Success';
-            $arr['data'] = null;
+            // $arr['data'] = null;
         } else {
             $arr['status']    = 0;
             $arr['message']   = 'something went wrong please try again';
@@ -1970,7 +1988,7 @@ class DeliveryRiderController extends Controller
         if ($validator->fails()) {
             $arr['status']  = 0;
             $arr['message'] = "Validation Failed";
-            $arr['data']    = NULL;
+            // $arr['data']    = NULL;
             return response()->json($arr, 200);
         }
 
@@ -2024,9 +2042,9 @@ class DeliveryRiderController extends Controller
             'device_token' => 'required',
             'username' => 'required',
             'password' => 'required',
-            'location' => 'required',
-            'location_lat' => 'required',
-            'location_long' => 'required',
+            // 'location' => 'required',
+            // 'location_lat' => 'required',
+            // 'location_long' => 'required',
             // 'state' => 'required'
         ]);
         try {
@@ -2092,7 +2110,7 @@ class DeliveryRiderController extends Controller
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = "Something went wrong";
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
     }
@@ -2105,7 +2123,7 @@ class DeliveryRiderController extends Controller
         if ($validate->fails()) {
             $arr['status'] = 0;
             $arr['message'] = 'Validation failed';
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
 
             return response()->json($arr, 500);
         }
@@ -2164,7 +2182,7 @@ class DeliveryRiderController extends Controller
         } catch (\Exception $e) {
             $arr['status'] = 0;
             $arr['message'] = $e->getMessage();
-            $arr['data'] = NULL;
+            // $arr['data'] = NULL;
         }
 
         return response()->json($arr, 200);
@@ -2303,5 +2321,307 @@ class DeliveryRiderController extends Controller
             // $arr['data'] = NULL;
         }
         return response()->json($arr, 200);
+    }
+
+    public function get_order_request()
+    {
+        $user_id = Auth::id();
+        // try {
+
+
+
+        $pendingRequests  = DB::table('ride_requests as r')
+            ->select(
+                'o.*', // Select all columns from the 'orders' table
+                'r.*', // Select all columns from the 'ride_requests' table
+                'u.name as user_name',
+                'u.mobile as user_phone',
+                'u.email as user_email',
+                'u.profile as user_image',
+                'u.type as user_type',
+                'u.status as user_status',
+                // DB::raw("CASE WHEN r.driver_id = " . Auth::id() . " THEN 1 ELSE 0 END AS show_for_current_driver"),
+                DB::raw("CASE WHEN r.is_ride_for_other = 1 THEN TRIM(BOTH '\"' FROM JSON_EXTRACT(r.other_rider_data, '$.name')) ELSE NULL END AS other_rider_name"),
+                DB::raw("CASE WHEN r.is_ride_for_other = 1 THEN TRIM(BOTH '\"' FROM JSON_EXTRACT(r.other_rider_data, '$.phone_number')) ELSE NULL END AS other_rider_phone_number")
+
+            )
+            ->join('orders as o', 'o.id', 'r.order_id')
+            ->join('users as u', 'u.id', 'o.user_id') // Join with the 'users' table to get customer details
+            // ->where('r.driver_', Auth::id())
+            ->whereNull('r.driver_id')   // Filter for unassigned requests (driver_id is null)
+            ->whereNotIn('r.status', ['cancelled', 'completed']) // Exclude cancelled or completed requests
+            ->where(function ($query) {  // Apply OR condition for 'o.status'
+                $query->where('o.status', "1")
+                    ->orWhere('o.status', "2");
+            })
+            ->orderBy('r.created_at', 'desc') // Order by most recent request first
+            ->first();
+
+
+        $on_ride_request = DB::table('ride_requests as r')
+            ->select(
+                'o.*',
+                'r.*',
+                'u.name as user_name',
+                'u.mobile as user_phone',
+                'u.email as user_email',
+                'u.profile as user_image',
+                'u.type as user_type',
+                'u.status as user_status',
+                DB::raw("CASE WHEN o.driver_id = " . Auth::id() . " THEN 1 ELSE 0 END AS show_for_current_driver"),
+                DB::raw("CASE WHEN r.is_ride_for_other = 1 THEN TRIM(BOTH '\"' FROM JSON_EXTRACT(r.other_rider_data, '$.name')) ELSE NULL END AS other_rider_name"),
+                DB::raw("CASE WHEN r.is_ride_for_other = 1 THEN TRIM(BOTH '\"' FROM JSON_EXTRACT(r.other_rider_data, '$.phone_number')) ELSE NULL END AS other_rider_phone_number")
+
+            )
+            ->join('orders as o', 'o.id', 'r.order_id')
+            ->join('users as u', 'u.id', 'o.user_id') // Join with users table (customer)
+            ->join('users as d', 'd.id', 'o.driver_id')
+            ->where('r.driver_id', Auth::id())
+            // ->where('r.driver_id', '!=', null)
+            ->whereNotIn('r.status', ['cancelled'])
+            ->where('r.is_rider_rated', false)
+            ->orderBy('r.created_at', 'desc')
+            ->first();
+
+        $user = DB::table('users')->where('id', $user_id)->first();
+
+        if ($pendingRequests != null) {
+            // If there's an on_ride_request, get customer info from it
+            $customer = DB::table('users')->where('id', $pendingRequests->rider_id)->first();
+        } else  if ($on_ride_request != null) {
+
+            $customer = DB::table('users')->where('id', $on_ride_request->rider_id)->first();
+        }
+
+        // dd($ride_request, $on_ride_request);
+
+
+
+        // $vehicledetails = DB::table('vehicle_details')->where('user_id', $driver->id)->first();
+        // $driver->vehicledetails = $vehicledetails;
+        // if ($user->status == 1 && $user->is_online == 1) {
+        $data = [
+            'id' => $user->id,
+            'display_name' => $user->name,
+            'email' => $user->email,
+            'user_type' => $user->type,
+            'profile_image' => $user->profile,
+            'status' => $user->status == 1 ? "Active" : "Inactive",
+            'latitude'          => $user->location_lat,
+            'longitude'         => $user->location_long,
+            'pending_request' => isset($pendingRequests) ? $pendingRequests : null,
+            'on_ride_request' => isset($on_ride_request) && $on_ride_request->is_rider_rated == 0 ? $on_ride_request : null,
+            'customer' => isset($customer) ? $customer : null,
+        ];
+        $arr['status'] = 1;
+        $arr['message'] = 'Order Request Found Successfully';
+        $arr['data'] = $data;
+
+        return response()->json($data, 200);
+        // }
+    }
+
+    // update order request
+    public function update_order_request(Request $request, $id)
+    {
+
+
+        $user_id = Auth::id();
+
+        $data = $request->all();
+
+        // $orders = DB::table('orders')->where('id', $id)->first();
+        // $ride_request = DB::table('ride_requests')->where('id', $orders->ride_request_id)->first();
+        $orders = Orders::find($id);
+
+        $ride_request = RideRequest::find($orders->ride_request_id);
+
+        $rride_request =
+            DB::table('ride_requests as r')->select(
+                'o.*',
+                'r.*',
+                'u.name as user_name',
+                'u.mobile as user_phone',
+                'u.email as user_email',
+                'u.profile as user_image',
+                'u.type as user_type',
+                'u.status as user_status',
+            )
+            ->join('orders as o', 'o.id', 'r.order_id')
+            ->join('users as u', 'u.id', 'o.user_id')
+            // ->join('users as d', 'd.id', 'o.driver_id')
+            ->where('r.rider_id', Auth::id())
+            ->where('r.driver_id', null)
+            ->whereNotIn('r.status', ['cancelled', 'completed'])
+            ->orderBy('r.created_at', 'desc') // Order by creation date in descending order
+            ->first();
+
+        $on_ride_request =
+            DB::table('ride_requests as r')->select(
+                'o.*',
+                'r.*',
+                'u.name as user_name',
+                'u.mobile as user_phone',
+                'u.email as user_email',
+                'u.profile as user_image',
+                'u.type as user_type',
+                'u.status as user_status',
+                'd.id as driver_id',
+                'd.location_lat as driver_lat',
+                'd.location_long as driver_long',
+                'd.name as driver_name',
+                'd.type as driver_type',
+                'd.mobile as driver_phone',
+                'd.status as driver_status',
+                'd.is_online as driver_online',
+                'd.created_at as driver_created_at',
+                'd.updated_at as driver_updated_at',
+                'd.email as driver_email',
+                'd.profile as driver_image',
+            )
+            ->join('orders as o', 'o.id', 'r.order_id')
+            ->join('users as u', 'u.id', 'o.user_id')
+            ->join('users as d', 'd.id', 'o.driver_id')
+            ->where('r.rider_id', Auth::id())
+            ->where('r.driver_id', '!=', null)
+            ->whereNotIn('r.status', ['cancelled'])
+            ->orderBy('r.created_at', 'desc') // Order by creation date in descending order
+            ->first();
+
+        // dd($request)
+
+
+
+        try {
+
+            // check if the request status is cancelled and cancel the ride request and order
+            if ($request->status == "cancelled") {
+                $ride_request->status = $request->status;
+                $ride_request->reason = $request->reason;
+                $ride_request->cancel_by = $request->cancel_by;
+                $ride_request->save();
+
+                // $orders->update(['status' => 5]);
+
+                $cancel =
+                    $request->cancel_by == "auto" || $request->cancel_by == "user" ? 1 : 2;
+
+                $orders->update([
+                    'status' => 7,
+                    'cancel_reason' => $request->reason,
+                    'cancel_by' => $cancel,
+
+                ]);
+
+                // check if theres a driver assigned to the order
+                if ($orders->driver_id) {
+                    // send notification to the driver
+                    $this->sendNotification($orders->driver_id, "Order Cancelled", "Order Cancelled by " . $request->cancel_by);
+                }
+
+                // check if theres any other order request and cancel them
+                $pending_orders = DB::table('orders')->where('user_id', $user_id)
+                    ->where('status', 2)
+                    ->orWhere('status', 3)
+                    ->orWhere('status', 1)
+                    ->orWhere('status', 5)
+                    ->orWhere('status', 6)
+                    ->get();
+                if ($pending_orders->count() > 0) {
+                    foreach ($pending_orders as $order) {
+                        // dd($order);
+                        // $ride_request = DB::table('ride_requests')->where('id', $order->ride_request_id)->first();
+                        $ride_request = RideRequest::find($order->ride_request_id);
+
+                        // dd($ride_request);
+                        if ($ride_request != null) {
+
+                            $ride_request->status = "cancelled";
+                            $ride_request->reason = $request->reason;
+                            $ride_request->cancel_by = $request->cancel_by;
+
+                            $ride_request->save();
+                        }
+
+                        // if ($order->driver_id) {
+                        //     // send notification to the driver
+                        //     $this->sendNotification($order->driver_id, "Order Cancelled", "Order Cancelled by " . $request->cancel_by);
+                        // }
+
+                        $order = Orders::find($order->id);
+                        $order->status = 7;
+                        $order->cancel_reason = $request->reason;
+                        $order->cancel_by = $cancel;
+                        $order->save();
+                    }
+                }
+
+                $arr['status'] = 1;
+                $arr['message'] = 'Order Request Cancelled Successfully';
+                // $arr['data'] = ;
+                return response()->json($arr, 200);
+            } else if ($request->status == "riderated" && $ride_request->status == "completed") {
+                $ride_request->is_rider_rated = 1;
+                $ride_request->save();
+
+                $arr['status'] = 1;
+                $arr['message'] = 'Ride Request Completed Successfully';
+                // $arr['data'] = ;
+                return response()->json($arr, 200);
+            } else if ($orders->status == 3 && $ride_request->status == "accepted" || $orders->status == 5 && $ride_request->status == "picking_up" || $orders->status == 6 && $ride_request->status == "in_progress") {
+
+                $driver = User::find($ride_request->driver_id);
+                // dd($driver);
+                if ($driver) {
+                    $vehicledetails = DB::table('vehicle_details')->where('user_id', $driver->id)->first();
+                    $driver->vehicledetails = $vehicledetails;
+                } else {
+                    $driver = null;
+                }
+
+                $data = [
+                    'on_ride_request' => $on_ride_request,
+                    'driver' => $driver,
+                ];
+
+                $arr['status'] = 1;
+                $arr['message'] = 'Order Request in Progress';
+                $arr['data'] = $data;
+                return response()->json($arr, 200);
+            } else if ($orders->status == 2 || $orders->status == 1 && $ride_request->status == "new_ride_requested") {
+
+                $driver = User::find($ride_request->driver_id);
+                // dd($driver);
+                if ($driver) {
+                    $vehicledetails = DB::table('vehicle_details')->where('user_id', $driver->id)->first();
+                    $driver->vehicledetails = $vehicledetails;
+                } else {
+                    $driver = null;
+                }
+
+
+
+                $data = [
+                    'on_ride_request' => $rride_request,
+                    'driver' => $driver,
+                ];
+
+                $arr['status'] = 1;
+                $arr['message'] = 'Order Awaiting Rider Acceptance';
+                $arr['data'] = $data;
+                return response()->json($arr, 200);
+            }
+            //  else {
+            //     $arr['status'] = 0;
+            //     $arr['message'] = 'Sorry!! Something Went Wrong';
+            // // $arr['data'] = NULL;
+            //     return response()->json($arr, 200);
+            // }
+        } catch (\Exception $e) {
+            $arr['status'] = 0;
+            $arr['message'] = 'Sorry!! Something Went Wrong';
+            // $arr['data'] = NULL;
+            return response()->json($arr, 400);
+        }
     }
 }
