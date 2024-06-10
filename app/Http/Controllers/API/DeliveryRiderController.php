@@ -1867,6 +1867,15 @@ class DeliveryRiderController extends Controller
                 $arr['message'] = 'Order Picked Up Successfully!!';
                 $arr['data'] =    $order;
                 break;
+            case 7:
+                $ride_request->is_rider_rated = 1;
+                $ride_request->save();
+
+                $arr['status'] = 1;
+                $arr['message'] = 'Ride Request Completed Successfully';
+                $arr['data'] =    $order;
+
+                break;
             case 3:
                 $order->status = 6;
                 $order->otp = rand(1111, 9999);
