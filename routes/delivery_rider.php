@@ -60,7 +60,7 @@ Route::group([
     Route::get('aboutus_driver', [DeliveryRiderController::class, 'aboutus_driver']);
     Route::get('contactus_driver', [DeliveryRiderController::class, 'contactus_driver']);
     Route::get('allorderslist', [DeliveryRiderController::class, 'allorderslist']);
-    Route::post('orderdetails_driver', [DeliveryRiderController::class, 'orderdetails_driver']);
+    Route::post('orderdetails_driver', [DeliveryRiderController::class, 'orderDetails']);
     Route::post('acceptorders_driver', [DeliveryRiderController::class, 'acceptorders_driver']);
     Route::post('send_otp_to_delivery', [DeliveryRiderController::class, 'send_otp_to_delivery']);
 
