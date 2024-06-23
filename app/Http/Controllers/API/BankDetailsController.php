@@ -40,9 +40,10 @@ class BankDetailsController extends Controller
             'bank_code' => 'required',
             'account_number' => 'required'
         ]);
-
+        // dd(env('PAYSTACK_SECRET'));
         $bank = Http::withHeaders([
-            'Authorization' => 'Bearer ' . env('PAYSTACK_SECRET_KEY')
+            // 'Authorization' => 'Bearer ' . env('PAYSTACK_SECRET_KEY')
+            'Authorization' => 'Bearer sk_live_b04ae1d16202d216880fda467df20d3330b80d40'
         ])->get(
             'https://api.paystack.co/bank/resolve?account_number=' . $request->account_number . '&bank_code=' . $request->bank_code,
         );
