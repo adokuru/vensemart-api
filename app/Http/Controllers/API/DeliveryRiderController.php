@@ -504,7 +504,9 @@ class DeliveryRiderController extends Controller
                 ->leftJoin('ride_requests as rr', 'rr.id', 'o.ride_request_id') // Join the ride_request table
                 ->where('o.driver_id', Auth::id())
 
-                ->where('o.status', '7')->get()->toArray();
+                ->where('o.status', '7')
+                ->orderBy('o.created_at', 'desc') // Sort by the latest
+                ->get()->toArray();
 
             if ($cancel_order == []) {
                 $arr['status'] = 0;
@@ -577,7 +579,9 @@ class DeliveryRiderController extends Controller
                 ->leftJoin('users as ua', 'ua.id', 'o.user_id')
                 ->leftJoin('ride_requests as rr', 'rr.id', 'o.ride_request_id') // Join the ride_request table
                 ->where('o.driver_id', Auth::id())
-                ->where('o.status', '4')->get()->toArray();
+                ->where('o.status', '4')
+                ->orderBy('o.created_at', 'desc') // Sort by the latest
+                ->get()->toArray();
 
 
             if ($complete_order == []) {
