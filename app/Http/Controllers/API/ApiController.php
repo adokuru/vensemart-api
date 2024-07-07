@@ -893,18 +893,21 @@ class ApiController extends Controller
             foreach ($rid as $rider) {
                 $rider = User::where('id', $rider->id)->first();
                 // dd($rider);
-                if ($rider->is_online == 1 && $rider->status == 1) {
+                if ($rider->is_online == 1) {
+                // if ($rider->is_online == 1 && $rider->status == 1) {
                     // dd($rider->id);
-                    $data = [
-                        "title" => "New Ride Request",
-                        "body" => "Customer " . $user->name . " requested a delivery for pickup order no " . $order->order_id,
-                        // "body" => "Customer " . $customer->name . " wants to contact you for order " . $order->order_id,
-                    ];
+                    // $data = [
+                    //     "title" => "New Ride Request",
+                    //     "body" => "Customer " . $user->name . " requested a delivery for pickup order no " . $order->order_id,
+                    //     // "body" => "Customer " . $customer->name . " wants to contact you for order " . $order->order_id,
+                    // ];
+                    $title = "New Ride Request";
+                    $message =  "Customer " . $user->name . " requested a delivery for pickup order no " . $order->order_id;
                     // check if rider is currently on ride
                     $check = DB::table('orders')->where('driver_id', $rider->id)->where('status', [3, 5, 6])->first();
 
                     if (!$check) {
-                        $this->sendNotification($rider->id, $data['title'], $data['body']);
+                        $this->sendNotification($rider->id, $title, $message);
                     }
 
                     // $this->sendNotification($rider->id, $data['title'], $data['body']);
