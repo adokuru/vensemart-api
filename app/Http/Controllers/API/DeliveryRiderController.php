@@ -634,6 +634,7 @@ class DeliveryRiderController extends Controller
                 RideRequest::where('order_id', $orderid)->update(['status' => "accepted", 'driver_id' => $driverId]);
 
                 $this->sendNotification($order->user_id, 'Order Accepted', 'Your order has been accepted by the driver ');
+                
 
                 $arr['status'] = 1;
                 $arr['message'] = 'Order Accepted Successfully!!';
@@ -1874,7 +1875,13 @@ class DeliveryRiderController extends Controller
             case 7:
                 $ride_request->is_rider_rated = 1;
                 $ride_request->save();
-
+    // Notify Customer
+                $this->sendNotification(
+                    $order->user_id,
+                    'Order Picked Up Successfully!!',
+                    "order-" . $order->id . " has completed successfully"
+                );
+            
                 $arr['status'] = 1;
                 $arr['message'] = 'Ride Request Completed Successfully';
                 $arr['data'] =    $order;
