@@ -893,9 +893,9 @@ class ApiController extends Controller
             foreach ($rid as $rider) {
                 $rider = User::where('id', $rider->id)->first();
                 // dd($rider);
-                if ($rider->is_online == 1) {
-                // if ($rider->is_online == 1 && $rider->status == 1) {
-                    // dd($rider->id);
+                // if ($rider->is_online == 1) {
+                if ($rider->is_online == 1 && $rider->status == 1) {
+                    dd($rider);
                     // $data = [
                     //     "title" => "New Ride Request",
                     //     "body" => "Customer " . $user->name . " requested a delivery for pickup order no " . $order->order_id,
