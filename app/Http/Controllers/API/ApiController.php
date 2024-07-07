@@ -910,7 +910,7 @@ class ApiController extends Controller
 
                     if (!$check) {
                         $this->sendNotification($rider->id, $title, $message);
-                        dd("notification accpeted");
+                        // dd("notification accpeted");
                     }
 
                     // $this->sendNotification($rider->id, $data['title'], $data['body']);
