@@ -1310,7 +1310,7 @@ class ApiController extends Controller
     {
         $driver_list = User::where('type', 2)->where('status', "1")->whereNotNull('location_lat')->whereNotNull('location_long');
 
-        $radius = 100; // in kilometers
+        $radius = 60; // in kilometers
         $latitude = $request->latitude;
         $longitude = $request->longitude;
 
@@ -1319,6 +1319,7 @@ class ApiController extends Controller
                 $driver_list->selectRaw("id, name, status, is_online, type, location_lat, location_long, ( 6371 * acos( cos( radians($latitude) ) * cos( radians( location_lat ) ) * cos( radians( location_long ) - radians($longitude) ) + sin( radians($latitude) ) * sin( radians( location_lat ) ) ) ) AS distance")
                 ->having('distance', '<=', $radius)
                 ->where('is_online', 1)
+                ->where('status', 1)
                 ->orderBy('distance', 'asc')
                 ->get();
         } else {
