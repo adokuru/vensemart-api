@@ -889,6 +889,8 @@ class ApiController extends Controller
                 return response()->json($arr, 200);
             }
 
+
+            dd($rid->count());
             // notify nearby riders about the new ride request
             foreach ($rid as $rider) {
                 $rider = User::where('id', $rider->id)->first();
