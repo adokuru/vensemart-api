@@ -495,11 +495,11 @@ class DeliveryRiderController extends Controller
                     ->orWhere('o.status', '2');
             })
             ->orderBy('show_for_current_driver', 'DESC')
-            ->get()
-            ->filter(function ($order) use ($driver) {
-                $distance = $this->calculateDistance($driver->location_lat, $driver->location_long, $order->ride_delivery_latitude, $order->ride_delivery_longitude);
-                return $distance >= 50 && $distance <= 100;
-            });
+            ->get();
+            // ->filter(function ($order) use ($driver) {
+            //     $distance = $this->calculateDistance($driver->location_lat, $driver->location_long, $order->ride_delivery_latitude, $order->ride_delivery_longitude);
+            //     return $distance >= 50 && $distance <= 100;
+            // });
 
         if ($pending_order->isEmpty()) {
             $arr['status'] = 0;
@@ -2532,10 +2532,10 @@ class DeliveryRiderController extends Controller
         })
         ->orderBy('r.created_at', 'desc')
         ->get()
-        ->filter(function ($request) use ($driver) {
-            $distance = $this->calculateDistance($driver->location_lat, $driver->location_long, $request->start_latitude, $request->start_longitude);
-            return $distance >= 50 && $distance <= 100;
-        })
+        // ->filter(function ($request) use ($driver) {
+        //     $distance = $this->calculateDistance($driver->location_lat, $driver->location_long, $request->start_latitude, $request->start_longitude);
+        //     return $distance >= 50 && $distance <= 100;
+        // })
         ->first();
 
     // On Ride Request
