@@ -369,152 +369,92 @@ class DeliveryRiderController extends Controller
     }
 
     //Pending Order API
-    // public function pending_order()
-    // {
-    //     try {
-
-
-    //         $pending_order = DB::table('orders as o')
-    //             ->select(
-    //                 'o.*',
-    //                 'rr.start_address as ride_start_address',
-    //                 'rr.end_address as ride_end_address',
-    //                 'rr.start_latitude as ride_start_latitude',
-    //                 'rr.start_longitude as ride_start_longitude',
-    //                 'rr.end_latitude as ride_delivery_latitude',
-    //                 'rr.end_longitude as ride_delivery_longitude',
-    //                 'rr.ride_type as ride_type',
-    //                 'rr.item_type as item_type',
-    //                 'rr.item_categories as item_categories',
-    //                 'rr.status as ride_status',
-    //                 's.store_name',
-    //                 's.address as store_address',
-    //                 's.lati as store_latitude',
-    //                 's.longi as store_longitude',
-    //                 'ua.location as delivery_address',
-    //                 'ua.location_lat as delivery_latitude',
-    //                 'ua.location_long as delivery_longitude',
-    //                 'ua.mobile as delivery_mobile',
-    //                 DB::raw("CASE WHEN o.driver_id = " . Auth::id() . " THEN 1 ELSE 0 END AS show_for_current_driver"),
-    //                 DB::raw("CASE WHEN rr.is_ride_for_other = 1 THEN TRIM(BOTH '\"' FROM JSON_EXTRACT(rr.other_rider_data, '$.name')) ELSE NULL END AS other_rider_name"),
-    //                 DB::raw("CASE WHEN rr.is_ride_for_other = 1 THEN TRIM(BOTH '\"' FROM JSON_EXTRACT(rr.other_rider_data, '$.phone_number')) ELSE NULL END AS other_rider_phone_number")
-    //             )
-    //             ->leftJoin('stores as s', 's.id', 'o.shop_id')
-    //             ->leftJoin('users as ua', 'ua.id', 'o.user_id')
-    //             ->leftJoin('ride_requests as rr', 'rr.id', 'o.ride_request_id') // Join the ride_request table
-    //             // ->where('o.driver_id', Auth::id())
-    //             ->where(function ($query) {
-    //                 $query->where('o.status', '1')
-    //                     ->orWhere('o.status', '3')
-
-    //                     ->orWhere('o.status', '2');
-    //             })
-    //             ->orderBy('show_for_current_driver', 'DESC') // Prioritize orders for the current driver
-    //             // ->orWhereNotIn('rr.status', ['cancelled', 'completed'])
-    //             // Use whereIn to check for multiple statuses
-    //             ->get();
-
-
-
-
-
-
-    //         //     $pending_order = DB::table('orders as o')
-    //         //         ->select(
-    //         //             'o.*',
-    //         //             's.store_name',
-    //         //             's.address as store_address',
-    //         //             "s.lati as store_latitude",
-    //         //             "s.longi as store_longitude",
-    //         //             'ua.location as delivery_address',
-    //         //             'ua.location_lat as delivery_latitude',
-    //         //             'ua.location_long as delivery_longitude',
-    //         //             'ua.mobile as delivery_mobile',
-    //         //         )
-    //         //         ->leftjoin('stores as s', 's.id', 'o.shop_id')
-    //         //         ->leftjoin('users as ua', 'ua.id', 'o.user_id')
-    //         //         ->where('o.driver_id', Auth::id())->where('o.status', '2')->get();
-    //         // }
-
-
-
-    //         if ($pending_order == []) {
-    //             $arr['status'] = 0;
-    //             $arr['message'] = 'No data.';
-    //             // $arr['data'] = NULL;
-    //         } else {
-    //             $arr['status'] = 1;
-    //             $arr['message'] = 'Success';
-    //             $arr['data'] = $pending_order;
-    //         }
-    //         // return response()->json($arr, 200);
-    //     } catch (\Exception $e) {
-    //         $arr['status']  = 0;
-    //         $arr['message'] = 'something went wrong';
-    //         // $arr['data']    = NULL;
-    //     }
-    //     return response()->json($arr, 200);
-    // }
     public function pending_order()
-{
-    $user_id = Auth::id();
-    $driver = DB::table('users')->where('id', $user_id)->first();
+    {
+        try {
 
-    try {
-        $pending_order = DB::table('orders as o')
-            ->select(
-                'o.*',
-                'rr.start_address as ride_start_address',
-                'rr.end_address as ride_end_address',
-                'rr.start_latitude as ride_start_latitude',
-                'rr.start_longitude as ride_start_longitude',
-                'rr.end_latitude as ride_delivery_latitude',
-                'rr.end_longitude as ride_delivery_longitude',
-                'rr.ride_type as ride_type',
-                'rr.item_type as item_type',
-                'rr.item_categories as item_categories',
-                'rr.status as ride_status',
-                's.store_name',
-                's.address as store_address',
-                's.lati as store_latitude',
-                's.longi as store_longitude',
-                'ua.location as delivery_address',
-                'ua.location_lat as delivery_latitude',
-                'ua.location_long as delivery_longitude',
-                'ua.mobile as delivery_mobile',
-                DB::raw("CASE WHEN o.driver_id = " . Auth::id() . " THEN 1 ELSE 0 END AS show_for_current_driver"),
-                DB::raw("CASE WHEN rr.is_ride_for_other = 1 THEN TRIM(BOTH '\"' FROM JSON_EXTRACT(rr.other_rider_data, '$.name')) ELSE NULL END AS other_rider_name"),
-                DB::raw("CASE WHEN rr.is_ride_for_other = 1 THEN TRIM(BOTH '\"' FROM JSON_EXTRACT(rr.other_rider_data, '$.phone_number')) ELSE NULL END AS other_rider_phone_number")
-            )
-            ->leftJoin('stores as s', 's.id', 'o.shop_id')
-            ->leftJoin('users as ua', 'ua.id', 'o.user_id')
-            ->leftJoin('ride_requests as rr', 'rr.id', 'o.ride_request_id')
-            ->where(function ($query) {
-                $query->where('o.status', '1')
-                    ->orWhere('o.status', '3')
-                    ->orWhere('o.status', '2');
-            })
-            ->orderBy('show_for_current_driver', 'DESC')
-            ->get();
-            // ->filter(function ($order) use ($driver) {
-            //     $distance = $this->calculateDistance($driver->location_lat, $driver->location_long, $order->ride_delivery_latitude, $order->ride_delivery_longitude);
-            //     return $distance >= 50 && $distance <= 100;
-            // });
 
-        if ($pending_order->isEmpty()) {
-            $arr['status'] = 0;
-            $arr['message'] = 'No data.';
-        } else {
-            $arr['status'] = 1;
-            $arr['message'] = 'Success';
-            $arr['data'] = $pending_order;
+            $pending_order = DB::table('orders as o')
+                ->select(
+                    'o.*',
+                    'rr.start_address as ride_start_address',
+                    'rr.end_address as ride_end_address',
+                    'rr.start_latitude as ride_start_latitude',
+                    'rr.start_longitude as ride_start_longitude',
+                    'rr.end_latitude as ride_delivery_latitude',
+                    'rr.end_longitude as ride_delivery_longitude',
+                    'rr.ride_type as ride_type',
+                    'rr.item_type as item_type',
+                    'rr.item_categories as item_categories',
+                    'rr.status as ride_status',
+                    's.store_name',
+                    's.address as store_address',
+                    's.lati as store_latitude',
+                    's.longi as store_longitude',
+                    'ua.location as delivery_address',
+                    'ua.location_lat as delivery_latitude',
+                    'ua.location_long as delivery_longitude',
+                    'ua.mobile as delivery_mobile',
+                    DB::raw("CASE WHEN o.driver_id = " . Auth::id() . " THEN 1 ELSE 0 END AS show_for_current_driver"),
+                    DB::raw("CASE WHEN rr.is_ride_for_other = 1 THEN TRIM(BOTH '\"' FROM JSON_EXTRACT(rr.other_rider_data, '$.name')) ELSE NULL END AS other_rider_name"),
+                    DB::raw("CASE WHEN rr.is_ride_for_other = 1 THEN TRIM(BOTH '\"' FROM JSON_EXTRACT(rr.other_rider_data, '$.phone_number')) ELSE NULL END AS other_rider_phone_number")
+                )
+                ->leftJoin('stores as s', 's.id', 'o.shop_id')
+                ->leftJoin('users as ua', 'ua.id', 'o.user_id')
+                ->leftJoin('ride_requests as rr', 'rr.id', 'o.ride_request_id') // Join the ride_request table
+                // ->where('o.driver_id', Auth::id())
+                ->where(function ($query) {
+                    $query->where('o.status', '1')
+                        ->orWhere('o.status', '3')
+
+                        ->orWhere('o.status', '2');
+                })
+                ->orderBy('show_for_current_driver', 'ASC') // Prioritize orders for the current driver
+                // ->orWhereNotIn('rr.status', ['cancelled', 'completed'])
+                // Use whereIn to check for multiple statuses
+                 ->filter(function ($request) use ($driver) {
+            $distance = $this->calculateDistance($driver->location_lat, $driver->location_long, $request->start_latitude, $request->start_longitude);
+            return $distance >= 50 && $distance <= 100;
+        })
+                ->get();
+
+            //     $pending_order = DB::table('orders as o')
+            //         ->select(
+            //             'o.*',
+            //             's.store_name',
+            //             's.address as store_address',
+            //             "s.lati as store_latitude",
+            //             "s.longi as store_longitude",
+            //             'ua.location as delivery_address',
+            //             'ua.location_lat as delivery_latitude',
+            //             'ua.location_long as delivery_longitude',
+            //             'ua.mobile as delivery_mobile',
+            //         )
+            //         ->leftjoin('stores as s', 's.id', 'o.shop_id')
+            //         ->leftjoin('users as ua', 'ua.id', 'o.user_id')
+            //         ->where('o.driver_id', Auth::id())->where('o.status', '2')->get();
+            // }
+
+
+
+            if ($pending_order == []) {
+                $arr['status'] = 0;
+                $arr['message'] = 'No data.';
+                // $arr['data'] = NULL;
+            } else {
+                $arr['status'] = 1;
+                $arr['message'] = 'Success';
+                $arr['data'] = $pending_order;
+            }
+            // return response()->json($arr, 200);
+        } catch (\Exception $e) {
+            $arr['status']  = 0;
+            $arr['message'] = 'something went wrong';
+            // $arr['data']    = NULL;
         }
-    } catch (\Exception $e) {
-        $arr['status']  = 0;
-        $arr['message'] = 'Something went wrong';
+        return response()->json($arr, 200);
     }
-    return response()->json($arr, 200);
-}
+    
     //Cancel order API
     public function cancel_order(Request $request)
     {
@@ -2403,194 +2343,106 @@ class DeliveryRiderController extends Controller
         return response()->json($arr, 200);
     }
 
-    // public function get_order_request()
-    // {
-    //     $user_id = Auth::id();
-    //     // try {
-
-
-
-    //     $pendingRequests  = DB::table('ride_requests as r')
-    //         ->select(
-    //             'o.*', // Select all columns from the 'orders' table
-    //             'r.*', // Select all columns from the 'ride_requests' table
-    //             'u.name as user_name',
-    //             'u.mobile as user_phone',
-    //             'u.email as user_email',
-    //             'u.profile as user_image',
-    //             'u.type as user_type',
-    //             'u.status as user_status',
-    //             // DB::raw("CASE WHEN r.driver_id = " . Auth::id() . " THEN 1 ELSE 0 END AS show_for_current_driver"),
-    //             DB::raw("CASE WHEN r.is_ride_for_other = 1 THEN TRIM(BOTH '\"' FROM JSON_EXTRACT(r.other_rider_data, '$.name')) ELSE NULL END AS other_rider_name"),
-    //             DB::raw("CASE WHEN r.is_ride_for_other = 1 THEN TRIM(BOTH '\"' FROM JSON_EXTRACT(r.other_rider_data, '$.phone_number')) ELSE NULL END AS other_rider_phone_number")
-
-    //         )
-    //         ->join('orders as o', 'o.id', 'r.order_id')
-    //         ->join('users as u', 'u.id', 'o.user_id') // Join with the 'users' table to get customer details
-    //         // ->where('r.driver_', Auth::id())
-    //         ->whereNull('r.driver_id')   // Filter for unassigned requests (driver_id is null)
-    //         ->whereNotIn('r.status', ['cancelled', 'completed']) // Exclude cancelled or completed requests
-    //         ->where(function ($query) {  // Apply OR condition for 'o.status'
-    //             $query->where('o.status', "1")
-    //                 ->orWhere('o.status', "2");
-    //         })
-    //         ->orderBy('r.created_at', 'desc') // Order by most recent request first
-    //         ->first();
-
-
-    //     $on_ride_request = DB::table('ride_requests as r')
-    //         ->select(
-    //             'o.*',
-    //             'r.*',
-    //             'u.name as user_name',
-    //             'u.mobile as user_phone',
-    //             'u.email as user_email',
-    //             'u.profile as user_image',
-    //             'u.type as user_type',
-    //             'u.status as user_status',
-    //             DB::raw("CASE WHEN o.driver_id = " . Auth::id() . " THEN 1 ELSE 0 END AS show_for_current_driver"),
-    //             DB::raw("CASE WHEN r.is_ride_for_other = 1 THEN TRIM(BOTH '\"' FROM JSON_EXTRACT(r.other_rider_data, '$.name')) ELSE NULL END AS other_rider_name"),
-    //             DB::raw("CASE WHEN r.is_ride_for_other = 1 THEN TRIM(BOTH '\"' FROM JSON_EXTRACT(r.other_rider_data, '$.phone_number')) ELSE NULL END AS other_rider_phone_number")
-
-    //         )
-    //         ->join('orders as o', 'o.id', 'r.order_id')
-    //         ->join('users as u', 'u.id', 'o.user_id') // Join with users table (customer)
-    //         ->join('users as d', 'd.id', 'o.driver_id')
-    //         ->where('r.driver_id', Auth::id())
-    //         // ->where('r.driver_id', '!=', null)
-    //         ->whereNotIn('r.status', ['cancelled'])
-    //         ->where('r.is_rider_rated', false)
-    //         ->orderBy('r.created_at', 'desc')
-    //         ->first();
-
-    //     $user = DB::table('users')->where('id', $user_id)->first();
-
-    //     if ($pendingRequests != null) {
-    //         // If there's an on_ride_request, get customer info from it
-    //         $customer = DB::table('users')->where('id', $pendingRequests->rider_id)->first();
-    //     } else  if ($on_ride_request != null) {
-
-    //         $customer = DB::table('users')->where('id', $on_ride_request->rider_id)->first();
-    //     }
-
-    //     // dd($ride_request, $on_ride_request);
-
-
-
-    //     // $vehicledetails = DB::table('vehicle_details')->where('user_id', $driver->id)->first();
-    //     // $driver->vehicledetails = $vehicledetails;
-    //     // if ($user->status == 1 && $user->is_online == 1) {
-    //     $data = [
-    //         'id' => $user->id,
-    //         'display_name' => $user->name,
-    //         'email' => $user->email,
-    //         'user_type' => $user->type,
-    //         'profile_image' => $user->profile,
-    //         'status' => $user->status == 1 ? "Active" : "Inactive",
-    //         'latitude'          => $user->location_lat,
-    //         'longitude'         => $user->location_long,
-    //         'pending_request' => isset($pendingRequests) ? $pendingRequests : null,
-    //         'on_ride_request' => isset($on_ride_request) && $on_ride_request->is_rider_rated == 0 ? $on_ride_request : null,
-    //         'customer' => isset($customer) ? $customer : null,
-    //     ];
-    //     $arr['status'] = 1;
-    //     $arr['message'] = 'Order Request Found Successfully';
-    //     $arr['data'] = $data;
-
-    //     return response()->json($data, 200);
-    //     // }
-    // }
-
     public function get_order_request()
-{
-    $user_id = Auth::id();
-    
-    // Get driver's location
-    $driver = DB::table('users')->where('id', $user_id)->first();
+    {
+        $user_id = Auth::id();
+        // try {
 
-    // Pending Requests
-    $pendingRequests = DB::table('ride_requests as r')
-        ->select(
-            'o.*',
-            'r.*',
-            'u.name as user_name',
-            'u.mobile as user_phone',
-            'u.email as user_email',
-            'u.profile as user_image',
-            'u.type as user_type',
-            'u.status as user_status',
-            DB::raw("CASE WHEN r.is_ride_for_other = 1 THEN TRIM(BOTH '\"' FROM JSON_EXTRACT(r.other_rider_data, '$.name')) ELSE NULL END AS other_rider_name"),
-            DB::raw("CASE WHEN r.is_ride_for_other = 1 THEN TRIM(BOTH '\"' FROM JSON_EXTRACT(r.other_rider_data, '$.phone_number')) ELSE NULL END AS other_rider_phone_number")
-        )
-        ->join('orders as o', 'o.id', 'r.order_id')
-        ->join('users as u', 'u.id', 'o.user_id')
-        ->whereNull('r.driver_id')
-        ->whereNotIn('r.status', ['cancelled', 'completed'])
-        ->where(function ($query) {
-            $query->where('o.status', "1")
-                ->orWhere('o.status', "2");
-        })
-        ->orderBy('r.created_at', 'desc')
-        ->get()
-        // ->filter(function ($request) use ($driver) {
-        //     $distance = $this->calculateDistance($driver->location_lat, $driver->location_long, $request->start_latitude, $request->start_longitude);
-        //     return $distance >= 50 && $distance <= 100;
-        // })
-        ->first();
 
-    // On Ride Request
-    $on_ride_request = DB::table('ride_requests as r')
-        ->select(
-            'o.*',
-            'r.*',
-            'u.name as user_name',
-            'u.mobile as user_phone',
-            'u.email as user_email',
-            'u.profile as user_image',
-            'u.type as user_type',
-            'u.status as user_status',
-            DB::raw("CASE WHEN o.driver_id = " . Auth::id() . " THEN 1 ELSE 0 END AS show_for_current_driver"),
-            DB::raw("CASE WHEN r.is_ride_for_other = 1 THEN TRIM(BOTH '\"' FROM JSON_EXTRACT(r.other_rider_data, '$.name')) ELSE NULL END AS other_rider_name"),
-            DB::raw("CASE WHEN r.is_ride_for_other = 1 THEN TRIM(BOTH '\"' FROM JSON_EXTRACT(r.other_rider_data, '$.phone_number')) ELSE NULL END AS other_rider_phone_number")
-        )
-        ->join('orders as o', 'o.id', 'r.order_id')
-        ->join('users as u', 'u.id', 'o.user_id')
-        ->join('users as d', 'd.id', 'o.driver_id')
-        ->where('r.driver_id', Auth::id())
-        ->whereNotIn('r.status', ['cancelled'])
-        ->where('r.is_rider_rated', false)
-        ->orderBy('r.created_at', 'desc')
-        ->first();
 
-    $user = DB::table('users')->where('id', $user_id)->first();
+        $pendingRequests  = DB::table('ride_requests as r')
+            ->select(
+                'o.*', // Select all columns from the 'orders' table
+                'r.*', // Select all columns from the 'ride_requests' table
+                'u.name as user_name',
+                'u.mobile as user_phone',
+                'u.email as user_email',
+                'u.profile as user_image',
+                'u.type as user_type',
+                'u.status as user_status',
+                // DB::raw("CASE WHEN r.driver_id = " . Auth::id() . " THEN 1 ELSE 0 END AS show_for_current_driver"),
+                DB::raw("CASE WHEN r.is_ride_for_other = 1 THEN TRIM(BOTH '\"' FROM JSON_EXTRACT(r.other_rider_data, '$.name')) ELSE NULL END AS other_rider_name"),
+                DB::raw("CASE WHEN r.is_ride_for_other = 1 THEN TRIM(BOTH '\"' FROM JSON_EXTRACT(r.other_rider_data, '$.phone_number')) ELSE NULL END AS other_rider_phone_number")
 
-    $customer = null;
-    if ($pendingRequests != null) {
-        $customer = DB::table('users')->where('id', $pendingRequests->rider_id)->first();
-    } else if ($on_ride_request != null) {
-        $customer = DB::table('users')->where('id', $on_ride_request->rider_id)->first();
+            )
+            ->join('orders as o', 'o.id', 'r.order_id')
+            ->join('users as u', 'u.id', 'o.user_id') // Join with the 'users' table to get customer details
+            // ->where('r.driver_', Auth::id())
+            ->whereNull('r.driver_id')   // Filter for unassigned requests (driver_id is null)
+            ->whereNotIn('r.status', ['cancelled', 'completed']) // Exclude cancelled or completed requests
+            ->where(function ($query) {  // Apply OR condition for 'o.status'
+                $query->where('o.status', "1")
+                    ->orWhere('o.status', "2");
+            })
+            ->orderBy('r.created_at', 'desc') // Order by most recent request first
+            ->first();
+
+
+        $on_ride_request = DB::table('ride_requests as r')
+            ->select(
+                'o.*',
+                'r.*',
+                'u.name as user_name',
+                'u.mobile as user_phone',
+                'u.email as user_email',
+                'u.profile as user_image',
+                'u.type as user_type',
+                'u.status as user_status',
+                DB::raw("CASE WHEN o.driver_id = " . Auth::id() . " THEN 1 ELSE 0 END AS show_for_current_driver"),
+                DB::raw("CASE WHEN r.is_ride_for_other = 1 THEN TRIM(BOTH '\"' FROM JSON_EXTRACT(r.other_rider_data, '$.name')) ELSE NULL END AS other_rider_name"),
+                DB::raw("CASE WHEN r.is_ride_for_other = 1 THEN TRIM(BOTH '\"' FROM JSON_EXTRACT(r.other_rider_data, '$.phone_number')) ELSE NULL END AS other_rider_phone_number")
+
+            )
+            ->join('orders as o', 'o.id', 'r.order_id')
+            ->join('users as u', 'u.id', 'o.user_id') // Join with users table (customer)
+            ->join('users as d', 'd.id', 'o.driver_id')
+            ->where('r.driver_id', Auth::id())
+            
+            // ->where('r.driver_id', '!=', null)
+            ->whereNotIn('r.status', ['cancelled'])
+            ->where('r.is_rider_rated', false)
+            ->orderBy('r.created_at', 'desc')
+            ->first();
+
+        $user = DB::table('users')->where('id', $user_id)->first();
+
+        if ($pendingRequests != null) {
+            // If there's an on_ride_request, get customer info from it
+            $customer = DB::table('users')->where('id', $pendingRequests->rider_id)->first();
+        } else  if ($on_ride_request != null) {
+
+            $customer = DB::table('users')->where('id', $on_ride_request->rider_id)->first();
+        }
+
+        // dd($ride_request, $on_ride_request);
+
+
+
+        // $vehicledetails = DB::table('vehicle_details')->where('user_id', $driver->id)->first();
+        // $driver->vehicledetails = $vehicledetails;
+        // if ($user->status == 1 && $user->is_online == 1) {
+        $data = [
+            'id' => $user->id,
+            'display_name' => $user->name,
+            'email' => $user->email,
+            'user_type' => $user->type,
+            'profile_image' => $user->profile,
+            'status' => $user->status == 1 ? "Active" : "Inactive",
+            'latitude'          => $user->location_lat,
+            'longitude'         => $user->location_long,
+            'pending_request' => isset($pendingRequests) ? $pendingRequests : null,
+            'on_ride_request' => isset($on_ride_request) && $on_ride_request->is_rider_rated == 0 ? $on_ride_request : null,
+            'customer' => isset($customer) ? $customer : null,
+        ];
+        $arr['status'] = 1;
+        $arr['message'] = 'Order Request Found Successfully';
+        $arr['data'] = $data;
+
+        return response()->json($data, 200);
+        // }
     }
 
-    $data = [
-        'id' => $user->id,
-        'display_name' => $user->name,
-        'email' => $user->email,
-        'user_type' => $user->type,
-        'profile_image' => $user->profile,
-        'status' => $user->status == 1 ? "Active" : "Inactive",
-        'latitude' => $user->location_lat,
-        'longitude' => $user->location_long,
-        'pending_request' => $pendingRequests ? $pendingRequests : null,
-        'on_ride_request' => $on_ride_request && $on_ride_request->is_rider_rated == 0 ? $on_ride_request : null,
-        'customer' => $customer ? $customer : null,
-    ];
-
-    $arr['status'] = 1;
-    $arr['message'] = 'Order Request Found Successfully';
-    $arr['data'] = $data;
-
-    return response()->json($arr, 200);
-}
+   
 
     // update order request
     public function update_order_request(Request $request, $id)
