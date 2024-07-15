@@ -267,6 +267,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
     Route::get('new-driver/view/{key}', [AdminController::class, 'viewnew_driver']);
     Route::any('addnew_driver', [AdminController::class, 'addnew_driver']);
     Route::any('existing-driver/delete/{key}', [AdminController::class, 'delete_driver'])->name('existing-driver.delete');
+    Route::any('new-driver/delete/{key}', [AdminController::class, 'delete_driver'])->name('existing-driver.delete');
 
     /*************************************End Manage New Drivers**************************/
 

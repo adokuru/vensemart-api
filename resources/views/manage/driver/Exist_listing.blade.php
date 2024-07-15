@@ -75,7 +75,7 @@
                                                     <td>
                                                         <a href="{{ url('admin/existing-driver/view') . '/' . $val->user_idOne }}"><i class="fa fa-eye" aria-hidden="true"></i></a> |
                                                         <!--<a href="{{ url('admin/new-driver/edit') . '/' . $val->id }}"><i class="fas fa-edit"></i></a> |-->
-                                                        <a href="{{ url('admin/existing-driver/delete') . '/' . $val->id }}"><i class="fas fa-trash"></i></a>
+                                                        <a href="{{ url('admin/existing-driver/delete') . '/' . $val->user_idOne }}"><i class="fas fa-trash"></i></a>
                                                     </td>
                                             </tr>
                                     <?php $i++;

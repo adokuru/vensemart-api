@@ -383,6 +383,7 @@ class AdminController extends Controller
         // '=','users.id')->where('vehicle_details.isVerify','2')
         // ->where('users.type','2')->get();
         $data['listing'] = DB::table('users')->where('type', 2)->where('created_at', '>=', now()->subDay()->toDateTimeString())->get();
+        // dd($data);
         return view('manage.driver.listing', $data);
     }
     public function viewnew_driver($id)
@@ -397,14 +398,9 @@ class AdminController extends Controller
         $lastSavenDate = date('Y-m-d H:i:s', strtotime("-7 day", strtotime(date('Y-m-d H:i:s'))));
         $data['listing'] = DB::table('users')->select('users.name', 'users.email', 'users.profile', 'users.mobile', 'users.id as user_idOne', 'vehicle_details.*')->leftJoin('vehicle_details', 'vehicle_details.user_id', '=', 'users.id')->where('vehicle_details.isVerify', '1')->where('users.type', '2')->whereBetween('users.created_at', [$lastSavenDate, date('Y-m-d H:i:s')])->get();
 
-        // $data['listing'] = DB::table('users')
-        // // ->where('is_deleted', '=', 0)
-        // ->whereBetween('created_at', [$lastSavenDate, date('Y-m-d H:i:s')])
-        // ->where('type', 2)
-        // ->leftJoin('vehicle_details', 'vehicle_details.user_id', '=', 'users.id')
-        // ->orderBy('id', 'desc')
-        // ->orderByRaw('created_at DESC')
-        // ->get();
+    
+
+        // dd($data);
 
 
         return view('manage.driver.Exist_listing', $data);

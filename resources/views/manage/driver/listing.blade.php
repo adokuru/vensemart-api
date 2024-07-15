@@ -29,6 +29,7 @@
                                         <th>Email</th>
                                         <th>mobile</th>
                                         <th>Registered</th>
+                                        <th>Profile</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -48,12 +49,25 @@
                                                         <img src="{{ url('storage/uploads/profile') . '/' . $val->profile }}" width="30" height="30">
                                                     <?php } ?>
                                                 </td>
-
-
-                                                </td>
                                                 <td>
 
+                                                    <select onchange="change_status_exist(<?php echo $val->id; ?>,this)">
+                                                        <option value="1" <?php if ($val->status == 1) {
+                                                                                echo 'Selected';
+                                                                            } ?>> Active </option>
+                                                        <option value="0" <?php if ($val->status == 0) {
+                                                                                echo 'Selected';
+                                                                            } ?>> InActive</option>
+
+                                                    </select>
+                                                </td>
+
+
+                                                <td>
+
+                                                    <!-- <a href="{{ url('admin/new-driver/delete') . '/' . $val->id }}"><i class="fas fa-trash"></i></a> -->
                                                     <a href="{{ url('admin/new-driver/delete') . '/' . $val->id }}"><i class="fas fa-trash"></i></a>
+
                                                 </td>
                                             </tr>
                                     <?php $i++;
