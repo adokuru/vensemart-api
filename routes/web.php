@@ -297,6 +297,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
 
     /*********************Manage Rejected Driver List************************/
     Route::get('managerejected_driverlist', [AdminController::class, 'managerejected_driverlist']);
+    Route::get('managecompletedorderslisting', [AdminController::class, 'managecompletedorderslisting']);
+    Route::get('managecancelledorderslisting', [AdminController::class, 'managecancelledorderslisting']);
     Route::get('rejected_drivers/change_status_of_rejecteddriver', [AdminController::class, 'change_status_of_rejecteddriver']);
     Route::any('rejected_driver/view/{key}', [AdminController::class, 'rejected_driver_view']);
     Route::get('rejected_driver/delete/{key}', [AdminController::class, 'rejected_driver_delete']);
@@ -334,6 +336,14 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
     Route::any('order/completed_orders/view_orders/{key}', [AdminController::class, 'managecompletedvieworders']);
     Route::any('order/completed_orders/editorders/{key}', [AdminController::class, 'managecomplete_editorders']);
     /***************************End Manage Completed Orders**********************/
+
+    /***************************Manage Cancelled Orders************************/
+    Route::get('order/canceled_orders/listing', [AdminController::class, 'managecanceledordreslisting']);
+    Route::any('order/canceled_orders/view_orders/{key}', [AdminController::class, 'managecanceledvieworders']);
+    Route::any('order/canceled_orders/editorders/{key}', [AdminController::class, 'managecanceled_editorders']);
+    /***************************End Manage Cancelled Orders**********************/
+    
+
 
     /*********************************Manage Pending Service Orders*****************************/
     Route::get('serviceorder/in-process/listing', [AdminController::class, 'managependingserviceorderslisting']);

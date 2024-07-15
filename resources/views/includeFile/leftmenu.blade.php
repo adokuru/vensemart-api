@@ -143,14 +143,13 @@
                   <p>New Driver</p>
                 </a>
               </li>
-              
               <li class="nav-item">
                 <a href="{{ url('admin/managerejected_driverlist')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Rejected Drivers</p>
                 </a>
               </li>
-               
+      
               <!-- <li class="nav-item">-->
               <!--  <a href="{{ url('admin/sub-category/listing')}}" class="nav-link">-->
               <!--    <i class="far fa-circle nav-icon"></i>-->
@@ -326,12 +325,12 @@
                   <p>Completed</p>
                 </a>
               </li>
-              <!--<li class="nav-item">-->
-              <!--  <a href="{{ url('admin/order/canceled')}}" class="nav-link">-->
-              <!--    <i class="far fa-circle nav-icon"></i>-->
-              <!--    <p>Cancelled</p>-->
-              <!--  </a>-->
-              <!--</li>-->
+              <li class="nav-item">
+               <a href="{{ url('admin/order/canceled_orders/listing')}}" class="nav-link">
+                 <i class="far fa-circle nav-icon"></i>
+                 <p>Cancelled</p>
+               </a>
+              </li>
             </ul>
           </li>
 

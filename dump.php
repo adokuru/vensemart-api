@@ -548,3 +548,26 @@ if ($rider) {
     return $this->sendResponse('Rider requested successfully', $result);
 }
 throw new \Exception("No rider available");
+
+
+   // public function existinguserdelete($id)
+    // {
+    //     DB::table('users')->where('id', $id)->delete();
+    //     ?>
+    //     <script>
+    //         alert('User Deleted Successfully!!');
+    //         window.location.href = "<?php echo url('admin/manageexisting_user'); ?>";
+    //     </script>
+    // <?php
+    // }
+
+    // public function delete_driver($id)
+    // {
+    //     DB::table('users')->where('id', $id)->delete();
+    // ?>
+    //     <script>
+    //         alert('User Deleted Successfully!!');
+    //         window.location.href = "<?php echo url('admin/manageexisting_drivers'); ?>";
+    //     </script>
+    // <?php
+    // }

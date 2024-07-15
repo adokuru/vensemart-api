@@ -112,6 +112,28 @@ class AdminController extends Controller
         $data['referredThisMonthCount'] = $dashboard->countReferredUsersThisMonth();
         $data['referredThisYearCount'] = $dashboard->countReferredUsersThisYear();
 
+        // pending orders
+        $data['total_yesterday_pending_rides'] = $dashboard->total_rides_pending_yesterday();
+        $data['total_weekly_pending_rides'] = $dashboard->total_rides_pending_this_week();
+        $data['total_monthly_pending_rides'] = $dashboard->total_rides_pending_this_month();
+        $data['total_yearly_pending_rides'] = $dashboard->total_rides_pending_this_year();
+        $data['total_rides_pending'] = $dashboard->total_rides_pending_today();
+
+        // completed orders
+        $data['total_yesterday_completed_rides'] = $dashboard->total_rides_completed_yesterday();
+        $data['total_weekly_completed_rides'] = $dashboard->total_rides_completed_this_week();
+        $data['total_monthly_completed_rides'] = $dashboard->total_rides_completed_this_month();
+        $data['total_yearly_completed_rides'] = $dashboard->total_rides_completed_this_year();
+        $data['total_rides_completed'] = $dashboard->total_rides_completed_today();
+
+        // cancelled orders
+        $data['total_yesterday_cancelled_rides'] = $dashboard->total_rides_cancelled_yesterday();
+        $data['total_weekly_cancelled_rides'] = $dashboard->total_rides_cancelled_this_week();
+        $data['total_monthly_cancelled_rides'] = $dashboard->total_rides_cancelled_this_month();
+        $data['total_yearly_cancelled_rides'] = $dashboard->total_rides_cancelled_this_year();
+        $data['total_rides_cancelled'] = $dashboard->total_rides_cancelled_today();
+
+
         // $data['daily_product_sold']                   =  $dashboard->daily_product_sold();
         // $data['weekly_product_sold']                  =  $dashboard->weekly_product_sold();
         // $data['monthly_product_sold']                 =  $dashboard->monthly_product_sold();
@@ -157,7 +179,7 @@ class AdminController extends Controller
         $lastSavenDate = date('Y-m-d H:i:s', strtotime("-7 day", strtotime(date('Y-m-d H:i:s'))));
 
         $data['listing'] = DB::table('users')->where('type', 1)
-        // ->where('is_deleted', '=', 0)
+            // ->where('is_deleted', '=', 0)
             ->whereBetween('created_at', [$lastSavenDate, date('Y-m-d H:i:s')])
             ->orderBy('id', 'desc')
             ->orderByRaw('created_at DESC')
@@ -170,7 +192,7 @@ class AdminController extends Controller
         $lastSavenDate = date('Y-m-d H:i:s', strtotime("-7 day", strtotime(date('Y-m-d H:i:s'))));
 
         $data['listing'] = DB::table('users')
-        // ->where('is_deleted', '=', 0)
+            // ->where('is_deleted', '=', 0)
             ->whereBetween('created_at', [$lastSavenDate, date('Y-m-d H:i:s')])
             ->orderBy('id', 'desc')
             ->orderByRaw('created_at DESC')
@@ -182,8 +204,8 @@ class AdminController extends Controller
     {
 
         $data['listing'] = DB::table('poc_registration')
-        // ->where('is_deleted', '=', 0)
-        // ->whereBetween('created_at', [$lastSavenDate, date('Y-m-d H:i:s')])
+            // ->where('is_deleted', '=', 0)
+            // ->whereBetween('created_at', [$lastSavenDate, date('Y-m-d H:i:s')])
             ->orderBy('id', 'desc')
             ->orderByRaw('created_at DESC')
             ->get();
@@ -205,31 +227,31 @@ class AdminController extends Controller
         $storedata = DB::table('poc_registration')->where('id', $request->edit_id)->first();
         $storeId = DB::table('stores')->where('franchise_id', $storedata->user_id)->update(['status' => $request->verify_status]);
 
-        ?>
+?>
         <script>
-                alert('Vendor Status Updated Successfully!!');
-                window.location.href="<?php echo url('admin/manage_vendor'); ?>";
-            </script>
-        <?php
-}
+            alert('Vendor Status Updated Successfully!!');
+            window.location.href = "<?php echo url('admin/manage_vendor'); ?>";
+        </script>
+    <?php
+    }
 
     public function existingvendordelete($id)
     {
         DB::table('poc_registration')->where('id', $id)->delete();
-        ?>
-       <script>
-           alert('Vendor Deleted Successfully!!');
-           window.location.href="<?php echo url('admin/manage_vendor'); ?>";
-       </script>
-       <?php
-}
+    ?>
+        <script>
+            alert('Vendor Deleted Successfully!!');
+            window.location.href = "<?php echo url('admin/manage_vendor'); ?>";
+        </script>
+    <?php
+    }
 
     public function stores_list()
     {
 
         $data['listing'] = DB::table('poc_registration')
-        // ->where('is_deleted', '=', 0)
-        // ->whereBetween('created_at', [$lastSavenDate, date('Y-m-d H:i:s')])
+            // ->where('is_deleted', '=', 0)
+            // ->whereBetween('created_at', [$lastSavenDate, date('Y-m-d H:i:s')])
             ->orderBy('id', 'desc')
             ->orderByRaw('created_at DESC')
             ->get();
@@ -247,8 +269,8 @@ class AdminController extends Controller
     {
 
         $data['listing'] = DB::table('bank_details')
-        // ->where('is_deleted', '=', 0)
-        // ->whereBetween('created_at', [$lastSavenDate, date('Y-m-d H:i:s')])
+            // ->where('is_deleted', '=', 0)
+            // ->whereBetween('created_at', [$lastSavenDate, date('Y-m-d H:i:s')])
             ->orderBy('id', 'desc')
             ->orderByRaw('created_at DESC')
             ->get();
@@ -270,31 +292,31 @@ class AdminController extends Controller
         $storedata = DB::table('stores')->where('id', $request->edit_id)->first();
         $storeId = DB::table('stores')->where('franchise_id', $storedata->user_id)->update(['status' => $request->verify_status]);
 
-        ?>
+    ?>
         <script>
-                alert('Vendor Status Updated Successfully!!');
-                window.location.href="<?php echo url('admin/manage_vendor'); ?>";
-            </script>
-        <?php
-}
+            alert('Vendor Status Updated Successfully!!');
+            window.location.href = "<?php echo url('admin/manage_vendor'); ?>";
+        </script>
+    <?php
+    }
 
     public function existingstoredelete($id)
     {
         DB::table('poc_registration')->where('id', $id)->delete();
-        ?>
-       <script>
-           alert('Store Deleted Successfully!!');
-           window.location.href="<?php echo url('admin/manage_store'); ?>";
-       </script>
-       <?php
-}
+    ?>
+        <script>
+            alert('Store Deleted Successfully!!');
+            window.location.href = "<?php echo url('admin/manage_store'); ?>";
+        </script>
+    <?php
+    }
 
     public function products_list()
     {
 
         $data['listing'] = DB::table('products')
-        // ->where('is_deleted', '=', 0)
-        // ->whereBetween('created_at', [$lastSavenDate, date('Y-m-d H:i:s')])
+            // ->where('is_deleted', '=', 0)
+            // ->whereBetween('created_at', [$lastSavenDate, date('Y-m-d H:i:s')])
             ->orderBy('id', 'desc')
             ->orderByRaw('created_at DESC')
             ->get();
@@ -316,37 +338,37 @@ class AdminController extends Controller
         $storedata = DB::table('products')->where('id', $request->edit_id)->first();
         $storeId = DB::table('stores')->where('franchise_id', $storedata->user_id)->update(['status' => $request->verify_status]);
 
-        ?>
+    ?>
         <script>
-                alert('Products Status Updated Successfully!!');
-                window.location.href="<?php echo url('admin/manage_product'); ?>";
-            </script>
-        <?php
-}
+            alert('Products Status Updated Successfully!!');
+            window.location.href = "<?php echo url('admin/manage_product'); ?>";
+        </script>
+    <?php
+    }
 
     public function existingproductsdelete($id)
     {
         DB::table('products')->where('id', $id)->delete();
-        ?>
-       <script>
-           alert('Product Deleted Successfully!!');
-           window.location.href="<?php echo url('admin/manage_product'); ?>";
-       </script>
-       <?php
-}
+    ?>
+        <script>
+            alert('Product Deleted Successfully!!');
+            window.location.href = "<?php echo url('admin/manage_product'); ?>";
+        </script>
+        <?php
+    }
 
     public function managenew_edit(Request $request, $id)
     {
         if ($request->method() == "POST") {
             $status = $request->status;
             DB::table('users')->where('id', $id)->update(['status' => $status]);
-            ?>
+        ?>
             <script>
                 alert('User Updated Successfully!!');
-                window.location.href="<?php echo url('admin/managenew_user'); ?>";
+                window.location.href = "<?php echo url('admin/managenew_user'); ?>";
             </script>
-            <?php
-} else {
+        <?php
+        } else {
             $data['user'] = DB::table('users')->where('id', $id)->first();
             return view('manage.user.edit', $data);
         }
@@ -362,7 +384,6 @@ class AdminController extends Controller
         // ->where('users.type','2')->get();
         $data['listing'] = DB::table('users')->where('type', 2)->where('created_at', '>=', now()->subDay()->toDateTimeString())->get();
         return view('manage.driver.listing', $data);
-
     }
     public function viewnew_driver($id)
     {
@@ -373,7 +394,18 @@ class AdminController extends Controller
     }
     public function manageexisting_drivers()
     {
-        $data['listing'] = DB::table('users')->select('users.name', 'users.email', 'users.profile', 'users.mobile', 'users.id as user_idOne', 'vehicle_details.*')->leftJoin('vehicle_details', 'vehicle_details.user_id', '=', 'users.id')->where('vehicle_details.isVerify', '1')->where('users.type', '2')->get();
+        $lastSavenDate = date('Y-m-d H:i:s', strtotime("-7 day", strtotime(date('Y-m-d H:i:s'))));
+        $data['listing'] = DB::table('users')->select('users.name', 'users.email', 'users.profile', 'users.mobile', 'users.id as user_idOne', 'vehicle_details.*')->leftJoin('vehicle_details', 'vehicle_details.user_id', '=', 'users.id')->where('vehicle_details.isVerify', '1')->where('users.type', '2')->whereBetween('users.created_at', [$lastSavenDate, date('Y-m-d H:i:s')])->get();
+
+        // $data['listing'] = DB::table('users')
+        // // ->where('is_deleted', '=', 0)
+        // ->whereBetween('created_at', [$lastSavenDate, date('Y-m-d H:i:s')])
+        // ->where('type', 2)
+        // ->leftJoin('vehicle_details', 'vehicle_details.user_id', '=', 'users.id')
+        // ->orderBy('id', 'desc')
+        // ->orderByRaw('created_at DESC')
+        // ->get();
+
 
         return view('manage.driver.Exist_listing', $data);
     }
@@ -396,7 +428,6 @@ class AdminController extends Controller
         $serviceprovider_is_phone_verified = $request->is_vaify_val;
         DB::table('users')->where('id', $serviceprovider_id)->update(['is_phone_verified' => $serviceprovider_is_phone_verified]);
         return response()->json(['status' => 200, 'message' => 'Documents Approved successfully.']);
-
     }
 
     public function exist_serviceprovider()
@@ -420,17 +451,16 @@ class AdminController extends Controller
         if ($request->method() == "POST") {
             $description = $request->description;
             DB::table('about_freshmor')->where('id', 1)->update(['description' => $description]);
-            ?>
+        ?>
             <script>
                 alert('About us Updated Successfully!!');
-                window.location.href="<?php echo url('admin/about-us/update'); ?>";
+                window.location.href = "<?php echo url('admin/about-us/update'); ?>";
             </script>
-            <?php
-} else {
+        <?php
+        } else {
             $data['about'] = DB::table('about_freshmor')->where('id', 1)->first();
             return view('manage.contactUS.about-us', $data);
         }
-
     }
     public function contactus_update(Request $request)
     {
@@ -439,13 +469,13 @@ class AdminController extends Controller
             $mobile = $request->mobile_no;
 
             DB::table('contact_us')->where('id', '1')->update(['email' => $email, 'mobile' => $mobile]);
-            ?>
-          <script>
-              alert('Contact Us Updated successfully');
-              window.location.href="<?php echo url('admin/contactus/update'); ?>";
-          </script>
-          <?php
-} else {
+        ?>
+            <script>
+                alert('Contact Us Updated successfully');
+                window.location.href = "<?php echo url('admin/contactus/update'); ?>";
+            </script>
+        <?php
+        } else {
             $data['contactus'] = DB::table('contact_us')->where('id', '1')->first();
             return view('manage.contactUS.contact_us', $data);
         }
@@ -455,52 +485,52 @@ class AdminController extends Controller
     {
         DB::table('users')->where('id', $id)->delete();
         ?>
-       <script>
-           alert('User Deleted Successfully!!');
-           window.location.href="<?php echo url('admin/manageexisting_user'); ?>";
-       </script>
-       <?php
-}
+        <script>
+            alert('User Deleted Successfully!!');
+            window.location.href = "<?php echo url('admin/manageexisting_user'); ?>";
+        </script>
+    <?php
+    }
 
     public function delete_driver($id)
     {
         DB::table('users')->where('id', $id)->delete();
-        ?>
-       <script>
-           alert('User Deleted Successfully!!');
-           window.location.href="<?php echo url('admin/manageexisting_drivers'); ?>";
-       </script>
-       <?php
-}
+    ?>
+        <script>
+            alert('User Deleted Successfully!!');
+            window.location.href = "<?php echo url('admin/manageexisting_drivers'); ?>";
+        </script>
+    <?php
+    }
 
-// public function delete_driver($key)
-// {
-//     DB::table('users')->where('id', $key)->delete();
+    // public function delete_driver($key)
+    // {
+    //     DB::table('users')->where('id', $key)->delete();
 
-//     return redirect()->route('admin.manageexisting_drivers')->with('success', 'Driver deleted successfully');
-// }
+    //     return redirect()->route('admin.manageexisting_drivers')->with('success', 'Driver deleted successfully');
+    // }
 
     public function deleteserviceprovider($id)
     {
         DB::table('users')->where('id', $id)->delete();
-        ?>
-       <script>
-           alert('Service Provider Deleted Successfully!!');
-           window.location.href="<?php echo url('admin/exist_serviceprovider'); ?>";
-       </script>
-       <?php
-}
+    ?>
+        <script>
+            alert('Service Provider Deleted Successfully!!');
+            window.location.href = "<?php echo url('admin/exist_serviceprovider'); ?>";
+        </script>
+    <?php
+    }
 
     public function newuserdelete($id)
     {
         DB::table('users')->where('id', $id)->delete();
-        ?>
+    ?>
         <script>
             alert('User Deleted Successfully!!');
-            window.location.href="<?php echo url('admin/managenew_user'); ?>";
+            window.location.href = "<?php echo url('admin/managenew_user'); ?>";
         </script>
         <?php
-}
+    }
     public function addnew_driver(Request $request)
     {
         if ($request->method() == "POST") {
@@ -537,12 +567,12 @@ class AdminController extends Controller
             $data = array('category_name' => $categoryname, 'category_icon' => $filename, 'status' => 1);
             DB::table('category')->insert($data);
 
-            ?>
+        ?>
             <script>
                 alert('Category Added Successfully!!');
-                window.location.href="<?php echo url('admin/managecategory/listing'); ?>";
+                window.location.href = "<?php echo url('admin/managecategory/listing'); ?>";
             </script>
-            <?php
+        <?php
 
         } else {
             return view('manage.category.add');
@@ -563,13 +593,13 @@ class AdminController extends Controller
             $data = array('category_name' => $categoryname, 'category_icon' => $img, 'status' => 1);
             DB::table('category')->where('id', $id)->update($data);
 
-            ?>
-             <script>
-                 alert('Category Updated Successfully!!');
-                 window.location.href="<?php echo url('admin/managecategory/listing'); ?>";
-             </script>
-             <?php
-} else {
+        ?>
+            <script>
+                alert('Category Updated Successfully!!');
+                window.location.href = "<?php echo url('admin/managecategory/listing'); ?>";
+            </script>
+        <?php
+        } else {
             $data['category'] = DB::table('category')->where('id', $id)->first();
             return view('manage.category.edit', $data);
         }
@@ -580,17 +610,32 @@ class AdminController extends Controller
         ?>
         <script>
             alert('Category Deleted Successfully!!');
-            window.location.href="<?php echo url('admin/managecategory/listing'); ?>";
+            window.location.href = "<?php echo url('admin/managecategory/listing'); ?>";
         </script>
-        <?php
-}
+    <?php
+    }
 
     public function managerejected_driverlist()
     {
         $data['listing'] = DB::table('users')->select('users.name', 'users.email', 'users.profile', 'users.mobile', 'users.id as user_idOne', 'vehicle_details.*')->leftJoin('vehicle_details', 'vehicle_details.user_id', '=', 'users.id')->where('vehicle_details.isVerify', 3)->get();
 
         return view('manage.driver.rejected_driver_list', $data);
+    }
 
+    // total completed orders
+    public function managecompletedorderslisting()
+    {
+        $data['listing'] = DB::table('orders')->select('orders.*', 'users.name as user_name')->leftJoin('users', 'users.id', '=', 'orders.user_id')->where('orders.status', 4)->orderBy('orders.id', 'desc')->get();
+
+        return view('manage.order.completed_listing', $data);
+    }
+
+    // // total cancelled orders
+    public function managecanceledorderslisting()
+    {
+        $data['listing'] = DB::table('orders')->select('orders.*', 'users.name as user_name')->leftJoin('users', 'users.id', '=', 'orders.user_id')->where('orders.status', 7)->orderBy('orders.id', 'desc')->get();
+
+        return view('manage.order.canceled', $data);
     }
 
     public function change_status_of_rejecteddriver(Request $request)
@@ -611,12 +656,12 @@ class AdminController extends Controller
     {
         $vehiclesdetails_data = DB::table('vehicle_details')->where('id', $id)->first();
         DB::table('users')->leftJoin('vehicle_details', 'vehicle_details.user_id', '=', 'users.id')->where('users.id', $vehiclesdetails_data->user_id)->delete();
-        ?>
+    ?>
         <script>
             alert('Rejected Driver Deleted Successfully!!');
-            window.location.href="<?php echo url('admin/managerejected_driverlist'); ?>";
+            window.location.href = "<?php echo url('admin/managerejected_driverlist'); ?>";
         </script>
-        <?php
+<?php
 
     }
 
@@ -646,7 +691,6 @@ class AdminController extends Controller
             $data = array('cat_id' => $categoryId, 'name' => $subcategoryname, 'image' => $img, 'status' => $status);
             DB::table('sub_category')->insert($data);
             return redirect('admin/managesubcategory/listing')->with('success', 'SubCategory Added successfully!');
-
         } else {
             $data['cat_listing'] = DB::table('category')->get();
             return view('manage.sub_category.add', $data);
@@ -672,7 +716,6 @@ class AdminController extends Controller
 
             DB::table('sub_category')->where('id', $id)->update($data);
             return redirect('admin/managesubcategory/listing')->with('success', 'SubCategory Updated successfully!');
-
         } else {
             $data['subCat'] = DB::table('sub_category')->select('sub_category.*', 'category.id as categoryId')->leftJoin('category', 'category.id', '=', 'sub_category.cat_id')->where('sub_category.id', $id)->first();
             $data['cat_listing'] = DB::table('category')->get();
@@ -683,7 +726,6 @@ class AdminController extends Controller
     {
         DB::table('sub_category')->where('id', $id)->delete();
         return redirect('admin/managesubcategory/listing')->with('success', 'SubCategory Deleted successfully!');
-
     }
     public function managerejectedservice_providerlist()
     {
@@ -698,7 +740,6 @@ class AdminController extends Controller
 
         DB::table('users')->where('id', $serviceproviderid)->update(['is_phone_verified' => $serviceprovider_status]);
         return redirect('admin/managerejectedservice_providerlist')->with('success', 'Service Provider Approved successfully!');
-
     }
 
     public function managerejectedservice_provider_view($id)
@@ -711,7 +752,6 @@ class AdminController extends Controller
     {
         DB::table('users')->where('id', $id)->delete();
         return redirect('admin/managerejectedservice_providerlist')->with('success', 'Service Provider Deleted successfully!');
-
     }
 
     public function managependingorderslisting()
@@ -747,9 +787,17 @@ class AdminController extends Controller
 
     public function managecompeletedordreslisting()
     {
-        $data['listing'] = DB::table('orders')->select('users.*', 'orders.order_id', 'orders.total_amount', 'orders.total_item', 'orders.payment_status')->leftJoin('users', 'users.id', '=', 'orders.user_id')->where('orders.status', 4)->orderBy('orders.id', 'desc')->get();
+        $data['listing'] = DB::table('orders')->select('users.*', 'orders.order_id', 'orders.ride_request_id', 'orders.total_amount', 'orders.total_item', 'orders.payment_status', 'orders.payment_type')->leftJoin('users', 'users.id', '=', 'orders.user_id')->where('orders.status', 4)->orderBy('orders.id', 'desc')->get();
         return view('manage.order.completed_listing', $data);
     }
+
+    public function managecanceledordreslisting()
+    {
+        $data['listing'] = DB::table('orders')->select('users.*', 'orders.cancel_reason', 'orders.order_id', 'orders.ride_request_id', 'orders.total_amount', 'orders.total_item', 'orders.payment_status', 'orders.payment_type',)->leftJoin('users', 'users.id', '=', 'orders.user_id')->where('orders.status', 7)->orderBy('orders.id', 'desc')->get();
+        return view('manage.order.canceled', $data);
+    }
+
+
 
     public function managecompletedvieworders($id)
     {
@@ -783,6 +831,44 @@ class AdminController extends Controller
         }
     }
 
+    public function managecancelledordersview($id)
+    {
+        $orders = DB::table('orders')->where('order_id', $id)->first();
+        $data['order'] = $orders;
+
+        $orderdetails = DB::table('eshop_purchase_detail')->select('eshop_purchase_detail.*', 'uom.name as uom_name', 'products.product_image as p_image')->leftJoin('products', 'products.id', '=', 'eshop_purchase_detail.product_id')->leftJoin('uom', 'uom.id', '=', 'eshop_purchase_detail.uom_id')->where('eshop_purchase_detail.order_id', $orders->order_id)->get();
+        $data['order_detail'] = $orderdetails;
+
+        $data['username'] = DB::table('users')->where('id', $data['order']->user_id)->first();
+        $data['driverdetails'] = DB::table('users')->where('id', $data['order']->driver_id)->first();
+
+        return view('manage.order.view_cancelled_order', $data);
+    }
+
+    public function managecancelledordersedit(Request $request, $id)
+    {
+        if ($request->method() == "POST") {
+            $status = $request->order_status;
+            DB::table('orders')->where('order_id', $id)->update(['payment_status' => $status]);
+            return redirect('admin/order/cancelled_orders/listing')->with('success', 'Order Updated successfully!');
+        } else {
+            $data['order'] = DB::table('orders')->where('order_id', $id)->first();
+
+            $data['order_detail'] = DB::table('eshop_purchase_detail')->select('eshop_purchase_detail.*', 'uom.name as uom_name', 'products.product_image as p_image')->leftJoin('products', 'products.id', '=', 'eshop_purchase_detail.product_id')->leftJoin('uom', 'uom.id', '=', 'eshop_purchase_detail.uom_id')->where('eshop_purchase_detail.order_id', $data['order']->order_id)->get();
+
+            $data['username'] = DB::table('users')->where('id', $data['order']->user_id)->first();
+            $data['driverdetails'] = DB::table('users')->where('id', $data['order']->driver_id)->first();
+            return view('manage.order.edit_cancelledorder', $data);
+        }
+    }
+
+    public function manageinprocessorderslisting()
+    {
+        $data['listing'] = DB::table('orders')->select('orders.*', 'users.name as user_name')->leftJoin('users', 'users.id', '=', 'orders.user_id')->where('orders.status', 7)->orderBy('orders.id', 'desc')->get();
+
+        return view('manage.order.in_process_listing', $data);
+    }
+
     public function termsconditionupdate(Request $request)
     {
         if ($request->method() == "POST") {
@@ -793,7 +879,6 @@ class AdminController extends Controller
             $data['termscondition'] = DB::table('termsconditions')->first();
             return view('manage.contactUS.termscondition', $data);
         }
-
     }
     public function manageservicecategory_list()
     {
@@ -818,7 +903,6 @@ class AdminController extends Controller
             DB::table('serviceprovider_category')->insert($data);
 
             return redirect('admin/manageservicecategory_list')->with('success', 'Service Category Added Successfully!!');
-
         } else {
             return view('manage.manage_servicecategory.add');
         }
@@ -860,7 +944,6 @@ class AdminController extends Controller
     public function managewithdrawlrequest_edit(Request $request, $id)
     {
         if ($request->method() == "POST") {
-
         } else {
             $data['order'] = DB::table('request_withdrawn_amounts')->select('request_withdrawn_amounts.*', 'users.name as user_name', 'users.mobile as user_mobile', 'users.email as user_email')->leftJoin('users', 'users.id', '=', 'request_withdrawn_amounts.driver_id')->where('request_withdrawn_amounts.id', $id)->orderBy('request_withdrawn_amounts.id', 'desc')->first();
             return view('manage.withdrawl_request.edit', $data);
@@ -976,11 +1059,9 @@ class AdminController extends Controller
             DB::table('cities')->insert($data);
 
             return redirect('admin/cities/listing')->with('success', 'City Added Successfully!!');
-
         } else {
             return view('manage.cities.add');
         }
-
     }
 
     public function citydelete($id)
@@ -994,7 +1075,6 @@ class AdminController extends Controller
         $data = DB::table('states')->where('country_id', $id)->get();
 
         echo json_encode($data);
-
     }
     public function citiesedit(Request $request, $id)
     {
