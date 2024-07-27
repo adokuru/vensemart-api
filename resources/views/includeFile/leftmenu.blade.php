@@ -333,6 +333,35 @@
               </li>
             </ul>
           </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              
+              <p>
+                Manage Ride Order
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ url('admin/order/in-process/listing')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Pending</p>
+                </a>
+              </li>
+               <li class="nav-item">
+                <a href="{{ url('admin/order/completed_orders/listing')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Completed</p>
+                </a>
+              </li>
+              <li class="nav-item">
+               <a href="{{ url('admin/order/canceled_orders/listing')}}" class="nav-link">
+                 <i class="far fa-circle nav-icon"></i>
+                 <p>Cancelled</p>
+               </a>
+              </li>
+            </ul>
+          </li>
 
 
 

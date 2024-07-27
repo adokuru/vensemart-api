@@ -31,7 +31,8 @@
                                         <th>Registered</th>
                                         <th>Image</th>
                                         <th>Is Verify</th>
-
+                                        <th>Total Completed Rides</th>
+                                        <th>Total Cancelled Rides</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -61,6 +62,15 @@
                                                     <?php  } ?></td>
 
                                                     <td>
+                                                        {{$val->total_completed_rides}}
+                                                    </td>
+
+                                                    <td>
+                                                        {{$val->total_cancelled_rides}}
+                                                    </td>
+
+
+                                                    <td>
 
                                                         <select onchange="change_status_exist(<?php echo $val->id; ?>,this)">
                                                             <option value="1" <?php if ($val->status == 1) {
@@ -72,6 +82,7 @@
 
                                                         </select>
                                                     </td>
+
                                                     <td>
                                                         <a href="{{ url('admin/existing-driver/view') . '/' . $val->user_idOne }}"><i class="fa fa-eye" aria-hidden="true"></i></a> |
                                                         <!--<a href="{{ url('admin/new-driver/edit') . '/' . $val->id }}"><i class="fas fa-edit"></i></a> |-->

@@ -395,14 +395,38 @@ class AdminController extends Controller
     }
     public function manageexisting_drivers()
     {
-        $lastSavenDate = date('Y-m-d H:i:s', strtotime("-7 day", strtotime(date('Y-m-d H:i:s'))));
-        $data['listing'] = DB::table('users')->select('users.name', 'users.email', 'users.profile', 'users.mobile', 'users.id as user_idOne', 'vehicle_details.*')->leftJoin('vehicle_details', 'vehicle_details.user_id', '=', 'users.id')->where('vehicle_details.isVerify', '1')->where('users.type', '2')->whereBetween('users.created_at', [$lastSavenDate, date('Y-m-d H:i:s')])->get();
+        // $lastSavenDate = date('Y-m-d H:i:s', strtotime("-7 day", strtotime(date('Y-m-d H:i:s'))));
+        // $data['listing'] = DB::table('users')->select('users.name', 'users.email', 'users.profile', 'users.mobile', 'users.id as user_idOne', 'vehicle_details.*')->leftJoin('vehicle_details', 'vehicle_details.user_id', '=', 'users.id')->where('vehicle_details.isVerify', '1')->where('users.type', '2')->whereBetween('users.created_at', [$lastSavenDate, date('Y-m-d H:i:s')])->get();
+        // $lastSavenDate = date('Y-m-d H:i:s', strtotime("-7 day", strtotime(date('Y-m-d H:i:s'))));
+
+        $data['listing'] = DB::table('users')
+        ->select(
+            'users.name',
+            'users.email',
+            'users.profile',
+            'users.mobile',
+            'users.id as user_idOne',
+            'vehicle_details.*',
+            DB::raw('COUNT(CASE WHEN orders.status = "4" THEN 1 END) as total_completed_rides'),
+            DB::raw('COUNT(CASE WHEN orders.status = "7" THEN 1 END) as total_cancelled_rides')
+        )
+        ->leftJoin('vehicle_details', 'vehicle_details.user_id', '=',
+            'users.id'
+        )
+        ->leftJoin('orders', 'orders.driver_id', '=', 'users.id')
+        ->where('vehicle_details.isVerify', '1')
+        ->where('users.type', '2')
+        // ->whereBetween('users.created_at',
+        //     [$lastSavenDate, date('Y-m-d H:i:s')]
+        // )
+        ->groupBy('users.id') // Group by driver ID
+        ->orderBy('users.id', 'desc')
+        ->orderByRaw('users.created_at DESC')
+        ->get();
 
     
 
         // dd($data);
-
-
         return view('manage.driver.Exist_listing', $data);
     }
     public function viewexisting_driver($id)
