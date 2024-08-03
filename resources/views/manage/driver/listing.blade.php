@@ -50,7 +50,6 @@
                                                     <?php } ?>
                                                 </td>
                                             
-
                                                 <td>
 
                                                     <select onchange="change_status_exist(<?php echo $val->id; ?>,this)">
