@@ -49,7 +49,7 @@
                                                         <img src="{{ url('storage/uploads/profile') . '/' . $val->profile }}" width="30" height="30">
                                                     <?php } ?>
                                                 </td>
-                                            
+                                        
                                                 <td>
 
                                                     <select onchange="change_status_exist(<?php echo $val->id; ?>,this)">
