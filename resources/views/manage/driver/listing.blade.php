@@ -30,9 +30,6 @@
                                         <th>mobile</th>
                                         <th>Registered</th>
                                         <th>Profile</th>
-
-                                        <th>Total Completed Rides</th>
-                                        <th>Total Cancelled Rides</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -52,13 +49,7 @@
                                                         <img src="{{ url('storage/uploads/profile') . '/' . $val->profile }}" width="30" height="30">
                                                     <?php } ?>
                                                 </td>
-                                                <td>
-                                                    {{$val->total_completed_orders}}
-                                                </td>
-
-                                                <td>
-                                                    {{$val->total_cancelled_rides}}
-                                                </td>
+                                            
 
                                                 <td>
 
