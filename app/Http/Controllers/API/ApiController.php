@@ -1310,7 +1310,7 @@ class ApiController extends Controller
     {
         $driver_list = User::where('type', 2)->where('status', "1")->whereNotNull('location_lat')->whereNotNull('location_long');
 
-        $radius = 60; // in kilometers
+        $radius = 100; // in kilometers
         $latitude = $request->latitude;
         $longitude = $request->longitude;
 
