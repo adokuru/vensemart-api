@@ -19,3 +19,10 @@ Archive.zip
 vendor.zip
 /storage
 composer.lock
+# .env.swk
+# .env.swl
+# .env.swm
+# .env.swn
+# .env.swo
+# .env.swp
+
