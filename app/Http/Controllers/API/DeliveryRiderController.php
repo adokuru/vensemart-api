@@ -412,10 +412,10 @@ class DeliveryRiderController extends Controller
                 ->orderBy('show_for_current_driver', 'ASC') // Prioritize orders for the current driver
                 // ->orWhereNotIn('rr.status', ['cancelled', 'completed'])
                 // Use whereIn to check for multiple statuses
-                 ->filter(function ($request) use ($driver) {
-            $distance = $this->calculateDistance($driver->location_lat, $driver->location_long, $request->start_latitude, $request->start_longitude);
-            return $distance >= 50 && $distance <= 100;
-        })
+            //      ->filter(function ($request) use ($driver) {
+            // $distance = $this->calculateDistance($driver->location_lat, $driver->location_long, $request->start_latitude, $request->start_longitude);
+            // return $distance >= 50 && $distance <= 100;
+        // })
                 ->get();
 
             //     $pending_order = DB::table('orders as o')
