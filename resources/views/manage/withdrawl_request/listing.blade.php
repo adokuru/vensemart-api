@@ -44,7 +44,7 @@
                 <td>{{ $val->user_mobile }}</td>
                 
                 
-                <td>₹ {{$val->amount}}</td>
+                <td>₦ {{$val->amount}}</td>
                 <td>
                     
                     <?php if($val->status == 1){ ?>

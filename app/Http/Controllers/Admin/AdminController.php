@@ -957,7 +957,10 @@ class AdminController extends Controller
 
     public function managewithdrawlrequest_listing()
     {
+        // $data['listing'] = DB::table('request_withdrawn_amounts')->select('request_withdrawn_amounts.*', 'users.name as user_name', 'users.mobile as user_mobile', 'users.email as user_email')->leftJoin('users', 'users.id', '=', 'request_withdrawn_amounts.driver_id')->where('request_withdrawn_amounts.status', 1)->orderBy('request_withdrawn_amounts.id', 'desc')->get();
         $data['listing'] = DB::table('request_withdrawn_amounts')->select('request_withdrawn_amounts.*', 'users.name as user_name', 'users.mobile as user_mobile', 'users.email as user_email')->leftJoin('users', 'users.id', '=', 'request_withdrawn_amounts.driver_id')->where('request_withdrawn_amounts.status', 1)->orderBy('request_withdrawn_amounts.id', 'desc')->get();
+   
+        // dd($data);
         return view('manage.withdrawl_request.listing', $data);
     }
 
@@ -1173,6 +1176,13 @@ class AdminController extends Controller
         // dd($data['listing']);
 
         return view('manage.serviceorder.cancelled_listing', $data);
+    }
+
+    // withdrawalrequestlisting
+    public function withdrawalrequestlisting()
+    {
+        $data['listing'] = DB::table('request_withdrawn_amounts')->select('request_withdrawn_amounts.*', 'users.name as user_name', 'users.mobile as user_mobile', 'users.email as user_email')->leftJoin('users', 'users.id', '=', 'request_withdrawn_amounts.driver_id')->where('request_withdrawn_amounts.status', 1)->orderBy('request_withdrawn_amounts.id', 'desc')->get();
+        return view('manage.withdrawal_request.listing', $data);
     }
 
     // public function managependingserviceordersview($id)

@@ -345,6 +345,12 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['adm
     /***************************End Manage Cancelled Orders**********************/
     
 
+    /*********************Manage Withdrawal Request************************/
+    Route::get('withdrawal_request/listing', [AdminController::class, 'withdrawalrequestlisting']);
+    /*********************End Withdrawal Request************************/
+
+
+
 
     /*********************************Manage Pending Service Orders*****************************/
     Route::get('serviceorder/in-process/listing', [AdminController::class, 'managependingserviceorderslisting']);

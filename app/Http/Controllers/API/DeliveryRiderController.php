@@ -1469,7 +1469,8 @@ class DeliveryRiderController extends Controller
                 if ($amount <= $driveramount) {
                     $status = 1;
                     $data = array('driver_id' => $id, 'amount' => $amount, 'status' => $status);
-                    DB::table('request_withdrawn_amounts')->insert($data);
+                    // DB::table('request_withdrawn_amounts')->insert($data);
+                    // get the 
                     $newamount = $driveramount - $amount;
                     DB::table('my_wallet')->where('user_id', $id)->update(['amount' => $newamount]);
                     $arr['status'] = 1;
