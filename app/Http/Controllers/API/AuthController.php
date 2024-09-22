@@ -45,6 +45,7 @@ class AuthController extends Controller
                 $query->orwhere('mobile', $request->phone_number);
             })->first();
 
+
             if (!$users) {
                 $arr['status'] = 0;
                 $arr['message'] = 'Phone number not found';
@@ -64,6 +65,8 @@ class AuthController extends Controller
             $message = "Your Vensemart authentication code is " . $otp . ". Please do not share this code with anyone. This code expires in 5 mins.";
 
             $this->sendSMSMessage($phone_Number, $message);
+            // dd($users);
+
 
             $arr['status'] = 1;
             $arr['message'] = 'OTP sent successfully';
@@ -357,11 +360,29 @@ class AuthController extends Controller
                 $data['password'] = Hash::make($data['password']);
             }
 
+            $refferal_code = $request->referral_code;
+
+            if ($refferal_code) {
+                $data['referred_by_id'] = User::where('referral_code', $refferal_code)->first()->id;
+            } else {
+                $data['referred_by_id'] = null;
+                
+            }
+            
+            $data['referral_code'] = \Str::random(4);
             // $referrer = User::where('referral_code', $request->referral_code)->first();
 
-            // $data['referral_code'] = "VS_" . \Str::random(4);
-            // $data['referred_by_id'] = $referrer ? $referrer->id
-            //     : null;
+            // // $data['referral_code'] = "VS_" . \Str::random(4);
+            // // $data['referred_by_id'] = $referrer ? $referrer->id
+            // //     : null;
+
+            // // check if the user is referred by someone
+            // if ($referrer) {
+            //     $data['referred_by_id'] = $referrer->id;
+            // } else {
+            //     $data['referred_by_id'] = null;
+            //     $data['referral_code'] = "VS_" . \Str::random(4);
+            // }
 
             // dd($data, $users);
 
